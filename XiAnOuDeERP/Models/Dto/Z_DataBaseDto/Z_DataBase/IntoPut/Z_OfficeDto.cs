@@ -37,9 +37,14 @@ namespace XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut
         public string Desc { get; set; }
 
         /// <summary>
+        /// 数量
+        /// </summary>
+
+        public double? Number { get; set; }
+        /// <summary>
         /// 原材料类型
         /// </summary>
-       
+
         public long Z_OfficeTypeid { get; set; }
         /// <summary>
         /// 是否删除

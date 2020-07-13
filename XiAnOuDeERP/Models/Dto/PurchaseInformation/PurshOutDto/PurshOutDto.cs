@@ -7,20 +7,30 @@ using XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagements;
 using XiAnOuDeERP.Models.Db.Aggregate.PersonnelMatters.Users;
 using XiAnOuDeERP.Models.Db.Aggregate.Projects;
 using XiAnOuDeERP.Models.Enum;
+using XiAnOuDeERP.Models.Util;
 
 namespace XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto
 {
-    public class PurshOutDto
+    public class PurshOutDto:InputBase
     {
          /// <summary>
         /// 设备采购申请Id
         /// </summary>
-        public long PurchaseId { get; set; }
+        public string PurchaseId { get; set; }
 
         /// <summary>
         /// 申请人Id
         /// </summary>
-        public long ApplicantId { get; set; }
+        public string ApplicantRelName { get; set; }
+             /// <summary>
+             /// 申请人姓名
+             /// </summary>
+        public string ApplicantId { get; set; }
+
+        /// <summary>
+        /// 金额
+        /// </summary>
+        public decimal? Amount { get; set; }
         /// <summary>
         /// 用途
         /// </summary>
@@ -34,17 +44,17 @@ namespace XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto
         /// <summary>
         /// 申请数量
         /// </summary>
-        public double ApplyNumber { get; set; }
+        public double? ApplyNumber { get; set; }
 
         /// <summary>
         /// 准购数量
         /// </summary>
-        public double QuasiPurchaseNumber { get; set; }
+        public double? QuasiPurchaseNumber { get; set; }
 
         /// <summary>
         /// 单价
         /// </summary>
-        public decimal Price { get; set; }
+        public decimal? Price { get; set; }
 
         /// <summary>
         /// 附件
@@ -89,7 +99,7 @@ namespace XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto
         /// <summary>
         /// 项目Id
         /// </summary>
-        public long ProjectId { get; set; }
+        public string ProjectId { get; set; }
 
         /// <summary>
         /// 审批状态
@@ -104,7 +114,7 @@ namespace XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto
         /// <summary>
         /// 供货商Id
         /// </summary>
-        public long? SupplierId { get; set; }
+        public string SupplierId { get; set; }
 
         /// <summary>
         /// 支出备注
@@ -126,6 +136,11 @@ namespace XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto
         /// </summary>
         public  UserDetails Applicant { get; set; }
 
+
+        /// <summary>
+        /// 原材料
+        /// </summary>
+        public string RawId { get; set; }
         /// <summary>
         /// 原材料
         /// </summary>
@@ -139,6 +154,14 @@ namespace XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto
         /// <summary>
         /// 供货商
         /// </summary>
-        public  Supplier Supplier { get; set; }
+        public Supplier Supplier { get; set; }
+
+               /// <summary>
+               /// 供货商
+               /// </summary>
+        public Company company { get; set; }
+        
+        public string CompanyId { get; set; }
+        public  Z_RowType Z_RowType { get; set; }
     }
 }

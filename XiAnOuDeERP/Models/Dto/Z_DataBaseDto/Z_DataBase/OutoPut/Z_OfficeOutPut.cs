@@ -47,7 +47,11 @@ namespace XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut
         /// </summary>
 
         public string Desc { get; set; }
+        /// <summary>
+        /// 数量
+        /// </summary>
 
+        public double? Number { get; set; }
         /// <summary>
         /// 原材料类型
         /// </summary>

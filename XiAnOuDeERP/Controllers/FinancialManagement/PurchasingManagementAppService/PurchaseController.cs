@@ -50,9 +50,21 @@ namespace XiAnOuDeERP.FinancialManagement.Controllers.UserAppService
 
                 if (input.User_id!=null)
                 {
+                    var result =await Task.Run(()=> db.Z_Raw.SingleOrDefaultAsync(p => p.Id == input.RawId));
+                    int? is_or = null;
+                    if (result.Number >= input.ApplyNumber)
+                    {
+                        //可以直接领取
+                        is_or = 1;
+                    }
+                    if (result.Number < input.ApplyNumber)
+                    {
+                        //不可以直接领取
+                        is_or = 2;
+                    }
 
-               
-                var data = new Purchase()
+
+                    var data = new Purchase()
                 {
                     Id = IdentityManager.NewId(),
                     Amount = amount,
@@ -65,20 +77,22 @@ namespace XiAnOuDeERP.FinancialManagement.Controllers.UserAppService
                     SupplierId = input.SupplierId,
                     Enclosure = input.Enclosure,
                     Price = input.Price,
+                  
                     PurchaseContract = input.PurchaseContract,
                     PurchaseTime = input.PurchaseTime,
                     Purpose = input.Purpose,
                     QuasiPurchaseNumber = input.QuasiPurchaseNumber,
-                    RawMaterialId = input.RawMaterialId,
+                    RawId = input.RawId,
                     WaybillNumber = input.WaybillNumber,
                     ProjectId = (long)input.ProjectId,
                     ApprovalDesc = input.ApprovalDesc,
                     ExpectArrivalTime = input.ExpectArrivalTime,
                     IsDelete = false,
                     User_Id = input.User_id,
-                    // ApprovalKey = related.ApprovalKey,
-                    ApprovalIndex = 0
-                };
+                    is_or= (int)is_or
+                        // ApprovalKey = related.ApprovalKey,
+                        // ApprovalIndex = 0
+                    };
 
                 db.Purchases.Add(data);
                 }

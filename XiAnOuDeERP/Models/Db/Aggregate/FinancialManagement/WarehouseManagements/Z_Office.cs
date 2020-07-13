@@ -58,6 +58,11 @@ namespace XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagemen
         public string Desc { get; set; }
 
         /// <summary>
+        /// 数量
+        /// </summary>
+
+        public double? Number { get; set; }
+        /// <summary>
         /// 是否删除
         /// </summary>
         public bool IsDelete { get; set; }

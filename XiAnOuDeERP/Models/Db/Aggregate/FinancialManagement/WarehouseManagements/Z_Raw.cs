@@ -18,7 +18,7 @@ namespace XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagemen
     [Table("Z_Raw")]
     public class Z_Raw : EntityBase
     {
-        #region 通用字段
+      
 
         /// <summary>
         /// 名称
@@ -58,6 +58,13 @@ namespace XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagemen
         [StringLength(255)]
         public string Desc { get; set; }
 
+
+        /// <summary>
+        /// 数量
+        /// </summary>
+        
+        public double? Number { get; set; }
+
         /// <summary>
         /// 是否删除
         /// </summary>
@@ -87,9 +94,8 @@ namespace XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagemen
         /// </summary>
         public virtual WarehousingType WarehousingType { get; set; }
 
-        #endregion
-
-        #region 原材料字段
+     
+  
 
         /// <summary>
         /// 英文名称
@@ -162,30 +168,7 @@ namespace XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagemen
         /// </summary>
         [StringLength(100)]
         public string Caution { get; set; }
-        #endregion
-
-        #region 科研耗材字段
-
-        #endregion
-
-        #region 办公用品字段
-
-        #endregion
-
-        #region 设备字段
-
-        ///// <summary>
-        ///// 使用年限
-        ///// </summary>
-        //public double? ServiceLife { get; set; }
-
-        ///// <summary>
-        ///// 技术说明
-        ///// </summary>
-        //[StringLength(255)]
-        //public string TechnicalDescription { get; set; }
-
-        #endregion
+       
 
 
 

@@ -37,6 +37,11 @@ namespace XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut
         public string Desc { get; set; }
 
         /// <summary>
+        /// 数量
+        /// </summary>
+
+        public double? Number { get; set; }
+        /// <summary>
         /// 化学用品类型
         /// </summary>
         [Required(ErrorMessage = "非空")]

@@ -55,6 +55,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                         StructuralFormula = z_FnishedProductDto.StructuralFormula,
                         Density = z_FnishedProductDto.Density,
                         Statement = z_FnishedProductDto.Statement,
+                        Number= z_FnishedProductDto.Number,
                         Caution = z_FnishedProductDto.Caution,
                         AppearanceState = z_FnishedProductDto.AppearanceState,
                         WarehousingTypeId = z_FnishedProductDto.WarehousingTypeId,
@@ -145,6 +146,10 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                     if (!string.IsNullOrWhiteSpace(z_FnishedProductDto.Name))
                     {
                         type.Name = z_FnishedProductDto.Name;
+                    }
+                    if (z_FnishedProductDto.Number != null)
+                    {
+                        type.Number = z_FnishedProductDto.Number;
                     }
                     if (z_FnishedProductDto.Companyid!=null)
                     {
@@ -286,6 +291,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                             StructuralFormula = x.StructuralFormula,
                             Statement = x.Statement,
                             Caution = x.Caution,
+                            Number=x.Number,
                             AppearanceState = x.AppearanceState,
                             WarehousingTypeId = (x.WarehousingTypeId).ToString(),
                             WarehousingType = x.WarehousingType,
@@ -327,6 +333,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                                 StructuralFormula = x.StructuralFormula,
                                 Statement = x.Statement,
                                 Caution = x.Caution,
+                                Number = x.Number,
                                 AppearanceState = x.AppearanceState,
                                 WarehousingTypeId = (x.WarehousingTypeId).ToString(),
                                 WarehousingType = x.WarehousingType,
@@ -365,6 +372,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                             StructuralFormula = x.StructuralFormula,
                             Statement = x.Statement,
                             Caution = x.Caution,
+                            Number = x.Number,
                             AppearanceState = x.AppearanceState,
                             WarehousingTypeId = (x.WarehousingTypeId).ToString(),
                             WarehousingType = x.WarehousingType,
