@@ -1,0 +1,1047 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BF127013-5D25-48CF-8669-9F0B6C6D0CDA}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>XiAnOuDeERP</RootNamespace>
+    <AssemblyName>XiAnOuDeERP</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>App_Data\XiAnOuDeERP.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\XiAnOuDeERP.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="JWT, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\JWT.3.0.1\lib\net35\JWT.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="StackExchange.Redis, Version=1.2.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StackExchange.Redis.1.2.6\lib\net45\StackExchange.Redis.dll</HintPath>
+    </Reference>
+    <Reference Include="Swagger.Net, Version=0.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Swagger.Net.0.5.5\lib\net40\Swagger.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Swashbuckle.Core.5.6.0\lib\net40\Swashbuckle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.7\lib\net45\System.Web.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.7\lib\net45\System.Web.Http.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivator, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivator.1.5.1\lib\net40\WebActivator.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\SwaggerConfig.cs" />
+    <Compile Include="App_Start\SwaggerNet.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
+    <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
+    <Compile Include="Areas\HelpPage\Controllers\HelpController.cs" />
+    <Compile Include="Areas\HelpPage\HelpPageAreaRegistration.cs" />
+    <Compile Include="Areas\HelpPage\HelpPageConfigurationExtensions.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\CollectionModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ComplexTypeModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\DictionaryModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\EnumTypeModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\EnumValueDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\IModelDocumentationProvider.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\KeyValuePairModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ModelDescriptionGenerator.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ModelNameAttribute.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ModelNameHelper.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ParameterAnnotation.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ParameterDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\SimpleTypeModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\Models\HelpPageApiModel.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\HelpPageSampleGenerator.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\HelpPageSampleKey.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\ImageSample.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\InvalidSample.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\ObjectGenerator.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
+    <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\ApprovalManagement\ApprovalController.cs" />
+    <Compile Include="Controllers\AtlasManagement\AtlasController.cs" />
+    <Compile Include="Controllers\DataBaser\DataBaseType\ChemistryTypeController.cs" />
+    <Compile Include="Controllers\DataBaser\DataBaseType\FinshedProductTypeController.cs" />
+    <Compile Include="Controllers\DataBaser\DataBaseType\OfficeTypeController.cs" />
+    <Compile Include="Controllers\DataBaser\DataBaseType\RowTypeController.cs" />
+    <Compile Include="Controllers\DataBaser\DataBaseType\SuppliesTypeController.cs" />
+    <Compile Include="Controllers\DataBaser\DtaBaseInformation\ChemistryController.cs" />
+    <Compile Include="Controllers\DataBaser\DtaBaseInformation\FnishedProductController.cs" />
+    <Compile Include="Controllers\DataBaser\DtaBaseInformation\MaterialCodeController.cs" />
+    <Compile Include="Controllers\DataBaser\DtaBaseInformation\OfficeController.cs" />
+    <Compile Include="Controllers\DataBaser\DtaBaseInformation\RawController.cs" />
+    <Compile Include="Controllers\File\FileUpController.cs" />
+    <Compile Include="Controllers\FinancialManagement\DeviceManagementAppService\DeviceController.cs" />
+    <Compile Include="Controllers\FinancialManagement\PurchasingManagementAppService\ZpurChaseController.cs" />
+    <Compile Include="Controllers\FinancialManagement\WageManagementAppService\WageController.cs" />
+    <Compile Include="Controllers\FinancialManagement\WarehouseManagement\SaleController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\FinancialManagement\PurchasingManagementAppService\PurchaseController.cs" />
+    <Compile Include="Controllers\FinancialManagement\RawMaterialAppService\RawMaterialController.cs" />
+    <Compile Include="Controllers\PersonnelMatters\AssetssAppService\AssetssController.cs" />
+    <Compile Include="Controllers\PersonnelMatters\UserAppService\DepartmentController.cs" />
+    <Compile Include="Controllers\PersonnelMatters\UserAppService\LeaveController.cs" />
+    <Compile Include="Controllers\PersonnelMatters\UserAppService\PersonnelRtsController.cs" />
+    <Compile Include="Controllers\PersonnelMatters\UserAppService\UserController.cs" />
+    <Compile Include="Controllers\FinancialManagement\WarehouseManagement\StockController.cs" />
+    <Compile Include="Controllers\PersonnelMatters\UserJurisdictionAppService\UserJurisdictionController.cs" />
+    <Compile Include="Controllers\Projects\ProjectController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="MethodWay\CreatCode.cs" />
+    <Compile Include="MethodWay\EnumerationConversion.cs" />
+    <Compile Include="Migrations\202005250559162_ly-1.cs" />
+    <Compile Include="Migrations\202005250559162_ly-1.Designer.cs">
+      <DependentUpon>202005250559162_ly-1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005250957016_ly-2.cs" />
+    <Compile Include="Migrations\202005250957016_ly-2.Designer.cs">
+      <DependentUpon>202005250957016_ly-2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005270755475_ly-3.cs" />
+    <Compile Include="Migrations\202005270755475_ly-3.Designer.cs">
+      <DependentUpon>202005270755475_ly-3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005270906420_ly-4.cs" />
+    <Compile Include="Migrations\202005270906420_ly-4.Designer.cs">
+      <DependentUpon>202005270906420_ly-4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005280305232_ly-5.cs" />
+    <Compile Include="Migrations\202005280305232_ly-5.Designer.cs">
+      <DependentUpon>202005280305232_ly-5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006010233117_ly-6.cs" />
+    <Compile Include="Migrations\202006010233117_ly-6.Designer.cs">
+      <DependentUpon>202006010233117_ly-6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006010926508_ly-7.cs" />
+    <Compile Include="Migrations\202006010926508_ly-7.Designer.cs">
+      <DependentUpon>202006010926508_ly-7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006030218073_ly-8.cs" />
+    <Compile Include="Migrations\202006030218073_ly-8.Designer.cs">
+      <DependentUpon>202006030218073_ly-8.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006030708551_ly-9.cs" />
+    <Compile Include="Migrations\202006030708551_ly-9.Designer.cs">
+      <DependentUpon>202006030708551_ly-9.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006040128298_ly-10.cs" />
+    <Compile Include="Migrations\202006040128298_ly-10.Designer.cs">
+      <DependentUpon>202006040128298_ly-10.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006040133584_ly-11.cs" />
+    <Compile Include="Migrations\202006040133584_ly-11.Designer.cs">
+      <DependentUpon>202006040133584_ly-11.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006040152577_ly-12.cs" />
+    <Compile Include="Migrations\202006040152577_ly-12.Designer.cs">
+      <DependentUpon>202006040152577_ly-12.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006040206066_ly-13.cs" />
+    <Compile Include="Migrations\202006040206066_ly-13.Designer.cs">
+      <DependentUpon>202006040206066_ly-13.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006040224067_ly-14.cs" />
+    <Compile Include="Migrations\202006040224067_ly-14.Designer.cs">
+      <DependentUpon>202006040224067_ly-14.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006130720095_ly-15.cs" />
+    <Compile Include="Migrations\202006130720095_ly-15.Designer.cs">
+      <DependentUpon>202006130720095_ly-15.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006150309345_ly-16.cs" />
+    <Compile Include="Migrations\202006150309345_ly-16.Designer.cs">
+      <DependentUpon>202006150309345_ly-16.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006150316270_ly-17.cs" />
+    <Compile Include="Migrations\202006150316270_ly-17.Designer.cs">
+      <DependentUpon>202006150316270_ly-17.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006150409042_ly-18.cs" />
+    <Compile Include="Migrations\202006150409042_ly-18.Designer.cs">
+      <DependentUpon>202006150409042_ly-18.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006150728226_ly-19.cs" />
+    <Compile Include="Migrations\202006150728226_ly-19.Designer.cs">
+      <DependentUpon>202006150728226_ly-19.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006160632210_ly-20.cs" />
+    <Compile Include="Migrations\202006160632210_ly-20.Designer.cs">
+      <DependentUpon>202006160632210_ly-20.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006160658366_ly-21.cs" />
+    <Compile Include="Migrations\202006160658366_ly-21.Designer.cs">
+      <DependentUpon>202006160658366_ly-21.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006180212511_ly-22.cs" />
+    <Compile Include="Migrations\202006180212511_ly-22.Designer.cs">
+      <DependentUpon>202006180212511_ly-22.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006180431501_ly-23.cs" />
+    <Compile Include="Migrations\202006180431501_ly-23.Designer.cs">
+      <DependentUpon>202006180431501_ly-23.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006180453168_ly-24.cs" />
+    <Compile Include="Migrations\202006180453168_ly-24.Designer.cs">
+      <DependentUpon>202006180453168_ly-24.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006180522054_ly-25.cs" />
+    <Compile Include="Migrations\202006180522054_ly-25.Designer.cs">
+      <DependentUpon>202006180522054_ly-25.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006180525146_ly-26.cs" />
+    <Compile Include="Migrations\202006180525146_ly-26.Designer.cs">
+      <DependentUpon>202006180525146_ly-26.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006180539364_ly-27.cs" />
+    <Compile Include="Migrations\202006180539364_ly-27.Designer.cs">
+      <DependentUpon>202006180539364_ly-27.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006180622455_ly-28.cs" />
+    <Compile Include="Migrations\202006180622455_ly-28.Designer.cs">
+      <DependentUpon>202006180622455_ly-28.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006180648509_ly-29.cs" />
+    <Compile Include="Migrations\202006180648509_ly-29.Designer.cs">
+      <DependentUpon>202006180648509_ly-29.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006180755140_ly-30.cs" />
+    <Compile Include="Migrations\202006180755140_ly-30.Designer.cs">
+      <DependentUpon>202006180755140_ly-30.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006200225264_ly-31.cs" />
+    <Compile Include="Migrations\202006200225264_ly-31.Designer.cs">
+      <DependentUpon>202006200225264_ly-31.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006200256067_ly-32.cs" />
+    <Compile Include="Migrations\202006200256067_ly-32.Designer.cs">
+      <DependentUpon>202006200256067_ly-32.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006230129579_ly-33.cs" />
+    <Compile Include="Migrations\202006230129579_ly-33.Designer.cs">
+      <DependentUpon>202006230129579_ly-33.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006240212459_ly-34.cs" />
+    <Compile Include="Migrations\202006240212459_ly-34.Designer.cs">
+      <DependentUpon>202006240212459_ly-34.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006280753423_ly-35.cs" />
+    <Compile Include="Migrations\202006280753423_ly-35.Designer.cs">
+      <DependentUpon>202006280753423_ly-35.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006300140251_ly-36.cs" />
+    <Compile Include="Migrations\202006300140251_ly-36.Designer.cs">
+      <DependentUpon>202006300140251_ly-36.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006300715198_ly-37.cs" />
+    <Compile Include="Migrations\202006300715198_ly-37.Designer.cs">
+      <DependentUpon>202006300715198_ly-37.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006300931578_ly-38.cs" />
+    <Compile Include="Migrations\202006300931578_ly-38.Designer.cs">
+      <DependentUpon>202006300931578_ly-38.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006300936592_ly-39.cs" />
+    <Compile Include="Migrations\202006300936592_ly-39.Designer.cs">
+      <DependentUpon>202006300936592_ly-39.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007020239106_Firstdb.cs" />
+    <Compile Include="Migrations\202007020239106_Firstdb.Designer.cs">
+      <DependentUpon>202007020239106_Firstdb.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007020845563_My_1.cs" />
+    <Compile Include="Migrations\202007020845563_My_1.Designer.cs">
+      <DependentUpon>202007020845563_My_1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007020854256_My_2.cs" />
+    <Compile Include="Migrations\202007020854256_My_2.Designer.cs">
+      <DependentUpon>202007020854256_My_2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007021013017_My_3.cs" />
+    <Compile Include="Migrations\202007021013017_My_3.Designer.cs">
+      <DependentUpon>202007021013017_My_3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007030440342_My_4_ add - Department_user.cs" />
+    <Compile Include="Migrations\202007030440342_My_4_ add - Department_user.Designer.cs">
+      <DependentUpon>202007030440342_My_4_ add - Department_user.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007030441496_My_4_ add - Department_user_1.cs" />
+    <Compile Include="Migrations\202007030441496_My_4_ add - Department_user_1.Designer.cs">
+      <DependentUpon>202007030441496_My_4_ add - Department_user_1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007030725192_My_5_ Edit - User_user_Type.cs" />
+    <Compile Include="Migrations\202007030725192_My_5_ Edit - User_user_Type.Designer.cs">
+      <DependentUpon>202007030725192_My_5_ Edit - User_user_Type.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007040627192_my_6.cs" />
+    <Compile Include="Migrations\202007040627192_my_6.Designer.cs">
+      <DependentUpon>202007040627192_my_6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007060213357_My_7.cs" />
+    <Compile Include="Migrations\202007060213357_My_7.Designer.cs">
+      <DependentUpon>202007060213357_My_7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007060221595_My_8.cs" />
+    <Compile Include="Migrations\202007060221595_My_8.Designer.cs">
+      <DependentUpon>202007060221595_My_8.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007060259260_My_9_no null.cs" />
+    <Compile Include="Migrations\202007060259260_My_9_no null.Designer.cs">
+      <DependentUpon>202007060259260_My_9_no null.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007060311356_My_11.cs" />
+    <Compile Include="Migrations\202007060311356_My_11.Designer.cs">
+      <DependentUpon>202007060311356_My_11.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007061049048_my_12.cs" />
+    <Compile Include="Migrations\202007061049048_my_12.Designer.cs">
+      <DependentUpon>202007061049048_my_12.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007070117048_mzy_upadteAll.cs" />
+    <Compile Include="Migrations\202007070117048_mzy_upadteAll.Designer.cs">
+      <DependentUpon>202007070117048_mzy_upadteAll.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007070200575_mzy_depart_user.cs" />
+    <Compile Include="Migrations\202007070200575_mzy_depart_user.Designer.cs">
+      <DependentUpon>202007070200575_mzy_depart_user.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007070206173_mzy_depart_user1.cs" />
+    <Compile Include="Migrations\202007070206173_mzy_depart_user1.Designer.cs">
+      <DependentUpon>202007070206173_mzy_depart_user1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007070213428_mzy_depart_user2.cs" />
+    <Compile Include="Migrations\202007070213428_mzy_depart_user2.Designer.cs">
+      <DependentUpon>202007070213428_mzy_depart_user2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007071051513_M_basic information.cs" />
+    <Compile Include="Migrations\202007071051513_M_basic information.Designer.cs">
+      <DependentUpon>202007071051513_M_basic information.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007080103555_M_basic information1.cs" />
+    <Compile Include="Migrations\202007080103555_M_basic information1.Designer.cs">
+      <DependentUpon>202007080103555_M_basic information1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007080123174_M_basic information2 —Add Z_Chemistry.cs" />
+    <Compile Include="Migrations\202007080123174_M_basic information2 —Add Z_Chemistry.Designer.cs">
+      <DependentUpon>202007080123174_M_basic information2 —Add Z_Chemistry.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007080133430_M_basic information2 —Add  All Z_.cs" />
+    <Compile Include="Migrations\202007080133430_M_basic information2 —Add  All Z_.Designer.cs">
+      <DependentUpon>202007080133430_M_basic information2 —Add  All Z_.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007080725379_add-jinggao.cs" />
+    <Compile Include="Migrations\202007080725379_add-jinggao.Designer.cs">
+      <DependentUpon>202007080725379_add-jinggao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007090612097_M_basic information _Add and delete.cs" />
+    <Compile Include="Migrations\202007090612097_M_basic information _Add and delete.Designer.cs">
+      <DependentUpon>202007090612097_M_basic information _Add and delete.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007100723479_M_basic information Add_Finshed_Sign.cs" />
+    <Compile Include="Migrations\202007100723479_M_basic information Add_Finshed_Sign.Designer.cs">
+      <DependentUpon>202007100723479_M_basic information Add_Finshed_Sign.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Db\Aggregate\ApprovalMangement\Approval.cs" />
+    <Compile Include="Models\Db\Aggregate\ApprovalMangement\RelatedApproval.cs" />
+    <Compile Include="Models\Db\Aggregate\ApprovalMangement\WarehousingType.cs" />
+    <Compile Include="Models\Db\Aggregate\AtlasManagements\Atlas.cs" />
+    <Compile Include="Models\Db\Aggregate\Departent-User\Departent_User.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\DeviceManagement\Device.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\DeviceManagement\DeviceRepair.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\DeviceManagement\DeviceRepairApproval.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\PurchasingManagements\Content_User.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\PurchasingManagements\PurchaseApproval.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\PurchasingManagements\Pursh_User.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\PurchasingManagements\Supplier.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\PurchasingManagements\Score.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\UrlImage\RawImage.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\WageManagements\Wage.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\WarehouseManagements\OutOfStockApproval.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\WarehouseManagements\OutOfStockType.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\WarehouseManagements\Z_Chemistry.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\WarehouseManagements\Z_ChemistryType.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\WarehouseManagements\Z_FinshedProductType.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\WarehouseManagements\Z_FnishedProduct.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\WarehouseManagements\Z_MaterialCode.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\WarehouseManagements\Z_Office.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\WarehouseManagements\Z_OfficeType.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\WarehouseManagements\Z_Raw.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\WarehouseManagements\Sale.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\WarehouseManagements\SaleType.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\WarehouseManagements\WarehousingApproval.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\WarehouseManagements\Z_RowType.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\WarehouseManagements\Z_Supplies.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\WarehouseManagements\Z_SuppliesType.cs" />
+    <Compile Include="Models\Db\Aggregate\PersonnelMatters\Assetss\AssetExpenditure.cs" />
+    <Compile Include="Models\Db\Aggregate\PersonnelMatters\Assetss\AssetIncome.cs" />
+    <Compile Include="Models\Db\Aggregate\PersonnelMatters\Assetss\Assets.cs" />
+    <Compile Include="Models\Db\Aggregate\PersonnelMatters\Assetss\AssetsType.cs" />
+    <Compile Include="Models\Db\Aggregate\PersonnelMatters\Users\Element.cs" />
+    <Compile Include="Models\Db\Aggregate\PersonnelMatters\Users\User_User_Type.cs" />
+    <Compile Include="Models\Dto\Code.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\PurchasingManagementDto\GetSupplierInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\WarehouseManagements\StorageRoomAddWarehouseKeeperInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\UserDto\GetUserDetailsTypeListInputDto.cs" />
+    <Compile Include="Models\Dto\My_FlowDto\Conten_UserDto.cs" />
+    <Compile Include="Models\Dto\My_FlowDto\Depertment_User.cs" />
+    <Compile Include="Models\Dto\My_FlowDto\UserTypelisstDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\PersonnelMatters\UserDto\GetUserListOuputDto.cs" />
+    <Compile Include="Models\Db\Aggregate\PersonnelMatters\Users\Leave.cs" />
+    <Compile Include="Models\Db\Aggregate\PersonnelMatters\Users\LeaveApproval.cs" />
+    <Compile Include="Models\Db\Aggregate\PersonnelMatters\Users\Menu.cs" />
+    <Compile Include="Models\Db\Aggregate\PersonnelMatters\Users\Module.cs" />
+    <Compile Include="Models\Db\Aggregate\PersonnelMatters\Users\Overtime.cs" />
+    <Compile Include="Models\Db\Aggregate\PersonnelMatters\Users\PersonnelRts.cs" />
+    <Compile Include="Models\Db\Aggregate\PersonnelMatters\Users\PersonnelRtsApproval.cs" />
+    <Compile Include="Models\Db\Aggregate\PersonnelMatters\Users\UserDetailsType.cs" />
+    <Compile Include="Models\Db\Aggregate\PersonnelMatters\Users\UserElement.cs" />
+    <Compile Include="Models\Db\Aggregate\PersonnelMatters\Users\UserMenu.cs" />
+    <Compile Include="Models\Db\Aggregate\PersonnelMatters\Users\UserModule.cs" />
+    <Compile Include="Models\Db\Aggregate\PersonnelMatters\Users\UserType.cs" />
+    <Compile Include="Models\Db\Aggregate\Projects\Project.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\PurchasingManagements\Purchase.cs" />
+    <Compile Include="Models\Db\Aggregate\Projects\ProjectState.cs" />
+    <Compile Include="Models\Dto\InputDto\ApprovalMangement\ApprovalInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\ApprovalMangement\DeleteApprovalOfIdInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\ApprovalMangement\DeleteApprovalOfKeyInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\ApprovalMangement\GetApprovalInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\ApprovalMangement\RelatedApprovalInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\AtlasManagements\AtlasInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\AtlasManagements\GetAtlasInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\DeviceManagement\DeviceInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\DeviceManagement\DeviceRepairInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\DeviceManagement\GetDeviceInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\DeviceManagement\GetDeviceRepairInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\PurchasingManagementDto\GetScoreInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\PurchasingManagementDto\ScoreInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\PurchasingManagementDto\SupplierInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\RawMaterialDto\CompanyInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\RawMaterialDto\GetCompanyListInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\RawMaterialDto\GetWarehousingTypeInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\RawMaterialDto\WarehousingTypeInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\WageManagementDto\GetWageInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\WageManagementDto\WageInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\WageManagementDto\WageOutputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\WarehouseManagements\GetOutOfStockTypeInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\WarehouseManagements\GetSaleInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\WarehouseManagements\GetSaleTypeInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\WarehouseManagements\OutOfStockTypeInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\WarehouseManagements\SaleTypeInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\WarehouseManagements\WareFinishedProductInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\Assetss\AddAssetExpenditureInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\Assetss\AddAssetIncomeInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\Assetss\AssetsTypeInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\Assetss\AssetsInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\Assetss\GetAssetExpenditureListInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\Assetss\GetAssetIncomeListInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\Assetss\GetAssetsListInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\Assetss\GetAssetsTypeListInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\UserDto\AddUserDetailsType.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\UserDto\GetLeaveInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\UserDto\GetOvertimeInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\UserDto\GetPersonnelRtsInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\UserDto\GetUserTypeInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\UserDto\LeaveInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\UserDto\LoginInputDto.cs" />
+    <Compile Include="Models\Db\Aggregate\PersonnelMatters\Users\UserDetails.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\WarehouseManagements\RawMaterial.cs" />
+    <Compile Include="Models\Db\Aggregate\PersonnelMatters\Users\Department.cs" />
+    <Compile Include="Models\Db\Aggregate\PersonnelMatters\Users\User.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\WarehouseManagements\Company.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\WarehouseManagements\OutOfStock.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\WarehouseManagements\StorageRoom.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\WarehouseManagements\Warehousing.cs" />
+    <Compile Include="Models\Db\XiAnOuDeContext.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\PurchasingManagementDto\GetPurchaseListInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\PurchasingManagementDto\PurchaseInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\RawMaterialDto\GetRawMaterialInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\RawMaterialDto\RawMaterialInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\UserDto\DepartmentInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\UserDto\GetDepartmentInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\UserDto\GetUserInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\UserDto\OvertimeInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\UserDto\PersonnelRtsInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\UserDto\UpdateUserPassWordInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\UserDto\UserTypeInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\UserJurisdictionDto\AddElementInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\UserJurisdictionDto\AddMenuInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\UserJurisdictionDto\AddModuleInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\UserJurisdictionDto\ElementInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\UserJurisdictionDto\GetMenuListInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\UserJurisdictionDto\GetUserJurisdictionListInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\UserJurisdictionDto\MenuInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\UserJurisdictionDto\ModuleInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\UserJurisdictionDto\ToGrantAuthorizationInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\Projecct\GetProjectInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\Projecct\GetProjectStateListInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\Projecct\ProjectInputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\ApprovalMangement\ApprovalListOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\ApprovalMangement\ApprovalOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\AtlasManagements\AtlasOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\FinancialManagement\DeviceManagement\DeviceOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\FinancialManagement\DeviceManagement\DeviceRepairOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\FinancialManagement\PurchasingManagementDto\ScoreOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\FinancialManagement\PurchasingManagementDto\SupplierOutputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\WarehouseManagements\SaleInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\WarehouseManagements\UpdateSaleInputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\FinancialManagement\RawMaterialDto\CompanyOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\FinancialManagement\RawMaterialDto\WarehousingTypeOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\FinancialManagement\WarehouseManagements\OutOfStockTypeOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\FinancialManagement\WarehouseManagements\SaleOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\FinancialManagement\WarehouseManagements\SaleTypeOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\PersonnelMatters\Assetss\AssetExpenditureOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\PersonnelMatters\Assetss\AssetIncomeOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\PersonnelMatters\Assetss\AssetsOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\PersonnelMatters\Assetss\AssetsTypeOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\PersonnelMatters\UserDto\LeaveOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\PersonnelMatters\UserDto\LoginOutputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\PersonnelMatters\UserDto\UserInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\WarehouseManagements\GetOutOfStockInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\WarehouseManagements\GetStorageRoomInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\WarehouseManagements\GetWarehousingInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\WarehouseManagements\OutOfStockInputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\FinancialManagement\WarehouseManagements\WarehousingInputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\FinancialManagement\PurchasingManagementDto\PurchaseOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\FinancialManagement\RawMaterialDto\RawMaterialOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\PersonnelMatters\UserDto\DepartmentOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\PersonnelMatters\UserDto\OvertimeOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\PersonnelMatters\UserDto\PersonnelRtsOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\PersonnelMatters\UserDto\TokenDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\PersonnelMatters\UserDto\UserDetailsTypeOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\PersonnelMatters\UserDto\UserIdentity.cs" />
+    <Compile Include="Models\Dto\OutputDto\PersonnelMatters\UserDto\UserOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\FinancialManagement\WarehouseManagements\GetStorageRoomOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\FinancialManagement\WarehouseManagements\OutOfStockOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\FinancialManagement\WarehouseManagements\WarehousingOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\PersonnelMatters\UserDto\UserTypeOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\PersonnelMatters\UserJurisdictionDto\ElementOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\PersonnelMatters\UserJurisdictionDto\GetModuleListOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\PersonnelMatters\UserJurisdictionDto\GetUserJurisdictionListOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\PersonnelMatters\UserJurisdictionDto\GetUserModuleListOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\PersonnelMatters\UserJurisdictionDto\MenuOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\PersonnelMatters\UserJurisdictionDto\ModuleOutputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\Projects\ProjectOutputDto.cs" />
+    <Compile Include="Models\Dto\InputDto\Projecct\ProjectStateInputDto.cs" />
+    <Compile Include="Models\Dto\OutputDto\Projects\ProjectStateOutputDto.cs" />
+    <Compile Include="Models\Dto\PurchaseInformation\PurshOutDto\PurshOutDto.cs" />
+    <Compile Include="Models\Dto\User_DTO.cs" />
+    <Compile Include="Models\Dto\user_userTypeDTO.cs" />
+    <Compile Include="Models\Dto\Z_DataBaseDto\Z_DataBaseType\IntoPut\ChemistryTypeDto.cs" />
+    <Compile Include="Models\Dto\Z_DataBaseDto\Z_DataBaseType\IntoPut\FinshedProductTypeDto.cs" />
+    <Compile Include="Models\Dto\Z_DataBaseDto\Z_DataBaseType\IntoPut\OfficeTypeDto.cs" />
+    <Compile Include="Models\Dto\Z_DataBaseDto\Z_DataBaseType\IntoPut\ParentsDelAll.cs" />
+    <Compile Include="Models\Dto\Z_DataBaseDto\Z_DataBaseType\IntoPut\RowTypeDto.cs" />
+    <Compile Include="Models\Dto\Z_DataBaseDto\Z_DataBaseType\IntoPut\SuppliesTypeDto.cs" />
+    <Compile Include="Models\Dto\Z_DataBaseDto\Z_DataBaseType\OutoPut\ChemistryTypeOutDto.cs" />
+    <Compile Include="Models\Dto\Z_DataBaseDto\Z_DataBaseType\OutoPut\FinshedProductTypeOutDto.cs" />
+    <Compile Include="Models\Dto\Z_DataBaseDto\Z_DataBaseType\OutoPut\OfficeTypeOutDto.cs" />
+    <Compile Include="Models\Dto\Z_DataBaseDto\Z_DataBaseType\OutoPut\RowTypeOutDto.cs" />
+    <Compile Include="Models\Dto\Z_DataBaseDto\Z_DataBaseType\OutoPut\SuppliesTypeOutDto.cs" />
+    <Compile Include="Models\Dto\Z_DataBaseDto\Z_DataBase\IntoPut\ParentsDelAlls.cs" />
+    <Compile Include="Models\Dto\Z_DataBaseDto\Z_DataBase\IntoPut\Z_ChemistryDto.cs" />
+    <Compile Include="Models\Dto\Z_DataBaseDto\Z_DataBase\IntoPut\Z_FnishedProductDto.cs" />
+    <Compile Include="Models\Dto\Z_DataBaseDto\Z_DataBase\IntoPut\Z_MaterialCodeDto.cs" />
+    <Compile Include="Models\Dto\Z_DataBaseDto\Z_DataBase\IntoPut\Z_OfficeDto.cs" />
+    <Compile Include="Models\Dto\Z_DataBaseDto\Z_DataBase\IntoPut\Z_RawDto.cs" />
+    <Compile Include="Models\Dto\Z_DataBaseDto\Z_DataBase\OutoPut\Z_ChemistryOutDto.cs" />
+    <Compile Include="Models\Dto\Z_DataBaseDto\Z_DataBase\OutoPut\Z_FnishedProductOutPut.cs" />
+    <Compile Include="Models\Dto\Z_DataBaseDto\Z_DataBase\OutoPut\Z_MaterialCodeOutDto.cs" />
+    <Compile Include="Models\Dto\Z_DataBaseDto\Z_DataBase\OutoPut\Z_OfficeOutPut.cs" />
+    <Compile Include="Models\Dto\Z_DataBaseDto\Z_DataBase\OutoPut\Z_RawOutPut.cs" />
+    <Compile Include="Models\Enum\EApprovalType.cs" />
+    <Compile Include="Models\Enum\EExceptionType.cs" />
+    <Compile Include="Models\Enum\ELeaveType.cs" />
+    <Compile Include="Models\Enum\EPositionType.cs" />
+    <Compile Include="Models\Enum\ESexType.cs" />
+    <Compile Include="Models\Enum\EUserType.cs" />
+    <Compile Include="Models\Enum\EWarehousingType.cs" />
+    <Compile Include="Models\Util\AppAuthentication.cs" />
+    <Compile Include="Models\Util\EntityBase.cs" />
+    <Compile Include="Models\Util\EnumExtensions.cs" />
+    <Compile Include="Models\Util\EnupProduct.cs" />
+    <Compile Include="Models\Util\InputBase.cs" />
+    <Compile Include="Models\Util\IdentityManager.cs" />
+    <Compile Include="Models\Util\JwtHelper.cs" />
+    <Compile Include="Models\Util\NetCryptoHelper.cs" />
+    <Compile Include="Models\Util\OutputBase.cs" />
+    <Compile Include="Models\Util\RedisHelper.cs" />
+    <Compile Include="Models\Util\RedisKeyManger.cs" />
+    <Compile Include="Models\Util\ResponseApi.cs" />
+    <Compile Include="Models\Util\UserException.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\XiAnOuDeERP.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Areas\HelpPage\Views\Web.config" />
+    <Content Include="Areas\HelpPage\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\ResourceModel.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\Index.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\TextSample.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\SimpleTypeModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\Samples.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\Parameters.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ModelDescriptionLink.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\KeyValuePairModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\InvalidSample.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ImageSample.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\HelpPageApiModel.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\EnumTypeModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\DictionaryModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ComplexTypeModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
+    <Content Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </Content>
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="SwaggerUI\css\screen.css" />
+    <Content Include="SwaggerUI\images\pet_store_api.png" />
+    <Content Include="SwaggerUI\images\wordnik_api.png" />
+    <Content Include="SwaggerUI\index.html" />
+    <Content Include="SwaggerUI\lib\backbone-min.js" />
+    <Content Include="SwaggerUI\lib\handlebars.runtime-1.0.0.beta.6.js" />
+    <Content Include="SwaggerUI\lib\jquery.ba-bbq.min.js" />
+    <Content Include="SwaggerUI\lib\jquery.min.js" />
+    <Content Include="SwaggerUI\lib\jquery.slideto.min.js" />
+    <Content Include="SwaggerUI\lib\jquery.wiggle.min.js" />
+    <Content Include="SwaggerUI\lib\swagger.js" />
+    <Content Include="SwaggerUI\lib\underscore-min.js" />
+    <Content Include="SwaggerUI\swagger-ui.js" />
+    <Content Include="SwaggerUI\swagger-ui.min.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="SwaggerUI\lib\.DS_Store" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="FileData\" />
+    <Folder Include="Models\Dto\Help\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap.min.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202005250559162_ly-1.resx">
+      <DependentUpon>202005250559162_ly-1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005250957016_ly-2.resx">
+      <DependentUpon>202005250957016_ly-2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005270755475_ly-3.resx">
+      <DependentUpon>202005270755475_ly-3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005270906420_ly-4.resx">
+      <DependentUpon>202005270906420_ly-4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005280305232_ly-5.resx">
+      <DependentUpon>202005280305232_ly-5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006010233117_ly-6.resx">
+      <DependentUpon>202006010233117_ly-6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006010926508_ly-7.resx">
+      <DependentUpon>202006010926508_ly-7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006030218073_ly-8.resx">
+      <DependentUpon>202006030218073_ly-8.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006030708551_ly-9.resx">
+      <DependentUpon>202006030708551_ly-9.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006040128298_ly-10.resx">
+      <DependentUpon>202006040128298_ly-10.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006040133584_ly-11.resx">
+      <DependentUpon>202006040133584_ly-11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006040152577_ly-12.resx">
+      <DependentUpon>202006040152577_ly-12.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006040206066_ly-13.resx">
+      <DependentUpon>202006040206066_ly-13.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006040224067_ly-14.resx">
+      <DependentUpon>202006040224067_ly-14.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006130720095_ly-15.resx">
+      <DependentUpon>202006130720095_ly-15.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006150309345_ly-16.resx">
+      <DependentUpon>202006150309345_ly-16.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006150316270_ly-17.resx">
+      <DependentUpon>202006150316270_ly-17.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006150409042_ly-18.resx">
+      <DependentUpon>202006150409042_ly-18.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006150728226_ly-19.resx">
+      <DependentUpon>202006150728226_ly-19.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006160632210_ly-20.resx">
+      <DependentUpon>202006160632210_ly-20.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006160658366_ly-21.resx">
+      <DependentUpon>202006160658366_ly-21.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006180212511_ly-22.resx">
+      <DependentUpon>202006180212511_ly-22.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006180431501_ly-23.resx">
+      <DependentUpon>202006180431501_ly-23.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006180453168_ly-24.resx">
+      <DependentUpon>202006180453168_ly-24.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006180522054_ly-25.resx">
+      <DependentUpon>202006180522054_ly-25.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006180525146_ly-26.resx">
+      <DependentUpon>202006180525146_ly-26.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006180539364_ly-27.resx">
+      <DependentUpon>202006180539364_ly-27.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006180622455_ly-28.resx">
+      <DependentUpon>202006180622455_ly-28.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006180648509_ly-29.resx">
+      <DependentUpon>202006180648509_ly-29.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006180755140_ly-30.resx">
+      <DependentUpon>202006180755140_ly-30.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006200225264_ly-31.resx">
+      <DependentUpon>202006200225264_ly-31.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006200256067_ly-32.resx">
+      <DependentUpon>202006200256067_ly-32.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006230129579_ly-33.resx">
+      <DependentUpon>202006230129579_ly-33.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006240212459_ly-34.resx">
+      <DependentUpon>202006240212459_ly-34.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006280753423_ly-35.resx">
+      <DependentUpon>202006280753423_ly-35.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006300140251_ly-36.resx">
+      <DependentUpon>202006300140251_ly-36.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006300715198_ly-37.resx">
+      <DependentUpon>202006300715198_ly-37.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006300931578_ly-38.resx">
+      <DependentUpon>202006300931578_ly-38.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006300936592_ly-39.resx">
+      <DependentUpon>202006300936592_ly-39.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007020239106_Firstdb.resx">
+      <DependentUpon>202007020239106_Firstdb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007020845563_My_1.resx">
+      <DependentUpon>202007020845563_My_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007020854256_My_2.resx">
+      <DependentUpon>202007020854256_My_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007021013017_My_3.resx">
+      <DependentUpon>202007021013017_My_3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007030440342_My_4_ add - Department_user.resx">
+      <DependentUpon>202007030440342_My_4_ add - Department_user.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007030441496_My_4_ add - Department_user_1.resx">
+      <DependentUpon>202007030441496_My_4_ add - Department_user_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007030725192_My_5_ Edit - User_user_Type.resx">
+      <DependentUpon>202007030725192_My_5_ Edit - User_user_Type.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007040627192_my_6.resx">
+      <DependentUpon>202007040627192_my_6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007060213357_My_7.resx">
+      <DependentUpon>202007060213357_My_7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007060221595_My_8.resx">
+      <DependentUpon>202007060221595_My_8.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007060259260_My_9_no null.resx">
+      <DependentUpon>202007060259260_My_9_no null.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007060311356_My_11.resx">
+      <DependentUpon>202007060311356_My_11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007061049048_my_12.resx">
+      <DependentUpon>202007061049048_my_12.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007070117048_mzy_upadteAll.resx">
+      <DependentUpon>202007070117048_mzy_upadteAll.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007070200575_mzy_depart_user.resx">
+      <DependentUpon>202007070200575_mzy_depart_user.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007070206173_mzy_depart_user1.resx">
+      <DependentUpon>202007070206173_mzy_depart_user1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007070213428_mzy_depart_user2.resx">
+      <DependentUpon>202007070213428_mzy_depart_user2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007071051513_M_basic information.resx">
+      <DependentUpon>202007071051513_M_basic information.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007080103555_M_basic information1.resx">
+      <DependentUpon>202007080103555_M_basic information1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007080123174_M_basic information2 —Add Z_Chemistry.resx">
+      <DependentUpon>202007080123174_M_basic information2 —Add Z_Chemistry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007080133430_M_basic information2 —Add  All Z_.resx">
+      <DependentUpon>202007080133430_M_basic information2 —Add  All Z_.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007080725379_add-jinggao.resx">
+      <DependentUpon>202007080725379_add-jinggao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007090612097_M_basic information _Add and delete.resx">
+      <DependentUpon>202007090612097_M_basic information _Add and delete.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007100723479_M_basic information Add_Finshed_Sign.resx">
+      <DependentUpon>202007100723479_M_basic information Add_Finshed_Sign.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>49271</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:49271/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>
