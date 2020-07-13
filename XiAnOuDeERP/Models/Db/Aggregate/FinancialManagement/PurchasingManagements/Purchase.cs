@@ -119,10 +119,17 @@ namespace XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.PurchasingManageme
         /// </summary>
         public long? User_Id { get; set; }
         /// <summary>
+        /// 删除的（原来的）
+        /// </summary>
+       // [Required]
+        public long? RawMaterialId { get; set; }
+        /// <summary>
         /// 原材料Id
         /// </summary>
-        [Required]
-        public long RawMaterialId { get; set; }
+       // [Required]
+        public long? RawId { get; set; }
+
+        public virtual Z_Raw Z_Raw { get; set; }
 
         /// <summary>
         /// 项目Id

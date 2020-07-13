@@ -19,8 +19,8 @@ namespace XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagemen
         /// <summary>
         /// 物料Id
         /// </summary>
-      [Required]
-       public long RawMaterialId { get; set; }
+     // [Required]
+       public long? RawMaterialId { get; set; }
 
         /// <summary>
         /// 数量

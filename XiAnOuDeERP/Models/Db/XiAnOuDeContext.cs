@@ -363,8 +363,8 @@ namespace XiAnOuDeERP.Models.Db
             modelBuilder.Entity<UserDetailsType>().HasRequired(p => p.User).WithMany().HasForeignKey(m => m.UserId);
 
             modelBuilder.Entity<Purchase>().HasOptional(p => p.Applicant).WithMany().HasForeignKey(m => m.ApplicantId);
-            modelBuilder.Entity<Purchase>().HasRequired(p => p.RawMaterial).WithMany().HasForeignKey(m => m.RawMaterialId);
-            // modelBuilder.Entity<Purchase>().HasRequired(p => p.Z_Raw).WithMany().HasForeignKey(m => m.RawId);
+           modelBuilder.Entity<Purchase>().HasOptional(p => p.RawMaterial).WithMany().HasForeignKey(m => m.RawMaterialId);
+            modelBuilder.Entity<Purchase>().HasOptional(p => p.Z_Raw).WithMany().HasForeignKey(m => m.RawId);
             modelBuilder.Entity<Purchase>().HasRequired(p => p.Project).WithMany().HasForeignKey(m => m.ProjectId);
             modelBuilder.Entity<Purchase>().HasOptional(p => p.Supplier).WithMany().HasForeignKey(m => m.SupplierId);
 

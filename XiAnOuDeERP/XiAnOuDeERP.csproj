@@ -477,6 +477,14 @@
     <Compile Include="Migrations\202007100723479_M_basic information Add_Finshed_Sign.Designer.cs">
       <DependentUpon>202007100723479_M_basic information Add_Finshed_Sign.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202007130445145_Purchase-Add_Z_Row.cs" />
+    <Compile Include="Migrations\202007130445145_Purchase-Add_Z_Row.Designer.cs">
+      <DependentUpon>202007130445145_Purchase-Add_Z_Row.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007130500109_Purchase-Add_Z_Row_Null.cs" />
+    <Compile Include="Migrations\202007130500109_Purchase-Add_Z_Row_Null.Designer.cs">
+      <DependentUpon>202007130500109_Purchase-Add_Z_Row_Null.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Db\Aggregate\ApprovalMangement\Approval.cs" />
     <Compile Include="Models\Db\Aggregate\ApprovalMangement\RelatedApproval.cs" />
@@ -1002,6 +1010,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202007100723479_M_basic information Add_Finshed_Sign.resx">
       <DependentUpon>202007100723479_M_basic information Add_Finshed_Sign.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007130445145_Purchase-Add_Z_Row.resx">
+      <DependentUpon>202007130445145_Purchase-Add_Z_Row.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007130500109_Purchase-Add_Z_Row_Null.resx">
+      <DependentUpon>202007130500109_Purchase-Add_Z_Row_Null.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
