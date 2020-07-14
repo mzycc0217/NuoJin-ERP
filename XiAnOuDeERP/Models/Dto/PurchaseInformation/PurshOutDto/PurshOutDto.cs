@@ -163,5 +163,9 @@ namespace XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto
         
         public string CompanyId { get; set; }
         public  Z_RowType Z_RowType { get; set; }
+
+        public string Content_UserId { get; set; }
+        public Content_User Content_User { get; set; }
+
     }
 }

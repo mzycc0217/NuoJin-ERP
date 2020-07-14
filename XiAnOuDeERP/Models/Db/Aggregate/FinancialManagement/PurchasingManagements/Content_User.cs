@@ -13,7 +13,7 @@ namespace XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.PurchasingManageme
     [Table("Content_User")]
     public class Content_User : EntityBase
     {
-        //
+        
 
         /// <summary>
         /// 人员id

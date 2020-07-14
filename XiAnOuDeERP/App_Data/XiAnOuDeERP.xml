@@ -714,30 +714,114 @@
             <param name="suppliesTypeOutDto"></param>
             <returns></returns>
         </member>
-        <member name="M:XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation.OfficeController.AddRow(XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_OfficeDto)">
+        <member name="M:XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation.ChemistryController.AddChemistry(XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_ChemistryDto)">
+            <summary>
+            添加化学材料
+            </summary>
+            <param name="z_ChemistryDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation.ChemistryController.RemoveChemistry(XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_ChemistryDto)">
+            <summary>
+            删除化学耗材
+            </summary>
+            <param name="z_ChemistryDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation.ChemistryController.EditChemistrye(XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_ChemistryDto)">
+            <summary>
+            化学用品
+            </summary>
+            <param name="z_ChemistryDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation.ChemistryController.GetChemistry(XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_ChemistryOutDto)">
+            <summary>
+            获取化学用品
+            </summary>
+            <param name="z_OfficeOutPut"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation.FnishedProductController.AddFnishedProduct(XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_FnishedProductDto)">
+            <summary>
+            添加成品半成品
+            </summary>
+            <param name="z_FnishedProductDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation.FnishedProductController.RemoveFnishedProduct(XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_FnishedProductDto)">
+            <summary>
+            删除成品半成品
+            </summary>
+            <param name="z_FnishedProductDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation.FnishedProductController.EditFnishedProduct(XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_FnishedProductDto)">
+             <summary>
+            成品半成品
+             </summary>
+             <param name="z_FnishedProductDto"></param>
+             <returns></returns>
+        </member>
+        <member name="M:XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation.FnishedProductController.GetFnishedProduct(XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_FnishedProductOutPut)">
+            <summary>
+            获取成品半成品
+            </summary>
+            <param name="_FnishedProductOutPut"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation.MaterialCodeController.AddMaterialCode(XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_MaterialCodeDto)">
+            <summary>
+            添加原材料编码
+            </summary>
+            <param name="z_MaterialCodeDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation.MaterialCodeController.RemoveMaterialCode(XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_MaterialCodeDto)">
+            <summary>
+            删除原材料编码耗材
+            </summary>
+            <param name="z_MaterialCodeDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation.MaterialCodeController.EditMaterialCode(XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_MaterialCodeDto)">
+            <summary>
+            原材料编码用品
+            </summary>
+            <param name="z_MaterialCodeDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation.MaterialCodeController.GetMaterialCode(XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_MaterialCodeOutDto)">
+            <summary>
+            获取原材料编码
+            </summary>
+            <param name="_MaterialCodeOutDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation.OfficeController.AddOffice(XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_OfficeDto)">
             <summary>
             添加办公用品
             </summary>
             <param name="z_OfficeDto"></param>
             <returns></returns>
         </member>
-        <member name="M:XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation.OfficeController.RemoveRow(XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_OfficeDto)">
+        <member name="M:XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation.OfficeController.RemoveOffice(XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_OfficeDto)">
             <summary>
             删除办公耗材
             </summary>
             <param name="z_OfficeDto"></param>
             <returns></returns>
         </member>
-        <member name="M:XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation.OfficeController.EditRow(XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_OfficeDto)">
+        <member name="M:XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation.OfficeController.EditOffice(XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_OfficeDto)">
             <summary>
-            修改原材料
+            办公用品
             </summary>
             <param name="z_OfficeDto"></param>
             <returns></returns>
         </member>
-        <member name="M:XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation.OfficeController.GetRow(XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_OfficeOutPut)">
+        <member name="M:XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation.OfficeController.GetOffice(XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_OfficeOutPut)">
             <summary>
-            获取原材料
+            获取办公用品
             </summary>
             <param name="z_OfficeOutPut"></param>
             <returns></returns>
@@ -840,6 +924,69 @@
             获取设备报修信息列表
             </summary>
             <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XiAnOuDeERP.Controllers.FinancialManagement.PurchasingManagementAppService.ZpurChaseController.GetZpurChase(XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto)">
+            <summary>
+            获取所有的采购申请
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XiAnOuDeERP.Controllers.FinancialManagement.PurchasingManagementAppService.ZpurChaseController.GetZpurChaseRaw(XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto)">
+            <summary>
+            库管员获取可以直接领取的物料
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XiAnOuDeERP.Controllers.FinancialManagement.PurchasingManagementAppService.ZpurChaseController.GetZpurChaseP(XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto)">
+            <summary>
+            领导获取的部门获取的申请单
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XiAnOuDeERP.Controllers.FinancialManagement.PurchasingManagementAppService.ZpurChaseController.SetZpurChasePds(XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.Content_Users)">
+            <summary>
+            库管员签核申请单
+            </summary>
+            <param name="content_Users"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XiAnOuDeERP.Controllers.FinancialManagement.PurchasingManagementAppService.ZpurChaseController.SetZpurChasePdst(XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.Content_Users)">
+            <summary>
+            部门主管签核申请单
+            </summary>
+            <param name="content_Users"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XiAnOuDeERP.Controllers.FinancialManagement.PurchasingManagementAppService.ZpurChaseController.GetZpurChaseCaigou(XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto)">
+            <summary>
+            采购专员采购部门获取申请单
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XiAnOuDeERP.Controllers.FinancialManagement.PurchasingManagementAppService.ZpurChaseController.GetZpurChaseCaigoud(XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto)">
+            <summary>
+            获取完成的采购单
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XiAnOuDeERP.Controllers.FinancialManagement.PurchasingManagementAppService.ZpurChaseController.EditPursh(XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshDto)">
+            <summary>
+            修改
+            </summary>
+            <param name="purshDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XiAnOuDeERP.Controllers.FinancialManagement.PurchasingManagementAppService.ZpurChaseController.GetPursh(XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.Content_Users)">
+            <summary>
+            获取审核人
+            </summary>
+            <param name="content_Users"></param>
             <returns></returns>
         </member>
         <member name="T:XiAnOuDeERP.Controllers.FinancialManagement.WageManagementAppService.WageController">
@@ -2308,6 +2455,11 @@
         </member>
         <member name="P:XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.PurchasingManagements.Purchase.RawMaterialId">
             <summary>
+            删除的（原来的）
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.PurchasingManagements.Purchase.RawId">
+            <summary>
             原材料Id
             </summary>
         </member>
@@ -2587,6 +2739,11 @@
             备注描述
             </summary>
         </member>
+        <member name="P:XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagements.Z_Chemistry.Number">
+            <summary>
+            数量
+            </summary>
+        </member>
         <member name="P:XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagements.Z_Chemistry.IsDelete">
             <summary>
             是否删除
@@ -2749,6 +2906,11 @@
             备注描述
             </summary>
         </member>
+        <member name="P:XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagements.Z_FnishedProduct.Number">
+            <summary>
+            数量
+            </summary>
+        </member>
         <member name="P:XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagements.Z_FnishedProduct.IsDelete">
             <summary>
             是否删除
@@ -2824,6 +2986,11 @@
             外观状态
             </summary>
         </member>
+        <member name="P:XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagements.Z_FnishedProduct.Finshed_Sign">
+             <summary>
+            成品半成品标志
+             </summary>
+        </member>
         <member name="P:XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagements.Z_FnishedProduct.Density">
             <summary>
             密度
@@ -2877,6 +3044,11 @@
         <member name="P:XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagements.Z_MaterialCode.Desc">
             <summary>
             备注描述
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagements.Z_MaterialCode.Number">
+            <summary>
+            数量
             </summary>
         </member>
         <member name="P:XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagements.Z_MaterialCode.IsDelete">
@@ -3010,6 +3182,11 @@
         <member name="P:XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagements.Z_Office.Desc">
             <summary>
             备注描述
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagements.Z_Office.Number">
+            <summary>
+            数量
             </summary>
         </member>
         <member name="P:XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagements.Z_Office.IsDelete">
@@ -3160,6 +3337,11 @@
         <member name="P:XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagements.Z_Raw.Desc">
             <summary>
             备注描述
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagements.Z_Raw.Number">
+            <summary>
+            数量
             </summary>
         </member>
         <member name="P:XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagements.Z_Raw.IsDelete">
@@ -3425,6 +3607,11 @@
         <member name="P:XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagements.Z_Supplies.Desc">
             <summary>
             备注描述
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagements.Z_Supplies.Number">
+            <summary>
+            数量
             </summary>
         </member>
         <member name="P:XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagements.Z_Supplies.IsDelete">
@@ -4652,7 +4839,7 @@
             审核人员表
             </summary>
         </member>
-        <member name="P:XiAnOuDeERP.Models.Db.XiAnOuDeContext.Content_Users">
+        <member name="P:XiAnOuDeERP.Models.Db.XiAnOuDeContext.Content_User">
             <summary>
             签核记录表
             </summary>
@@ -5037,6 +5224,11 @@
             设备采购申请Id
             </summary>
         </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.InputDto.FinancialManagement.PurchasingManagementDto.PurchaseInputDto.RawMaterialId">
+            <summary>s
+            原材料
+            </summary>
+        </member>
         <member name="P:XiAnOuDeERP.Models.Dto.InputDto.FinancialManagement.PurchasingManagementDto.PurchaseInputDto.ApplicantId">
             <summary>
             申请人Id
@@ -5047,7 +5239,7 @@
             用途
             </summary>
         </member>
-        <member name="P:XiAnOuDeERP.Models.Dto.InputDto.FinancialManagement.PurchasingManagementDto.PurchaseInputDto.RawMaterialId">
+        <member name="P:XiAnOuDeERP.Models.Dto.InputDto.FinancialManagement.PurchasingManagementDto.PurchaseInputDto.RawId">
             <summary>
             原材料Id
             </summary>
@@ -8467,12 +8659,17 @@
             申请人姓名
             </summary>
         </member>
-        <member name="P:XiAnOuDeERP.Models.Dto.OutputDto.FinancialManagement.PurchasingManagementDto.PurchaseOutputDto.RawMaterialId">
+        <member name="P:XiAnOuDeERP.Models.Dto.OutputDto.FinancialManagement.PurchasingManagementDto.PurchaseOutputDto.RawId">
             <summary>
             原材料编码
             </summary>
         </member>
         <member name="P:XiAnOuDeERP.Models.Dto.OutputDto.FinancialManagement.PurchasingManagementDto.PurchaseOutputDto.RawMaterial">
+            <summary>s
+            原材料
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.OutputDto.FinancialManagement.PurchasingManagementDto.PurchaseOutputDto.RawMaterialId">
             <summary>
             原材料
             </summary>
@@ -8957,6 +9154,289 @@
             项目状态名称
             </summary>
         </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshDto.Purpose">
+            <summary>
+            用途
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshDto.ExpectArrivalTime">
+            <summary>
+            期望到货日期
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshDto.ApplyNumber">
+            <summary>
+            申请数量
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshDto.QuasiPurchaseNumber">
+            <summary>
+            准购数量
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshDto.Price">
+            <summary>
+            单价
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshDto.Amount">
+            <summary>
+            金额
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshDto.Enclosure">
+            <summary>
+            附件
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshDto.ApplicantRemarks">
+            <summary>
+            申请人备注说明
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshDto.ApplyTime">
+            <summary>
+            申请日期
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshDto.is_or">
+            <summary>
+            申请是否完成 0代表完成
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshDto.PurchaseTime">
+            <summary>
+            采购日期
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshDto.WaybillNumber">
+            <summary>
+            运单号
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshDto.PurchaseContract">
+            <summary>
+            采购合同
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshDto.ArrivalTime">
+            <summary>
+            到货日期
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshDto.ApprovalDesc">
+            <summary>
+            审批状态
+            </summary>
+            <summary>
+            审核备注
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshDto.IsDelete">
+            <summary>
+            是否删除
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshDto.ApplicantId">
+            <summary>
+            申请人Id
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshDto.User_Id">
+            <summary>
+            审阅人id
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshDto.RawMaterialId">
+            <summary>
+            删除的（原来的）
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshDto.RawId">
+            <summary>
+            原材料Id
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshDto.ProjectId">
+            <summary>
+            项目Id
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshDto.SupplierId">
+            <summary>
+            供货商Id
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.Content_Users.Id">
+            <summary>
+            签核id
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.Content_Users.user_Id">
+            <summary>
+            人员id
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.Content_Users.Purchase_Id">
+            <summary>
+            内容id
+            </summary> 
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.Content_Users.ContentDes">
+             <summary>
+            描述
+             </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.PurchaseId">
+            <summary>
+            设备采购申请Id
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.ApplicantRelName">
+            <summary>
+            申请人Id
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.ApplicantId">
+            <summary>
+            申请人姓名
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.Amount">
+            <summary>
+            金额
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.Purpose">
+            <summary>
+            用途
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.RawMaterialId">
+            <summary>
+            原材料Id
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.ApplyNumber">
+            <summary>
+            申请数量
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.QuasiPurchaseNumber">
+            <summary>
+            准购数量
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.Price">
+            <summary>
+            单价
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.Enclosure">
+            <summary>
+            附件
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.ApplicantRemarks">
+            <summary>
+            申请人备注说明
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.ApplyTime">
+            <summary>
+            申请日期
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.PurchaseTime">
+            <summary>
+            采购日期
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.WaybillNumber">
+            <summary>
+            运单号
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.PurchaseContract">
+            <summary>
+            采购合同
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.ExpectArrivalTime">
+            <summary>
+            期望到货日期
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.ArrivalTime">
+            <summary>
+            到货日期
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.ProjectId">
+            <summary>
+            项目Id
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.ApprovalType">
+            <summary>
+            审批状态
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.ApprovalDesc">
+            <summary>
+            审核备注
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.SupplierId">
+            <summary>
+            供货商Id
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.AssetExpenditureDesc">
+            <summary>
+            支出备注
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.User_id">
+            <summary>
+            审核人id
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.User_ID">
+            <summary>
+            审核人
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.Applicant">
+            <summary>
+            申请人
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.RawId">
+            <summary>
+            原材料
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.z_Raw">
+            <summary>
+            原材料
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.Project">
+            <summary>
+            项目
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.Supplier">
+            <summary>
+            供货商
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto.PurshOutDto.company">
+            <summary>
+            供货商
+            </summary>
+        </member>
         <member name="P:XiAnOuDeERP.Models.Dto.User_DTO.UserId">
             <summary>
             用户Id
@@ -9202,6 +9682,116 @@
             物料描述
             </summary>
         </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_ChemistryDto.Id">
+            <summary>
+            id
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_ChemistryDto.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_ChemistryDto.Encoding">
+            <summary>
+            公司自己的编码
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_ChemistryDto.EntryPersonId">
+            <summary>
+            录入人Id
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_ChemistryDto.Desc">
+            <summary>
+            化学用品备注
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_ChemistryDto.Number">
+            <summary>
+            数量
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_ChemistryDto.Z_ChemistryTypeid">
+            <summary>
+            化学用品类型
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_ChemistryDto.IsDelete">
+            <summary>
+            是否删除
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_ChemistryDto.EnglishName">
+            <summary>
+            化学用品英文名称
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_ChemistryDto.Abbreviation">
+            <summary>
+            化学用品简称
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_ChemistryDto.BeCommonlyCalled1">
+            <summary>
+            俗称1
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_ChemistryDto.BeCommonlyCalled2">
+            <summary>
+            俗称2
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_ChemistryDto.CASNumber">
+            <summary>
+            CAS号
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_ChemistryDto.MolecularWeight">
+            <summary>
+            分子量
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_ChemistryDto.MolecularFormula">
+            <summary>
+            分子式
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_ChemistryDto.StructuralFormula">
+            <summary>
+            结构式
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_ChemistryDto.Density">
+            <summary>
+            密度
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_ChemistryDto.Statement">
+            <summary>
+            危害声明
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_ChemistryDto.Caution">
+            <summary>
+            警示声明
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_ChemistryDto.AppearanceState">
+            <summary>
+            外观状态
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_ChemistryDto.WarehousingTypeId">
+            <summary>
+            入库类型
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_ChemistryDto.Companyid">
+            <summary>
+            单位
+            </summary>
+        </member>
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_FnishedProductDto.Id">
             <summary>
             id
@@ -9224,12 +9814,17 @@
         </member>
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_FnishedProductDto.Desc">
             <summary>
-            物料备注
+            成品半成品备注
             </summary>
         </member>
-        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_FnishedProductDto.Z_RowTypeid">
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_FnishedProductDto.Number">
             <summary>
-            原材料类型
+            数量
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_FnishedProductDto.Z_FinshedProductTypeid">
+            <summary>
+            成品半成品类型
             </summary>
         </member>
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_FnishedProductDto.IsDelete">
@@ -9287,6 +9882,11 @@
             危害声明
             </summary>
         </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_FnishedProductDto.Finshed_Sign">
+             <summary>
+            成品半成品标志
+             </summary>
+        </member>
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_FnishedProductDto.Caution">
             <summary>
             警示声明
@@ -9300,6 +9900,11 @@
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_FnishedProductDto.WarehousingTypeId">
             <summary>
             入库类型
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_FnishedProductDto.Companyid">
+            <summary>
+            单位
             </summary>
         </member>
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_MaterialCodeDto.Id">
@@ -9325,6 +9930,11 @@
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_MaterialCodeDto.Desc">
             <summary>
             物料备注
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_MaterialCodeDto.Number">
+            <summary>
+            数量
             </summary>
         </member>
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_MaterialCodeDto.Z_RowTypeid">
@@ -9402,6 +10012,11 @@
             入库类型
             </summary>
         </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_MaterialCodeDto.Companyid">
+            <summary>
+            单位
+            </summary>
+        </member>
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_OfficeDto.Id">
             <summary>
             id
@@ -9425,6 +10040,11 @@
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_OfficeDto.Desc">
             <summary>
             物料备注
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_OfficeDto.Number">
+            <summary>
+            数量
             </summary>
         </member>
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_OfficeDto.Z_OfficeTypeid">
@@ -9502,6 +10122,11 @@
             入库类型
             </summary>
         </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut.Z_OfficeDto.Companyid">
+            <summary>
+            单位
+            </summary>
+        </member>
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.Z_RawDto.Id">
             <summary>
             id
@@ -9522,9 +10147,19 @@
             录入人Id
             </summary>
         </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.Z_RawDto.Companyid">
+            <summary>
+            单位
+            </summary>
+        </member>
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.Z_RawDto.Desc">
             <summary>
             物料备注
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.Z_RawDto.Number">
+            <summary>
+            数量
             </summary>
         </member>
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.Z_RawDto.Z_RowTypeid">
@@ -9602,104 +10237,139 @@
             入库类型
             </summary>
         </member>
-        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.Z_RawD.Id">
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_ChemistryOutDto.Id">
             <summary>
-            id
+            Id
             </summary>
         </member>
-        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.Z_RawD.Name">
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_ChemistryOutDto.Name">
             <summary>
             名称
             </summary>
         </member>
-        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.Z_RawD.Encoding">
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_ChemistryOutDto.Encoding">
             <summary>
             公司自己的编码
             </summary>
         </member>
-        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.Z_RawD.EntryPersonId">
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_ChemistryOutDto.EntryPersonId">
             <summary>
             录入人Id
             </summary>
         </member>
-        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.Z_RawD.Desc">
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_ChemistryOutDto.EntryPersonName">
             <summary>
-            物料备注
+            录入人
             </summary>
         </member>
-        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.Z_RawD.Z_RowTypeid">
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_ChemistryOutDto.Desc">
             <summary>
-            原材料类型
+            描述
             </summary>
         </member>
-        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.Z_RawD.IsDelete">
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_ChemistryOutDto.Number">
+            <summary>
+            数量
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_ChemistryOutDto.IsDelete">
             <summary>
             是否删除
             </summary>
         </member>
-        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.Z_RawD.EnglishName">
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_ChemistryOutDto.EnglishName">
             <summary>
             英文名称
             </summary>
         </member>
-        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.Z_RawD.Abbreviation">
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_ChemistryOutDto.Abbreviation">
             <summary>
             简称
             </summary>
         </member>
-        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.Z_RawD.BeCommonlyCalled1">
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_ChemistryOutDto.BeCommonlyCalled1">
             <summary>
             俗称1
             </summary>
         </member>
-        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.Z_RawD.BeCommonlyCalled2">
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_ChemistryOutDto.BeCommonlyCalled2">
             <summary>
             俗称2
             </summary>
         </member>
-        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.Z_RawD.CASNumber">
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_ChemistryOutDto.CASNumber">
             <summary>
             CAS号
             </summary>
         </member>
-        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.Z_RawD.MolecularWeight">
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_ChemistryOutDto.MolecularWeight">
             <summary>
             分子量
             </summary>
         </member>
-        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.Z_RawD.MolecularFormula">
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_ChemistryOutDto.MolecularFormula">
             <summary>
             分子式
             </summary>
         </member>
-        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.Z_RawD.StructuralFormula">
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_ChemistryOutDto.StructuralFormula">
             <summary>
             结构式
             </summary>
         </member>
-        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.Z_RawD.Density">
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_ChemistryOutDto.Density">
             <summary>
             密度
             </summary>
         </member>
-        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.Z_RawD.Statement">
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_ChemistryOutDto.Statement">
             <summary>
             危害声明
             </summary>
         </member>
-        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.Z_RawD.Caution">
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_ChemistryOutDto.Caution">
             <summary>
             警示声明
             </summary>
         </member>
-        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.Z_RawD.AppearanceState">
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_ChemistryOutDto.AppearanceState">
             <summary>
             外观状态
             </summary>
         </member>
-        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.Z_RawD.WarehousingTypeId">
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_ChemistryOutDto.WarehousingTypeId">
             <summary>
             入库类型
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_ChemistryOutDto.EntryPerson">
+            <summary>
+            录入人
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_ChemistryOutDto.Company">
+            <summary>
+            单位
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_ChemistryOutDto.Companyid">
+            <summary>
+            单位
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_ChemistryOutDto.Z_ChemistryType">
+            <summary>
+            自身类型
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_ChemistryOutDto.Z_ChemistryTypeid">
+            <summary>
+            自身类型
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_ChemistryOutDto.WarehousingType">
+            <summary>
+            出入库类型
             </summary>
         </member>
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_FnishedProductOutPut.Id">
@@ -9727,11 +10397,6 @@
             录入人
             </summary>
         </member>
-        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_FnishedProductOutPut.RowtypeName">
-            <summary>
-            类型
-            </summary>
-        </member>
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_FnishedProductOutPut.WarehousingTypeName">
             <summary>
             类型
@@ -9739,18 +10404,33 @@
         </member>
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_FnishedProductOutPut.Desc">
             <summary>
-            物料备注
+            成品半成品备注
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_FnishedProductOutPut.Number">
+            <summary>
+            数量
             </summary>
         </member>
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_FnishedProductOutPut.Z_RowTypeid">
             <summary>
-            原材料类型
+            成品半成品类型
             </summary>
         </member>
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_FnishedProductOutPut.IsDelete">
             <summary>
             是否删除
             </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_FnishedProductOutPut.Finshed_Sign">
+             <summary>
+            成品半成品标志
+             </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_FnishedProductOutPut.EnupProduct">
+             <summary>
+            成品半成品标志
+             </summary>
         </member>
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_FnishedProductOutPut.EnglishName">
             <summary>
@@ -9827,14 +10507,29 @@
             单位
             </summary>
         </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_FnishedProductOutPut.Companyid">
+            <summary>
+            单位
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_FnishedProductOutPut.Z_FinshedProductTypeid">
+            <summary>
+            成品半成品类型
+            </summary>
+        </member>
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_FnishedProductOutPut.Z_FinshedProductType">
             <summary>
-            自身类型
+            成品半成品自身类型
             </summary>
         </member>
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_FnishedProductOutPut.WarehousingType">
             <summary>
             出入库类型
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_FnishedProductOutPut.CreateDate">
+            <summary>
+            创建时间
             </summary>
         </member>
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_MaterialCodeOutDto.Id">
@@ -9862,14 +10557,9 @@
             录入人
             </summary>
         </member>
-        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_MaterialCodeOutDto.RowtypeName">
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_MaterialCodeOutDto.Number">
             <summary>
-            类型
-            </summary>
-        </member>
-        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_MaterialCodeOutDto.WarehousingTypeName">
-            <summary>
-            类型
+            数量
             </summary>
         </member>
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_MaterialCodeOutDto.Desc">
@@ -9879,7 +10569,7 @@
         </member>
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_MaterialCodeOutDto.Z_RowTypeid">
             <summary>
-            原材料类型
+            编码库类型
             </summary>
         </member>
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_MaterialCodeOutDto.IsDelete">
@@ -9947,6 +10637,11 @@
             外观状态
             </summary>
         </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_MaterialCodeOutDto.CreateDate">
+            <summary>
+            时间
+            </summary>
+        </member>
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_MaterialCodeOutDto.WarehousingTypeId">
             <summary>
             入库类型
@@ -9958,6 +10653,11 @@
             </summary>
         </member>
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_MaterialCodeOutDto.Company">
+            <summary>
+            单位
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_MaterialCodeOutDto.Companyid">
             <summary>
             单位
             </summary>
@@ -10012,7 +10712,12 @@
             物料备注
             </summary>
         </member>
-        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_OfficeOutPut.Z_RowTypeid">
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_OfficeOutPut.Number">
+            <summary>
+            数量
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_OfficeOutPut.Z_OfficeTypeid">
             <summary>
             原材料类型
             </summary>
@@ -10097,6 +10802,11 @@
             单位
             </summary>
         </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_OfficeOutPut.Companyid">
+            <summary>
+            单位
+            </summary>
+        </member>
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_OfficeOutPut.Z_OfficeType">
             <summary>
             自身类型
@@ -10145,6 +10855,11 @@
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_RawOutPut.Desc">
             <summary>
             物料备注
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_RawOutPut.Number">
+            <summary>
+            数量
             </summary>
         </member>
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_RawOutPut.Z_RowTypeid">
@@ -10233,6 +10948,11 @@
             </summary>
         </member>
         <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_RawOutPut.Company">
+            <summary>
+            单位
+            </summary>
+        </member>
+        <member name="P:XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut.Z_RawOutPut.Companyid">
             <summary>
             单位
             </summary>
@@ -10487,6 +11207,16 @@
             更新日期
             </summary>
         </member>
+        <member name="F:XiAnOuDeERP.Models.Util.EnupProduct.ProductFinshed">
+            <summary>
+            成品
+            </summary>
+        </member>
+        <member name="F:XiAnOuDeERP.Models.Util.EnupProduct.HalfProductFinshed">
+            <summary>
+            半成品
+            </summary>
+        </member>
         <member name="T:XiAnOuDeERP.Models.Util.InputBase">
             <summary>
             
@@ -10702,6 +11432,21 @@
             <summary>
             错误信息
             </summary>
+        </member>
+        <member name="M:EnumHelper.GetDescription(System.Object)">
+            <summary>
+            获取枚举Description Attribute的值
+            </summary>
+            <param name="value">枚举</param>
+            <returns></returns>
+        </member>
+        <member name="M:EnumHelper.GetDescription``1(System.Nullable{System.Int32})">
+            <summary>
+            获取枚举Description Attribute的值
+            </summary>
+            <typeparam name="T">枚举类型</typeparam>
+            <param name="value">枚举值</param>
+            <returns></returns>
         </member>
     </members>
 </doc>

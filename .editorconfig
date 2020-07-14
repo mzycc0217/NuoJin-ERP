@@ -1,7 +1,7 @@
 ﻿[*.cs]
 
 # CS0472: 由于此类型的值永不等于 "null"，该表达式的结果始终相同
-dotnet_diagnostic.CS0472.severity = none
+#dotnet_diagnostic.CS0472.severity = none
 
 # CS1591: 缺少对公共可见类型或成员的 XML 注释
-dotnet_diagnostic.CS1591.severity = none
+#dotnet_diagnostic.CS1591.severity = none

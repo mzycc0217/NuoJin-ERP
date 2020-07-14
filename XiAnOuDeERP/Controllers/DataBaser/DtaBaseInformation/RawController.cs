@@ -300,9 +300,81 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                     return Json(new { code = 200, Count = result.Count(), data = result });
                 }
 
-             
-                   
+                if (z_RawOutPut.PageIndex == -1 && z_RawOutPut.PageSize == -1 && !string.IsNullOrWhiteSpace(z_RawOutPut.Id))
+                {
+                    var id = long.Parse( z_RawOutPut.Id);
 
+
+                    var result = await Task.Run(() => (db.Z_Raw
+                            .Where(x => x.Id == id).Select(x => new Z_RawOutPut
+                            {
+                                Id = (x.Id).ToString(),
+                                Name = x.Name,
+                                Encoding = x.Encoding,
+                                Desc = x.Desc,
+                                Z_RowTypeid = (x.Z_RowTypeid).ToString(),
+                                Z_RowType = x.Z_RowType,
+                                Density = x.Density,
+                                Company = x.Company,
+                                Companyid = x.CompanyId.ToString(),
+                                RowtypeName = x.Name,
+                                EnglishName = x.EnglishName,
+                                Abbreviation = x.Abbreviation,
+                                BeCommonlyCalled1 = x.BeCommonlyCalled1,
+                                BeCommonlyCalled2 = x.BeCommonlyCalled2,
+                                CASNumber = x.CASNumber,
+                                MolecularWeight = x.MolecularWeight,
+                                MolecularFormula = x.MolecularFormula,
+                                StructuralFormula = x.StructuralFormula,
+                                Statement = x.Statement,
+                                Caution = x.Caution,
+                                Number = x.Number,
+                                AppearanceState = x.AppearanceState,
+                                WarehousingTypeId = (x.WarehousingTypeId).ToString(),
+                                WarehousingType = x.WarehousingType,
+                                EntryPerson = x.EntryPerson,
+                                CreateDate = x.CreateDate
+                            }).ToListAsync()));
+
+
+                    return Json(new { code = 200, Count = result.Count(), data = result });
+                }
+                if (z_RawOutPut.PageIndex == -1 && z_RawOutPut.PageSize == -1)
+                {
+                    var result = await Task.Run(() => (db.Z_Raw
+                            .Where(x => x.Id > 0).Select(x => new Z_RawOutPut
+                            {
+                                Id = (x.Id).ToString(),
+                                Name = x.Name,
+                                Encoding = x.Encoding,
+                                Desc = x.Desc,
+                                Z_RowTypeid = (x.Z_RowTypeid).ToString(),
+                                Z_RowType = x.Z_RowType,
+                                Density = x.Density,
+                                Company = x.Company,
+                                Companyid = x.CompanyId.ToString(),
+                                RowtypeName = x.Name,
+                                EnglishName = x.EnglishName,
+                                Abbreviation = x.Abbreviation,
+                                BeCommonlyCalled1 = x.BeCommonlyCalled1,
+                                BeCommonlyCalled2 = x.BeCommonlyCalled2,
+                                CASNumber = x.CASNumber,
+                                MolecularWeight = x.MolecularWeight,
+                                MolecularFormula = x.MolecularFormula,
+                                StructuralFormula = x.StructuralFormula,
+                                Statement = x.Statement,
+                                Caution = x.Caution,
+                                Number = x.Number,
+                                AppearanceState = x.AppearanceState,
+                                WarehousingTypeId = (x.WarehousingTypeId).ToString(),
+                                WarehousingType = x.WarehousingType,
+                                EntryPerson = x.EntryPerson,
+                                CreateDate = x.CreateDate
+                            }).ToListAsync()));
+
+
+                    return Json(new { code = 200, Count = result.Count(), data = result });
+                }
                 if (z_RawOutPut.PageIndex != null && z_RawOutPut.PageSize != null)
                 {
                     var result = await Task.Run(() => (db.Z_Raw
@@ -403,9 +475,6 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
         public async Task<IHttpActionResult> GetCode()
         {
            
-           
-           
-            
           
             try
             {

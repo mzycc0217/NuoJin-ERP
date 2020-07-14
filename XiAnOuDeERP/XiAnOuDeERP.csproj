@@ -44,7 +44,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\XiAnOuDeERP.xml</DocumentationFile>
+    <DocumentationFile>App_Data\XiAnOuDeERP.xml</DocumentationFile>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -672,6 +674,8 @@
     <Compile Include="Models\Dto\OutputDto\Projects\ProjectOutputDto.cs" />
     <Compile Include="Models\Dto\InputDto\Projecct\ProjectStateInputDto.cs" />
     <Compile Include="Models\Dto\OutputDto\Projects\ProjectStateOutputDto.cs" />
+    <Compile Include="Models\Dto\PurchaseInformation\PurshDto.cs" />
+    <Compile Include="Models\Dto\PurchaseInformation\PurshOutDto\Content_Users.cs" />
     <Compile Include="Models\Dto\PurchaseInformation\PurshOutDto\PurshOutDto.cs" />
     <Compile Include="Models\Dto\User_DTO.cs" />
     <Compile Include="Models\Dto\user_userTypeDTO.cs" />

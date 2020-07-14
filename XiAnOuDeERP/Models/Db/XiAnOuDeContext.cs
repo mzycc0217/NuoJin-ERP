@@ -99,7 +99,7 @@ namespace XiAnOuDeERP.Models.Db
         /// <summary>
         /// 签核记录表
         /// </summary>
-        public virtual DbSet<Content_User> Content_Users { get; set; }
+        public virtual DbSet<Content_User> Content_User { get; set; }
         /// <summary>
         /// 采购申请表
         /// </summary>
