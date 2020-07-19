@@ -9,6 +9,7 @@ using System.Web.Http;
 using XiAnOuDeERP.MethodWay;
 using XiAnOuDeERP.Models.Db;
 using XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagements;
+using XiAnOuDeERP.Models.Db.Aggregate.StrongRoom;
 using XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut;
 using XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut;
 using XiAnOuDeERP.Models.Util;
@@ -32,8 +33,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
 
             try
             {
-                if (ModelState.IsValid)
-                {
+              
 
                     Z_FnishedProduct z_FnishedProduct = new Z_FnishedProduct
                     {
@@ -60,6 +60,16 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                         AppearanceState = z_FnishedProductDto.AppearanceState,
                         WarehousingTypeId = z_FnishedProductDto.WarehousingTypeId,
                     };
+                    FnishedProductRoom fnishedProductRoom = new FnishedProductRoom
+                    {
+                        Id = IdentityManager.NewId(),
+                        FnishedProductId = z_FnishedProduct.Id,
+                     
+                        RawNumber = 0,
+                    
+
+                    };
+                    db.FnishedProductRooms.Add(fnishedProductRoom);
                     db.Z_FnishedProduct.Add(z_FnishedProduct);
                     if (await db.SaveChangesAsync() > 0)
                     {
@@ -70,11 +80,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                         return Json(new { code = 400, msg = "添加失败" });
                     }
 
-                }
-                else
-                {
-                    return Json(new { code = 201, msg = "请勿添加空数据" });
-                }
+              
 
 
             }
@@ -101,9 +107,18 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                     foreach (var item in z_FnishedProductDto.del_Id)
                     {
                         var result = new Z_FnishedProduct { Id = item };
-                        //  var result = Task.Run(() => (db.Z_Office.AsNoTracking().FirstOrDefault(m => m.Id == item)));
-                        db.Entry(result).State = System.Data.Entity.EntityState.Deleted;
-                    }
+                        db.Entry(result).State = System.Data.Entity.EntityState.Unchanged;
+                        result.del_or = 1;
+                       // var resul = new FnishedProductRoom { FnishedProductId = item };
+                        var res = await db.FnishedProductRooms.SingleOrDefaultAsync(s => s.FnishedProductId == item);
+                        if (res != null)
+                        {
+                            res.RawNumber = 10;
+                            res.RawOutNumber = 0;
+                            res.Warning_RawNumber = 0;
+                        }
+                    }  
+                 
                     if (await db.SaveChangesAsync() > 0)
                     {
                         return Json(new { code = 200, msg = "删除成功" });
@@ -268,7 +283,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                 {
                    // EnumExtensions enumerationConversion = new EnumExtensions();
                     var result = await Task.Run(() => (db.Z_FnishedProduct
-                          .Where(x => x.Name.Contains(_FnishedProductOutPut.Name))
+                          .Where(x => x.del_or == 0 && x.Id>0||x.Name.Contains(_FnishedProductOutPut.Name))
                         .Select(x => new Z_FnishedProductOutPut
                         {
                             Id = (x.Id).ToString(),
@@ -311,7 +326,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                 if (_FnishedProductOutPut.PageIndex != null && _FnishedProductOutPut.PageSize != null)
                 {
                     var result = await Task.Run(() => (db.Z_FnishedProduct
-                            .Where(x => x.Id > 0).Select(x => new Z_FnishedProductOutPut
+                            .Where(x => x.del_or == 0 && x.Id > 0).Select(x => new Z_FnishedProductOutPut
                             {
                                 Id = (x.Id).ToString(),
                                 Name = x.Name,
@@ -349,7 +364,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                 if (_FnishedProductOutPut.PageIndex != null && _FnishedProductOutPut.PageSize != null && !string.IsNullOrWhiteSpace(_FnishedProductOutPut.Id))
                 {
                     var result = Task.Run(() => (db.Z_FnishedProduct
-                          .Where(x => x.Id == long.Parse(_FnishedProductOutPut.Id))
+                          .Where(x => x.del_or == 0  && x.Id > 0 || x.Id == long.Parse(_FnishedProductOutPut.Id))
                         .Select(x => new Z_FnishedProductOutPut
                         {
                             Id = (x.Id).ToString(),

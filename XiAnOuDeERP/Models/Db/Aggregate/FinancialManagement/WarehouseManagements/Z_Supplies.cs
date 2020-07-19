@@ -190,6 +190,10 @@ namespace XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagemen
         #endregion
 
 
+        /// <summary>
+        /// 是否删除
+        /// </summary>
+        public int del_or { get; set; }
 
 
 

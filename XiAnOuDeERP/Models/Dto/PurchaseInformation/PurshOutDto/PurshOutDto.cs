@@ -13,8 +13,10 @@ namespace XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto
 {
     public class PurshOutDto:InputBase
     {
-         /// <summary>
-        /// 设备采购申请Id
+
+        
+        /// <summary>
+        /// 采购申请Id
         /// </summary>
         public string PurchaseId { get; set; }
 
@@ -36,10 +38,6 @@ namespace XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto
         /// </summary>
         public string Purpose { get; set; }
 
-        /// <summary>
-        /// 原材料Id
-        /// </summary>
-        public long RawMaterialId { get; set; }
 
         /// <summary>
         /// 申请数量
@@ -101,11 +99,7 @@ namespace XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto
         /// </summary>
         public string ProjectId { get; set; }
 
-        /// <summary>
-        /// 审批状态
-        /// </summary>
-        public EApprovalType? ApprovalType { get; set; }
-
+     
         /// <summary>
         /// 审核备注
         /// </summary>
@@ -121,10 +115,10 @@ namespace XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto
         /// </summary>
         public string AssetExpenditureDesc { get; set; }
 
-        /// <summary>
-        /// 审核人id
-        /// </summary>
-        public long? User_id { get; set; }
+        ///// <summary>
+        ///// 审核人id
+        ///// </summary>
+        //public long? User_id { get; set; }
 
         /// <summary>
         /// 审核人
@@ -160,12 +154,17 @@ namespace XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto
                /// 供货商
                /// </summary>
         public Company company { get; set; }
-        
+        /// <summary>
+        /// 单位
+        /// </summary>
         public string CompanyId { get; set; }
+
         public  Z_RowType Z_RowType { get; set; }
+      
+        /// <summary>
+        /// 删除使用的id（删除采购单）
+        /// </summary>
 
-        public string Content_UserId { get; set; }
-        public Content_User Content_User { get; set; }
-
+        public List<long> Del_Id { get; set; }
     }
 }

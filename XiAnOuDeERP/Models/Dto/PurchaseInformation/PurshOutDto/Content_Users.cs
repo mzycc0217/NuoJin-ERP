@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.PurchasingManagements;
+using XiAnOuDeERP.Models.Db.Aggregate.PersonnelMatters.Users;
 using XiAnOuDeERP.Models.Util;
 
 namespace XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto
@@ -29,5 +31,15 @@ namespace XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto
         /// </summary>
       
         public string ContentDes { get; set; }
+        /// <summary>
+        /// 仓库id
+        /// </summary>
+
+        public long enportid { get; set; }
+
+
+        public Purchase Purchase { get; set; }
+
+        public UserDetails UserDetails { get; set; }
     }
 }

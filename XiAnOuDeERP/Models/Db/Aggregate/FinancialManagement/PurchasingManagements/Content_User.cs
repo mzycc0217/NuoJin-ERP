@@ -18,7 +18,7 @@ namespace XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.PurchasingManageme
         /// <summary>
         /// 人员id
         /// </summary>
-
+        
         public long user_Id { get; set; }
         /// <summary>
         /// 内容id
@@ -32,8 +32,8 @@ namespace XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.PurchasingManageme
         public string ContentDes { get; set; }
 
 
-        public  Purchase Purchase { get; set; }
+        public virtual  Purchase Purchase { get; set; }
 
-        public  UserDetails UserDetails { get; set; }
+        public virtual UserDetails UserDetails { get; set; }
     }
 }

@@ -78,8 +78,9 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DataBaseType
                 {
                     foreach (var item in suppliesTypeDto.del_Id)
                     {
-                    var result = db.Z_SuppliesType.AsNoTracking().First(m => m.Id == item);
-                        db.Entry(result).State = System.Data.Entity.EntityState.Deleted;
+                        var result = new Z_SuppliesType  {Id = item};
+                        db.Entry(result).State = System.Data.Entity.EntityState.Unchanged;
+                        result.IsDelete = true;
                     }
                  
                     if (await db.SaveChangesAsync() > 0)
@@ -166,7 +167,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DataBaseType
             {
                 if (suppliesTypeOutDto.PageIndex != null && suppliesTypeOutDto.PageSize != null && !string.IsNullOrWhiteSpace(suppliesTypeOutDto.Name))
                 {
-                    var result = await Task.Run(() => (from p in db.Z_SuppliesType.Where(p => p.Name.Contains(suppliesTypeOutDto.Name))
+                    var result = await Task.Run(() => (from p in db.Z_SuppliesType.Where(p => p.Name.Contains(suppliesTypeOutDto.Name) && p.IsDelete == false)
                                                        orderby p.CreateDate
                                                        select new RowTypeOutDto
                                                        {
@@ -199,7 +200,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DataBaseType
 
                 if (suppliesTypeOutDto.PageIndex != null && suppliesTypeOutDto.PageSize != null)
                 {
-                    var result = await Task.Run(() => (from p in db.Z_SuppliesType.Where(p => true)
+                    var result = await Task.Run(() => (from p in db.Z_SuppliesType.Where(p => true && p.IsDelete == false)
                                                        orderby p.CreateDate
                                                        select new RowTypeOutDto
                                                        {
@@ -213,7 +214,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DataBaseType
                 }
                 if (suppliesTypeOutDto.PageIndex != null && suppliesTypeOutDto.PageSize != null && !string.IsNullOrWhiteSpace(suppliesTypeOutDto.Id))
                 {
-                    var result = await Task.Run(() => (from p in db.Z_SuppliesType.Where(p => p.Id == long.Parse(suppliesTypeOutDto.Id))
+                    var result = await Task.Run(() => (from p in db.Z_SuppliesType.Where(p => p.Id == long.Parse(suppliesTypeOutDto.Id) && p.IsDelete == false)
                                                        orderby p.CreateDate
                                                        select new RowTypeOutDto
                                                        {

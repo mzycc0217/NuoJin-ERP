@@ -194,6 +194,8 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\AddEntrePot\EntrePoseController.cs" />
+    <Compile Include="Controllers\AddEntrePot\RepertoryController.cs" />
     <Compile Include="Controllers\ApprovalManagement\ApprovalController.cs" />
     <Compile Include="Controllers\AtlasManagement\AtlasController.cs" />
     <Compile Include="Controllers\DataBaser\DataBaseType\ChemistryTypeController.cs" />
@@ -214,6 +216,11 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\FinancialManagement\PurchasingManagementAppService\PurchaseController.cs" />
     <Compile Include="Controllers\FinancialManagement\RawMaterialAppService\RawMaterialController.cs" />
+    <Compile Include="Controllers\InEntrepot\ChemistryMonadController.cs" />
+    <Compile Include="Controllers\OutputWarehouse\ChemistryRoomController.cs" />
+    <Compile Include="Controllers\OutputWarehouse\FnishedProductRoomController.cs" />
+    <Compile Include="Controllers\OutputWarehouse\OfficeRoomController.cs" />
+    <Compile Include="Controllers\OutputWarehouse\RawRoomController.cs" />
     <Compile Include="Controllers\PersonnelMatters\AssetssAppService\AssetssController.cs" />
     <Compile Include="Controllers\PersonnelMatters\UserAppService\DepartmentController.cs" />
     <Compile Include="Controllers\PersonnelMatters\UserAppService\LeaveController.cs" />
@@ -227,6 +234,7 @@
     </Compile>
     <Compile Include="MethodWay\CreatCode.cs" />
     <Compile Include="MethodWay\EnumerationConversion.cs" />
+    <Compile Include="MethodWay\YzmCode.cs" />
     <Compile Include="Migrations\202005250559162_ly-1.cs" />
     <Compile Include="Migrations\202005250559162_ly-1.Designer.cs">
       <DependentUpon>202005250559162_ly-1.cs</DependentUpon>
@@ -491,6 +499,74 @@
     <Compile Include="Migrations\202007130613332_Add_Number.Designer.cs">
       <DependentUpon>202007130613332_Add_Number.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202007160323445_FK_purs_User.cs" />
+    <Compile Include="Migrations\202007160323445_FK_purs_User.Designer.cs">
+      <DependentUpon>202007160323445_FK_purs_User.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007160741097_Add_ three _Table.cs" />
+    <Compile Include="Migrations\202007160741097_Add_ three _Table.Designer.cs">
+      <DependentUpon>202007160741097_Add_ three _Table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007160749206_Update_float as double.cs" />
+    <Compile Include="Migrations\202007160749206_Update_float as double.Designer.cs">
+      <DependentUpon>202007160749206_Update_float as double.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007160853413_Update_Entrepot——Add_del_enpo.cs" />
+    <Compile Include="Migrations\202007160853413_Update_Entrepot——Add_del_enpo.Designer.cs">
+      <DependentUpon>202007160853413_Update_Entrepot——Add_del_enpo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007161049597_add Out Put W.cs" />
+    <Compile Include="Migrations\202007161049597_add Out Put W.Designer.cs">
+      <DependentUpon>202007161049597_add Out Put W.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007170206299_no Null Update.cs" />
+    <Compile Include="Migrations\202007170206299_no Null Update.Designer.cs">
+      <DependentUpon>202007170206299_no Null Update.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007170216174_no Null Update1.cs" />
+    <Compile Include="Migrations\202007170216174_no Null Update1.Designer.cs">
+      <DependentUpon>202007170216174_no Null Update1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007170437082_aDD_DEL_or.cs" />
+    <Compile Include="Migrations\202007170437082_aDD_DEL_or.Designer.cs">
+      <DependentUpon>202007170437082_aDD_DEL_or.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007170843371_Add_Metnhd.cs" />
+    <Compile Include="Migrations\202007170843371_Add_Metnhd.Designer.cs">
+      <DependentUpon>202007170843371_Add_Metnhd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007171022393_Add_UserDetils_Informttion.cs" />
+    <Compile Include="Migrations\202007171022393_Add_UserDetils_Informttion.Designer.cs">
+      <DependentUpon>202007171022393_Add_UserDetils_Informttion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007180423364_Add mzy_3.cs" />
+    <Compile Include="Migrations\202007180423364_Add mzy_3.Designer.cs">
+      <DependentUpon>202007180423364_Add mzy_3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007180830525_mzy——4.cs" />
+    <Compile Include="Migrations\202007180830525_mzy——4.Designer.cs">
+      <DependentUpon>202007180830525_mzy——4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007180939132_mzy_5.cs" />
+    <Compile Include="Migrations\202007180939132_mzy_5.Designer.cs">
+      <DependentUpon>202007180939132_mzy_5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007181021447_mzy_51.cs" />
+    <Compile Include="Migrations\202007181021447_mzy_51.Designer.cs">
+      <DependentUpon>202007181021447_mzy_51.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007181024522_mzy_6.cs" />
+    <Compile Include="Migrations\202007181024522_mzy_6.Designer.cs">
+      <DependentUpon>202007181024522_mzy_6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007181031418_mzy_7 Add Cangku.cs" />
+    <Compile Include="Migrations\202007181031418_mzy_7 Add Cangku.Designer.cs">
+      <DependentUpon>202007181031418_mzy_7 Add Cangku.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007190709491_Add_start And del_or.cs" />
+    <Compile Include="Migrations\202007190709491_Add_start And del_or.Designer.cs">
+      <DependentUpon>202007190709491_Add_start And del_or.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Db\Aggregate\ApprovalMangement\Approval.cs" />
     <Compile Include="Models\Db\Aggregate\ApprovalMangement\RelatedApproval.cs" />
@@ -500,9 +576,14 @@
     <Compile Include="Models\Db\Aggregate\FinancialManagement\DeviceManagement\Device.cs" />
     <Compile Include="Models\Db\Aggregate\FinancialManagement\DeviceManagement\DeviceRepair.cs" />
     <Compile Include="Models\Db\Aggregate\FinancialManagement\DeviceManagement\DeviceRepairApproval.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\PurchasingManagements\Chmistry_User.cs" />
     <Compile Include="Models\Db\Aggregate\FinancialManagement\PurchasingManagements\Content_User.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\PurchasingManagements\Content_Users.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\PurchasingManagements\FinshedProduct_User.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\PurchasingManagements\Office_User.cs" />
     <Compile Include="Models\Db\Aggregate\FinancialManagement\PurchasingManagements\PurchaseApproval.cs" />
     <Compile Include="Models\Db\Aggregate\FinancialManagement\PurchasingManagements\Pursh_User.cs" />
+    <Compile Include="Models\Db\Aggregate\FinancialManagement\PurchasingManagements\Raw_UserDetils.cs" />
     <Compile Include="Models\Db\Aggregate\FinancialManagement\PurchasingManagements\Supplier.cs" />
     <Compile Include="Models\Db\Aggregate\FinancialManagement\PurchasingManagements\Score.cs" />
     <Compile Include="Models\Db\Aggregate\FinancialManagement\UrlImage\RawImage.cs" />
@@ -523,19 +604,44 @@
     <Compile Include="Models\Db\Aggregate\FinancialManagement\WarehouseManagements\Z_RowType.cs" />
     <Compile Include="Models\Db\Aggregate\FinancialManagement\WarehouseManagements\Z_Supplies.cs" />
     <Compile Include="Models\Db\Aggregate\FinancialManagement\WarehouseManagements\Z_SuppliesType.cs" />
+    <Compile Include="Models\Db\Aggregate\OutEntropt\ChemistryMonad.cs" />
+    <Compile Include="Models\Db\Aggregate\OutEntropt\FnishedProductMonad.cs" />
+    <Compile Include="Models\Db\Aggregate\OutEntropt\OfficeMonad.cs" />
+    <Compile Include="Models\Db\Aggregate\OutEntropt\Outenport\Chemistry_UserDetils.cs" />
+    <Compile Include="Models\Db\Aggregate\OutEntropt\Outenport\FnishedProduct_UserDetils.cs" />
+    <Compile Include="Models\Db\Aggregate\OutEntropt\Outenport\Office_UsrDetils.cs" />
     <Compile Include="Models\Db\Aggregate\PersonnelMatters\Assetss\AssetExpenditure.cs" />
     <Compile Include="Models\Db\Aggregate\PersonnelMatters\Assetss\AssetIncome.cs" />
     <Compile Include="Models\Db\Aggregate\PersonnelMatters\Assetss\Assets.cs" />
     <Compile Include="Models\Db\Aggregate\PersonnelMatters\Assetss\AssetsType.cs" />
     <Compile Include="Models\Db\Aggregate\PersonnelMatters\Users\Element.cs" />
     <Compile Include="Models\Db\Aggregate\PersonnelMatters\Users\User_User_Type.cs" />
+    <Compile Include="Models\Db\Aggregate\StrongRoomst\Entrepot.cs" />
+    <Compile Include="Models\Db\Aggregate\StrongRoom\ChemistryRoom.cs" />
+    <Compile Include="Models\Db\Aggregate\StrongRoom\FnishedProductRoom.cs" />
+    <Compile Include="Models\Db\Aggregate\StrongRoom\OfficeRoom.cs" />
+    <Compile Include="Models\Db\Aggregate\StrongRoom\RawRoom.cs" />
     <Compile Include="Models\Dto\Code.cs" />
+    <Compile Include="Models\Dto\EntrepotDto\EntreportOutDto\ChemistryOutDto.cs" />
+    <Compile Include="Models\Dto\EntrepotDto\EntreportOutDto\EntrePotOut.cs" />
+    <Compile Include="Models\Dto\EntrepotDto\EntreportOutDto\FnishedProductRoomOutDto.cs" />
+    <Compile Include="Models\Dto\EntrepotDto\EntreportOutDto\OfficeOutDto.cs" />
+    <Compile Include="Models\Dto\EntrepotDto\EntreportOutDto\RawOutDto.cs" />
+    <Compile Include="Models\Dto\EntrepotDto\EntrepotInDto\ChemistryIntDto.cs" />
+    <Compile Include="Models\Dto\EntrepotDto\EntrepotInDto\EntrpotInDto.cs" />
+    <Compile Include="Models\Dto\EntrepotDto\EntrepotInDto\FnishedProductRoomIntDto.cs" />
+    <Compile Include="Models\Dto\EntrepotDto\EntrepotInDto\OfficeIntDto.cs" />
+    <Compile Include="Models\Dto\EntrepotDto\EntrepotInDto\RawInDto.cs" />
     <Compile Include="Models\Dto\InputDto\FinancialManagement\PurchasingManagementDto\GetSupplierInputDto.cs" />
     <Compile Include="Models\Dto\InputDto\FinancialManagement\WarehouseManagements\StorageRoomAddWarehouseKeeperInputDto.cs" />
     <Compile Include="Models\Dto\InputDto\PersonnelMatters\UserDto\GetUserDetailsTypeListInputDto.cs" />
+    <Compile Include="Models\Dto\Monad\ChemistryMonadInDto.cs" />
+    <Compile Include="Models\Dto\Monad\MonadOut\ChemistryMonadIOutDto.cs" />
     <Compile Include="Models\Dto\My_FlowDto\Conten_UserDto.cs" />
     <Compile Include="Models\Dto\My_FlowDto\Depertment_User.cs" />
     <Compile Include="Models\Dto\My_FlowDto\UserTypelisstDto.cs" />
+    <Compile Include="Models\Dto\OutPutDecimal\InDto\Raw_UserDetilsDto.cs" />
+    <Compile Include="Models\Dto\OutPutDecimal\OutDto\Raw_UserDetilsOutDto.cs" />
     <Compile Include="Models\Dto\OutputDto\PersonnelMatters\UserDto\GetUserListOuputDto.cs" />
     <Compile Include="Models\Db\Aggregate\PersonnelMatters\Users\Leave.cs" />
     <Compile Include="Models\Db\Aggregate\PersonnelMatters\Users\LeaveApproval.cs" />
@@ -675,8 +781,10 @@
     <Compile Include="Models\Dto\InputDto\Projecct\ProjectStateInputDto.cs" />
     <Compile Include="Models\Dto\OutputDto\Projects\ProjectStateOutputDto.cs" />
     <Compile Include="Models\Dto\PurchaseInformation\PurshDto.cs" />
+    <Compile Include="Models\Dto\PurchaseInformation\PurshOutDto\Chemistry_UserInDto.cs" />
     <Compile Include="Models\Dto\PurchaseInformation\PurshOutDto\Content_Users.cs" />
     <Compile Include="Models\Dto\PurchaseInformation\PurshOutDto\PurshOutDto.cs" />
+    <Compile Include="Models\Dto\ResponseOut.cs" />
     <Compile Include="Models\Dto\User_DTO.cs" />
     <Compile Include="Models\Dto\user_userTypeDTO.cs" />
     <Compile Include="Models\Dto\Z_DataBaseDto\Z_DataBaseType\IntoPut\ChemistryTypeDto.cs" />
@@ -712,6 +820,7 @@
     <Compile Include="Models\Util\EntityBase.cs" />
     <Compile Include="Models\Util\EnumExtensions.cs" />
     <Compile Include="Models\Util\EnupProduct.cs" />
+    <Compile Include="Models\Util\ExperAuthentication.cs" />
     <Compile Include="Models\Util\InputBase.cs" />
     <Compile Include="Models\Util\IdentityManager.cs" />
     <Compile Include="Models\Util\JwtHelper.cs" />
@@ -1027,6 +1136,57 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202007130613332_Add_Number.resx">
       <DependentUpon>202007130613332_Add_Number.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007160323445_FK_purs_User.resx">
+      <DependentUpon>202007160323445_FK_purs_User.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007160741097_Add_ three _Table.resx">
+      <DependentUpon>202007160741097_Add_ three _Table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007160749206_Update_float as double.resx">
+      <DependentUpon>202007160749206_Update_float as double.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007160853413_Update_Entrepot——Add_del_enpo.resx">
+      <DependentUpon>202007160853413_Update_Entrepot——Add_del_enpo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007161049597_add Out Put W.resx">
+      <DependentUpon>202007161049597_add Out Put W.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007170206299_no Null Update.resx">
+      <DependentUpon>202007170206299_no Null Update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007170216174_no Null Update1.resx">
+      <DependentUpon>202007170216174_no Null Update1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007170437082_aDD_DEL_or.resx">
+      <DependentUpon>202007170437082_aDD_DEL_or.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007170843371_Add_Metnhd.resx">
+      <DependentUpon>202007170843371_Add_Metnhd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007171022393_Add_UserDetils_Informttion.resx">
+      <DependentUpon>202007171022393_Add_UserDetils_Informttion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007180423364_Add mzy_3.resx">
+      <DependentUpon>202007180423364_Add mzy_3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007180830525_mzy——4.resx">
+      <DependentUpon>202007180830525_mzy——4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007180939132_mzy_5.resx">
+      <DependentUpon>202007180939132_mzy_5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007181021447_mzy_51.resx">
+      <DependentUpon>202007181021447_mzy_51.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007181024522_mzy_6.resx">
+      <DependentUpon>202007181024522_mzy_6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007181031418_mzy_7 Add Cangku.resx">
+      <DependentUpon>202007181031418_mzy_7 Add Cangku.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007190709491_Add_start And del_or.resx">
+      <DependentUpon>202007190709491_Add_start And del_or.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

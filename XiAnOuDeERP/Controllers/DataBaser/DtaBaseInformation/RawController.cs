@@ -14,6 +14,11 @@ using XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut;
 using XiAnOuDeERP.Models.Util;
 using System.Data.Entity;
 using static XiAnOuDeERP.MethodWay.CreatCode;
+using System.IO;
+using System.Web;
+using System.Drawing;
+using XiAnOuDeERP.Models.Db.Aggregate.StrongRoom;
+using XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.PurchasingManagements;
 
 namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
 {
@@ -33,8 +38,9 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
 
             try
             {
-                if (ModelState.IsValid)
-                {
+              
+
+             
                     string Moren = " N / A";
                     Z_Raw z_Raw = new Z_Raw
                     {
@@ -60,6 +66,20 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                         AppearanceState = z_RawDto.AppearanceState != null ? z_RawDto.AppearanceState : Moren,
                         WarehousingTypeId = z_RawDto.WarehousingTypeId,
                     };
+
+
+                  var result = await Task.Run(() => db.Entrepots.AsNoTracking().Where(p => p.Id > 0).FirstOrDefaultAsync());
+                
+                    RawRoom rawRoom = new RawRoom
+                    {
+                        Id = IdentityManager.NewId(),
+                        RawId = z_Raw.Id,
+                        RawNumber =0,
+                        EntrepotId= result.Id
+
+                    };
+                    db.RawRooms.Add(rawRoom);
+
                     db.Z_Raw.Add(z_Raw);
                     if (await db.SaveChangesAsync() > 0)
                     {
@@ -69,12 +89,9 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                     {
                         return Json(new { code = 400, msg = "添加失败" });
                     }
-
-                }
-                else
-                {
-                    return Json(new { code = 201, msg = "请勿添加空数据" });
-                }
+   
+           
+              
 
                 
             }
@@ -100,18 +117,58 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                 {
                     foreach (var item in z_RawDto.del_Id)
                     {
-                        //优化的地方
-                        var result =await Task.Run(()=> (db.Z_Raw.AsNoTracking().FirstOrDefault(m => m.Id == item)));
-                        db.Entry(result).State = System.Data.Entity.EntityState.Deleted;
-                    }
-                    if (await db.SaveChangesAsync() > 0)
-                    {
-                        return Json(new { code = 200, msg = "删除成功" });
-                    }
-                    else
-                    {
-                        return Json(new { code = 400, msg = "删除失败" });
-                    }
+                        var result = new Z_Raw { Id = item };
+                        db.Entry(result).State = System.Data.Entity.EntityState.Unchanged;
+                        result.del_or = 1;
+                       
+                        //var resul = new RawRoom { RawId = item };
+                        //db.Entry(resul).State = System.Data.Entity.EntityState.Unchanged;
+                        var res =await db.RawRooms.SingleOrDefaultAsync(s => s.RawId == item);
+                        if (res!=null)
+                        {
+                         res.RawNumber = 10;
+                        res.RawOutNumber = 0;
+                        res.Warning_RawNumber = 0;
+                        }
+                     
+
+                     
+                    }   if (await db.SaveChangesAsync() > 0)
+                        {
+
+                            return Json(new { code = 200, msg = "删除成功" });
+                        }
+                        return Json(new
+                        {
+                            code = 201,
+                            msg = "删除失败;"
+                        });
+                  
+                    ////[Pursh_User]
+
+                    ////var Presud = new Purchase { RawId = item };
+                    ////db.Entry(Presud).State = System.Data.Entity.EntityState.Deleted;
+                    ////var PresudU = new Pursh_User { Purchase_Id = Presud.Id };
+                    ////db.Entry(PresudU).State = System.Data.Entity.EntityState.Deleted;
+                    ////优化的地方
+                    //using (XiAnOuDeContext db = new XiAnOuDeContext()) {
+                    //    var reltp = await Task.Run(() => db.RawRooms.SingleOrDefaultAsync(p => p.RawId == item));
+                    //    db.RawRooms.Remove(reltp);
+                    //    await db.SaveChangesAsync();
+                    //    // var resud = new RawRoom { RawId = item };
+                    //    //  db.Entry(resud).State = System.Data.Entity.EntityState.Deleted;
+
+                    //}
+                    //using (XiAnOuDeContext db = new XiAnOuDeContext())
+                    //{
+                    //    var relt = await Task.Run(() => db.Z_Raw.SingleOrDefaultAsync(p => p.Id == item));
+                    //   db.Z_Raw.Remove(relt);
+
+
+
+                    //  db.Entry(result).State = System.Data.Entity.EntityState.Deleted;
+
+
                 }
                 else
                 {
@@ -264,7 +321,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                 {
 
                     var result =await Task.Run(() => (db.Z_Raw
-                         .Where(x => x.Name.Contains(z_RawOutPut.Name))
+                         .Where(x =>x.del_or==0 && x.Id > 0 || x.Name.Contains(z_RawOutPut.Name))
                        .Select(x => new Z_RawOutPut
                        {
                            Id = (x.Id).ToString(),
@@ -306,7 +363,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
 
 
                     var result = await Task.Run(() => (db.Z_Raw
-                            .Where(x => x.Id == id).Select(x => new Z_RawOutPut
+                            .Where(x => x.del_or == 0 && x.Id == id).Select(x => new Z_RawOutPut
                             {
                                 Id = (x.Id).ToString(),
                                 Name = x.Name,
@@ -342,7 +399,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                 if (z_RawOutPut.PageIndex == -1 && z_RawOutPut.PageSize == -1)
                 {
                     var result = await Task.Run(() => (db.Z_Raw
-                            .Where(x => x.Id > 0).Select(x => new Z_RawOutPut
+                            .Where(x => x.del_or == 0 && x.Id > 0).Select(x => new Z_RawOutPut
                             {
                                 Id = (x.Id).ToString(),
                                 Name = x.Name,
@@ -378,7 +435,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                 if (z_RawOutPut.PageIndex != null && z_RawOutPut.PageSize != null)
                 {
                     var result = await Task.Run(() => (db.Z_Raw
-                            .Where(x => x.Id > 0).Select(x => new Z_RawOutPut
+                            .Where(x => x.del_or == 0 && x.Id > 0).Select(x => new Z_RawOutPut
                             {
                                 Id = (x.Id).ToString(),
                                 Name = x.Name,
@@ -415,7 +472,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                 if (z_RawOutPut.PageIndex != null && z_RawOutPut.PageSize != null && !string.IsNullOrWhiteSpace(z_RawOutPut.Id))
                 {
                     var result = Task.Run(() => (db.Z_Raw
-                          .Where(x => x.Id == long.Parse(z_RawOutPut.Id))
+                          .Where(x => x.del_or == 0 && x.Id == long.Parse(z_RawOutPut.Id))
                         .Select(x => new Z_RawOutPut
                         {
                             Id = (x.Id).ToString(),
@@ -478,14 +535,40 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
           
             try
             {
-                Random random = new Random();
-                var s = random.Next();
-              
-                    Creatcodes code1 = new Creatcodes(CreatEncond);
-                    var st = await Task.Run(() => code1());
-                
-                    return Json(new { code = 200, data = st });
-                
+
+
+
+
+
+                //  CodeHandler _vierificationCodeServices = new CodeHandler();
+                //  string code = "";
+                //  System.IO.MemoryStream ms = _vierificationCodeServices.Create(out code);
+                ////  HttpContext.Session.SetString("LoginValidateCode", code);
+                //  Response.Body.Dispose();
+                //  return File(ms.ToArray(), @"image/png");
+
+                //Random random = new Random();
+                //var s = random.Next();
+
+                Creatcodes code1 = new Creatcodes(CreatEncond);
+                var st = await Task.Run(() => code1());
+                // YzmCode yzmCode = new YzmCode();
+
+                //  var image = yzmCode.GetValidateCode();
+                //  byte[] buffer = (byte[])dr["ImageContent"];//假设这里是byte数组
+                //  MemoryStream stream = new MemoryStream();
+                // stream.Write(image, 0, image.Length);
+                //  var img = Image.FromStream(stream, true);
+                ////photo = Image.FromStream(ms, true);
+                //System.Drawing.Image img = System.Drawing.Image.FromStream(stream);
+                ////stream.
+                //img.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);//xxx.jpeg为文件名
+
+
+                return Json(new { code = 200, data = st });
+
+                // return Json(new { code = 200, data = st });
+
                 //if ((s % 2) != 0)
                 //{
                 //    Creatcodes code2 = new Creatcodes(CreatEnconds);
@@ -493,7 +576,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                 //    return Json(new { code = 200, data = st });
                 //}
 
-               
+
             }
             catch (Exception)
             {
@@ -504,8 +587,10 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
 
 
         }
+
+
+        
        
 
-
     }
-}
+    }

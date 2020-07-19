@@ -11,6 +11,7 @@ using XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut;
 using XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut;
 using XiAnOuDeERP.Models.Util;
 using System.Data.Entity;
+using XiAnOuDeERP.Models.Db.Aggregate.StrongRoom;
 
 namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
 {
@@ -31,9 +32,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
 
             try
             {
-                if (ModelState.IsValid)
-                {
-
+              
                     Z_Office z_Office = new Z_Office
                     {
                         Id = IdentityManager.NewId(),
@@ -58,6 +57,16 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                         AppearanceState = z_OfficeDto.AppearanceState,
                         WarehousingTypeId = z_OfficeDto.WarehousingTypeId,
                     };
+                    OfficeRoom officeRoom = new OfficeRoom
+                    {
+                        Id = IdentityManager.NewId(),
+                        OfficeId = z_Office.Id,
+                       
+                        RawNumber =0,
+                      
+
+                    };
+                    db.Offices.Add(officeRoom);
                     db.Z_Office.Add(z_Office);
                     if (await db.SaveChangesAsync() > 0)
                     {
@@ -68,11 +77,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                         return Json(new { code = 400, msg = "添加失败" });
                     }
 
-                }
-                else
-                {
-                    return Json(new { code = 201, msg = "请勿添加空数据" });
-                }
+              
 
 
             }
@@ -99,8 +104,16 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                     foreach (var item in z_OfficeDto.del_Id)
                     {
                         var result = new Z_Office { Id= item };
-                      //  var result = Task.Run(() => (db.Z_Office.AsNoTracking().FirstOrDefault(m => m.Id == item)));
-                        db.Entry(result).State = System.Data.Entity.EntityState.Deleted;
+                        db.Entry(result).State = System.Data.Entity.EntityState.Unchanged;
+                        result.del_or = 1;
+                       // var resul = new OfficeRoom { OfficeId = item };
+                        var res = await db.Offices.SingleOrDefaultAsync(s => s.OfficeId == item);
+                        if (res != null)
+                        {
+                            res.RawNumber = 10;
+                            res.RawOutNumber = 0;
+                            res.Warning_RawNumber = 0;
+                        }
                     }
                     if (await db.SaveChangesAsync() > 0)
                     {
@@ -263,7 +276,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                 {
 
                     var result = await Task.Run(() => (db.Z_Office
-                          .Where(x => x.Name.Contains(z_OfficeOutPut.Name))
+                          .Where(x => x.del_or == 0 && x.Id > 0 || x.Name.Contains(z_OfficeOutPut.Name))
                         .Select(x => new Z_OfficeOutPut
                         {
                             Id = (x.Id).ToString(),
@@ -305,7 +318,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                 if (z_OfficeOutPut.PageIndex != null && z_OfficeOutPut.PageSize != null)
                 {
                     var result = await Task.Run(() => (db.Z_Office
-                            .Where(x => x.Id > 0).Select(x => new Z_OfficeOutPut
+                            .Where(x => x.del_or == 0 && x.Id > 0).Select(x => new Z_OfficeOutPut
                             {
                                 Id = (x.Id).ToString(),
                                 Name = x.Name,
@@ -342,7 +355,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                 if (z_OfficeOutPut.PageIndex != null && z_OfficeOutPut.PageSize != null && !string.IsNullOrWhiteSpace(z_OfficeOutPut.Id))
                 {
                     var result = Task.Run(() => (db.Z_Office
-                          .Where(x => x.Id == long.Parse(z_OfficeOutPut.Id))
+                          .Where(x => x.del_or == 0 && x.Id == long.Parse(z_OfficeOutPut.Id))
                         .Select(x => new Z_OfficeOutPut
                         {
                             Id = (x.Id).ToString(),

@@ -13,7 +13,7 @@ namespace XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.PurchasingManageme
     [Table("Pursh_User")]
     public class Pursh_User : EntityBase
     {
-        //
+       
 
         /// <summary>
         /// 人员id
@@ -32,8 +32,8 @@ namespace XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.PurchasingManageme
         public string ContentDes { get; set; }
 
 
-        public Purchase Purchase { get; set; }
+        public virtual Purchase Purchase { get; set; }
 
-        public UserDetails UserDetails { get; set; }
+        public virtual UserDetails UserDetails { get; set; }
     }
 }

@@ -14,7 +14,7 @@ using XiAnOuDeERP.Models.Db.Aggregate.ApprovalMangement;
 
 namespace XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagements
 {
-    // <summary>
+    /// <summary>
     /// 化学用品
     /// </summary>
     [Table("Z_Chemistry")]
@@ -180,12 +180,16 @@ namespace XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagemen
 
         #region 设备字段
 
-     
+
 
         #endregion
 
 
 
+        /// <summary>
+        /// 是否删除
+        /// </summary>
+        public int del_or { get; set; }
 
 
 

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using XiAnOuDeERP.Models.Db;
 using XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagements;
+using XiAnOuDeERP.Models.Db.Aggregate.StrongRoom;
 using XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBaseType.IntoPut;
 using XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBaseType.OutoPut;
 using XiAnOuDeERP.Models.Util;
@@ -78,8 +79,11 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DataBaseType
                 {
                     foreach (var item in finshedProductTypeDto.del_Id)
                     {
-                      var result = db.Z_FinshedProductType.AsNoTracking().First(m => m.Id == item);
-                        db.Entry(result).State = System.Data.Entity.EntityState.Deleted;
+                        var result = new Z_FinshedProductType { Id = item };
+                      //  var result = db.Z_FinshedProductType.AsNoTracking().First(m => m.Id == item);
+                        db.Entry(result).State = System.Data.Entity.EntityState.Unchanged;
+                        result.IsDelete = true;
+                       
                     }
                   
                     if (await db.SaveChangesAsync() > 0)
@@ -166,7 +170,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DataBaseType
             {
                 if (finshedProductTypeOutDto.PageIndex != null && finshedProductTypeOutDto.PageSize != null && !string.IsNullOrWhiteSpace(finshedProductTypeOutDto.Name))
                 {
-                    var result = await Task.Run(() => (from p in db.Z_FinshedProductType.Where(p => p.Name.Contains(finshedProductTypeOutDto.Name))
+                    var result = await Task.Run(() => (from p in db.Z_FinshedProductType.Where(p => p.Name.Contains(finshedProductTypeOutDto.Name)&& p.IsDelete == false)
                                                        orderby p.CreateDate
                                                        select new RowTypeOutDto
                                                        {
@@ -182,7 +186,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DataBaseType
 
                 if (finshedProductTypeOutDto.PageIndex == -1 && finshedProductTypeOutDto.PageSize == -1)
                 {
-                    var result = await Task.Run(() => (from p in db.Z_FinshedProductType.Where(p => true)
+                    var result = await Task.Run(() => (from p in db.Z_FinshedProductType.Where(p => true&& p.IsDelete == false)
                                                        select new RowTypeOutDto
                                                        {
                                                            Id = (p.Id).ToString(),
@@ -199,7 +203,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DataBaseType
 
                 if (finshedProductTypeOutDto.PageIndex != null && finshedProductTypeOutDto.PageSize != null)
                 {
-                    var result = await Task.Run(() => (from p in db.Z_FinshedProductType.Where(p => true)
+                    var result = await Task.Run(() => (from p in db.Z_FinshedProductType.Where(p => true&& p.IsDelete == false)
                                                        orderby p.CreateDate
                                                        select new RowTypeOutDto
                                                        {
@@ -213,7 +217,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DataBaseType
                 }
                 if (finshedProductTypeOutDto.PageIndex != null && finshedProductTypeOutDto.PageSize != null && !string.IsNullOrWhiteSpace(finshedProductTypeOutDto.Id))
                 {
-                    var result = await Task.Run(() => (from p in db.Z_FinshedProductType.Where(p => p.Id == long.Parse(finshedProductTypeOutDto.Id))
+                    var result = await Task.Run(() => (from p in db.Z_FinshedProductType.Where(p => p.Id == long.Parse(finshedProductTypeOutDto.Id)&& p.IsDelete == false)
                                                        orderby p.CreateDate
                                                        select new RowTypeOutDto
                                                        {

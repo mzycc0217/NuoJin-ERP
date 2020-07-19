@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using XiAnOuDeERP.MethodWay;
 using XiAnOuDeERP.Models.Db;
 using XiAnOuDeERP.Models.Db.Aggregate.PersonnelMatters.Users;
 using XiAnOuDeERP.Models.Dto;
@@ -37,37 +38,50 @@ namespace XiAnOuDeERP.PersonnelMatters.Controllers.UserAppService
         [AppAuthentication(Cancel = true)]
         public async Task<LoginOutputDto> Login(LoginInputDto input)
         {
-            var passWord = NetCryptoHelper.EncryptAes(input.Password, NetCryptoHelper.AesKey);
-
-            var user = await db.UserDetails
-                .Include(m => m.User)
-                .SingleOrDefaultAsync(m => m.User.UserName == input.UserName && m.User.Password == passWord && !m.IsDelete);
-
-            if (user == null)
+            if (input.VerificationCode!=null&&input.Verification!=null)
             {
-                throw new HttpResponseException(new HttpResponseMessage()
+               var yzm= RedisHelper.StringGet(input.Verification);
+                if (yzm.ToUpper()!= input.VerificationCode.ToUpper())
                 {
-                    Content = new StringContent(JsonConvert.SerializeObject(new ResponseApi() { Code = EExceptionType.Implement, Message = "用户名或密码错误" }))
-                });
-            }
-
-            var userDetailsType = await db.UserDetailsTypes.Include(m=>m.User).Include(m=>m.UserType).Where(m => m.UserId == user.Id).ToListAsync();
-
-            if (userDetailsType == null && userDetailsType.Count < 1)
-            {
-                throw new HttpResponseException(new HttpResponseMessage()
+                    throw new HttpResponseException(new HttpResponseMessage()
+                    {
+                        Content = new StringContent(JsonConvert.SerializeObject(new ResponseApi() { Code = EExceptionType.Implement, Message = "验证码错误" }))
+                    });
+                }
+                if (yzm == input.VerificationCode)
                 {
-                    Content = new StringContent(JsonConvert.SerializeObject(new ResponseApi() { Code = EExceptionType.Implement, Message = "用户未绑定该类型" }))
-                });
-            }
 
-            var userTypes = await db.UserDetailsTypes.Include(m => m.UserType).Where(m => m.UserId == user.Id).Select(m => m.UserType).ToListAsync();
+                    var passWord = NetCryptoHelper.EncryptAes(input.Password, NetCryptoHelper.AesKey);
 
-            var userTypeKeys = userTypes.Select(m => m.Key).ToList();
-            var userTypeIds = userTypes.Select(m => m.Id).ToList();
-            var userTypeNames = userTypes.Select(m => m.Name).ToList();
+                    var user = await db.UserDetails
+                        .Include(m => m.User)
+                        .SingleOrDefaultAsync(m => m.User.UserName == input.UserName && m.User.Password == passWord && !m.IsDelete);
 
-            var payload = new Dictionary<string, object>
+                    if (user == null)
+                    {
+                        throw new HttpResponseException(new HttpResponseMessage()
+                        {
+                            Content = new StringContent(JsonConvert.SerializeObject(new ResponseApi() { Code = EExceptionType.Implement, Message = "用户名或密码错误" }))
+                        });
+                    }
+
+                    var userDetailsType = await db.UserDetailsTypes.Include(m => m.User).Include(m => m.UserType).Where(m => m.UserId == user.Id).ToListAsync();
+
+                    if (userDetailsType == null && userDetailsType.Count < 1)
+                    {
+                        throw new HttpResponseException(new HttpResponseMessage()
+                        {
+                            Content = new StringContent(JsonConvert.SerializeObject(new ResponseApi() { Code = EExceptionType.Implement, Message = "用户未绑定该类型" }))
+                        });
+                    }
+
+                    var userTypes = await db.UserDetailsTypes.Include(m => m.UserType).Where(m => m.UserId == user.Id).Select(m => m.UserType).ToListAsync();
+
+                    var userTypeKeys = userTypes.Select(m => m.Key).ToList();
+                    var userTypeIds = userTypes.Select(m => m.Id).ToList();
+                    var userTypeNames = userTypes.Select(m => m.Name).ToList();
+
+                    var payload = new Dictionary<string, object>
                         {
                             {"userId", user.Id},
                             {"userName",user.User.UserName},
@@ -78,40 +92,82 @@ namespace XiAnOuDeERP.PersonnelMatters.Controllers.UserAppService
                             {"exp", DateTimeOffset.UtcNow.AddDays(15).ToFileTime()}
                         };//生成Token
 
-            var token = JwtHelper.CreateToken(payload);//加密Token
+                    var token = JwtHelper.CreateToken(payload);//加密Token
 
-            RedisHelper.StringSet(RedisKeyManger.GetWebTokenKey(user.Id), token, TimeSpan.FromMinutes(60)/*null*/);//将Token存入Redis中
+                    RedisHelper.StringSet(RedisKeyManger.GetWebTokenKey(user.Id), token, TimeSpan.FromMinutes(60)/*null*/);//将Token存入Redis中
 
-            return new LoginOutputDto()
-            {
-                Token = token,
-                User = new UserOutputDto()
-                {
-                    UserId = user.Id.ToString(),
-                    CreateDate = user.CreateDate,
-                    Department = user.User.Department,
-                    DepartmentId = user.User.DepartmentId.ToString(),
-                    UserName = user.User.UserName,
-                    UpdateDate = user.UpdateDate,
-                    UserTypeStr = userTypeNames,
-                    UserTypeId = userTypeIds.Select(m=>m.ToString()).ToList(),
-                    Address = user.Address,
-                    DateOfBirth = user.DateOfBirth,
-                    Education = user.Education,
-                    Email = user.Email,
-                    IdCard = user.IdCard,
-                    Nation = user.Nation,
-                    Phone = user.Phone,
-                    PortraitPath = user.PortraitPath,
-                    RealName = user.RealName,
-                    SexType = user.SexType,
-                    SexTypeStr = user.SexType.GetDescription(),
-                    WeiXin = user.WeiXin,
-                    PositionType = user.User.PositionType,
-                    PositionTypeStr = user.User.PositionType.GetDescription(),
-                    IsCancellation = user.IsCancellation
+                    return new LoginOutputDto()
+                    {
+                        Token = token,
+                        User = new UserOutputDto()
+                        {
+                            UserId = user.Id.ToString(),
+                            CreateDate = user.CreateDate,
+                            Department = user.User.Department,
+                            DepartmentId = user.User.DepartmentId.ToString(),
+                            UserName = user.User.UserName,
+                            UpdateDate = user.UpdateDate,
+                            UserTypeStr = userTypeNames,
+                            UserTypeId = userTypeIds.Select(m => m.ToString()).ToList(),
+                            Address = user.Address,
+                            DateOfBirth = user.DateOfBirth,
+                            Education = user.Education,
+                            Email = user.Email,
+                            IdCard = user.IdCard,
+                            Nation = user.Nation,
+                            Phone = user.Phone,
+                            PortraitPath = user.PortraitPath,
+                            RealName = user.RealName,
+                            SexType = user.SexType,
+                            SexTypeStr = user.SexType.GetDescription(),
+                            WeiXin = user.WeiXin,
+                            PositionType = user.User.PositionType,
+                            PositionTypeStr = user.User.PositionType.GetDescription(),
+                            IsCancellation = user.IsCancellation
+                        }
+                    };
+
+
                 }
-            };
+
+                throw new HttpResponseException(new HttpResponseMessage()
+                {
+                    Content = new StringContent(JsonConvert.SerializeObject(new ResponseApi() { Code = EExceptionType.Implement, Message = "系统异常请联系管理员" }))
+                });
+
+            }
+
+            else
+            {
+                throw new HttpResponseException(new HttpResponseMessage()
+                {
+                    Content = new StringContent(JsonConvert.SerializeObject(new ResponseApi() { Code = EExceptionType.Implement, Message = "请填写验证码" }))
+                });
+            }
+        }
+
+
+
+        /// <summary>
+        /// 验证码
+        /// </summary>
+        /// <param></param>
+        /// <returns></returns>
+        [HttpGet]
+        [AppAuthentication(Cancel = true)]
+        public async Task<IHttpActionResult> GetVerCode()
+        {
+          
+            Creatcodes code2 = CreatCode.CreatEnconds;
+            string yzm = code2();
+            YzmCode yzmCode = new YzmCode();
+            var uid = Guid.NewGuid().ToString("N");
+            //  result.Headers.Add("Verification", uid); 
+            RedisHelper.StringSet(uid, yzm, TimeSpan.FromSeconds(60));
+            var s = await Task.Run(()=>(  yzmCode.CreateCheckCodeImage(yzm))); 
+          
+            return Json(new {uid=uid,ver=s });
+        
         }
 
         /// <summary>
@@ -753,9 +809,20 @@ namespace XiAnOuDeERP.PersonnelMatters.Controllers.UserAppService
         [HttpPost]
         public async Task UpdatePassword(UpdateUserPassWordInputDto input)
         {
-            var oldPassWord = NetCryptoHelper.EncryptAes(input.OldPassWord, NetCryptoHelper.AesKey);
 
-            var user = await db.User.SingleOrDefaultAsync(m => m.Id == input.UserId && m.PositionType != EPositionType.Quit && !m.IsDelete);
+            var userId = ((UserIdentity)User.Identity).UserId;
+
+
+            var oldPassWord = NetCryptoHelper.EncryptAes(input.OldPassWord, NetCryptoHelper.AesKey);
+            //  var users=await Task.Run(()=>db.User.SingleOrDefaultAsync(p=>p.))
+            var resu = await db.UserDetails.Where(p => p.Id == userId).ToListAsync();
+            long? us_id = null;
+            foreach (var item in resu)
+            {
+                us_id = item.UserId;
+            }
+            
+            var user = await db.User.SingleOrDefaultAsync(m => m.Id == us_id && m.PositionType != EPositionType.Quit && !m.IsDelete);
 
             if (string.IsNullOrWhiteSpace(input.PassWord))
             {

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using XiAnOuDeERP.Models.Db;
 using XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagements;
+using XiAnOuDeERP.Models.Db.Aggregate.StrongRoom;
 using XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBaseType.IntoPut;
 using XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBaseType.OutoPut;
 using XiAnOuDeERP.Models.Util;
@@ -78,8 +79,12 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DataBaseType
                 {
                     foreach (var item in chemistryTypeDto.del_Id)
                     {
-                     var result = db.Z_ChemistryType.AsNoTracking().First(m => m.Id == item);
-                        db.Entry(result).State = System.Data.Entity.EntityState.Deleted;
+                        var result = new Z_ChemistryType { Id = item };
+                         db.Entry(result).State = System.Data.Entity.EntityState.Unchanged;
+                        result.IsDelete = true;
+                       
+                        //   var result = db.Z_ChemistryType.AsNoTracking().First(m => m.Id == item);
+                     
                     }
                   
                     if (await db.SaveChangesAsync() > 0)
@@ -166,7 +171,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DataBaseType
             {
                 if (chemistryTypeOutDto.PageIndex != null && chemistryTypeOutDto.PageSize != null && !string.IsNullOrWhiteSpace(chemistryTypeOutDto.Name))
                 {
-                    var result = await Task.Run(() => (from p in db.Z_ChemistryType.AsNoTracking().Where(p => p.Name.Contains(chemistryTypeOutDto.Name))
+                    var result = await Task.Run(() => (from p in db.Z_ChemistryType.AsNoTracking().Where(p =>p.IsDelete==false && p.Id>0 ||p.Name.Contains(chemistryTypeOutDto.Name))
                                                        orderby p.CreateDate
                                                        select new RowTypeOutDto
                                                        {
@@ -182,7 +187,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DataBaseType
 
                 if (chemistryTypeOutDto.PageIndex == -1 && chemistryTypeOutDto.PageSize == -1)
                 {
-                    var result = await Task.Run(() => (from p in db.Z_ChemistryType.AsNoTracking().Where(p => true)
+                    var result = await Task.Run(() => (from p in db.Z_ChemistryType.AsNoTracking().Where(p => true&& p.IsDelete == false)
                                                        select new RowTypeOutDto
                                                        {
                                                            Id = (p.Id).ToString(),
@@ -199,7 +204,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DataBaseType
 
                 if (chemistryTypeOutDto.PageIndex != null && chemistryTypeOutDto.PageSize != null)
                 {
-                    var result = await Task.Run(() => (from p in db.Z_ChemistryType.AsNoTracking().Where(p => true)
+                    var result = await Task.Run(() => (from p in db.Z_ChemistryType.AsNoTracking().Where(p => true&& p.IsDelete == false)
                                                        orderby p.CreateDate
                                                        select new RowTypeOutDto
                                                        {
@@ -213,7 +218,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DataBaseType
                 }
                 if (chemistryTypeOutDto.PageIndex != null && chemistryTypeOutDto.PageSize != null && !string.IsNullOrWhiteSpace(chemistryTypeOutDto.Id))
                 {
-                    var result = await Task.Run(() => (from p in db.Z_ChemistryType.AsNoTracking().Where(p => p.Id == long.Parse(chemistryTypeOutDto.Id))
+                    var result = await Task.Run(() => (from p in db.Z_ChemistryType.AsNoTracking().Where(p => p.Id == long.Parse(chemistryTypeOutDto.Id)&& p.IsDelete == false)
                                                        orderby p.CreateDate
                                                        select new RowTypeOutDto
                                                        {

@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using XiAnOuDeERP.Models.Util;
 
 namespace XiAnOuDeERP.Models.Dto.PurchaseInformation
 {
     public class PurshDto
     {
+        /// <summary>
+        /// 采购单id
+        /// </summary>
         public long Id { get; set; }
         /// <summary>
         /// 用途
@@ -22,7 +26,7 @@ namespace XiAnOuDeERP.Models.Dto.PurchaseInformation
         /// <summary>
         /// 申请数量
         /// </summary>
-        public double ApplyNumber { get; set; }
+        public double? ApplyNumber { get; set; }
 
         /// <summary>
         /// 准购数量
@@ -51,6 +55,13 @@ namespace XiAnOuDeERP.Models.Dto.PurchaseInformation
         /// </summary>
 
         public string ApplicantRemarks { get; set; }
+
+
+        /// <summary>
+        /// 采购数量
+        /// </summary>
+
+        public double PurchaseAmount { get; set; }
 
         /// <summary>
         /// 申请日期
@@ -122,7 +133,7 @@ namespace XiAnOuDeERP.Models.Dto.PurchaseInformation
         /// <summary>
         /// 项目Id
         /// </summary>
-        public long ProjectId { get; set; }
+        public long? ProjectId { get; set; }
 
         /// <summary>
         /// 供货商Id

@@ -57,7 +57,7 @@ namespace XiAnOuDeERP.Controllers.File
 
 
             var dataFilstk = path4 + dateFolder;
-            var dataFstk = dateFolder + "外观";
+            var dataFstk = dateFolder + "合同";
             var direcPathtstk = Path.Combine(dataFilstk, dataFstk);
             if (!Directory.Exists(direcPath))
             {
@@ -123,7 +123,7 @@ namespace XiAnOuDeERP.Controllers.File
                     Url = url
                 };
             }
-            if (int.Parse(Sign) == 4)//外观
+            if (int.Parse(Sign) == 4)//合同
             {
                 var savePath = Path.Combine(direcPathtstk, fileName);
                 data1.SaveAs(savePath);

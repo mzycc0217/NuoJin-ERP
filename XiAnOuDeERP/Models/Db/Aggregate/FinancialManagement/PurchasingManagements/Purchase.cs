@@ -69,6 +69,12 @@ namespace XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.PurchasingManageme
         public DateTime? ApplyTime { get; set; }
 
         /// <summary>
+        /// 采购数量
+        /// </summary>
+        public double? PurchaseAmount { get; set; }
+
+
+        /// <summary>
         /// 申请是否完成 3代表完成
         /// </summary>
         public int is_or { get; set; }

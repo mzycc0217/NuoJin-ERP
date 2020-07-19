@@ -24,5 +24,15 @@ namespace XiAnOuDeERP.Models.Dto.InputDto.PersonnelMatters.Users
         ///// 用户类型Id
         ///// </summary>
         //public long UserTypeId { get; set; }
+
+        /// <summary>
+        /// 标识
+        /// </summary>
+        public string Verification{ get; set; }
+
+        /// <summary>
+        /// 验证码
+        /// </summary>
+        public string VerificationCode { get; set; }
     }
 }

@@ -37,7 +37,7 @@ namespace XiAnOuDeERP.FinancialManagement.Controllers.UserAppService
         /// <returns></returns>
         [HttpPost]
         public async Task Add(PurchaseInputDto input)
-        {  
+        {
             var userId = ((UserIdentity)User.Identity).UserId;
             try
             {
@@ -48,16 +48,17 @@ namespace XiAnOuDeERP.FinancialManagement.Controllers.UserAppService
                     amount = (decimal)input.Price * (decimal)input.QuasiPurchaseNumber;
                 }
 
-                if (input.User_id!=null)
+                if (input.RawId != null)
                 {
-                    var result =await Task.Run(()=> db.Z_Raw.SingleOrDefaultAsync(p => p.Id == input.RawId));
-                    int? is_or = null;
-                    if (result.Number >= input.ApplyNumber)
+                    var result = await Task.Run(() => db.RawRooms.AsNoTracking().SingleOrDefaultAsync(p => p.RawId == input.RawId));
+                    int is_or;
+
+                    if (result.RawNumber >= input.ApplyNumber)
                     {
                         //可以直接领取
                         is_or = 1;
                     }
-                    if (result.Number < input.ApplyNumber)
+                    else
                     {
                         //不可以直接领取
                         is_or = 2;
@@ -65,45 +66,45 @@ namespace XiAnOuDeERP.FinancialManagement.Controllers.UserAppService
 
 
                     var data = new Purchase()
-                {
-                    Id = IdentityManager.NewId(),
-                    Amount = amount,
-                    ApplicantId = userId,
-                    ApplicantRemarks = input.ApplicantRemarks,
-                    ApplyNumber = input.ApplyNumber,
-                    ApplyTime = input.ApplyTime,
-                    ApprovalType = EApprovalType.UnderReview,
-                    ArrivalTime = input.ArrivalTime,
-                    SupplierId = input.SupplierId,
-                    Enclosure = input.Enclosure,
-                    Price = input.Price,
-                  
-                    PurchaseContract = input.PurchaseContract,
-                    PurchaseTime = input.PurchaseTime,
-                    Purpose = input.Purpose,
-                    QuasiPurchaseNumber = input.QuasiPurchaseNumber,
-                    RawId = input.RawId,
-                    WaybillNumber = input.WaybillNumber,
-                    ProjectId = (long)input.ProjectId,
-                    ApprovalDesc = input.ApprovalDesc,
-                    ExpectArrivalTime = input.ExpectArrivalTime,
-                    IsDelete = false,
-                    User_Id = input.User_id,
-                    is_or= (int)is_or
+                    {
+                        Id = IdentityManager.NewId(),
+                        Amount = amount,
+                        ApplicantId = userId,
+                        ApplicantRemarks = input.ApplicantRemarks,
+                        ApplyNumber = input.ApplyNumber,
+                        ApplyTime = input.ApplyTime,
+                        ApprovalType = EApprovalType.UnderReview,
+                        ArrivalTime = input.ArrivalTime,
+                        SupplierId = input.SupplierId,
+                        Enclosure = input.Enclosure,
+                        Price = input.Price,
+
+                        PurchaseContract = input.PurchaseContract,
+                        PurchaseTime = input.PurchaseTime,
+                        Purpose = input.Purpose,
+                        QuasiPurchaseNumber = input.ApplyNumber,
+                        RawId = input.RawId,
+                        WaybillNumber = input.WaybillNumber,
+                        ProjectId = (long)input.ProjectId,
+                        ApprovalDesc = input.ApprovalDesc,
+                        ExpectArrivalTime = input.ExpectArrivalTime,
+                        IsDelete = false,
+                        User_Id = input.User_id,
+                        is_or = (int)is_or,
                         // ApprovalKey = related.ApprovalKey,
-                        // ApprovalIndex = 0
+                        ApprovalIndex = 0
                     };
 
-                db.Purchases.Add(data);
+                    db.Purchases.Add(data);
                 }
-                if (input.User_id == null)
-                {
-                    throw new HttpResponseException(new HttpResponseMessage()
-                    {
-                        Content = new StringContent(JsonConvert.SerializeObject(new ResponseApi() { Code = EExceptionType.Implement, Message = "请填写必要字段" }))
-                    });
-                }
-                if ( await db.SaveChangesAsync()>0)
+                //if (input.User_id == null)
+                //{
+                //    throw new HttpResponseException(new HttpResponseMessage()
+                //    {
+                //        Content = new StringContent(JsonConvert.SerializeObject(new ResponseApi() { Code = EExceptionType.Implement, Message = "请填写必要字段" }))
+                //    });
+                //}
+                if (await db.SaveChangesAsync() > 0)
                 {
                     throw new HttpResponseException(new HttpResponseMessage()
                     {
@@ -116,7 +117,7 @@ namespace XiAnOuDeERP.FinancialManagement.Controllers.UserAppService
 
                 throw;
             }
-         
+
 
             //var related = await db.RelatedApprovals.SingleOrDefaultAsync(m => m.RelatedKey == "Purchase");
 
@@ -138,9 +139,9 @@ namespace XiAnOuDeERP.FinancialManagement.Controllers.UserAppService
             //    });
             //}
 
-          
 
-           
+
+
             //var userTypeKey = await db.Approvals.SingleOrDefaultAsync(m => m.Deis == 1 && m.Key == data.ApprovalKey);
 
             //if (userTypeKey != null)
@@ -550,7 +551,7 @@ namespace XiAnOuDeERP.FinancialManagement.Controllers.UserAppService
                 data.PurchaseContract = input.PurchaseContract;
                 data.PurchaseTime = input.PurchaseTime;
                 data.Purpose = input.Purpose;
-                data.QuasiPurchaseNumber = input.QuasiPurchaseNumber;
+                data.QuasiPurchaseNumber = input.ApplyNumber;
                 data.RawMaterialId = input.RawMaterialId;
                 data.WaybillNumber = input.WaybillNumber;
                 data.ProjectId = (long)input.ProjectId;

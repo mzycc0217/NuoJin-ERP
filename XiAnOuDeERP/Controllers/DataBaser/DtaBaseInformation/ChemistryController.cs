@@ -8,6 +8,7 @@ using XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut;
 using XiAnOuDeERP.Models.Util;
 using System.Data.Entity;
 using XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut;
+using XiAnOuDeERP.Models.Db.Aggregate.StrongRoom;
 
 namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
 {
@@ -27,8 +28,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
 
             try
             {
-                if (ModelState.IsValid)
-                {
+              
 
                     Z_Chemistry z_Chemistry = new Z_Chemistry
                     {
@@ -55,6 +55,19 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                         WarehousingTypeId = z_ChemistryDto.WarehousingTypeId,
                     };
                     db.Z_Chemistry.Add(z_Chemistry);
+
+                    ChemistryRoom chemistryRoom = new ChemistryRoom
+                    {
+                        Id = IdentityManager.NewId(),
+                        ChemistryId = z_Chemistry.Id,
+                       // User_id = chemistryIntDto.User_id,
+                       // EntrepotId = chemistryIntDto.EntrepotId,
+                        RawNumber = 0,
+                       
+
+                    };
+                    db.ChemistryRooms.Add(chemistryRoom);
+
                     if (await db.SaveChangesAsync() > 0)
                     {
                         return Json(new { code = 200, msg = "添加成功" });
@@ -64,11 +77,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                         return Json(new { code = 400, msg = "添加失败" });
                     }
 
-                }
-                else
-                {
-                    return Json(new { code = 201, msg = "请勿添加空数据" });
-                }
+             
 
 
             }
@@ -96,8 +105,18 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                     {
                         var result = new Z_Chemistry { Id = item };
                         //  var result = Task.Run(() => (db.Z_Office.AsNoTracking().FirstOrDefault(m => m.Id == item)));
-                        db.Entry(result).State = System.Data.Entity.EntityState.Deleted;
-                    }
+                        db.Entry(result).State = System.Data.Entity.EntityState.Unchanged;
+                        result.del_or = 1;
+                      var resul = new ChemistryRoom { ChemistryId = item };
+                        var res = await db.ChemistryRooms.SingleOrDefaultAsync(s => s.ChemistryId == item);
+                        if (res != null)
+                        {
+                            res.RawNumber = 10;
+                            res.RawOutNumber = 0;
+                            res.Warning_RawNumber = 0;
+                        }
+                    } 
+                      
                     if (await db.SaveChangesAsync() > 0)
                     {
                         return Json(new { code = 200, msg = "删除成功" });
@@ -254,11 +273,49 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
         {
             try
             {
+
+                if (z_OfficeOutPut.PageIndex == -1 && z_OfficeOutPut.PageSize == -1)
+                {
+
+                    var result = await Task.Run(() => (db.Z_Chemistry
+                          .Where(x => x.del_or == 0 && x.Id > 0 || x.Name.Contains(z_OfficeOutPut.Name))
+                        .Select(x => new Z_ChemistryOutDto
+                        {
+                            Id = (x.Id).ToString(),
+                            Name = x.Name,
+                            Encoding = x.Encoding,
+                            Desc = x.Desc,
+                            Z_ChemistryTypeid = (x.Z_ChemistryTypeid).ToString(),
+                            Company = x.Company,
+                            Z_ChemistryType = x.Z_ChemistryType,
+                            Companyid = (x.CompanyId).ToString(),
+                            EnglishName = x.EnglishName,
+                            Abbreviation = x.Abbreviation,
+                            BeCommonlyCalled1 = x.BeCommonlyCalled1,
+                            BeCommonlyCalled2 = x.BeCommonlyCalled2,
+                            CASNumber = x.CASNumber,
+                            MolecularWeight = x.MolecularWeight,
+                            MolecularFormula = x.MolecularFormula,
+                            StructuralFormula = x.StructuralFormula,
+                            Statement = x.Statement,
+                            Caution = x.Caution,
+                            Number = x.Number,
+                            AppearanceState = x.AppearanceState,
+                            WarehousingTypeId = (x.WarehousingTypeId).ToString(),
+                            WarehousingType = x.WarehousingType,
+                            EntryPerson = x.EntryPerson,
+                            Density = x.Density,
+                            CreateDate = x.CreateDate
+                        }).ToListAsync()));
+
+
+                    return Json(new { code = 200, Count = result.Count(), data = result });
+                }
                 if (z_OfficeOutPut.PageIndex != null && z_OfficeOutPut.PageSize != null && !string.IsNullOrWhiteSpace(z_OfficeOutPut.Name))
                 {
 
                     var result = await Task.Run(() => (db.Z_Chemistry
-                          .Where(x => x.Name.Contains(z_OfficeOutPut.Name))
+                          .Where(x => x.del_or == 0 &&x.Id>0|| x.Name.Contains(z_OfficeOutPut.Name))
                         .Select(x => new Z_ChemistryOutDto
                         {
                             Id = (x.Id).ToString(),
@@ -294,12 +351,10 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                 }
 
 
-
-
                 if (z_OfficeOutPut.PageIndex != null && z_OfficeOutPut.PageSize != null)
                 {
                     var result = await Task.Run(() => (db.Z_Chemistry
-                            .Where(x => x.Id > 0).Select(x => new Z_ChemistryOutDto
+                            .Where(x => x.del_or == 0 && x.Id > 0).Select(x => new Z_ChemistryOutDto
                             {
                                 Id = (x.Id).ToString(),
                                 Name = x.Name,
@@ -335,7 +390,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                 if (z_OfficeOutPut.PageIndex != null && z_OfficeOutPut.PageSize != null && !string.IsNullOrWhiteSpace(z_OfficeOutPut.Id))
                 {
                     var result = Task.Run(() => (db.Z_Chemistry
-                          .Where(x => x.Id == long.Parse(z_OfficeOutPut.Id))
+                          .Where(x => x.del_or == 0 && x.Id == long.Parse(z_OfficeOutPut.Id))
                         .Select(x => new Z_ChemistryOutDto
                         {
                             Id = (x.Id).ToString(),

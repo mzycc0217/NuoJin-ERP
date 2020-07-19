@@ -17,6 +17,10 @@ using XiAnOuDeERP.Models.Db.Aggregate.PersonnelMatters.Assetss;
 using XiAnOuDeERP.Models.Db.Aggregate.AtlasManagements;
 using XiAnOuDeERP.Models.Db.Aggregate.ApprovalMangement;
 using XiAnOuDeERP.Models.Db.Aggregate.Departent_User;
+using XiAnOuDeERP.Models.Db.Aggregate.StrongRoomst;
+using XiAnOuDeERP.Models.Db.Aggregate.StrongRoom;
+using XiAnOuDeERP.Models.Db.Aggregate.OutEntropt;
+using XiAnOuDeERP.Models.Db.Aggregate.OutEntropt.Outenport;
 
 namespace XiAnOuDeERP.Models.Db
 {
@@ -28,7 +32,12 @@ namespace XiAnOuDeERP.Models.Db
         }
 
 
+        #region  mzy各类表单申请表
+        public virtual DbSet<ChemistryMonad> ChemistryMonad { get; set; }
+        public virtual DbSet<OfficeMonad> OfficeMonad { get; set; }
+        public virtual DbSet<FnishedProductMonad> FnishedProductMonad { get; set; }
 
+        #endregion
 
 
 
@@ -53,13 +62,44 @@ namespace XiAnOuDeERP.Models.Db
         public virtual DbSet<Z_FinshedProductType> Z_FinshedProductType { get; set; }
         public virtual DbSet<Z_ChemistryType> Z_ChemistryType { get; set; }
         public virtual DbSet<Z_OfficeType> Z_OfficeType { get; set; }
+        /// <summary>
+        /// 领料表
+        /// </summary>
+        public virtual DbSet<Raw_UserDetils> Raw_UserDetils { get; set; }
+        public virtual DbSet<Chemistry_UserDetils> Chemistry_UserDetils { get; set; }
+        public virtual DbSet<FnishedProduct_UserDetils> FnishedProduct_UserDetils { get; set; }
+        public virtual DbSet<Office_UsrDetils> Office_UsrDetils { get; set; }
+
+        #region 领料记录表
+        public virtual DbSet<FinshedProduct_User> FinshedProduct_Users { get; set; }
+        public virtual DbSet<Chmistry_User> Chmistry_Users { get; set; }
+        public virtual DbSet<Office_User> Office_Users { get; set; }
+        #endregion
+
+        /// <summary>
+        /// 领料表
+        /// </summary>
+
+        public virtual DbSet<Entrepot> Entrepots { get; set; }
+        /// <summary>
+        /// 物料仓库对应表
+        /// </summary>
+
+        public virtual DbSet<RawRoom> RawRooms { get; set; }
+
+        public virtual DbSet<FnishedProductRoom> FnishedProductRooms { get; set; }
+
+        public virtual DbSet<ChemistryRoom> ChemistryRooms { get; set; }
+
+        public virtual DbSet<OfficeRoom> Offices { get; set; }
 
 
+      //  public virtual DbSet<RawRoom> RawRooms { get; set; }
         #endregion
 
 
 
-
+        //   public virtual DbSet<Content_Usersd> Pursh_User { get; set; }
 
         //采购申请签核表
         public virtual DbSet<Pursh_User> Pursh_User { get; set; }
@@ -354,7 +394,7 @@ namespace XiAnOuDeERP.Models.Db
             //HasRequired不允许为空的外键
             //HasOptional可以为空的外键
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
-
+            #region  曾经Ly
             modelBuilder.Entity<Project>().HasRequired(p => p.ProjectState).WithMany().HasForeignKey(m => m.ProjectStateId);
 
             modelBuilder.Entity<User>().HasRequired(p => p.Department).WithMany().HasForeignKey(m => m.DepartmentId);
@@ -449,8 +489,83 @@ namespace XiAnOuDeERP.Models.Db
             modelBuilder.Entity<AssetIncome>().HasOptional(p => p.Sale).WithMany().HasForeignKey(m => m.SaleId);
 
             modelBuilder.Entity<Supplier>().HasRequired(p => p.RawMaterial).WithMany().HasForeignKey(m => m.RawMaterialId);
+            #endregion
+
+            #region 仓库表 -mzy
+            modelBuilder.Entity<Pursh_User>().HasRequired(p => p.UserDetails).WithMany().HasForeignKey(m => m.user_Id);
+            modelBuilder.Entity<Pursh_User>().HasRequired(p => p.Purchase).WithMany().HasForeignKey(m => m.Purchase_Id);
+
+            modelBuilder.Entity<RawRoom>().HasRequired(p => p.z_Raw).WithMany().HasForeignKey(m => m.RawId);
+            modelBuilder.Entity<RawRoom>().HasOptional(p => p.userDetails).WithMany().HasForeignKey(m => m.User_id);
+            modelBuilder.Entity<RawRoom>().HasOptional(p => p.entrepot).WithMany().HasForeignKey(m => m.EntrepotId);
 
 
+            modelBuilder.Entity<FnishedProductRoom>().HasRequired(p => p.Z_FnishedProduct).WithMany().HasForeignKey(m => m.FnishedProductId);
+            modelBuilder.Entity<FnishedProductRoom>().HasOptional(p => p.userDetails).WithMany().HasForeignKey(m => m.User_id);
+            modelBuilder.Entity<FnishedProductRoom>().HasOptional(p => p.entrepot).WithMany().HasForeignKey(m => m.EntrepotId);
+
+            modelBuilder.Entity<ChemistryRoom>().HasRequired(p => p.Z_Chemistry).WithMany().HasForeignKey(m => m.ChemistryId);
+            modelBuilder.Entity<ChemistryRoom>().HasOptional(p => p.userDetails).WithMany().HasForeignKey(m => m.User_id);
+            modelBuilder.Entity<ChemistryRoom>().HasOptional(p => p.entrepot).WithMany().HasForeignKey(m => m.EntrepotId);
+
+
+            modelBuilder.Entity<OfficeRoom>().HasRequired(p => p.Z_Office).WithMany().HasForeignKey(m => m.OfficeId);
+            modelBuilder.Entity<OfficeRoom>().HasOptional(p => p.userDetails).WithMany().HasForeignKey(m => m.User_id);
+            modelBuilder.Entity<OfficeRoom>().HasOptional(p => p.entrepot).WithMany().HasForeignKey(m => m.EntrepotId);
+
+
+            modelBuilder.Entity<Entrepot>().HasRequired(p => p.userDetails).WithMany().HasForeignKey(m => m.User_id);
+           // modelBuilder.Entity<Entrepot>().HasRequired(p => p.userDetails).WithMany().HasForeignKey(m => m.User_id);
+           ///领取人表
+           
+            #endregion
+
+            #region 申请表-mzy
+            modelBuilder.Entity<ChemistryMonad>().HasOptional(p => p.Z_Chemistry).WithMany().HasForeignKey(m => m.ChemistryId);
+            modelBuilder.Entity<ChemistryMonad>().HasOptional(p => p.Applicant).WithMany().HasForeignKey(m => m.ApplicantId);
+            modelBuilder.Entity<ChemistryMonad>().HasOptional(p => p.Supplier).WithMany().HasForeignKey(m => m.SupplierId);
+
+
+            modelBuilder.Entity<FnishedProductMonad>().HasOptional(p => p.Z_FnishedProduct).WithMany().HasForeignKey(m => m.FnishedProductId);
+            modelBuilder.Entity<FnishedProductMonad>().HasOptional(p => p.Applicant).WithMany().HasForeignKey(m => m.ApplicantId);
+            modelBuilder.Entity<FnishedProductMonad>().HasOptional(p => p.Supplier).WithMany().HasForeignKey(m => m.SupplierId);
+
+            modelBuilder.Entity<OfficeMonad>().HasOptional(p => p.Z_Office).WithMany().HasForeignKey(m => m.OfficeId);
+            modelBuilder.Entity<OfficeMonad>().HasOptional(p => p.Applicant).WithMany().HasForeignKey(m => m.ApplicantId);
+            modelBuilder.Entity<OfficeMonad>().HasOptional(p => p.Supplier).WithMany().HasForeignKey(m => m.SupplierId);
+
+
+            #endregion
+
+
+            #region  签核记录
+            modelBuilder.Entity<FinshedProduct_User>().HasRequired(p => p.UserDetails).WithMany().HasForeignKey(m => m.user_Id);
+            modelBuilder.Entity<FinshedProduct_User>().HasRequired(p => p.FnishedProductMonad).WithMany().HasForeignKey(m => m.FnishedProductId);
+
+            modelBuilder.Entity<Office_User>().HasRequired(p => p.UserDetails).WithMany().HasForeignKey(m => m.user_Id);
+            modelBuilder.Entity<Office_User>().HasRequired(p => p.OfficeMonad).WithMany().HasForeignKey(m => m.OfficeId);
+
+            modelBuilder.Entity<Chmistry_User>().HasRequired(p => p.UserDetails).WithMany().HasForeignKey(m => m.user_Id);
+            modelBuilder.Entity<Chmistry_User>().HasRequired(p => p.ChemistryMonad).WithMany().HasForeignKey(m => m.ChemistryId);
+            #endregion
+
+            #region 申请记录表-mzy
+
+            ///领取人表
+            modelBuilder.Entity<Raw_UserDetils>().HasRequired(p => p.z_Raw).WithMany().HasForeignKey(m => m.RawId);
+            modelBuilder.Entity<Raw_UserDetils>().HasOptional(p => p.userDetails).WithMany().HasForeignKey(m => m.entrepotid);
+            modelBuilder.Entity<Raw_UserDetils>().HasRequired(p => p.userDetails).WithMany().HasForeignKey(m => m.User_id);
+
+            modelBuilder.Entity<Chemistry_UserDetils>().HasRequired(p => p.Z_Chemistry).WithMany().HasForeignKey(m => m.ChemistryId);
+            modelBuilder.Entity<Chemistry_UserDetils>().HasRequired(p => p.userDetails).WithMany().HasForeignKey(m => m.User_id);
+
+            modelBuilder.Entity<FnishedProduct_UserDetils>().HasRequired(p => p.Z_FnishedProduct).WithMany().HasForeignKey(m => m.FnishedProductId);
+            modelBuilder.Entity<FnishedProduct_UserDetils>().HasRequired(p => p.userDetails).WithMany().HasForeignKey(m => m.User_id);
+
+
+            modelBuilder.Entity<Office_UsrDetils>().HasRequired(p => p.Z_Office).WithMany().HasForeignKey(m => m.OfficeId);
+            modelBuilder.Entity<Office_UsrDetils>().HasRequired(p => p.userDetails).WithMany().HasForeignKey(m => m.User_id);
+            #endregion
             #region mzy专用
             modelBuilder.Entity<Z_Supplies>().HasRequired(p => p.Z_SuppliesType).WithMany().HasForeignKey(m => m.Z_SuppliesTypeid);
             modelBuilder.Entity<Z_Supplies>().HasOptional(p => p.Company).WithMany().HasForeignKey(m => m.CompanyId);
@@ -477,6 +592,8 @@ namespace XiAnOuDeERP.Models.Db
             modelBuilder.Entity<Z_MaterialCode>().HasRequired(p => p.Z_RowType).WithMany().HasForeignKey(m => m.Z_RowTypeid);
             modelBuilder.Entity<Z_MaterialCode>().HasOptional(p => p.Company).WithMany().HasForeignKey(m => m.CompanyId);
             modelBuilder.Entity<Z_MaterialCode>().HasOptional(p => p.WarehousingType).WithMany().HasForeignKey(m => m.WarehousingTypeId);
+
+          
             #endregion
             base.OnModelCreating(modelBuilder);
         }

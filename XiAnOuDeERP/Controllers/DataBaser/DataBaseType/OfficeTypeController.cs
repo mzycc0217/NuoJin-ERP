@@ -78,8 +78,10 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DataBaseType
                 {
                     foreach (var item in officeTypeDto.del_Id)
                     {
-                         var result = db.Z_OfficeType.AsNoTracking().First(m => m.Id == item);
-                        db.Entry(result).State = System.Data.Entity.EntityState.Deleted;
+                        var result = new Z_OfficeType { Id = item };
+                       // var result = db.Z_OfficeType.AsNoTracking().First(m => m.Id == item);
+                        db.Entry(result).State = System.Data.Entity.EntityState.Unchanged;
+                        result.IsDelete = true;
                     }
                   
                
@@ -167,7 +169,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DataBaseType
             {
                 if (officeTypeOutDto.PageIndex != null && officeTypeOutDto.PageSize != null && !string.IsNullOrWhiteSpace(officeTypeOutDto.Name))
                 {
-                    var result = await Task.Run(() => (from p in db.Z_OfficeType.Where(p => p.Name.Contains(officeTypeOutDto.Name))
+                    var result = await Task.Run(() => (from p in db.Z_OfficeType.Where(p => p.Name.Contains(officeTypeOutDto.Name)&& p.IsDelete == false)
                                                        orderby p.CreateDate
                                                        select new RowTypeOutDto
                                                        {
@@ -183,7 +185,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DataBaseType
 
                 if (officeTypeOutDto.PageIndex == -1 && officeTypeOutDto.PageSize == -1)
                 {
-                    var result = await Task.Run(() => (from p in db.Z_OfficeType.Where(p => true)
+                    var result = await Task.Run(() => (from p in db.Z_OfficeType.Where(p => true&& p.IsDelete == false)
                                                        select new RowTypeOutDto
                                                        {
                                                            Id = (p.Id).ToString(),
@@ -200,7 +202,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DataBaseType
 
                 if (officeTypeOutDto.PageIndex != null && officeTypeOutDto.PageSize != null)
                 {
-                    var result = await Task.Run(() => (from p in db.Z_OfficeType.Where(p => true)
+                    var result = await Task.Run(() => (from p in db.Z_OfficeType.Where(p => true&& p.IsDelete == false)
                                                        orderby p.CreateDate
                                                        select new RowTypeOutDto
                                                        {
@@ -214,7 +216,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DataBaseType
                 }
                 if (officeTypeOutDto.PageIndex != null && officeTypeOutDto.PageSize != null && !string.IsNullOrWhiteSpace(officeTypeOutDto.Id))
                 {
-                    var result = await Task.Run(() => (from p in db.Z_OfficeType.Where(p => p.Id == long.Parse(officeTypeOutDto.Id))
+                    var result = await Task.Run(() => (from p in db.Z_OfficeType.Where(p => p.Id == long.Parse(officeTypeOutDto.Id)&& p.IsDelete == false)
                                                        orderby p.CreateDate
                                                        select new RowTypeOutDto
                                                        {
