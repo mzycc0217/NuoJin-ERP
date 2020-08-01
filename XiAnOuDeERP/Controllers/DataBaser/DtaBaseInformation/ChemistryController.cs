@@ -9,6 +9,7 @@ using XiAnOuDeERP.Models.Util;
 using System.Data.Entity;
 using XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut;
 using XiAnOuDeERP.Models.Db.Aggregate.StrongRoom;
+using XiAnOuDeERP.Models.Dto.OutputDto.PersonnelMatters.UserDto;
 
 namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
 {
@@ -28,9 +29,9 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
 
             try
             {
-              
 
-                    Z_Chemistry z_Chemistry = new Z_Chemistry
+                var userId = ((UserIdentity)User.Identity).UserId;
+                Z_Chemistry z_Chemistry = new Z_Chemistry
                     {
                         Id = IdentityManager.NewId(),
                         Name = z_ChemistryDto.Name,
@@ -55,17 +56,17 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                         WarehousingTypeId = z_ChemistryDto.WarehousingTypeId,
                     };
                     db.Z_Chemistry.Add(z_Chemistry);
-
-                    ChemistryRoom chemistryRoom = new ChemistryRoom
+                var result = await Task.Run(() => db.Entrepots.AsNoTracking().FirstOrDefaultAsync(p => p.Id > 0));
+                ChemistryRoom chemistryRoom = new ChemistryRoom
                     {
                         Id = IdentityManager.NewId(),
                         ChemistryId = z_Chemistry.Id,
-                       // User_id = chemistryIntDto.User_id,
-                       // EntrepotId = chemistryIntDto.EntrepotId,
-                        RawNumber = 0,
-                       
+                    RawNumber = 0,
+                    User_id= userId,
+                    EntrepotId = result.Id
+                    
 
-                    };
+                };
                     db.ChemistryRooms.Add(chemistryRoom);
 
                     if (await db.SaveChangesAsync() > 0)
@@ -273,6 +274,8 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
         {
             try
             {
+
+              
 
                 if (z_OfficeOutPut.PageIndex == -1 && z_OfficeOutPut.PageSize == -1)
                 {

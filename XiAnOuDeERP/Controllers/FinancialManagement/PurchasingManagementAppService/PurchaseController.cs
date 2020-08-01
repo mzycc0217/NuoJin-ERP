@@ -30,6 +30,8 @@ namespace XiAnOuDeERP.FinancialManagement.Controllers.UserAppService
     {
         XiAnOuDeContext db = new XiAnOuDeContext();
 
+
+        private int Is_Or { get; set; }
         /// <summary>
         /// 添加采购申请单
         /// </summary>
@@ -50,20 +52,25 @@ namespace XiAnOuDeERP.FinancialManagement.Controllers.UserAppService
 
                 if (input.RawId != null)
                 {
-                    var result = await Task.Run(() => db.RawRooms.AsNoTracking().SingleOrDefaultAsync(p => p.RawId == input.RawId));
-                    int is_or;
-
-                    if (result.RawNumber >= input.ApplyNumber)
+                    var result = await Task.Run(() => db.RawRooms.AsNoTracking().Where(p => p.RawId == input.RawId));
+                   // int is_or;
+                    foreach (var item in result)
                     {
-                        //可以直接领取
-                        is_or = 1;
+                       
+                        if (item.RawNumber >= input.ApplyNumber)
+                        {
+                            //可以直接领取
+                         this.Is_Or = 1;
+                            break;
+                            
+                        }
+                        else
+                        {
+                            //不可以直接领取
+                            this.Is_Or = 2;
+                            break;
+                        }
                     }
-                    else
-                    {
-                        //不可以直接领取
-                        is_or = 2;
-                    }
-
 
                     var data = new Purchase()
                     {
@@ -90,7 +97,7 @@ namespace XiAnOuDeERP.FinancialManagement.Controllers.UserAppService
                         ExpectArrivalTime = input.ExpectArrivalTime,
                         IsDelete = false,
                         User_Id = input.User_id,
-                        is_or = (int)is_or,
+                        is_or = this.Is_Or,
                         // ApprovalKey = related.ApprovalKey,
                         ApprovalIndex = 0
                     };

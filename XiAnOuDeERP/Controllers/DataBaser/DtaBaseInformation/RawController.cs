@@ -27,6 +27,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
     public class RawController : ApiController
     {
         XiAnOuDeContext db = new XiAnOuDeContext();
+        private long EntrepotId { get; set; }
         /// <summary>
         /// 添加原材料
         /// </summary>
@@ -39,8 +40,6 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
             try
             {
               
-
-             
                     string Moren = " N / A";
                     Z_Raw z_Raw = new Z_Raw
                     {
@@ -67,16 +66,28 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                         WarehousingTypeId = z_RawDto.WarehousingTypeId,
                     };
 
+               
+                var result = await Task.Run(() => db.Entrepots.AsNoTracking().FirstOrDefaultAsync(p => p.Id > 0));
+                //  var results = await Task.Run(() => db.RawRooms.AsNoTracking().Where(p => p.RawId == z_Raw.Id).ToListAsync());
+                //foreach (var item in result)
+                //{
 
-                  var result = await Task.Run(() => db.Entrepots.AsNoTracking().Where(p => p.Id > 0).FirstOrDefaultAsync());
-                
-                    RawRoom rawRoom = new RawRoom
+                //    if (results==null)
+                //    {
+                //        this.EntrepotId = item.Id;
+                //        break;
+                //    }
+                //}
+
+                var userId = ((UserIdentity)User.Identity).UserId;
+                RawRoom rawRoom = new RawRoom
                     {
                         Id = IdentityManager.NewId(),
                         RawId = z_Raw.Id,
                         RawNumber =0,
-                        EntrepotId= result.Id
-
+                        User_id= userId,
+                        EntrepotId = result.Id
+                        
                     };
                     db.RawRooms.Add(rawRoom);
 

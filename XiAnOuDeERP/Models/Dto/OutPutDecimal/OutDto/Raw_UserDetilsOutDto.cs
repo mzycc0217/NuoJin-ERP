@@ -30,7 +30,10 @@ namespace XiAnOuDeERP.Models.Dto.OutPutDecimal.OutDto
         /// 领取数量
         /// </summary>
         public double RawNumber { get; set; }
-
+        /// <summary>
+        /// 数量
+        /// </summary>
+        public int Count { get; set; }
 
         /// <summary>
         /// 是否退库

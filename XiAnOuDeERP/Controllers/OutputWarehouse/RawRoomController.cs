@@ -75,6 +75,14 @@ namespace XiAnOuDeERP.Controllers.OutputWarehouse
             {
                 var RawRoom = new RawRoom { Id = rawInDto.Id };
                 db.Entry(RawRoom).State = System.Data.Entity.EntityState.Unchanged;
+
+
+
+
+
+
+
+
                 if (rawInDto.RawId != null)
                 {
                     RawRoom.RawId = rawInDto.RawId;
@@ -174,12 +182,61 @@ namespace XiAnOuDeERP.Controllers.OutputWarehouse
         {
             try
             {
-               // var result = db.RawRooms.Where(p => p.Id > 0);
+
+                var resultc = await Task.Run(() => db.RawRooms.Where
+                      (p => p.Id > 0));
+
+                // var result = db.RawRooms.Where(p => p.Id > 0); 
+                if ( rawOutDto.PageIndex == -1 && rawOutDto.PageSize == -1)
+                {
+
+                    var result = await Task.Run(() => db.RawRooms.Where
+                    (p => p.Id>0)
+                    .Select(p => new RawOutDto
+                    {
+                        Id = (p.Id).ToString(),
+                        RawId = (p.z_Raw.Id).ToString(),
+                        User_id = (p.userDetails.Id).ToString(),
+                        EntrepotId = (p.entrepot.Id).ToString(),
+                        Z_Raw = p.z_Raw,
+                        entrepot = p.entrepot,
+                        userDetails = p.userDetails
+
+                    }).ToList().Distinct());
+
+                   
+
+
+
+                    return Json(new { code = 200, data = result, Count = resultc.Count() });
+                }
+
+                // var result = db.RawRooms.Where(p => p.Id > 0); 
+                if (rawOutDto.relName != null|| rawOutDto.Name != null&& rawOutDto.PageIndex != null && rawOutDto.PageSize != null)
+                {
+
+                    var result = await Task.Run(() => db.RawRooms.Where
+                    (p=> p.z_Raw.Name.Contains(rawOutDto.Name) || p.userDetails.RealName.Contains(rawOutDto.relName))
+                    .Select(p => new RawOutDto
+                    {
+                        Id = (p.Id).ToString(),
+                        RawId = (p.z_Raw.Id).ToString(),
+                        User_id = (p.userDetails.Id).ToString(),
+                        EntrepotId = (p.entrepot.Id).ToString(),
+                        Z_Raw = p.z_Raw,
+                        entrepot = p.entrepot,
+                        userDetails = p.userDetails
+
+                    }).OrderBy(p => p.Id).Skip((rawOutDto.PageIndex * rawOutDto.PageSize) - rawOutDto.PageSize).Take(rawOutDto.PageSize).ToList());
+
+                    return Json(new { code = 200, data = result, Count = resultc.Count() });
+                }
+
                 if (rawOutDto.PageIndex != null && rawOutDto.PageSize != null)
                 {
 
                     var result = await Task.Run(() => db.RawRooms.Where
-                    (p => p.Id > 0||p.z_Raw.Name.Contains(rawOutDto.Name)|| p.userDetails.RealName.Contains(rawOutDto.relName))
+                    (p => p.Id > 0)
                     .Select(p => new RawOutDto
                     {
                       Id= (p.Id).ToString(),
@@ -192,10 +249,10 @@ namespace XiAnOuDeERP.Controllers.OutputWarehouse
 
                     }).OrderBy(p => p.Id).Skip((rawOutDto.PageIndex * rawOutDto.PageSize) - rawOutDto.PageSize).Take(rawOutDto.PageSize).ToList());
 
-                    return Json(new { code = 200, data = result, Count = result.Count() });
+                    return Json(new { code = 200, data = result, Count = resultc.Count() });
 
                 }
-
+              
                 return Json(new { code = 400,msg="获取失败" });
 
 

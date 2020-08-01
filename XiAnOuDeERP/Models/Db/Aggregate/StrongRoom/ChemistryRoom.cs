@@ -53,6 +53,10 @@ namespace XiAnOuDeERP.Models.Db.Aggregate.StrongRoom
         /// </summary>
         public long? EntrepotId { get; set; }
 
+        /// <summary>
+        /// 删除
+        /// </summary>
+        public bool del_or { get; set; }
 
         public virtual UserDetails userDetails { get; set; }
 

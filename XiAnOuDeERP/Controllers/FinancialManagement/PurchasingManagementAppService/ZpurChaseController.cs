@@ -11,6 +11,7 @@ using XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.PurchasingManagements;
 using XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagements;
 using XiAnOuDeERP.Models.Db.Aggregate.StrongRoom;
 using XiAnOuDeERP.Models.Dto.InputDto.FinancialManagement.PurchasingManagementDto;
+using XiAnOuDeERP.Models.Dto.My_FlowDto;
 using XiAnOuDeERP.Models.Dto.OutPutDecimal.InDto;
 using XiAnOuDeERP.Models.Dto.OutPutDecimal.OutDto;
 using XiAnOuDeERP.Models.Dto.OutputDto.PersonnelMatters.UserDto;
@@ -20,7 +21,9 @@ using XiAnOuDeERP.Models.Util;
 
 namespace XiAnOuDeERP.Controllers.FinancialManagement.PurchasingManagementAppService
 {
+    
     [AppAuthentication]
+  // [ExperAuthentication]
     [RoutePrefix("api/ZpurChase")]
     public class ZpurChaseController : ApiController
     {
@@ -314,38 +317,37 @@ namespace XiAnOuDeERP.Controllers.FinancialManagement.PurchasingManagementAppSer
             try
             {
                 var userId = ((UserIdentity)User.Identity).UserId;
-                //添加签核人
-                Pursh_User pursh_User = new Pursh_User
-                {
-                    Id = IdentityManager.NewId(),
-                    Purchase_Id = content_Users.Purchase_Id,
-                    user_Id = userId,
-                    ContentDes = content_Users.ContentDes
-                };
-                db.Pursh_User.Add(pursh_User);
+             
                 var resuls =await db.Purchases.SingleOrDefaultAsync(p => p.Id == content_Users.Purchase_Id);
-
                 long Enportid;//仓库id
-                if (content_Users.enportid ==null)
+                if (content_Users.enportid ==0)
                 {
-                    var result = await Task.Run(() => db.RawRooms
-                    .Where(p => p.RawId==resuls.RawId&&p.RawNumber>=resuls.QuasiPurchaseNumber).FirstOrDefaultAsync());
-                 
+                    var result = await db.RawRooms
+                    .FirstOrDefaultAsync(p => p.RawId==resuls.RawId&&p.RawNumber>=resuls.QuasiPurchaseNumber);
+                    if (result==null)
+                    {
+                        resuls.is_or = 5;
+                        await db.SaveChangesAsync();
+                        return Json(new { code = 200, msg = "仓库数量不足,重新采购" });
+                    }
                     Enportid =(long)result.EntrepotId;
                     result.RawNumber = result.RawNumber - (double)resuls.QuasiPurchaseNumber;
-                    db.Entry(result).State = System.Data.Entity.EntityState.Modified;
-                    db.Entry(result).Property("RawNumber").IsModified = true;
+                    //db.Entry(result).State = System.Data.Entity.EntityState.Modified;
+                    //db.Entry(result).Property("RawNumber").IsModified = true;
 
                 }
                 else
                 {
                     Enportid = content_Users.enportid;
-
-                    var res = new RawRoom { RawId = (long)resuls.RawId,EntrepotId= Enportid };
+                    var res = await db.RawRooms
+                    .FirstOrDefaultAsync(p => p.RawId == resuls.RawId && p.EntrepotId == Enportid);
+                 //   var res = new RawRoom { RawId = (long)resuls.RawId,EntrepotId= Enportid };
                     db.Entry(res).State = System.Data.Entity.EntityState.Unchanged;
                     res.RawNumber = res.RawNumber - (double)resuls.QuasiPurchaseNumber;
                 }
-                
+                     resuls.is_or = 0;
+                db.Entry(resuls).State = System.Data.Entity.EntityState.Modified;
+                db.Entry(resuls).Property("is_or").IsModified = true;
                 //添加领料明细
                 Raw_UserDetils raw_UserDetils = new Raw_UserDetils
                 {
@@ -360,16 +362,22 @@ namespace XiAnOuDeERP.Controllers.FinancialManagement.PurchasingManagementAppSer
                     GetRawTime = DateTime.Now
                 };
                 db.Raw_UserDetils.Add(raw_UserDetils);
-
+                 //添加签核人
+                Pursh_User pursh_User = new Pursh_User
+                {
+                    Id = IdentityManager.NewId(),
+                    Purchase_Id = content_Users.Purchase_Id,
+                    user_Id = userId,
+                    ContentDes = content_Users.ContentDes
+                };
+                db.Pursh_User.Add(pursh_User);
 
                 // RawId = resuls.RawId;
                 //ApplyNumber = resuls.QuasiPurchaseNumber;
 
                 //var resul = new Purchase { Id = content_Users.Purchase_Id };
                 //db.Entry(resul).State = System.Data.Entity.EntityState.Unchanged;
-                resuls.is_or = 0;
-                db.Entry(resuls).State = System.Data.Entity.EntityState.Modified;
-                db.Entry(resuls).Property("is_or").IsModified = true;
+           
 
 
 
@@ -380,11 +388,11 @@ namespace XiAnOuDeERP.Controllers.FinancialManagement.PurchasingManagementAppSer
                 {
 
 
-                    return Json(new { code = 200, msg = "添加成功" });
+                    return Json(new { code = 200, msg = "出库成功" });
                 }
                 else
                 {
-                    return Json(new { code = 400, msg = "添加失败" });
+                    return Json(new { code = 400, msg = "出库失败" });
                 }
             }
             catch (Exception)
@@ -1051,8 +1059,6 @@ namespace XiAnOuDeERP.Controllers.FinancialManagement.PurchasingManagementAppSer
           
         }
 
-
-
         /// <summary>
         /// 采购员（部门）确认完成
         /// </summary>
@@ -1200,7 +1206,7 @@ namespace XiAnOuDeERP.Controllers.FinancialManagement.PurchasingManagementAppSer
                     Z_RowType = p.Z_Raw.Z_RowType
                 }).OrderBy(p => p.PurchaseId)
                 .Skip((input.PageIndex * input.PageSize) - input.PageSize).Take(input.PageSize).ToListAsync());
-                return Json(new { code = 200, data = result, Count= resuls.CountAsync() });
+                return Json(new { code = 200, data = result, Count= resuls.CountAsync().Result });
             }
             return Json(new { code = 400 });
 
@@ -1210,46 +1216,70 @@ namespace XiAnOuDeERP.Controllers.FinancialManagement.PurchasingManagementAppSer
         /// <summary>
         /// 库房的入库申请（采购单）添加入库(入库)
         /// </summary>
-        /// <param name="content_Users"></param>
+        /// <param name="content_Userd"></param>
         /// <returns></returns>
         [HttpPost]
-        [ExperAuthentication]
-        public async Task<IHttpActionResult> AddPursh(Content_Users content_Users)
+       
+        public async Task<IHttpActionResult> AddPursh(Content_Userd content_Userd)
         {
             try
             {
-                if (content_Users.Purchase_Id != null)
+                if (content_Userd.Purchase_Id != null)
                 {
-                    var result =await db.Purchases.SingleOrDefaultAsync(p => p.Id == content_Users.Purchase_Id && p.IsDelete == false);
+                    var result =await db.Purchases.FirstOrDefaultAsync(p => p.Id == content_Userd.Purchase_Id && p.IsDelete == false);
+                    //修改采购单
+                    result.is_or = 1;
+                    db.Entry(result).State = System.Data.Entity.EntityState.Modified;
+                    db.Entry(result).Property("is_or").IsModified = true;
+                   
+                    var results = await Task.Run(()=> db.RawRooms
+                        .FirstOrDefaultAsync (p => p.RawId == result.RawId&&p.del_or==false)
+                        );
+                    if (content_Userd.enportid != 0)
+                    {
+                        results = await Task.Run(() => db.RawRooms.FirstOrDefaultAsync(p => p.EntrepotId == content_Userd.enportid));  
+                        if (results==null)
+                    {
+                        return Json(new { code = 201, msg = "请选对仓库，这个仓库中没有数据" });
+                    }
+                    }
+                 
+                   if ((double)result.PurchaseAmount!=null)
+                    {
+                       results.RawNumber = results.RawNumber + (double)result.PurchaseAmount;   
+                      //  db.Entry(results).State = System.Data.Entity.EntityState.Modified;
+                     //  db.Entry(results).Property("RawNumber").IsModified = true;
+                    }
+                   
 
-                    
-                    
-                        var results = await Task.Run(()=> db.RawRooms
-                        .Where (p => p.RawId == result.RawId&&p.del_or==false||p.EntrepotId== content_Users.enportid)
-                        .FirstOrDefaultAsync());
-                       
-                        //results.RawNumber = results.RawNumber + (double)result.PurchaseAmount;
-                        //db.Entry(results).State = System.Data.Entity.EntityState.Modified;
-                        //db.Entry(results).Property("RawNumber").IsModified = true;
-                    
-                  
+                    //if (results==null)
+                    //{
+                    //    RawRoom rawRoom = new RawRoom
+                    //    {
+                    //        Id = IdentityManager.NewId(),
+                    //        RawId = (long)result.RawId,
+                    //        RawNumber = (double)result.PurchaseAmount,
+                    //        EntrepotId = content_Userd.enportid
+
+                    //    };
+                    //    db.RawRooms.Add(rawRoom);
+                    //}
+                    //results.RawNumber = results.RawNumber + (double)result.PurchaseAmount;
+                    //db.Entry(results).State = System.Data.Entity.EntityState.Modified;
+                    //db.Entry(results).Property("RawNumber").IsModified = true;
+
+
                     //  var RawRoom = new RawRoom { RawId = (long)result.RawId };
                     //     db.Entry(RawRoom).State = System.Data.Entity.EntityState.Unchanged;
                     //    if (RawRoom.RawNumber != null||result.QuasiPurchaseNumber!=null)
                     //   {
                     //      RawRoom.RawNumber = RawRoom.RawNumber + (double)result.QuasiPurchaseNumber;
-                    if ((double)result.PurchaseAmount!=null)
-                    {
-                       results.RawNumber = results.RawNumber + (double)result.PurchaseAmount;   
-                        db.Entry(results).State = System.Data.Entity.EntityState.Modified;
-                        db.Entry(results).Property("RawNumber").IsModified = true;
-                    }
-                   
-                    //修改采购单
-                       result.is_or = 1;
-                        db.Entry(result).State = System.Data.Entity.EntityState.Modified;
-                        db.Entry(result).Property("is_or").IsModified = true;
+                 
 
+                   
+                    
+                  
+                     
                  
 
 
@@ -1267,7 +1297,7 @@ namespace XiAnOuDeERP.Controllers.FinancialManagement.PurchasingManagementAppSer
                //     return Json(new { code = 200, msg = "入库失败" });
               //  }
 
-               return Json(new { code = 200, msg = "${0}不能为空"+content_Users.Purchase_Id });
+               return Json(new { code = 200, msg = "${0}不能为空"+ (content_Userd.Purchase_Id  )});
 
             }
             catch (Exception)
@@ -1284,7 +1314,7 @@ namespace XiAnOuDeERP.Controllers.FinancialManagement.PurchasingManagementAppSer
         /// <param name="content_Users"></param>
         /// <returns></returns>
         [HttpPost]
-        [ExperAuthentication]
+   
         public async Task<IHttpActionResult> GetPursh(Content_Users content_Users)
         {
             //获取这个采购单下的审核人
@@ -1308,7 +1338,7 @@ namespace XiAnOuDeERP.Controllers.FinancialManagement.PurchasingManagementAppSer
                 if (content_Users.user_Id != null)
                 {
                     var resul = await Task.Run(() => db.Pursh_User.Where(p => p.user_Id == content_Users.user_Id)
-                  .Include(p => p.UserDetails).Include(p => p.Purchase).ToListAsync());
+                   .Include(p => p.UserDetails).Include(p => p.Purchase).ToListAsync());
                     return Json(new { code = 200, data = resul });
                 }
 
@@ -1418,7 +1448,7 @@ namespace XiAnOuDeERP.Controllers.FinancialManagement.PurchasingManagementAppSer
             try
             {
                var userId = ((UserIdentity)User.Identity).UserId;
-            var result = await Task.Run(() => db.Raw_UserDetils.AsNoTracking().Where(p => p.User_id == userId && p.del_or == false)
+            var result = await Task.Run(() => db.Raw_UserDetils.AsNoTracking().Where(p => p.User_id == userId && p.del_or == false&&p.is_or==1)
             .Select(p => new Raw_UserDetilsOutDto
             {
                 Id = (p.Id).ToString(),
@@ -1444,30 +1474,102 @@ namespace XiAnOuDeERP.Controllers.FinancialManagement.PurchasingManagementAppSer
 
         }
 
-        //1.领料之后就变成了出库状态为1，is_or=1//个人获取的（userid）
+         //1.领料之后就变成了出库状态为1，is_or=1//个人获取的（userid）
         //2.点击退料，显示在入库状态为2，is_or=2//仓库获取的
         //3.库管员点击入库之后状态为入库完成3，is_or=3.入库完成的
 
-            //4.获取物料领取明细（入库完成的）
-            //5.获取出库明细（状态为1，is_or为1的）
-            //6.获取准备入库的
-
+        //4.获取物料领取明细（入库完成的）
+        //5.获取出库明细（状态为1，is_or为1的）
+        //6.获取准备入库的
 
         /// <summary>
-        /// 获取出库明细
-        /// (所有的)
+        /// 个人点击退库
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="raw_UserDetilsDto"></param>
         /// <returns></returns>
 
         [HttpPost]
-        public async Task<List<Raw_UserDetilsOutDto>> GetBackPursh(InputBase input)
+        public async Task<IHttpActionResult> SetBackgePursh(Raw_UserDetilsDto raw_UserDetilsDto)
+        {
+
+            try
+            {
+                    var result = await Task.Run(()=> db.Raw_UserDetils.SingleOrDefaultAsync(p => p.Id == raw_UserDetilsDto.Id));
+                   result.OutIutRoom = 2;//出库状态2
+                     result.is_or = 2;
+                if (await db.SaveChangesAsync()>0)
+                {
+                    return Json(new { code = 200, msg = "退库成功"});
+                }
+                return Json(new { code = 200, msg = "退库失败" });
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+          
+            
+            
+            
+
+        }
+
+
+
+
+        /// <summary>
+        /// 仓库获取退库申请
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<List<Raw_UserDetilsOutDto>> GetRejectPurshs(InputBase input)
+        {  
+            //var resu = await Task.Run(()=> db.Raw_UserDetils.AsNoTracking().Where(p => p.Id > 0));
+          
+             //   var userId = ((UserIdentity)User.Identity).UserId;
+                var result = await Task.Run(() => db.Raw_UserDetils.AsNoTracking().Where( p=> p.del_or == false && p.is_or == 2)
+                .Select(p => new Raw_UserDetilsOutDto
+                {
+                    Id = (p.Id).ToString(),
+                    RawId = p.z_Raw.Id.ToString(),
+                    User_id = p.userDetails.Id.ToString(),
+                    RawNumber = p.RawNumber,
+                    OutIutRoom = p.OutIutRoom,
+                    GetRawTime = p.GetRawTime,
+                    
+                    userDetails = p.userDetails,
+                    entrepot = p.entrepot,
+                    z_Raw = p.z_Raw
+                }).OrderBy(p => p.Id)
+                    .Skip((input.PageIndex * input.PageSize) - input.PageSize).Take(input.PageSize).ToListAsync());
+
+                    //   new Raw_UserDetilsOutDto { Count = result.Count() };
+                return result;
+            
+        
+
+
+        }
+
+
+
+        /// <summary>
+        /// 获取出库明细(已经完成的)
+        /// (所有的)
+        /// </summary>
+        /// <param name="raw_UserDetilsDto"></param>
+        /// <returns></returns>
+
+        [HttpPost]
+        public async Task<List<Raw_UserDetilsOutDto>> GetBackPursh(Raw_UserDetilsDto raw_UserDetilsDto)
         {
 
             try
             {
                // var userId = ((UserIdentity)User.Identity).UserId;
-                var result = await Task.Run(() => db.Raw_UserDetils.AsNoTracking().Where(p =>p.del_or == false)
+                var result = await Task.Run(() => db.Raw_UserDetils.AsNoTracking().Where(p =>p.del_or == false || p.userDetails.RealName.Contains(raw_UserDetilsDto.RelName) || p.z_Raw.Name.Contains(raw_UserDetilsDto.Name))
                 .Select(p => new Raw_UserDetilsOutDto
                 {
                     Id = (p.Id).ToString(),
@@ -1480,7 +1582,7 @@ namespace XiAnOuDeERP.Controllers.FinancialManagement.PurchasingManagementAppSer
                     entrepot = p.entrepot,
                     z_Raw = p.z_Raw
                 }).OrderBy(p => p.Id)
-                    .Skip((input.PageIndex * input.PageSize) - input.PageSize).Take(input.PageSize).ToListAsync());
+                    .Skip((raw_UserDetilsDto.PageIndex * raw_UserDetilsDto.PageSize) - raw_UserDetilsDto.PageSize).Take(raw_UserDetilsDto.PageSize).ToListAsync());
 
                 return result;
             }
@@ -1501,15 +1603,16 @@ namespace XiAnOuDeERP.Controllers.FinancialManagement.PurchasingManagementAppSer
         {
             try
             {
-                if (raw_UserDetilsDto.RawId != null)
+                if ( raw_UserDetilsDto.Id!=null)
                 {
                     var result = await Task.Run(() => db.Raw_UserDetils.SingleOrDefaultAsync(p => p.Id == raw_UserDetilsDto.Id));
                     if (result != null)
                     {
                         var reus = await Task.Run(() => db.RawRooms
-                        .SingleOrDefaultAsync(p => p.RawId == result.RawId&&p.z_Raw.IsDelete==false&&p.EntrepotId==result.entrepotid));
+                        .FirstOrDefaultAsync(p => p.RawId == result.RawId&&p.z_Raw.IsDelete==false&&p.EntrepotId==result.entrepotid));
                         reus.RawNumber = reus.RawNumber + result.RawNumber;
-                        result.OutIutRoom = 2;//入库状态
+                        result.OutIutRoom = 3;//入库完成
+                        result.is_or = 3;
                        //////var reust = await Task.Run(() => db.Purchases
                        //////.SingleOrDefaultAsync(p => p.RawId == result.RawId && p.Applicant.Id==result.User_id && p.IsDelete == false));
                        // reust.is_or = 20;//退库完成
@@ -1534,6 +1637,28 @@ namespace XiAnOuDeERP.Controllers.FinancialManagement.PurchasingManagementAppSer
 
         }
 
+        /// <summary>
+        /// 获取有这个原材料的仓库(出库，入库的选择)
+        /// </summary>
+        /// <param name="rawRoomOutDto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<List<RawRoomOutDto>> BackEntitys(RawRoomOutDto rawRoomOutDto)
+        {
+            var result = await Task.Run(() => db.RawRooms.AsNoTracking()
+            .Where(p => p.RawId == rawRoomOutDto.RawId && p.del_or == false)
+            .Select(p => new RawRoomOutDto
+            {
+                RawId = p.z_Raw.Id,
+               
+                EntrepotId =p.entrepot.Id.ToString(),
+                 entrepot=p.entrepot
+            }) .ToListAsync()) ;
+           
 
+            return result;
+           
+
+        }
     }
 }

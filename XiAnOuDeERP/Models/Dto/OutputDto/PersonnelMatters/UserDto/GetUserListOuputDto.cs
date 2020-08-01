@@ -15,6 +15,16 @@ namespace XiAnOuDeERP.Models.Dto.OutputDto.PersonnelMatters.UserDto
     public class GetUserListOuputDto:OutputBase
     {
         /// <summary>
+        /// 页码
+        /// </summary>
+        public int PageIndex { get; set; }
+
+        /// <summary>
+        /// 页容量
+        /// </summary>
+        public int PageSize { get; set; }
+
+        /// <summary>
         /// 用户Id
         /// </summary>
         public string UserId { get; set; }

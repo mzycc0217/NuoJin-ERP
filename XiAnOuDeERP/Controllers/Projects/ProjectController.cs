@@ -372,5 +372,78 @@ namespace XiAnOuDeERP.Controllers.Projects
             return list;
         }
 
+
+
+        /// <summary>
+        /// 历史项目
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<List<ProjectOutputDto>> GetHositryList(GetProjectInputDto input)
+        {
+            var data = await db.Projects
+                .Where(M => !M.IsDelete&&M.ProjectStateId== 43275373866225664)
+                .ToListAsync();
+
+            if (!string.IsNullOrWhiteSpace(input.ProjectName))
+            {
+                data = data.Where(m => m.Name != null && m.Name.Contains(input.ProjectName)).ToList();
+            }
+
+            if (input.ProjectId != null)
+            {
+                data = data.Where(m => m.Id == input.ProjectId).ToList();
+            }
+
+            if (input.ProjectStateId != null)
+            {
+                data = data.Where(m => m.ProjectStateId == input.ProjectStateId).ToList();
+            }
+
+            if (input.IsComplete)
+            {
+                data = data.Where(m => m.ProjectState.Name == "完成").ToList();
+            }
+
+            var list = new List<ProjectOutputDto>();
+
+            foreach (var item in data)
+            {
+                list.Add(new ProjectOutputDto()
+                {
+                    CreateDate = item.CreateDate,
+                    Name = item.Name,
+                    Number = item.Number,
+                    ProjectId = item.Id.ToString(),
+                    UpdateDate = item.UpdateDate,
+                    ProjectStateId = item.ProjectStateId.ToString(),
+                    ProjectState = item.ProjectState,
+                    Desc = item.Desc
+                });
+            }
+
+            var count = list.Count;
+
+            list = list
+                .OrderByDescending(m => m.ProjectId)
+                .ToList();
+
+            if (input.PageIndex != null && input.PageSize != null
+                && input.PageIndex != 0 && input.PageSize != 0)
+            {
+                list = list
+                    .Skip((input.PageIndex - 1) * input.PageSize)
+                    .Take(input.PageSize)
+                    .ToList();
+            }
+
+            if (list != null && list.Count > 0)
+            {
+                list[0].Count = count;
+            }
+
+            return list;
+        }
     }
 }

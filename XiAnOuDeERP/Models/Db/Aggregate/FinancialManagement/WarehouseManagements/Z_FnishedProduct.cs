@@ -153,7 +153,7 @@ namespace XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagemen
 
 
         /// <summary>
-        ///成品半成品标志
+        ///成品半成品标志（1）成品（2半成品）
         /// </summary>
         
         public int Finshed_Sign { get; set; }

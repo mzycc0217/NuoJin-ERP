@@ -95,7 +95,10 @@ namespace XiAnOuDeERP.Models.Dto.Monad
         /// </summary>
         public DateTime? ArrivalTime { get; set; }
 
-
+        /// <summary>
+        /// 采购数量
+        /// </summary>
+        public double? PurshAmount { get; set; }
 
         /// <summary>
         /// 是否删除

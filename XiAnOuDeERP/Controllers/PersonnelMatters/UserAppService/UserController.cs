@@ -1382,5 +1382,48 @@ namespace XiAnOuDeERP.PersonnelMatters.Controllers.UserAppService
             
 
         }
+
+
+
+
+
+        /// <summary>
+        /// 获取用户列表(销售部门)
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<List<GetUserListOuputDto>> GetUserListst(GetUserListOuputDto input)
+        {
+
+            var userId = ((UserIdentity)User.Identity).UserId;
+
+            var result = await Task.Run(() => db.UserDetails.AsNoTracking().SingleOrDefaultAsync(p => p.Id == userId));
+
+            var departmentid = result.User.DepartmentId;
+            //   result.User.DepartmentId;
+            var res = await Task.Run(() => db.UserDetails
+            .Where(p => p.User.DepartmentId == departmentid)
+            .Select(p => new GetUserListOuputDto
+            {
+                UserId = p.Id.ToString(),
+                UserName=p.RealName,
+                Department=p.User.Department
+            })) ;
+
+
+            if (!string.IsNullOrWhiteSpace(input.RealName))
+            {
+                res = await Task.Run(() => res.Where(p => p.RealName.Contains(input.RealName))
+                .OrderBy(p => p.RealName)
+                 .Skip((input.PageIndex * input.PageSize) - input.PageSize).Take(input.PageSize));
+                return await res.ToListAsync();
+            }
+
+            return  await res.ToListAsync();
+        }
+
+
+
     }
 }

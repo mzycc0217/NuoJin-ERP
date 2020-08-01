@@ -39,6 +39,7 @@ namespace XiAnOuDeERP.Models.Db.Aggregate.OutEntropt
         /// </summary>
         public double? QuasiPurchaseNumber { get; set; }
 
+
         /// <summary>
         /// 单价
         /// </summary>
@@ -48,7 +49,6 @@ namespace XiAnOuDeERP.Models.Db.Aggregate.OutEntropt
         /// 金额
         /// </summary>
         public decimal? Amount { get; set; }
-
 
         /// <summary>
         /// 附件
@@ -75,6 +75,7 @@ namespace XiAnOuDeERP.Models.Db.Aggregate.OutEntropt
         /// 申请是否完成 3代表完成
         /// </summary>
         public int is_or { get; set; }
+
         /// <summary>
         /// 采购日期
         /// </summary>
@@ -87,17 +88,20 @@ namespace XiAnOuDeERP.Models.Db.Aggregate.OutEntropt
         public string WaybillNumber { get; set; }
 
         /// <summary>
-        /// 采购合同
+        /// 销售合同
         /// </summary>
         [StringLength(255)]
         public string PurchaseContract { get; set; }
 
         /// <summary>
-        /// 到货日期
+        /// 申请入库日期
         /// </summary>
         public DateTime? ArrivalTime { get; set; }
 
-
+        /// <summary>
+        ///成品半成品标志（1）成品（2半成品）
+        /// </summary>
+        public int Finshed_Sign { get; set; }
 
         /// <summary>
         /// 是否删除
@@ -105,7 +109,7 @@ namespace XiAnOuDeERP.Models.Db.Aggregate.OutEntropt
         public bool IsDelete { get; set; }
 
         /// <summary>
-        /// 申请人Id
+        /// 销售人员
         /// </summary>
         public long? ApplicantId { get; set; }
 
@@ -116,10 +120,10 @@ namespace XiAnOuDeERP.Models.Db.Aggregate.OutEntropt
         public long? SupplierId { get; set; }
 
         /// <summary>
-        /// 化学用品
+        /// 产成品
         /// </summary>
-
         public long? FnishedProductId { get; set; }
+
 
         public virtual Z_FnishedProduct Z_FnishedProduct { get; set; }
 

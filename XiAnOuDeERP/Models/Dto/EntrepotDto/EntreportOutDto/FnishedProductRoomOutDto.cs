@@ -46,7 +46,11 @@ namespace XiAnOuDeERP.Models.Dto.EntrepotDto.EntreportOutDto
         /// 物品描述
         /// </summary>
         public string RoomDes { get; set; }
-
+        
+        /// <summary>
+        /// 产成品半成品标志（1）成品（2）半成品
+        /// </summary>
+        public string Finshed_Sign { get; set; }
         /// <summary>
         /// 仓库
         /// </summary>

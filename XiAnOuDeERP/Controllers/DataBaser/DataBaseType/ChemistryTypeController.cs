@@ -27,6 +27,7 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DataBaseType
         [HttpPost]
         public async Task<IHttpActionResult> AddRowType(ChemistryTypeDto chemistryTypeDto)
         {
+         
 
             try
             {

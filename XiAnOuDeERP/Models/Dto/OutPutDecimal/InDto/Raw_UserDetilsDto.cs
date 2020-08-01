@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using XiAnOuDeERP.Models.Util;
 
 namespace XiAnOuDeERP.Models.Dto.OutPutDecimal.InDto
 {
-    public class Raw_UserDetilsDto
+    public class Raw_UserDetilsDto:InputBase
     {
         /// <summary>
         /// 明细Id
@@ -48,5 +49,15 @@ namespace XiAnOuDeERP.Models.Dto.OutPutDecimal.InDto
         {
             get; set;
         }
+
+        /// <summary>
+        /// 名字（模糊查询）
+        /// </summary>
+        public string RelName { get; set; }
+
+        /// <summary>
+        /// 物品名称（模糊查询）
+        /// </summary>
+        public string Name { get; set; }
     }
 }

@@ -26,5 +26,13 @@ namespace XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto
         /// </summary>
    
         public string ContentDes { get; set; }
+        /// <summary>
+        /// 仓库id
+        /// </summary>
+
+        public long enportid { get; set; }
+
+  
+
     }
 }

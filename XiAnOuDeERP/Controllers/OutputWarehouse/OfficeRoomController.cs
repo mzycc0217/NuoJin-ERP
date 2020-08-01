@@ -173,12 +173,59 @@ namespace XiAnOuDeERP.Controllers.OutputWarehouse
         {
             try
             {
+
+
+                var resultc = await Task.Run(() => db.Offices.Where
+                  (p => p.Id > 0));
+                if (officeOutDto.PageIndex == -1 && officeOutDto.PageSize == -1)
+                {
+
+                    var result = await Task.Run(() => db.Offices.Where
+                    (p => p.Id > 0)
+                    .Select(p => new OfficeOutDto
+                    {
+                        Id = (p.Id).ToString(),
+                        OfficeId = (p.Z_Office.Id).ToString(),
+                        User_id = (p.userDetails.Id).ToString(),
+                        EntrepotId = (p.entrepot.Id).ToString(),
+                        Z_Office = p.Z_Office,
+                        entrepot = p.entrepot,
+                        userDetails = p.userDetails
+
+                    }).ToList().Distinct());
+
+                    return Json(new { code = 200, data = result, Count = result.Count() });
+
+                }
+
+
+                if (officeOutDto.PageIndex != null && officeOutDto.PageSize != null && officeOutDto.relName!=null && officeOutDto.Name!=null)
+                {
+
+                    var result = await Task.Run(() => db.Offices.Where
+                    (p => p.Id > 0 && p.Z_Office.Name.Contains(officeOutDto.Name) || p.userDetails.RealName.Contains(officeOutDto.relName))
+                    .Select(p => new OfficeOutDto
+                    {
+                        Id = (p.Id).ToString(),
+                        OfficeId = (p.Z_Office.Id).ToString(),
+                        User_id = (p.userDetails.Id).ToString(),
+                        EntrepotId = (p.entrepot.Id).ToString(),
+                        Z_Office = p.Z_Office,
+                        entrepot = p.entrepot,
+                        userDetails = p.userDetails
+
+                    }).OrderBy(p => p.Id).Skip((officeOutDto.PageIndex * officeOutDto.PageSize) - officeOutDto.PageSize).Take(officeOutDto.PageSize).ToList());
+
+                    return Json(new { code = 200, data = result, Count = result.Count() });
+
+                }
+
                 // var result = db.RawRooms.Where(p => p.Id > 0);
                 if (officeOutDto.PageIndex != null && officeOutDto.PageSize != null)
                 {
 
                     var result = await Task.Run(() => db.Offices.Where
-                    (p => p.Id > 0 || p.Z_Office.Name.Contains(officeOutDto.Name) || p.userDetails.RealName.Contains(officeOutDto.relName))
+                    (p => p.Id > 0)
                     .Select(p => new OfficeOutDto
                     {
                         Id = (p.Id).ToString(),

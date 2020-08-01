@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using XiAnOuDeERP.Models.Db.UserManage;
 using XiAnOuDeERP.Models.Enum;
 using XiAnOuDeERP.Models.Util;
 
@@ -98,5 +99,17 @@ namespace XiAnOuDeERP.Models.Db.Aggregate.PersonnelMatters.Users
         /// 用户
         /// </summary>
         public virtual User User { get; set; }
+
+        /// <summary>
+        /// 职位
+        /// </summary>
+
+
+        public long? PositionId { get; set; }
+
+        /// <summary>
+        /// 职位
+        /// </summary>
+        public virtual Position_User Position_User { get; set; }
     }
 }

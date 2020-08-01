@@ -32,7 +32,10 @@ namespace XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.PurchasingManageme
         /// </summary>
         public double RawNumber { get; set; }
 
-
+        /// <summary>
+        /// 入库数量（入库数量）
+        /// </summary>
+        public double InenportNumber { get; set; }
         /// <summary>
         /// 是否退库
         /// </summary>

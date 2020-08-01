@@ -122,7 +122,6 @@ namespace XiAnOuDeERP.Models.Db.Aggregate.OutEntropt
 
         public virtual Z_Chemistry Z_Chemistry { get; set; }
 
-     
 
         /// <summary>
         /// 申请人

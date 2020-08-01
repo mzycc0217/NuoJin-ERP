@@ -1205,14 +1205,14 @@ namespace XiAnOuDeERP.Controllers.PersonnelMatters.UserJurisdictionAppService
         /// <returns></returns>
 
 
-        [HttpPost]
-        public async Task<IHttpActionResult> GetMenus()
-        {
+        //[HttpPost]
+        //public async Task<IHttpActionResult> GetMenus()
+        //{
 
-            var userId = ((UserIdentity)User.Identity).UserId;
+        //    var userId = ((UserIdentity)User.Identity).UserId;
 
-            var result = db.User_User_Types.Where(p => p.u_Id == userId).ToList();
-            return Json(result);
+        //    var result = db.User_User_Types.Where(p => p.u_Id == userId).ToList();
+        //    return Json(result);
 
             
                         
@@ -1222,6 +1222,6 @@ namespace XiAnOuDeERP.Controllers.PersonnelMatters.UserJurisdictionAppService
 
             
 
-        }
+        //}
     }
 }

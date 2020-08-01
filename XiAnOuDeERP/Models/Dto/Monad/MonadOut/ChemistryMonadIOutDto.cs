@@ -139,5 +139,19 @@ namespace XiAnOuDeERP.Models.Dto.Monad.MonadOut
         /// 供货商
         /// </summary>
         public  Supplier Supplier { get; set; }
+
+
+        /// <summary>
+        /// 模糊查询人名
+        /// </summary>
+        public string RelName { get; set; }
+
+
+        /// <summary>
+        /// 模糊查询办公用品名称
+        /// </summary>
+        public string OfficeName { get; set; }
+
+
     }
 }

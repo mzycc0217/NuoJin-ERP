@@ -174,11 +174,58 @@ namespace XiAnOuDeERP.Controllers.OutputWarehouse
             try
             {
                 // var result = db.RawRooms.Where(p => p.Id > 0);
+                var resultc = await Task.Run(() => db.ChemistryRooms.Where
+                   (p => p.Id > 0));
+
+                if (chemistryOutDto.PageIndex == -1 && chemistryOutDto.PageSize == -1)
+                {
+
+                    var result = await Task.Run(() => db.ChemistryRooms.Where
+                    (p => p.Id > 0)
+                    .Select(p => new ChemistryOutDto
+                    {
+                        Id = (p.Id).ToString(),
+                        ChemistryId = (p.Z_Chemistry.Id).ToString(),
+                        User_id = (p.userDetails.Id).ToString(),
+                        EntrepotId = (p.entrepot.Id).ToString(),
+                        Z_Chemistry = p.Z_Chemistry,
+                        entrepot = p.entrepot,
+                        userDetails = p.userDetails
+
+                    }).ToList());
+
+                    return Json(new { code = 200, data = result, Count = result.Count() });
+
+                }
+
+
+                if (chemistryOutDto.relName != null || chemistryOutDto.Name != null && chemistryOutDto.PageIndex != null && chemistryOutDto.PageSize != null)
+                {
+
+                    var result = await Task.Run(() => db.ChemistryRooms.Where
+                    (p => p.Z_Chemistry.Name.Contains(chemistryOutDto.Name) || p.userDetails.RealName.Contains(chemistryOutDto.relName))
+                    .Select(p => new ChemistryOutDto
+                    {
+                        Id = (p.Id).ToString(),
+                        ChemistryId = (p.Z_Chemistry.Id).ToString(),
+                        User_id = (p.userDetails.Id).ToString(),
+                        EntrepotId = (p.entrepot.Id).ToString(),
+                        Z_Chemistry = p.Z_Chemistry,
+                        entrepot = p.entrepot,
+                        userDetails = p.userDetails
+
+                    }).OrderBy(p => p.Id).Skip((chemistryOutDto.PageIndex * chemistryOutDto.PageSize) - chemistryOutDto.PageSize).Take(chemistryOutDto.PageSize).ToList());
+
+                    return Json(new { code = 200, data = result, Count = result.Count() });
+
+                }
+
+
                 if (chemistryOutDto.PageIndex != null && chemistryOutDto.PageSize != null)
                 {
 
                     var result = await Task.Run(() => db.ChemistryRooms.Where
-                    (p => p.Id > 0 ||p.Z_Chemistry.Name.Contains(chemistryOutDto.Name) || p.userDetails.RealName.Contains(chemistryOutDto.relName))
+                    (p => p.Id > 0 && p.Z_Chemistry.Name.Contains(chemistryOutDto.Name) || p.userDetails.RealName.Contains(chemistryOutDto.relName))
                     .Select(p => new ChemistryOutDto
                     {
                         Id = (p.Id).ToString(),

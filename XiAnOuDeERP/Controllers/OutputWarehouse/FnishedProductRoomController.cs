@@ -164,7 +164,7 @@ namespace XiAnOuDeERP.Controllers.OutputWarehouse
 
 
         /// <summary>
-        /// 获取库存中的产成品
+        /// 获取库存中的产成品(1)成品（2）产成品
         /// </summary>
         /// <param name="fnishedProductRoomOutDto"></param>
         /// <returns></returns>
@@ -173,12 +173,78 @@ namespace XiAnOuDeERP.Controllers.OutputWarehouse
         {
             try
             {
+
+                if (fnishedProductRoomOutDto.PageIndex == -1 && fnishedProductRoomOutDto.PageSize == -1&&!string.IsNullOrWhiteSpace(fnishedProductRoomOutDto.Finshed_Sign))
+                {
+
+                    var result = await Task.Run(() => db.FnishedProductRooms.Where
+                    (p => p.Id > 0&&p.Z_FnishedProduct.Finshed_Sign.ToString()== fnishedProductRoomOutDto.Finshed_Sign)
+                    .Select(p => new FnishedProductRoomOutDto
+                    {
+                        Id = (p.Id).ToString(),
+                        FnishedProductId = (p.Z_FnishedProduct.Id).ToString(),
+                        User_id = (p.userDetails.Id).ToString(),
+                        EntrepotId = (p.entrepot.Id).ToString(),
+                        Z_FnishedProduct = p.Z_FnishedProduct,
+                        entrepot = p.entrepot,
+                        Finshed_Sign = p.Z_FnishedProduct.Finshed_Sign.ToString(),
+                        userDetails = p.userDetails
+
+                    }).ToList());
+
+                    return Json(new { code = 200, data = result, Count = result.Count() });
+
+                }
+                if (fnishedProductRoomOutDto.PageIndex == -1 && fnishedProductRoomOutDto.PageSize == -1)
+                {
+
+                    var result = await Task.Run(() => db.FnishedProductRooms.Where
+                    (p => p.Id > 0 )
+                    .Select(p => new FnishedProductRoomOutDto
+                    {
+                        Id = (p.Id).ToString(),
+                        FnishedProductId = (p.Z_FnishedProduct.Id).ToString(),
+                        User_id = (p.userDetails.Id).ToString(),
+                        EntrepotId = (p.entrepot.Id).ToString(),
+                        Z_FnishedProduct = p.Z_FnishedProduct,
+                        Finshed_Sign=p.Z_FnishedProduct.Finshed_Sign.ToString(),
+                        entrepot = p.entrepot,
+                        userDetails = p.userDetails
+
+                    }).ToList());
+
+                    return Json(new { code = 200, data = result, Count = result.Count() });
+
+                }
+
+
+                if (fnishedProductRoomOutDto.Name != null && fnishedProductRoomOutDto.relName != null)
+                {
+
+                    var result = await Task.Run(() => db.FnishedProductRooms.Where
+                    (p=> p.Z_FnishedProduct.Name.Contains(fnishedProductRoomOutDto.Name) &&p.userDetails.RealName.Contains(fnishedProductRoomOutDto.relName))
+                    .Select(p => new FnishedProductRoomOutDto
+                    {
+                        Id = (p.Id).ToString(),
+                        FnishedProductId = (p.Z_FnishedProduct.Id).ToString(),
+                        User_id = (p.userDetails.Id).ToString(),
+                        EntrepotId = (p.entrepot.Id).ToString(),
+                        Z_FnishedProduct = p.Z_FnishedProduct,
+                        entrepot = p.entrepot,
+                        userDetails = p.userDetails
+
+                    }).OrderBy(p => p.Id).Skip((fnishedProductRoomOutDto.PageIndex * fnishedProductRoomOutDto.PageSize) - fnishedProductRoomOutDto.PageSize).Take(fnishedProductRoomOutDto.PageSize).ToList());
+
+                    return Json(new { code = 200, data = result, Count = result.Count() });
+
+                }
+
                 // var result = db.RawRooms.Where(p => p.Id > 0);
                 if (fnishedProductRoomOutDto.PageIndex != null && fnishedProductRoomOutDto.PageSize != null)
                 {
 
                     var result = await Task.Run(() => db.FnishedProductRooms.Where
-                    (p => p.Id > 0 || p.Z_FnishedProduct.Name.Contains(fnishedProductRoomOutDto.Name) || p.userDetails.RealName.Contains(fnishedProductRoomOutDto.relName))
+                    (p => p.Id > 0 && p.Z_FnishedProduct.Name.Contains(fnishedProductRoomOutDto.Name) || p.userDetails.RealName.Contains(fnishedProductRoomOutDto.relName))
                     .Select(p => new FnishedProductRoomOutDto
                     {
                         Id = (p.Id).ToString(),

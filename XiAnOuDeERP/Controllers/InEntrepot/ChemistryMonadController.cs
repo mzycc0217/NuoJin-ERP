@@ -13,6 +13,9 @@ using XiAnOuDeERP.Models.Db.Aggregate.OutEntropt.Outenport;
 using XiAnOuDeERP.Models.Db.Aggregate.StrongRoom;
 using XiAnOuDeERP.Models.Dto.Monad;
 using XiAnOuDeERP.Models.Dto.Monad.MonadOut;
+using XiAnOuDeERP.Models.Dto.My_FlowDto;
+using XiAnOuDeERP.Models.Dto.OutPutDecimal.InDto;
+using XiAnOuDeERP.Models.Dto.OutPutDecimal.OutDto;
 using XiAnOuDeERP.Models.Dto.OutputDto.PersonnelMatters.UserDto;
 using XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto;
 using XiAnOuDeERP.Models.Util;
@@ -26,11 +29,15 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
     {
 
         XiAnOuDeContext db = new XiAnOuDeContext();
+        
+        
+        private int Is_Or { get; set; }
         /// <summary>
         /// 添加化学用品单
         /// </summary>
         /// <param name="chemistryMonadInDto"></param>
         /// <returns></returns>
+       
         [HttpPost]
         public async Task<IHttpActionResult> SetAddChemistryMonad(ChemistryMonadInDto chemistryMonadInDto)
         {
@@ -46,18 +53,25 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
 
                 if (chemistryMonadInDto.ChemistryId != null)
                 {
-                    var result = await Task.Run(() => db.RawRooms.AsNoTracking().SingleOrDefaultAsync(p => p.Id == chemistryMonadInDto.ChemistryId));
-                    int is_or;
+                    var result = await Task.Run(() => db.ChemistryRooms.AsNoTracking().Where(p => p.ChemistryId == chemistryMonadInDto.ChemistryId));
+                  
 
-                    if (result.RawNumber >= chemistryMonadInDto.ApplyNumber)
+                    foreach (var item in result)
                     {
-                        //可以直接领取
-                        is_or = 1;
-                    }
-                    else
-                    {
-                        //不可以直接领取
-                        is_or = 2;
+                        
+                        if (item.RawNumber >= chemistryMonadInDto.ApplyNumber)
+                        {
+                            //可以直接领取
+                            this.Is_Or = 1;
+                            break;
+
+                        }
+                        else
+                        {
+                            //不可以直接领取
+                            this.Is_Or = 2;
+                            break;
+                        }
                     }
 
 
@@ -69,7 +83,7 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
                         ApplicantRemarks = chemistryMonadInDto.ApplicantRemarks,
                         ApplyNumber = chemistryMonadInDto.ApplyNumber,
                         ApplyTime = chemistryMonadInDto.ApplyTime,
-
+                       
                         ArrivalTime = chemistryMonadInDto.ArrivalTime,
                         SupplierId = chemistryMonadInDto.SupplierId,
                         Enclosure = chemistryMonadInDto.Enclosure,
@@ -78,13 +92,13 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
                         PurchaseContract = chemistryMonadInDto.PurchaseContract,
                         PurchaseTime = chemistryMonadInDto.PurchaseTime,
                         Purpose = chemistryMonadInDto.Purpose,
-                        QuasiPurchaseNumber = chemistryMonadInDto.QuasiPurchaseNumber,
+                        QuasiPurchaseNumber = chemistryMonadInDto.ApplyNumber,
                         ChemistryId = chemistryMonadInDto.ChemistryId,
                         WaybillNumber = chemistryMonadInDto.WaybillNumber,
                         ExpectArrivalTime = chemistryMonadInDto.ExpectArrivalTime,
                         IsDelete = false,
 
-                        is_or = (int)is_or,
+                        is_or = this.Is_Or,
                         // ApprovalKey = related.ApprovalKey,
 
                     };
@@ -118,72 +132,84 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
         [HttpPost]
         public async Task<IHttpActionResult> GetsChemistryMonad(ChemistryMonadIOutDto chemistryMonadIOut)
         {
-            //获取所有采购申请单
-            if (chemistryMonadIOut.PageSize != null && chemistryMonadIOut.PageIndex != null && !string.IsNullOrWhiteSpace(chemistryMonadIOut.Applicant.RealName))
-            {
-                var result = await Task.Run(() => db.ChemistryMonad.Where(p => p.Id > 0 && p.is_or == 1 && p.IsDelete == false || p.Applicant.RealName.Contains(chemistryMonadIOut.Applicant.RealName))
-                .Select(p => new ChemistryMonadIOutDto
-                {
-                    Id = p.Id.ToString(),
-                    Amount = p.Amount,
-                    ApplicantRemarks = p.ApplicantRemarks,
-                    ApplyNumber = p.ApplyNumber,
-                    ApplyTime = p.ApplyTime,
-                    // ApprovalType = p.ApprovalType,
-                    //  AssetExpenditureDesc = p.AssetExpenditureDesc,
-                    ArrivalTime = p.ArrivalTime,
-                    SupplierId = p.Supplier.Id.ToString(),
-                    Supplier = p.Supplier,
-                    ChemistryId = p.Z_Chemistry.Company.Id.ToString(),
-                    Company = p.Z_Chemistry.Company,
-                    Enclosure = p.Enclosure,
-                    Price = p.Price,
-                    PurchaseContract = p.PurchaseContract,
-                    PurchaseTime = p.PurchaseTime,
-                    Purpose = p.Purpose,
-                    QuasiPurchaseNumber = p.QuasiPurchaseNumber,
-                    WaybillNumber = p.WaybillNumber,
-                    ApplicantId = p.ApplicantId.ToString(),
-                    Applicant = p.Applicant,
+            //  获取所有采购申请单chemistryMonadIOut.PageSize != null && chemistryMonadIOut.PageIndex != null
+            //if (chemistryMonadIOut.PageSize != null && chemistryMonadIOut.PageIndex != null || !string.IsNullOrWhiteSpace(chemistryMonadIOut.Applicant.RealName))
+            //{
+            //    var result = await Task.Run(() => db.ChemistryMonad.Where(p => p.Id > 0 && p.is_or == 1 && p.IsDelete == false || p.Applicant.RealName.Contains(chemistryMonadIOut.Applicant.RealName))
+            //    .Select(p => new ChemistryMonadIOutDto
+            //    {
+            //        Id = p.Id.ToString(),
+            //        Amount = p.Amount,
+            //        ApplicantRemarks = p.ApplicantRemarks,
+            //        ApplyNumber = p.ApplyNumber,
+            //        ApplyTime = p.ApplyTime,
+            //        // ApprovalType = p.ApprovalType,
+            //        //  AssetExpenditureDesc = p.AssetExpenditureDesc,
+            //        ArrivalTime = p.ArrivalTime,
+            //        SupplierId = p.Supplier.Id.ToString(),
+            //        Supplier = p.Supplier,
+            //        ChemistryId = p.Z_Chemistry.Company.Id.ToString(),
+            //        Company = p.Z_Chemistry.Company,
+            //        Z_Chemistry = p.Z_Chemistry,
+            //        Enclosure = p.Enclosure,
+            //        Price = p.Price,
+            //        PurchaseContract = p.PurchaseContract,
+            //        PurchaseTime = p.PurchaseTime,
+            //        Purpose = p.Purpose,
+            //        QuasiPurchaseNumber = p.QuasiPurchaseNumber,
+            //        WaybillNumber = p.WaybillNumber,
+            //        ApplicantId = p.ApplicantId.ToString(),
+            //        Applicant = p.Applicant,
 
-                    ExpectArrivalTime = p.ExpectArrivalTime,
-                }).OrderBy(p => p.Id)
-                .Skip((chemistryMonadIOut.PageIndex * chemistryMonadIOut.PageSize) - chemistryMonadIOut.PageSize).Take(chemistryMonadIOut.PageSize).ToListAsync());
-                return Json(new { code = 200, data = result, Count = result.Count() });
-            }
-            if (chemistryMonadIOut.PageSize != null && chemistryMonadIOut.PageIndex != null)
-            {
-                var result = await Task.Run(() => db.ChemistryMonad.Where(p => p.Id > 0 && p.is_or == 1 && p.IsDelete == false)
-                .Select(p => new ChemistryMonadIOutDto
-                {
-                    Id = p.Id.ToString(),
-                    Amount = p.Amount,
-                    ApplicantRemarks = p.ApplicantRemarks,
-                    ApplyNumber = p.ApplyNumber,
-                    ApplyTime = p.ApplyTime,
-                    // ApprovalType = p.ApprovalType,
-                    //  AssetExpenditureDesc = p.AssetExpenditureDesc,
-                    ArrivalTime = p.ArrivalTime,
-                    SupplierId = p.Supplier.Id.ToString(),
-                    Supplier = p.Supplier,
-                    ChemistryId = p.Z_Chemistry.Company.Id.ToString(),
-                    Company = p.Z_Chemistry.Company,
-                    Enclosure = p.Enclosure,
-                    Price = p.Price,
-                    PurchaseContract = p.PurchaseContract,
-                    PurchaseTime = p.PurchaseTime,
-                    Purpose = p.Purpose,
-                    QuasiPurchaseNumber = p.QuasiPurchaseNumber,
-                    WaybillNumber = p.WaybillNumber,
-                    ApplicantId = p.ApplicantId.ToString(),
-                    Applicant = p.Applicant,
+            //        ExpectArrivalTime = p.ExpectArrivalTime,
+            //    }).OrderBy(p => p.Id)
+            //    .Skip((chemistryMonadIOut.PageIndex * chemistryMonadIOut.PageSize) - chemistryMonadIOut.PageSize).Take(chemistryMonadIOut.PageSize).ToList());
+            //     return Json(new { code = 200, data = result, Count = result.Count() });
+            // }
 
-                    ExpectArrivalTime = p.ExpectArrivalTime,
-                }).OrderBy(p => p.Id)
-                .Skip((chemistryMonadIOut.PageIndex * chemistryMonadIOut.PageSize) - chemistryMonadIOut.PageSize).Take(chemistryMonadIOut.PageSize).ToListAsync());
-                return Json(new { code = 200, data = result, Count = result.Count() });
+            var result = await Task.Run(() => db.ChemistryMonad.Where(p => p.Id > 0 && p.is_or == 1 && p.IsDelete == false)
+                 .Select(p => new ChemistryMonadIOutDto
+                 {
+                     Id = p.Id.ToString(),
+                     Amount = p.Amount,
+                     ApplicantRemarks = p.ApplicantRemarks,
+                     ApplyNumber = p.ApplyNumber,
+                     ApplyTime = p.ApplyTime,
+                     // ApprovalType = p.ApprovalType,
+                     //  AssetExpenditureDesc = p.AssetExpenditureDesc,
+                     ArrivalTime = p.ArrivalTime,
+                     SupplierId = p.Supplier.Id.ToString(),
+                     Supplier = p.Supplier,
+                     ChemistryId = p.Z_Chemistry.Id.ToString(),
+                     Company = p.Z_Chemistry.Company,
+                     Z_Chemistry = p.Z_Chemistry,
+                     Enclosure = p.Enclosure,
+                     Price = p.Price,
+                     PurchaseContract = p.PurchaseContract,
+                     PurchaseTime = p.PurchaseTime,
+                     Purpose = p.Purpose,
+                     QuasiPurchaseNumber = p.QuasiPurchaseNumber,
+                     WaybillNumber = p.WaybillNumber,
+                     ApplicantId = p.ApplicantId.ToString(),
+                     Applicant = p.Applicant,
+
+                     ExpectArrivalTime = p.ExpectArrivalTime,
+                 }).OrderBy(p => p.Id)
+                .Skip((chemistryMonadIOut.PageIndex * chemistryMonadIOut.PageSize) - chemistryMonadIOut.PageSize).Take(chemistryMonadIOut.PageSize));
+                
+            
+            if (!string.IsNullOrWhiteSpace(chemistryMonadIOut.RelName))
+            {
+              result=await Task.Run(()=> result.Where(p => p.Applicant.RealName.Contains(chemistryMonadIOut.RelName)));
+
+                return Json(new { code = 200, data =await result.ToListAsync(), Count = result.Count() });
             }
-            return Json(new { code = 400 });
+            else
+            {
+                return Json(new { code = 200, data = await result.ToListAsync(), Count = result.Count() });
+            }
+
+           
         }
 
         /// <summary>
@@ -219,6 +245,7 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
                     Supplier = p.Supplier,
                     ChemistryId = p.Z_Chemistry.Company.Id.ToString(),
                     Company = p.Z_Chemistry.Company,
+                    Z_Chemistry=p.Z_Chemistry,
                     Enclosure = p.Enclosure,
                     Price = p.Price,
                     PurchaseContract = p.PurchaseContract,
@@ -245,7 +272,7 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
                     ApplicantRemarks = p.ApplicantRemarks,
                     ApplyNumber = p.ApplyNumber,
                     ApplyTime = p.ApplyTime,
-                    // ApprovalType = p.ApprovalType,
+                    Z_Chemistry = p.Z_Chemistry,
                     //  AssetExpenditureDesc = p.AssetExpenditureDesc,
                     ArrivalTime = p.ArrivalTime,
                     SupplierId = p.Supplier.Id.ToString(),
@@ -283,7 +310,58 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
             try
             {
                 var userId = ((UserIdentity)User.Identity).UserId;
-               // 添加签核人
+             
+                var resuls = await db.ChemistryMonad.SingleOrDefaultAsync(p => p.Id == chemistry_UserIn.ChemistryId);
+                //添加领料
+                long Enportid;//仓库id
+                if (chemistry_UserIn.enportid == 0)
+                {
+
+                    var result = await Task.Run(() => db.ChemistryRooms
+                    .Where(p => p.ChemistryId == resuls.ChemistryId && p.RawNumber >= resuls.QuasiPurchaseNumber).FirstOrDefaultAsync());
+                    if (result==null)
+                    {
+                        resuls.is_or = 5;
+                        await db.SaveChangesAsync();
+                        return Json(new { code = 200, msg = "仓库数量不足,重新采购" });
+                    }
+                    Enportid = (long)result.EntrepotId;
+                    result.RawNumber = result.RawNumber - (double)resuls.QuasiPurchaseNumber;
+                    db.Entry(result).State = System.Data.Entity.EntityState.Modified;
+                    db.Entry(result).Property("RawNumber").IsModified = true;
+
+                }
+                else
+                {
+                    Enportid = chemistry_UserIn.enportid;
+                    var ChemistryRoom = await Task.Run(() => db.ChemistryRooms
+                    .FirstOrDefaultAsync(p => p.ChemistryId == resuls.ChemistryId && p.EntrepotId== Enportid));
+                  //  ChemistryRoom ChemistryRoom = new ChemistryRoom { ChemistryId = (long)resuls.ChemistryId, EntrepotId = Enportid };
+                    db.Entry(ChemistryRoom).State = System.Data.Entity.EntityState.Unchanged;
+                    ChemistryRoom.RawNumber = ChemistryRoom.RawNumber - (double)resuls.QuasiPurchaseNumber;
+                } 
+                //var res = new ChemistryRoom { ChemistryId = (long)resuls.ChemistryId };
+                //db.Entry(res).State = System.Data.Entity.EntityState.Unchanged;
+                //res.RawNumber = res.RawNumber - (double)resuls.QuasiPurchaseNumber;
+                resuls.is_or = 0;
+                db.Entry(resuls).State = System.Data.Entity.EntityState.Modified;
+                db.Entry(resuls).Property("is_or").IsModified = true;
+
+
+                Chemistry_UserDetils chemistry_UserDetils1 = new Chemistry_UserDetils
+                    {
+                        Id = IdentityManager.NewId(),
+                        ChemistryId = (long)resuls.ChemistryId,
+                        User_id = resuls.Applicant.Id,
+                        OutIutRoom = 1,//出库状态,
+                        is_or = 1,//显示为出库状态（个人获取到的）
+                                  //添加仓库（这里）
+                        entrepotid = Enportid,
+                        ChemistryNumber = (double)resuls.QuasiPurchaseNumber,
+                        GetTime = DateTime.Now
+                    };
+                    db.Chemistry_UserDetils.Add(chemistry_UserDetils1);  
+                // 添加签核人
                 Chmistry_User chmistry_User = new Chmistry_User
                 {
                     Id = IdentityManager.NewId(),
@@ -292,19 +370,6 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
                     ContentDes = chemistry_UserIn.ContentDes
                 };
                 db.Chmistry_Users.Add(chmistry_User);
-                var resuls = await db.ChemistryMonad.SingleOrDefaultAsync(p => p.Id == chemistry_UserIn.ChemistryId);
-                //添加领料
-                Chemistry_UserDetils chemistry_UserDetils1 = new Chemistry_UserDetils
-                {
-                    Id = IdentityManager.NewId(),
-                    ChemistryId = (long)resuls.ChemistryId,
-                    User_id = userId,
-                    ChemistryNumber = (double)resuls.QuasiPurchaseNumber,
-                    GetTime = DateTime.Now
-                };
-                db.Chemistry_UserDetils.Add(chemistry_UserDetils1);
-
-
                 // RawId = resuls.RawId;
                 //ApplyNumber = resuls.QuasiPurchaseNumber;
 
@@ -314,10 +379,7 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
 
 
 
-                var res = new ChemistryRoom { ChemistryId = (long)resuls.ChemistryId };
-                db.Entry(res).State = System.Data.Entity.EntityState.Unchanged;
-                res.RawNumber = res.RawNumber - (double)resuls.QuasiPurchaseNumber;
-                resuls.is_or = 0;
+             
 
 
                 if (await db.SaveChangesAsync() > 0)
@@ -417,7 +479,7 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
                     ApplyNumber = p.ApplyNumber,
                     ApplyTime = p.ApplyTime,
                     // ApprovalType = p.ApprovalType,
-                    //  AssetExpenditureDesc = p.AssetExpenditureDesc,
+                    Z_Chemistry = p.Z_Chemistry,
                     ArrivalTime = p.ArrivalTime,
                     SupplierId = p.Supplier.Id.ToString(),
                     Supplier = p.Supplier,
@@ -450,7 +512,7 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
                   ApplyNumber = p.ApplyNumber,
                   ApplyTime = p.ApplyTime,
                   // ApprovalType = p.ApprovalType,
-                  //  AssetExpenditureDesc = p.AssetExpenditureDesc,
+                  Z_Chemistry = p.Z_Chemistry,
                   ArrivalTime = p.ArrivalTime,
                   SupplierId = p.Supplier.Id.ToString(),
                   Supplier = p.Supplier,
@@ -479,107 +541,31 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
         /// 获取完成的采购单（获取自己名下的所有采购单input.PageSize == -2input.PageIndex == -2）（获取自己名下的已经完成的所有采购单input.PageSize == -1nput.PageIndex == -1）
         ///获取自己名下未完成的采购单（获取自己名下的所有采购单input.PageSize == -3input.PageIndex == -3）
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="chemistryMonadIOut"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IHttpActionResult> GetChemistryMonadCaigoud(PurshOutDto input)
+        public async Task<IHttpActionResult> GetChemistryMonadCaigoud(ChemistryMonadIOutDto chemistryMonadIOut)
         {
 
             //获取自己发布的申请单
             var userId = ((UserIdentity)User.Identity).UserId;
-            if (input.PageSize == -1 && input.PageIndex == -1)
+            if (chemistryMonadIOut.PageSize == -1 && chemistryMonadIOut.PageIndex == -1)
             {
-                var result = await Task.Run(() => db.Purchases.Where(p => p.Id > 0 && p.Applicant.Id == userId && p.is_or == 0 && p.IsDelete == false)
-        .Select(p => new PurshOutDto
+                var result = await Task.Run(() => db.ChemistryMonad.Where(p => p.Id > 0 && p.Applicant.Id == userId && p.is_or == 0 && p.IsDelete == false)
+        .Select(p => new ChemistryMonadIOutDto
         {
-            PurchaseId = p.Id.ToString(),
+            Id = p.Id.ToString(),
             Amount = p.Amount,
             ApplicantRemarks = p.ApplicantRemarks,
             ApplyNumber = p.ApplyNumber,
             ApplyTime = p.ApplyTime,
             // ApprovalType = p.ApprovalType,
-            //  ApprovalTypeStr = p.ApprovalType.GetDescription(),
-            //  ArrivalTime = p.ArrivalTime,
-            SupplierId = p.Supplier.Id.ToString(),
-            Supplier = p.Supplier,
-            CompanyId = p.Z_Raw.Company.ToString(),
-            company = p.Z_Raw.Company,
-            Enclosure = p.Enclosure,
-            Price = p.Price,
-            PurchaseContract = p.PurchaseContract,
-            PurchaseTime = p.PurchaseTime,
-            Purpose = p.Purpose,
-            QuasiPurchaseNumber = p.QuasiPurchaseNumber,
-            WaybillNumber = p.WaybillNumber,
-            ApplicantId = p.ApplicantId.ToString(),
-            Applicant = p.Applicant,
-            ApprovalDesc = p.ApprovalDesc,
-            ExpectArrivalTime = p.ExpectArrivalTime,
-            ProjectId = p.ProjectId.ToString(),
-            Project = p.Project,
-            RawId = p.Z_Raw.Id.ToString(),
-            z_Raw = p.Z_Raw,
-            Z_RowType = p.Z_Raw.Z_RowType
-        }).OrderBy(p => p.PurchaseId)
-        .Skip((input.PageIndex * input.PageSize) - input.PageSize).Take(input.PageSize).ToListAsync());
-                return Json(new { code = 200, Count = result.Count(), data = result });
-            }
-            //获取自己名下的所有采购单
-            if (input.PageSize == -2 && input.PageIndex == -2)
-            {
-                var result = await Task.Run(() => db.Purchases.Where(p => p.Id > 0 && p.Applicant.Id == userId)
-        .Select(p => new PurshOutDto
-        {
-            PurchaseId = p.Id.ToString(),
-            Amount = p.Amount,
-            ApplicantRemarks = p.ApplicantRemarks,
-            ApplyNumber = p.ApplyNumber,
-            ApplyTime = p.ApplyTime,
-            // ApprovalType = p.ApprovalType,
-            //  ApprovalTypeStr = p.ApprovalType.GetDescription(),
-            //  ArrivalTime = p.ArrivalTime,
-            SupplierId = p.Supplier.Id.ToString(),
-            Supplier = p.Supplier,
-            CompanyId = p.Z_Raw.Company.ToString(),
-            company = p.Z_Raw.Company,
-            Enclosure = p.Enclosure,
-            Price = p.Price,
-            PurchaseContract = p.PurchaseContract,
-            PurchaseTime = p.PurchaseTime,
-            Purpose = p.Purpose,
-            QuasiPurchaseNumber = p.QuasiPurchaseNumber,
-            WaybillNumber = p.WaybillNumber,
-            ApplicantId = p.ApplicantId.ToString(),
-            Applicant = p.Applicant,
-            ApprovalDesc = p.ApprovalDesc,
-            ExpectArrivalTime = p.ExpectArrivalTime,
-            ProjectId = p.ProjectId.ToString(),
-            Project = p.Project,
-            RawId = p.Z_Raw.Id.ToString(),
-            z_Raw = p.Z_Raw,
-            Z_RowType = p.Z_Raw.Z_RowType
-        }).OrderBy(p => p.PurchaseId)
-        .Skip((input.PageIndex * input.PageSize) - input.PageSize).Take(input.PageSize).ToListAsync());
-                return Json(new { code = 200, Count = result.Count(), data = result });
-            }
-            //获取自己名下的未完成的采购单
-            if (input.PageSize == -3 && input.PageIndex == -3)
-            {
-                var result = await Task.Run(() => db.Purchases.Where(p => p.Id > 0 && p.Applicant.Id == userId && p.is_or != 0)
-        .Select(p => new PurshOutDto
-        {
-            PurchaseId = p.Id.ToString(),
-            Amount = p.Amount,
-            ApplicantRemarks = p.ApplicantRemarks,
-            ApplyNumber = p.ApplyNumber,
-            ApplyTime = p.ApplyTime,
-            // ApprovalType = p.ApprovalType,
-            //  ApprovalTypeStr = p.ApprovalType.GetDescription(),
+            Z_Chemistry = p.Z_Chemistry,
             ArrivalTime = p.ArrivalTime,
             SupplierId = p.Supplier.Id.ToString(),
             Supplier = p.Supplier,
-            CompanyId = p.Z_Raw.Company.ToString(),
-            company = p.Z_Raw.Company,
+            ChemistryId = p.Z_Chemistry.Company.Id.ToString(),
+            Company = p.Z_Chemistry.Company,
             Enclosure = p.Enclosure,
             Price = p.Price,
             PurchaseContract = p.PurchaseContract,
@@ -589,73 +575,129 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
             WaybillNumber = p.WaybillNumber,
             ApplicantId = p.ApplicantId.ToString(),
             Applicant = p.Applicant,
-            ApprovalDesc = p.ApprovalDesc,
+
             ExpectArrivalTime = p.ExpectArrivalTime,
-            ProjectId = p.ProjectId.ToString(),
-            Project = p.Project,
-            RawId = p.Z_Raw.Id.ToString(),
-            z_Raw = p.Z_Raw,
-            Z_RowType = p.Z_Raw.Z_RowType
-        }).OrderBy(p => p.PurchaseId)
-        .Skip((input.PageIndex * input.PageSize) - input.PageSize).Take(input.PageSize).ToListAsync());
+        }).OrderBy(p => p.Id)
+        .Skip((chemistryMonadIOut.PageIndex * chemistryMonadIOut.PageSize) - chemistryMonadIOut.PageSize).Take(chemistryMonadIOut.PageSize).ToListAsync());
+                return Json(new { code = 200, Count = result.Count(), data = result });
+            }
+            //获取自己名下的所有采购单
+            if (chemistryMonadIOut.PageSize == -2 && chemistryMonadIOut.PageIndex == -2)
+            {
+                var result = await Task.Run(() => db.ChemistryMonad.Where(p => p.Id > 0 && p.Applicant.Id == userId)
+        .Select(p => new ChemistryMonadIOutDto
+        {
+            Id = p.Id.ToString(),
+            Amount = p.Amount,
+            ApplicantRemarks = p.ApplicantRemarks,
+            ApplyNumber = p.ApplyNumber,
+            ApplyTime = p.ApplyTime,
+            // ApprovalType = p.ApprovalType,
+            Z_Chemistry = p.Z_Chemistry,
+            ArrivalTime = p.ArrivalTime,
+            SupplierId = p.Supplier.Id.ToString(),
+            Supplier = p.Supplier,
+            ChemistryId = p.Z_Chemistry.Company.Id.ToString(),
+            Company = p.Z_Chemistry.Company,
+            Enclosure = p.Enclosure,
+            Price = p.Price,
+            PurchaseContract = p.PurchaseContract,
+            PurchaseTime = p.PurchaseTime,
+            Purpose = p.Purpose,
+            QuasiPurchaseNumber = p.QuasiPurchaseNumber,
+            WaybillNumber = p.WaybillNumber,
+            ApplicantId = p.ApplicantId.ToString(),
+            Applicant = p.Applicant,
+
+            ExpectArrivalTime = p.ExpectArrivalTime,
+        }).OrderBy(p => p.Id)
+        .Skip((chemistryMonadIOut.PageIndex * chemistryMonadIOut.PageSize) - chemistryMonadIOut.PageSize).Take(chemistryMonadIOut.PageSize).ToListAsync());
+                return Json(new { code = 200, Count = result.Count(), data = result });
+            }
+            //获取自己名下的未完成的采购单
+            if (chemistryMonadIOut.PageSize == -3 && chemistryMonadIOut.PageIndex == -3)
+            {
+                var result = await Task.Run(() => db.ChemistryMonad.Where(p => p.Id > 0 && p.Applicant.Id == userId && p.is_or != 0)
+         .Select(p => new ChemistryMonadIOutDto
+         {
+             Id = p.Id.ToString(),
+             Amount = p.Amount,
+             ApplicantRemarks = p.ApplicantRemarks,
+             ApplyNumber = p.ApplyNumber,
+             ApplyTime = p.ApplyTime,
+             // ApprovalType = p.ApprovalType,
+             Z_Chemistry = p.Z_Chemistry,
+             ArrivalTime = p.ArrivalTime,
+             SupplierId = p.Supplier.Id.ToString(),
+             Supplier = p.Supplier,
+             ChemistryId = p.Z_Chemistry.Company.Id.ToString(),
+             Company = p.Z_Chemistry.Company,
+             Enclosure = p.Enclosure,
+             Price = p.Price,
+             PurchaseContract = p.PurchaseContract,
+             PurchaseTime = p.PurchaseTime,
+             Purpose = p.Purpose,
+             QuasiPurchaseNumber = p.QuasiPurchaseNumber,
+             WaybillNumber = p.WaybillNumber,
+             ApplicantId = p.ApplicantId.ToString(),
+             Applicant = p.Applicant,
+
+             ExpectArrivalTime = p.ExpectArrivalTime,
+         }).OrderBy(p => p.Id)
+        .Skip((chemistryMonadIOut.PageIndex * chemistryMonadIOut.PageSize) - chemistryMonadIOut.PageSize).Take(chemistryMonadIOut.PageSize).ToListAsync());
                 return Json(new { code = 200, Count = result.Count(), data = result });
             }
             //获取所有采购申请单
-            if (input.PageSize != null && input.PageIndex != null && !string.IsNullOrWhiteSpace(input.ApplicantRelName))
+            if (chemistryMonadIOut.PageSize != null && chemistryMonadIOut.PageIndex != null && !string.IsNullOrWhiteSpace(chemistryMonadIOut.ApplicantRelName))
             {
-                var result = await Task.Run(() => db.Purchases.Where(p => p.Id > 0 && p.Applicant.RealName.Contains(input.ApplicantRelName) && p.is_or == 0)
-                .Select(p => new PurshOutDto
-                {
-                    PurchaseId = p.Id.ToString(),
-                    Amount = p.Amount,
-                    ApplicantRemarks = p.ApplicantRemarks,
-                    ApplyNumber = p.ApplyNumber,
-                    ApplyTime = p.ApplyTime,
-                    // ApprovalType = p.ApprovalType,
-                    //  ApprovalTypeStr = p.ApprovalType.GetDescription(),
-                    ArrivalTime = p.ArrivalTime,
-                    SupplierId = p.Supplier.Id.ToString(),
-                    Supplier = p.Supplier,
-                    CompanyId = p.Z_Raw.Company.Id.ToString(),
-                    company = p.Z_Raw.Company,
-                    Enclosure = p.Enclosure,
-                    Price = p.Price,
-                    PurchaseContract = p.PurchaseContract,
-                    PurchaseTime = p.PurchaseTime,
-                    Purpose = p.Purpose,
-                    QuasiPurchaseNumber = p.QuasiPurchaseNumber,
-                    WaybillNumber = p.WaybillNumber,
-                    ApplicantId = p.ApplicantId.ToString(),
-                    Applicant = p.Applicant,
-                    ApprovalDesc = p.ApprovalDesc,
-                    ExpectArrivalTime = p.ExpectArrivalTime,
-                    ProjectId = p.ProjectId.ToString(),
-                    Project = p.Project,
-                    RawId = p.Z_Raw.Id.ToString(),
-                    z_Raw = p.Z_Raw,
-                    Z_RowType = p.Z_Raw.Z_RowType
-                })
-                .Skip((input.PageIndex * input.PageSize) - input.PageSize).Take(input.PageSize).ToListAsync());
+                var result = await Task.Run(() => db.ChemistryMonad.Where(p => p.Id > 0 && p.Applicant.RealName.Contains(chemistryMonadIOut.ApplicantRelName) && p.is_or == 0)
+             .Select(p => new ChemistryMonadIOutDto
+             {
+                 Id = p.Id.ToString(),
+                 Amount = p.Amount,
+                 ApplicantRemarks = p.ApplicantRemarks,
+                 ApplyNumber = p.ApplyNumber,
+                 ApplyTime = p.ApplyTime,
+                 // ApprovalType = p.ApprovalType,
+                 Z_Chemistry = p.Z_Chemistry,
+                 ArrivalTime = p.ArrivalTime,
+                 SupplierId = p.Supplier.Id.ToString(),
+                 Supplier = p.Supplier,
+                 ChemistryId = p.Z_Chemistry.Company.Id.ToString(),
+                 Company = p.Z_Chemistry.Company,
+                 Enclosure = p.Enclosure,
+                 Price = p.Price,
+                 PurchaseContract = p.PurchaseContract,
+                 PurchaseTime = p.PurchaseTime,
+                 Purpose = p.Purpose,
+                 QuasiPurchaseNumber = p.QuasiPurchaseNumber,
+                 WaybillNumber = p.WaybillNumber,
+                 ApplicantId = p.ApplicantId.ToString(),
+                 Applicant = p.Applicant,
+
+                 ExpectArrivalTime = p.ExpectArrivalTime,
+             }).OrderBy(p => p.Id)
+                .Skip((chemistryMonadIOut.PageIndex * chemistryMonadIOut.PageSize) - chemistryMonadIOut.PageSize).Take(chemistryMonadIOut.PageSize).ToListAsync());
                 //  var resul=db.Content_Users.Where(x=>x.Purchase_Id== res)
                 return Json(new { code = 200, Count = result.Count(), data = result });
             }
-            if (input.PageSize != null && input.PageIndex != null)
+            if (chemistryMonadIOut.PageSize != null && chemistryMonadIOut.PageIndex != null)
             {
-                var result = await Task.Run(() => db.Purchases.Where(p => p.Id > 0 && p.is_or == 0)
-                .Select(p => new PurshOutDto
+                var result = await Task.Run(() => db.ChemistryMonad.Where(p => p.Id > 0 && p.is_or == 0)
+                .Select(p => new ChemistryMonadIOutDto
                 {
-                    PurchaseId = p.Id.ToString(),
+                    Id = p.Id.ToString(),
                     Amount = p.Amount,
                     ApplicantRemarks = p.ApplicantRemarks,
                     ApplyNumber = p.ApplyNumber,
                     ApplyTime = p.ApplyTime,
                     // ApprovalType = p.ApprovalType,
-                    //  ApprovalTypeStr = p.ApprovalType.GetDescription(),
+                    Z_Chemistry = p.Z_Chemistry,
                     ArrivalTime = p.ArrivalTime,
                     SupplierId = p.Supplier.Id.ToString(),
                     Supplier = p.Supplier,
-                    CompanyId = p.Z_Raw.Company.Id.ToString(),
-                    company = p.Z_Raw.Company,
+                    ChemistryId = p.Z_Chemistry.Company.Id.ToString(),
+                    Company = p.Z_Chemistry.Company,
                     Enclosure = p.Enclosure,
                     Price = p.Price,
                     PurchaseContract = p.PurchaseContract,
@@ -665,15 +707,10 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
                     WaybillNumber = p.WaybillNumber,
                     ApplicantId = p.ApplicantId.ToString(),
                     Applicant = p.Applicant,
-                    ApprovalDesc = p.ApprovalDesc,
+
                     ExpectArrivalTime = p.ExpectArrivalTime,
-                    ProjectId = p.ProjectId.ToString(),
-                    Project = p.Project,
-                    RawId = p.Z_Raw.Id.ToString(),
-                    z_Raw = p.Z_Raw,
-                    Z_RowType = p.Z_Raw.Z_RowType
-                }).OrderBy(p => p.PurchaseId)
-                .Skip((input.PageIndex * input.PageSize) - input.PageSize).Take(input.PageSize).ToList());
+                }).OrderBy(p => p.Id)
+                .Skip((chemistryMonadIOut.PageIndex * chemistryMonadIOut.PageSize) - chemistryMonadIOut.PageSize).Take(chemistryMonadIOut.PageSize).ToList());
                 return Json(new { code = 200, data = result });
             }
             return Json(new { code = 400 });
@@ -685,7 +722,7 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
         /// <param name="chemistryMonadIOut"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IHttpActionResult> GetChemistryMonadCaigoud(ChemistryMonadIOutDto chemistryMonadIOut)
+        public async Task<IHttpActionResult> GetChemistryMonadCaigoudk(ChemistryMonadIOutDto chemistryMonadIOut)
         {
             var userId = ((UserIdentity)User.Identity).UserId;
             if (chemistryMonadIOut.PageSize != null && chemistryMonadIOut.PageIndex != null)
@@ -699,7 +736,7 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
              ApplyNumber = p.ApplyNumber,
              ApplyTime = p.ApplyTime,
              // ApprovalType = p.ApprovalType,
-             //  AssetExpenditureDesc = p.AssetExpenditureDesc,
+             Z_Chemistry = p.Z_Chemistry,
              ArrivalTime = p.ArrivalTime,
              SupplierId = p.Supplier.Id.ToString(),
              Supplier = p.Supplier,
@@ -743,7 +780,7 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
             ApplyNumber = p.ApplyNumber,
             ApplyTime = p.ApplyTime,
             // ApprovalType = p.ApprovalType,
-            //  AssetExpenditureDesc = p.AssetExpenditureDesc,
+            Z_Chemistry = p.Z_Chemistry,
             ArrivalTime = p.ArrivalTime,
             SupplierId = p.Supplier.Id.ToString(),
             Supplier = p.Supplier,
@@ -788,7 +825,7 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
         ApplyNumber = p.ApplyNumber,
         ApplyTime = p.ApplyTime,
         // ApprovalType = p.ApprovalType,
-        //  AssetExpenditureDesc = p.AssetExpenditureDesc,
+        Z_Chemistry = p.Z_Chemistry,
         ArrivalTime = p.ArrivalTime,
         SupplierId = p.Supplier.Id.ToString(),
         Supplier = p.Supplier,
@@ -834,7 +871,7 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
          ApplyNumber = p.ApplyNumber,
          ApplyTime = p.ApplyTime,
          // ApprovalType = p.ApprovalType,
-         //  AssetExpenditureDesc = p.AssetExpenditureDesc,
+         Z_Chemistry = p.Z_Chemistry,
          ArrivalTime = p.ArrivalTime,
          SupplierId = p.Supplier.Id.ToString(),
          Supplier = p.Supplier,
@@ -889,6 +926,11 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
                 if (chemistryMonadInDto.ApplyNumber != null)
                 {
                     type.ApplyNumber = chemistryMonadInDto.ApplyNumber;
+                }
+
+                if (chemistryMonadInDto.PurshAmount != null)
+                {
+                    type.PurchaseAmount = chemistryMonadInDto.PurshAmount;
                 }
 
                 if (chemistryMonadInDto.QuasiPurchaseNumber != null)
@@ -980,22 +1022,7 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
                 db.Entry(result).State = EntityState.Unchanged;
                 result.is_or = 6;
 
-                // var resuls =await Task.Run(()=>(  db.Purchases.AsNoTracking().SingleOrDefaultAsync(p => p.Id == content_Users.Purchase_Id));
-                //foreach (var item in resuls)
-                //{
-                //    RawId = item.RawId;
-                //    ApplyNumber = item.ApplyNumber;
-                //}
-                //var resul = new Purchase { Id = content_Users.Purchase_Id };
-                //db.Entry(resul).State = System.Data.Entity.EntityState.Unchanged;
-
-                //var res = new Z_Raw { Id = (long)RawId };
-                //db.Entry(res).State = System.Data.Entity.EntityState.Unchanged;
-                //res.Number = res.Number - ApplyNumber;
-                //foreach (var item in resuls)
-                //{
-                //    item.is_or = 6;
-                //}
+              
 
                 if (await db.SaveChangesAsync() > 0)
                 {
@@ -1038,11 +1065,11 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
                     ApplyNumber = p.ApplyNumber,
                     ApplyTime = p.ApplyTime,
                     // ApprovalType = p.ApprovalType,
-                    //  AssetExpenditureDesc = p.AssetExpenditureDesc,
+                    Z_Chemistry = p.Z_Chemistry,
                     ArrivalTime = p.ArrivalTime,
                     SupplierId = p.Supplier.Id.ToString(),
                     Supplier = p.Supplier,
-                    ChemistryId = p.Z_Chemistry.Company.Id.ToString(),
+                    ChemistryId = p.Z_Chemistry.Id.ToString(),
                     Company = p.Z_Chemistry.Company,
                     Enclosure = p.Enclosure,
                     Price = p.Price,
@@ -1070,11 +1097,11 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
                      ApplyNumber = p.ApplyNumber,
                      ApplyTime = p.ApplyTime,
                      // ApprovalType = p.ApprovalType,
-                     //  AssetExpenditureDesc = p.AssetExpenditureDesc,
+                     Z_Chemistry = p.Z_Chemistry,
                      ArrivalTime = p.ArrivalTime,
                      SupplierId = p.Supplier.Id.ToString(),
                      Supplier = p.Supplier,
-                     ChemistryId = p.Z_Chemistry.Company.Id.ToString(),
+                     ChemistryId = p.Z_Chemistry.Id.ToString(),
                      Company = p.Z_Chemistry.Company,
                      Enclosure = p.Enclosure,
                      Price = p.Price,
@@ -1102,7 +1129,7 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
         /// <param name="chemistry_UserIn"></param>
         /// <returns></returns>
         [HttpPost]
-        [ExperAuthentication]
+      
         public async Task<IHttpActionResult> AddChemistryMonad(Chemistry_UserInDto chemistry_UserIn)
         {
             try
@@ -1111,20 +1138,61 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
                 if (chemistry_UserIn.ChemistryId != null)
                 {
                     var result = await db.ChemistryMonad.SingleOrDefaultAsync(p => p.Id == chemistry_UserIn.ChemistryId && p.IsDelete == false);
-                    var ChemistryRoom = new ChemistryRoom { ChemistryId = (long)result.ChemistryId };
-                    db.Entry(ChemistryRoom).State = System.Data.Entity.EntityState.Unchanged;
-                    if (ChemistryRoom.RawNumber != null || result.QuasiPurchaseNumber != null)
+                    //修改采购单
+                    if (result.PurchaseAmount==null)
                     {
-                        ChemistryRoom.RawNumber = ChemistryRoom.RawNumber + (double)result.QuasiPurchaseNumber;
+                        result.is_or = 5;
+                        await db.SaveChangesAsync();
+                        return Json(new { code = 201, msg = "请填写采购数量" });
+                    }
 
-                        //修改采购单
-                        result.is_or = 1;
-                        db.Entry(result).State = System.Data.Entity.EntityState.Modified;
-                        db.Entry(result).Property("is_or").IsModified = true;
+                    result.is_or = 1;
+                    db.Entry(result).State = System.Data.Entity.EntityState.Modified;
+                    db.Entry(result).Property("is_or").IsModified = true;
+                    var results = await Task.Run(() => db.ChemistryRooms
+                    .FirstOrDefaultAsync(p => p.ChemistryId == result.ChemistryId && p.del_or == false)
+                    );
+
+                    if (chemistry_UserIn.enportid != 0)
+                    {
+                        results = await Task.Run(() => db.ChemistryRooms.FirstOrDefaultAsync(p => p.EntrepotId == chemistry_UserIn.enportid));
+                       
+                    } 
+                    if (results == null)
+                        {
+                            return Json(new { code = 201, msg = "请选对仓库，这个仓库中没有数据" });
+                        }
+
+                     if ((double)result.PurchaseAmount != null)
+                        {
+                            results.RawNumber = results.RawNumber + (double)result.PurchaseAmount;
+                            db.Entry(results).State = System.Data.Entity.EntityState.Modified;
+                            db.Entry(results).Property("RawNumber").IsModified = true;
+                        }
+                    //if (results == null)
+                    //{
+                    //Chemistry_UserDetils chemistry_UserDetils = new Chemistry_UserDetils
+                    //{
+                    //    Id = IdentityManager.NewId(),
+                    //    ChemistryId = (long)result.ChemistryId,
+                    //    entrepotid= results.EntrepotId,
+                    //    o
+
+                    //};
+                 //  db.ChemistryRooms.Add(chemistryRoom);
+                    //}
+                    //if (results != null)
+                    //{
 
 
 
-                        if (await db.SaveChangesAsync() > 0)
+                    //   }
+
+
+
+
+
+                    if (await db.SaveChangesAsync() > 0)
                         {
 
 
@@ -1135,9 +1203,7 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
                     }
 
                     return Json(new { code = 200, msg = "入库失败" });
-                }
-
-                return Json(new { code = 200, msg = "${0}不能为空" + chemistry_UserIn.ChemistryId });
+            
 
             }
             catch (Exception)
@@ -1273,9 +1339,236 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
 
         }
 
+        /// <summary>
+        /// 获取自己借用仓库的明细
+        /// （个人的）
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
 
-        
+        [HttpPost]
+        public async Task<List<Chiemistry_UserDetilsOutDto>> GetBackgeChiemistry(InputBase input)
+        {
+            try
+            {
+                var userId = ((UserIdentity)User.Identity).UserId;
+                var result = await Task.Run(() => db.Chemistry_UserDetils.AsNoTracking().Where(p => p.User_id == userId && p.del_or == false && p.is_or == 1)
+                .Select(p => new Chiemistry_UserDetilsOutDto
+                {
+                    Id = (p.Id).ToString(),
+                    ChemistryId = p.Z_Chemistry.Id.ToString(),
+                    User_id = p.userDetails.Id.ToString(),
+                    ChemistryNumber = p.ChemistryNumber,
+                    OutIutRoom = p.OutIutRoom,
+                    GetTime = p.GetTime,
+                    userDetails = p.userDetails,
+                    entrepot = p.entrepot,
+                    z_Chemistry = p.Z_Chemistry
+                }).OrderBy(p => p.Id)
+                    .Skip((input.PageIndex * input.PageSize) - input.PageSize).Take(input.PageSize).ToListAsync());
+
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
 
 
+        }
+
+        //1.领料之后就变成了出库状态为1，is_or=1//个人获取的（userid）
+        //2.点击退料，显示在入库状态为2，is_or=2//仓库获取的
+        //3.库管员点击入库之后状态为入库完成3，is_or=3.入库完成的
+
+        //4.获取物料领取明细（入库完成的）
+        //5.获取出库明细（状态为1，is_or为1的）
+        //6.获取准备入库的
+
+        /// <summary>
+        /// 个人点击退库
+        /// </summary>
+        /// <param name="chiemistry_UserDetilsin"></param>
+        /// <returns></returns>
+
+        [HttpPost]
+        public async Task<IHttpActionResult> SetBackgeChiemistry(Chiemistry_UserDetilsinDto chiemistry_UserDetilsin)
+        {
+
+            try
+            {
+                var result = await Task.Run(() => db.Chemistry_UserDetils.SingleOrDefaultAsync(p => p.Id == chiemistry_UserDetilsin.Id));
+                result.OutIutRoom = 2;//出库状态2
+                result.is_or = 2;
+                if (await db.SaveChangesAsync() > 0)
+                {
+                    return Json(new { code = 200, msg = "退库成功" });
+                }
+                return Json(new { code = 200, msg = "退库失败" });
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
+
+
+
+        }
+
+
+
+
+        /// <summary>
+        /// 仓库获取退库申请
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<List<Chiemistry_UserDetilsOutDto>> GetRejectChiemistry(InputBase input)
+        {
+            try
+            {
+                //   var userId = ((UserIdentity)User.Identity).UserId;
+                var result = await Task.Run(() => db.Chemistry_UserDetils.AsNoTracking().Where(p => p.del_or == false && p.is_or == 2)
+                .Select(p => new Chiemistry_UserDetilsOutDto
+                {
+                    Id = (p.Id).ToString(),
+                    ChemistryId = p.Z_Chemistry.Id.ToString(),
+                    User_id = p.userDetails.Id.ToString(),
+                    ChemistryNumber = p.ChemistryNumber,
+                    OutIutRoom = p.OutIutRoom,
+                    GetTime = p.GetTime,
+                    userDetails = p.userDetails,
+                    entrepot = p.entrepot,
+                    z_Chemistry = p.Z_Chemistry
+                }).OrderBy(p => p.Id)
+                    .Skip((input.PageIndex * input.PageSize) - input.PageSize).Take(input.PageSize).ToListAsync());
+
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
+        }
+
+
+
+        /// <summary>
+        /// 获取出库明细(已经完成的)
+        /// (所有的)
+        /// </summary>
+        /// <param name="chiemistry_UserDetilsin"></param>
+        /// <returns></returns>
+
+        [HttpPost]
+        public async Task<List<Chiemistry_UserDetilsOutDto>> GetBackChiemistry(Chiemistry_UserDetilsinDto chiemistry_UserDetilsin)
+        {
+
+            try
+            {
+                // var userId = ((UserIdentity)User.Identity).UserId;
+                var result = await Task.Run(() => db.Chemistry_UserDetils.AsNoTracking().Where(p => p.del_or == false || p.userDetails.RealName.Contains(chiemistry_UserDetilsin.RelName) || p.Z_Chemistry.Name.Contains(chiemistry_UserDetilsin.Name))
+                .Select(p => new Chiemistry_UserDetilsOutDto
+                {
+                    Id = (p.Id).ToString(),
+                    ChemistryId = p.Z_Chemistry.Id.ToString(),
+                    User_id = p.userDetails.Id.ToString(),
+                    ChemistryNumber = p.ChemistryNumber,
+                    OutIutRoom = p.OutIutRoom,
+                    GetTime = p.GetTime,
+                    userDetails = p.userDetails,
+                    entrepot = p.entrepot,
+                    z_Chemistry = p.Z_Chemistry
+                }).OrderBy(p => p.Id)
+                    .Skip((chiemistry_UserDetilsin.PageIndex * chiemistry_UserDetilsin.PageSize) - chiemistry_UserDetilsin.PageSize).Take(chiemistry_UserDetilsin.PageSize).ToListAsync());
+
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 退库入库（库管员）
+        /// </summary>
+        /// <param name = "chiemistry_UserDetilsin" ></param>
+        /// <returns></returns >
+        [HttpPost]
+        public async Task<IHttpActionResult> BackChiemistry(Chiemistry_UserDetilsinDto chiemistry_UserDetilsin)
+        {
+            try
+            {
+                if (chiemistry_UserDetilsin.ChemistryId != null)
+                {
+                    var result = await Task.Run(() => db.Chemistry_UserDetils.SingleOrDefaultAsync(p => p.Id == chiemistry_UserDetilsin.Id));
+                    if (result != null)
+                    {
+                        var reus = await Task.Run(() => db.ChemistryRooms
+                        .SingleOrDefaultAsync(p => p.ChemistryId == result.ChemistryId && p.Z_Chemistry.IsDelete == false && p.EntrepotId == result.entrepotid));
+
+                        if (reus==null)
+                        {
+                            return Json(new { code = 200, msg = "库房没有此物品" });
+                        }
+                        reus.RawNumber = reus.RawNumber + result.ChemistryNumber;
+                        result.OutIutRoom = 3;//入库完成
+                        result.is_or = 3;
+                        //////var reust = await Task.Run(() => db.Purchases
+                        //////.SingleOrDefaultAsync(p => p.RawId == result.RawId && p.Applicant.Id==result.User_id && p.IsDelete == false));
+                        // reust.is_or = 20;//退库完成
+                        if (await db.SaveChangesAsync() > 0)
+                        {
+                            return Json(new { code = 200, msg = "成功退库" });
+
+                        }
+                        return Json(new { code = 201, msg = "入库失败" });
+                    }
+
+                    return Json(new { code = 201, msg = "没有这个物料" });
+
+                }
+                return Json(new { code = 201, msg = "请传递正确值" });
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+
+        /// <summary>
+        /// 获取有这个原材料的仓库(出库，入库的选择)
+        /// </summary>
+        /// <param name="chemistryMonadInDto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<List<ChimetryRoomsDto>> BackEntitys(ChemistryMonadInDto chemistryMonadInDto)
+        {
+            var result = await Task.Run(() => db.ChemistryRooms.AsNoTracking()
+            .Where(p => p.ChemistryId == chemistryMonadInDto.ChemistryId && p.del_or == false).Select(p => new ChimetryRoomsDto
+            {
+                ChemistryId = p.Z_Chemistry.Id,
+
+                EntrepotId = p.entrepot.Id.ToString(),
+                entrepot = p.entrepot
+            }).ToListAsync());
+
+            return result;
+
+
+        }
     }
 }

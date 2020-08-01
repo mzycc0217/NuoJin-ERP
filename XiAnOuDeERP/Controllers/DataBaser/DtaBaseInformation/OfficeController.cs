@@ -12,6 +12,7 @@ using XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut;
 using XiAnOuDeERP.Models.Util;
 using System.Data.Entity;
 using XiAnOuDeERP.Models.Db.Aggregate.StrongRoom;
+using XiAnOuDeERP.Models.Dto.OutputDto.PersonnelMatters.UserDto;
 
 namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
 {
@@ -32,8 +33,8 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
 
             try
             {
-              
-                    Z_Office z_Office = new Z_Office
+                var userId = ((UserIdentity)User.Identity).UserId;
+                Z_Office z_Office = new Z_Office
                     {
                         Id = IdentityManager.NewId(),
                         Name = z_OfficeDto.Name,
@@ -57,11 +58,13 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                         AppearanceState = z_OfficeDto.AppearanceState,
                         WarehousingTypeId = z_OfficeDto.WarehousingTypeId,
                     };
-                    OfficeRoom officeRoom = new OfficeRoom
+                var result = await Task.Run(() => db.Entrepots.AsNoTracking().FirstOrDefaultAsync(p => p.Id > 0));
+                OfficeRoom officeRoom = new OfficeRoom
                     {
                         Id = IdentityManager.NewId(),
                         OfficeId = z_Office.Id,
-                       
+                    EntrepotId = result.Id,
+                    User_id= userId,
                         RawNumber =0,
                       
 
@@ -272,6 +275,45 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
 
             try
             {
+
+                if (z_OfficeOutPut.Ids != null&&z_OfficeOutPut.PageIndex == -1 && z_OfficeOutPut.PageSize == -1)
+                {
+                    var result = await Task.Run(() => (db.Z_Office
+                            .Where(x => x.Id == z_OfficeOutPut.Ids).Select(x => new Z_OfficeOutPut
+                            {
+                                Id = (x.Id).ToString(),
+                                Name = x.Name,
+                                Encoding = x.Encoding,
+                                Desc = x.Desc,
+                                Z_OfficeTypeid = (x.Z_OfficeTypeid).ToString(),
+                                Company = x.Company,
+                                Companyid = x.CompanyId.ToString(),
+                                Z_OfficeType = x.Z_OfficeType,
+                                RowtypeName = x.Name,
+                                EnglishName = x.EnglishName,
+                                Abbreviation = x.Abbreviation,
+                                BeCommonlyCalled1 = x.BeCommonlyCalled1,
+                                BeCommonlyCalled2 = x.BeCommonlyCalled2,
+                                CASNumber = x.CASNumber,
+                                MolecularWeight = x.MolecularWeight,
+                                MolecularFormula = x.MolecularFormula,
+                                StructuralFormula = x.StructuralFormula,
+                                Statement = x.Statement,
+                                Caution = x.Caution,
+                                Number = x.Number,
+                                AppearanceState = x.AppearanceState,
+                                WarehousingTypeId = (x.WarehousingTypeId).ToString(),
+                                WarehousingType = x.WarehousingType,
+                                EntryPerson = x.EntryPerson,
+                                Density = x.Density,
+                                CreateDate = x.CreateDate
+                            })).ToListAsync());
+
+
+                    return Json(new { code = 200, Count = result.Count(), data = result });
+                }
+
+
                 if (z_OfficeOutPut.PageIndex != null && z_OfficeOutPut.PageSize != null && !string.IsNullOrWhiteSpace(z_OfficeOutPut.Name))
                 {
 

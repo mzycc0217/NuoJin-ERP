@@ -10,6 +10,7 @@ using XiAnOuDeERP.MethodWay;
 using XiAnOuDeERP.Models.Db;
 using XiAnOuDeERP.Models.Db.Aggregate.FinancialManagement.WarehouseManagements;
 using XiAnOuDeERP.Models.Db.Aggregate.StrongRoom;
+using XiAnOuDeERP.Models.Dto.OutputDto.PersonnelMatters.UserDto;
 using XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.IntoPut;
 using XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut;
 using XiAnOuDeERP.Models.Util;
@@ -33,9 +34,9 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
 
             try
             {
-              
 
-                    Z_FnishedProduct z_FnishedProduct = new Z_FnishedProduct
+                var userId = ((UserIdentity)User.Identity).UserId;
+                Z_FnishedProduct z_FnishedProduct = new Z_FnishedProduct
                     {
                         Id = IdentityManager.NewId(),
                         Name = z_FnishedProductDto.Name,
@@ -60,15 +61,16 @@ namespace XiAnOuDeERP.Controllers.DataBaser.DtaBaseInformation
                         AppearanceState = z_FnishedProductDto.AppearanceState,
                         WarehousingTypeId = z_FnishedProductDto.WarehousingTypeId,
                     };
-                    FnishedProductRoom fnishedProductRoom = new FnishedProductRoom
+                var result = await Task.Run(() => db.Entrepots.AsNoTracking().FirstOrDefaultAsync(p => p.Id > 0));
+                FnishedProductRoom fnishedProductRoom = new FnishedProductRoom
                     {
                         Id = IdentityManager.NewId(),
                         FnishedProductId = z_FnishedProduct.Id,
-                     
+                     User_id= userId,
                         RawNumber = 0,
-                    
+                       EntrepotId = result.Id
 
-                    };
+                };
                     db.FnishedProductRooms.Add(fnishedProductRoom);
                     db.Z_FnishedProduct.Add(z_FnishedProduct);
                     if (await db.SaveChangesAsync() > 0)

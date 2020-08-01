@@ -15,6 +15,11 @@ namespace XiAnOuDeERP.Models.Dto.Z_DataBaseDto.Z_DataBase.OutoPut
         /// Id
         /// </summary>
         public string Id { get; set; }
+
+        /// <summary>
+        /// 查询
+        /// </summary>
+        public long Ids { get; set; }
         /// <summary>
         /// 名称
         /// </summary>

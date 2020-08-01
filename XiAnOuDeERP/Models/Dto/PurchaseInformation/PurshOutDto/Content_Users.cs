@@ -24,7 +24,6 @@ namespace XiAnOuDeERP.Models.Dto.PurchaseInformation.PurshOutDto
         /// <summary>
         /// 内容id
         /// </summary> 
-
         public long Purchase_Id { get; set; }
         /// <summary>
         ///描述
