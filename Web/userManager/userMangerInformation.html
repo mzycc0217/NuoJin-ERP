@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人资料</title>
+    <link rel="stylesheet" href="../Layui/layui-v2.5.6/layui/css/layui.css">
+</head>
+<body>
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+          <label class="layui-form-label">姓名</label>
+          <div class="layui-input-block">
+            <input id="RealName" style="width: 50%;" type="text" name="title"  class="layui-input" disabled>
+          </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">部门</label>
+            <div class="layui-input-block" style="width: 50%;">
+              <select  id="Department" class="text departs" disabled>
+              
+              </select>
+            </div>
+          </div>
+
+      
+        <div class="layui-form-item">
+          <label class="layui-form-label">职位</label>
+          <div class="layui-input-block" style="width: 50%;">
+            <select  id="UserTypeStr" class="text typs" disabled>
+            
+            </select>
+          </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">选择框</label>
+            <div class="layui-input-block" style="width: 50%;" >
+              <select id="upsexs"disabled>
+                <option value="1">女</option>
+                <option value="0">男</option>
+              
+              </select>
+            </div>
+          </div>
+        <!-- <div class="layui-form-item">
+            <label class="layui-form-label">性别</label>
+            <div class="layui-input-block" style="width: 50%;">
+              <select  id="upsex" class="text" >
+                <option value="0">男</option>
+                <option value="1">女</option>
+              </select>
+            </div>
+          </div> -->
+
+          <div class="layui-form-item">
+            <label class="layui-form-label">民族</label>
+            <div class="layui-input-block">
+              <input type="text" id="upnation" style="width: 50%;" name="title"  class="layui-input" disabled>
+            </div>
+          </div>
+
+          <div class="layui-form-item">
+            <label class="layui-form-label">出生日期</label>
+            <div class="layui-input-block" >
+              <input style="width: 50%;" type="text" id="test1" name="title" class="layui-input" disabled>
+            </div>
+          </div>
+
+          <div class="layui-form-item">
+            <label class="layui-form-label">身份证号</label>
+            <div class="layui-input-block">
+              <input type="text" style="width: 50%;" id="Numberst" name="title"  class="layui-input" disabled>
+            </div>
+          </div>
+
+          <div class="layui-form-item">
+            <label class="layui-form-label">最高学历</label>
+            <div class="layui-input-block">
+              <input type="text" style="width: 50%;" id="upnations" name="title"  class="layui-input" disabled>
+            </div>
+          </div>
+
+          <div class="layui-form-item">
+            <label class="layui-form-label">电话</label>
+            <div class="layui-input-block">
+              <input type="text" style="width: 50%;" id="phones" name="title"  class="layui-input" disabled>
+            </div>
+          </div>
+
+          <div class="layui-form-item">
+            <label class="layui-form-label">邮箱</label>
+            <div class="layui-input-block">
+              <input type="text" style="width: 50%;" id="Emails" name="title"   autocomplete="off" class="layui-input" disabled>
+            </div>
+          </div>
+
+          <div class="layui-form-item">
+            <label class="layui-form-label">微信</label>
+            <div class="layui-input-block">
+              <input type="text" style="width: 50%;" id="weixin" name="title"  autocomplete="off" class="layui-input" disabled>
+            </div>
+          </div>
+
+          <div class="layui-form-item">
+            <label class="layui-form-label">地址</label>
+            <div class="layui-input-block">
+              <input type="text"style="width: 50%;" id="address" name="title"  autocomplete="off" class="layui-input" disabled>
+            </div>
+          </div>
+
+          
+          <!-- <div class="layui-form-item">
+            <label class="layui-form-label">密码</label>
+            <div class="layui-input-block">
+              <input type="text" style="width: 50%;" id="passwords" name="title"  autocomplete="off" class="layui-input">
+            </div>
+          </div> -->
+       
+      
+      </form>
+</body>
+</html>
+<script src="../Layui/layui-v2.5.6/layui/layui.all.js"></script>
+<script src="../Layui/layui-v2.5.6/layui/lay/modules/layer.js"></script>
+<script src="../Layui/layui-v2.5.6/layui/lay/modules/laydate.js"></script>
+<script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+<script src="../UrlModel/url.js"></script>
+<script>
+ window.onload = function() {
+            anomation();
+        }
+ layui.laydate.render({
+    elem: '#test1' //指定元素
+    ,type: 'date'
+  });
+window.onload = function () {
+        bumen();
+      //  cxclickRdepartment();
+    }
+
+    function bumen() {
+        $.ajax({
+            type: "POST",
+            url: window.url+"Department/GetDepartmentList",
+             headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            data: {
+                DepartmentName: "", PageIndex: 0,
+                PageSize: 0
+            },
+            success: function (bmlist) {
+              //  var data = bmlist[0].Count;
+                console.log(bmlist)
+                var str = "";
+                for (var i = 0; i < bmlist.length; i++) {
+                   str+='<option value="' + bmlist[i].DepartmentId + '">' + bmlist[i].Name + '</option>';
+
+                }
+               
+                $(".departs").html(str);
+                
+                layui.form.render();
+            }
+        })
+    }
+    //添加入职人员
+    function addclick() {
+        var UserName = document.getElementById("username").value;
+        var realename = document.getElementById("realename").value;
+        var usertype = document.getElementById("usertype").text;
+        var DepartmentId = document.getElementById("bmselect").value;
+        var sex = document.getElementById("sex").value;
+        var nation = document.getElementById("nation").value;
+        var birthday = document.getElementById("birthday").value;
+        var idCrad = document.getElementById("idCrad").value;
+        var academic = document.getElementById("academic").value;
+        var phonenumber = document.getElementById("phonenumber").value;
+        var email = document.getElementById("email").value;
+        var vx = document.getElementById("vx").value;
+        var adress = document.getElementById("adress").value;
+        var password = "666666";
+        $.ajax({
+            type: "POST",
+            url: "http://318jp82710.eicp.vip/api/User/Add",
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem("token"),
+                UserId: window.localStorage.getItem("UserId"),
+                AppFlag: window.localStorage.getItem("AppFlag")
+            },
+            data: {
+                UserName: UserName, Password: password, UserTypeStr: usertype, DepartmentId: DepartmentId, RealeName: realename, DateOfBirth: birthday, SexType: sex, Nation: nation, Education: academic, Phone: phonenumber, Email: email,
+                WeiXin: vx, Address: adress, IdCard: idCrad
+            },
+            success: function (res) {
+                window.location.reload();
+            }
+        })
+    }
+
+  
+    //获取人员列表渲染
+    function getuser(user) {
+        var userid = $("#userid" + user + "").val();
+        $.ajax({
+            type: "POST",
+            url: "http://318jp82710.eicp.vip/api/User/GetUserList",
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem("token"),
+                UserId: window.localStorage.getItem("UserId"),
+                AppFlag: window.localStorage.getItem("AppFlag")
+            },
+            data: {
+                UserId: userid
+            },
+            success: function (res) {
+                var data = res;
+                document.getElementById("upusername").value = data[0].UserName;
+                document.getElementById("uprealename").value = data[0].RealName;
+                document.getElementById("upusertype").text = data[0].UserTypeStr;
+                document.getElementById("upsex").value = data[0].SexType;
+                document.getElementById("upnation").value = data[0].Nation;
+                document.getElementById("upbirthday").value = data[0].DateOfBirth;
+                document.getElementById("upidCrad").value = data[0].IdCard;
+                document.getElementById("upacademic").value = data[0].Education;
+                document.getElementById("upphonenumber").value = data[0].Phone;
+                document.getElementById("upemail").value = data[0].Email;
+                document.getElementById("upvx").value = data[0].WeiXin;
+                document.getElementById("upadress").value = data[0].Address;
+                document.getElementById("hideuserid").value = data[0].UserTypeId;
+                document.getElementById("usersId").value = data[0].UserId;
+            }
+        })
+    }
+    //更新用户职位状态
+  
+    //获取当前的数据发送后台存储
+    function upuserclick() {
+        var userid = document.getElementById("usersId").value;
+        var UserName = document.getElementById("upusername").value;
+        var realename = document.getElementById("uprealename").value;
+        var usertype = document.getElementById("upusertype").text;
+        var DepartmentId = document.getElementById("bmselect").value;
+        var sex = document.getElementById("upsex").value;
+        var nation = document.getElementById("upnation").value;
+        var birthday = document.getElementById("upbirthday").value;
+        var idCrad = document.getElementById("upidCrad").value;
+        var academic = document.getElementById("upacademic").value;
+        var phonenumber = document.getElementById("upphonenumber").value;
+        var email = document.getElementById("upemail").value;
+        var vx = document.getElementById("upvx").value;
+        var adress = document.getElementById("upadress").value;
+        var password = document.getElementById("uppassword").value;
+        var hideuserid = document.getElementById("hideuserid").value;
+        var a = confirm("是否确认修改？");
+        if (a) {
+            $.ajax({
+                type: "POST",
+                url: "http://318jp82710.eicp.vip/api/User/Update",
+                headers: {
+                    Authorization: "Bearer " + window.localStorage.getItem("token"),
+                    UserId: window.localStorage.getItem("UserId"),
+                    AppFlag: window.localStorage.getItem("AppFlag")
+                },
+                data: {
+                    UserId: userid, UserName: UserName, Password: password, UserTypeStr: usertype, DepartmentId: DepartmentId, RealeName: realename, DateOfBirth: birthday, SexType: sex, Nation: nation, Education: academic, Phone: phonenumber, Email: email,
+                    WeiXin: vx, Address: adress, IdCard: idCrad, UserTypeId: hideuserid
+                },
+                success: function (res) {
+                    uptable(res);
+                }
+            })
+        }
+    }
+//获取职位类型
+depart();
+function depart(){
+$.ajax({
+    url:window.url+"User/GetUserTypeList",//POST /api/User/GetUserTypeList
+    type:"post",
+    data:{
+        PageIndex:0,
+        PageSize:0
+    },
+     headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+    success:(res)=>{
+       
+        var htm='';
+        for (let i = 0; i < res.length; i++) {
+            htm+="<option value="+res[i].UserTypeId+">"+res[i].Name+"</option>"
+        }
+        $(".typs").html(htm)
+        layui.form.render();
+    }
+})
+
+
+}
+
+//获取用户信息
+user();
+function user(){
+//真实姓名： RealName，部门：Department.Name 职位：UserTypeStr，性别：SexTypeStr，民族：Nation，
+//出生日期：DateOfBirth，身份证号：IdCard ，最高学历：Education，
+//电话：Phone，邮箱：Email ，微信：WeiXin ，地址：Address ，密码：Address 
+$.ajax({
+    url:window.url+"User/GetUserList",//POST /api/User/GetUserList
+    type:"post",
+    data:{
+        UserId:localStorage.getItem('UserId')
+    },
+     headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+success:(res)=>{ console.log(res[0])
+  
+  var data=res[0]; 
+   console.log(data.WeiXin)
+  $("#RealName").val(data.RealName)
+  $("#Department").val(data.DepartmentId)//data.DepartmentId
+  $("#UserTypeStr").val(data.UserTypeId)
+  $("#upsexs").val(data.SexType)
+  $("#upnation").val(data.Nation)
+  $("#test1").val(data.DateOfBirth)
+  $("#Numberst").val(data.IdCard)
+  $("#upnations").val(data.Education)
+  $("#phones").val(data.Phone)
+  $("#Emails").val(data.Email)
+  $("#weixin").val(data.WeiXin)
+  $("#address").val(data.Address)
+ layui.form.render();
+}
+})
+}
+//修改资料
+
+$(".xiugai").on('click',function(){
+
+
+$.ajax({
+url:window.url+"User/Update",//POST POST /api/User/Update
+type:"post",
+async:false,
+data:{
+    UserId:localStorage.getItem('UserId'),
+    RealeName:$("#RealName").val(),
+    UserTypeId : $("#UserTypeStr").val(),
+    DepartmentId :$("#Department").val(),
+    SexType : $("#upsexs").val(),
+    Nation :$("#upnation").val(),
+    Education :$("#upnations").val(),
+    DateOfBirth : $("#test1").val(),
+    Phone : $("#phones").val(),
+    Email : $("#Emails").val(),
+    WeiXin :$("#weixin").val(),
+    IdCard : $("#Numberst").val(),
+    Address :$("#address").val()
+},
+ headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+success:(res)=>{
+  location.reload()
+
+}
+
+})
+
+
+
+
+})
+
+</script>

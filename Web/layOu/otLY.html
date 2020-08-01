@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../Layui/layui-v2.5.6/layui/css/layui.css">
+   
+
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header">
+    <div class="layui-logo">欧得后台管理</div>
+    <!-- 头部区域（可配合layui已有的水平导航） -->
+    <ul class="layui-nav layui-layout-left">
+      <li class="layui-nav-item"><a href="">控制台</a></li>
+      <li class="layui-nav-item"><a href="">商品管理</a></li>
+      <li class="layui-nav-item"><a href="">用户</a></li>
+      <li class="layui-nav-item">
+        <a href="javascript:;">其它系统</a>
+        <dl class="layui-nav-child">
+          <dd><a href="">邮件管理</a></dd>
+          <dd><a href="">消息管理</a></dd>
+          <dd><a href="">授权管理</a></dd>
+        </dl>
+      </li>
+    </ul>
+    <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item">
+        <a href="javascript:;" class="Name_s">
+         
+     
+        </a>
+        <dl class="layui-nav-child">
+          <dd><a  href="javascript:;" class="Menu Menust" data-title="基本资料" data-url="../Nmanger/mangerinfo.html" data-id="1">基本资料</a></dd>
+          <dd><a href="">安全设置</a></dd>
+        </dl>
+      </li>
+      <li class="layui-nav-item"><a href="">退了</a></li>
+    </ul>
+  </div>
+  
+  <div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+      <ul class="layui-nav layui-nav-tree layui-bg-cyan menust" lay-filter="testd">
+        <!-- <li class="layui-nav-item">
+          <a class="" href="javascript:;">项目管理</a>
+          <dl class="layui-nav-child">
+            <dd><a href="javascript:;" class="Menu" data-title="商品操作" data-url="http://www.baidu.com" data-id="1">商品操作</a></dd>
+            <dd><a href="javascript:;">列表二</a></dd>
+            <dd><a href="javascript:;">列表三</a></dd>
+            <dd><a href="">超链接</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item">
+          <a href="javascript:;">解决方案</a>
+          <dl class="layui-nav-child">
+            <dd><a href="javascript:;">列表一</a></dd>
+            <dd><a href="javascript:;">列表二</a></dd>
+            <dd><a href="">超链接</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item"><a href="">云市场</a></li>
+        <li class="layui-nav-item"><a href="">发布商品</a></li> -->
+      </ul> 
+    </div>
+      
+  </div>
+ 
+  <div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div class="layui-body">
+      <!-- 内容主体区域 -->
+     <div class="layui-tab layui-tab-brief" lay-allowClose="true" lay-filter="tabadd" >
+                          <ul class="layui-tab-title">
+                          <!-- <li class="layui-this"></li> -->
+                          </ul>
+       
+           <div class="layui-tab-content">
+                <!-- <div class="layui-tab-item layui-show"></div> -->
+           </div>
+    </div>
+  </div>
+  
+  <div class="layui-footer">
+    <!-- 底部固定区域 -->
+    © layui.com - 底部固定区域
+  </div>
+</div>
+<script src="../Layui/layui-v2.5.6/layui/layui.all.js"></script>
+<script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+<script src="../UrlModel/url.js"></script>
+<script>
+   
+//JavaScript代码区域
+    layui.use(['element', 'jquery'], function () {
+        var element = layui.element;
+        var $ = layui.jquery;
+      //选项卡功能
+        $(document).on('click','.Menust',function () {
+          
+          
+            var dataid = $(this);//变成jquery对象
+           
+            if ($(".layui-tab-title li[lay-id]").length <= 0) {
+                element.tabAdd('tabadd', {
+                    title: dataid.attr("data-title"),
+                    content: '<iframe data-frameid="' + dataid.attr("data-id") + '" scrolling="auto" frameborder="0" src="' + dataid.attr("data-url") + '" style="width:100%;height:99%;"></iframe>',
+                    id: dataid.attr("data-id")
+
+                })
+            }
+            else {
+                var isData = false; //初始化一个标志，为false说明未打开该tab项 为true则说明已有
+                $.each($(".layui-tab-title li[lay-id]"), function () {
+                    //如果点击左侧菜单栏所传入的id 在右侧tab项中的lay-id属性可以找到，则说明该tab项已经打开
+                    if ($(this).attr("lay-id") == dataid.attr("data-id")) {
+                        isData = true;
+                    }
+                })
+                if (isData == false) {
+                    //标志为false 新增一个tab项
+                    element.tabAdd('tabadd', {
+
+                        title: dataid.attr("data-title"),
+                        content: '<iframe data-frameid="' + dataid.attr("data-id") + '" scrolling="auto" frameborder="0" src="' + dataid.attr("data-url") + '" style="width:99%;height:99%;"></iframe>',
+                        id: dataid.attr("data-id")
+                    })
+                }
+
+            }
+         
+            element.tabChange('tabadd', dataid.attr('data-id'))
+        })
+        //调整tab高度要调整layui-tab-item属性heigth改为1000px;
+  
+   menut();
+
+
+   //获取菜单渲染菜单
+   function menut(){
+     var menu=[];
+   $.ajax({
+    url:window.url+"UserJurisdiction/GetUserModule",
+    type:"post",
+     async:false,
+    //  data:{
+    //  // UserTypeId :BigInt(window.localStorage.getItem("UserTypeId")) 
+    //  },
+      headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+    success:(res)=>{
+  
+    const menus=[];
+   for(let i=0;i<res[0].Module.length;i++)
+   {
+     
+     menus.push(res[0].Module[i])
+   }
+    menu=menus;
+    
+    } 
+   })
+  
+     var htm='';
+     for(let i=0;i<menu.length;i++){
+      const st=BigInt(menu[i].ModuleId);
+    
+    htm+=' <li class="layui-nav-item">';
+    htm+=' <a class="" href="javascript:;">'+menu[i].Name+'</a>';
+    htm+=' <dl class="layui-nav-child">';
+   
+      for(let j=0;j<menu[i].Menu.length;j++)
+       {         
+         if (menu[i].Menu[j].Element.length ==0) {
+             htm+='<dd><a href="javascript:;" class="Menust" data-title="'+menu[i].Menu[j].Title+'" data-url='+menu[i].Menu[j].Url+' data-id='+menu[i].Menu[j].MenuId+'>'+menu[i].Menu[j].Title +'</a>'
+         }
+     
+       if (menu[i].Menu[j].Element.length !=0) {
+        htm+='<dd><a   >'+menu[i].Menu[j].Title +'</a>'
+       
+       htm+=' <dl class="layui-nav-child">';
+         for(let k=0;k<menu[i].Menu[j].Element.length;k++)
+         {       
+         
+         htm+='<dd><a  href="javascript:;"  class="Menust" data-title="'+menu[i].Menu[j].Element[k].Name+'" data-url='+menu[i].Menu[j].Element[k].Value+' data-id='+menu[i].Menu[j].Element[k].ElementId+'>'+menu[i].Menu[j].Element[k].Name +'</a></dd>'
+       
+     
+        }
+       
+        htm+='</dl>';
+         htm+='</dd>';
+         }
+       }
+      htm+='</dl>';
+      htm+='</li>';
+    
+
+  }
+     $('.menust').html(htm);
+     element.render("nav", "testd");
+      }
+   
+    })  
+    // <li class="layui-nav-item">
+    //       <a class="" href="javascript:;">项目管理</a>
+    //       <dl class="layui-nav-child">
+    //         <dd><a href="javascript:;" class="Menu" data-title="商品操作" data-url="http://www.baidu.com" data-id="1">商品操作</a></dd>
+    //         <dd><a href="javascript:;">列表二</a></dd>
+    //         <dd><a href="javascript:;">列表三</a></dd>
+    //         <dd><a href="">超链接</a></dd>
+    //       </dl>
+    //     </li>
+    //     <li class="layui-nav-item">
+    //       <a href="javascript:;">解决方案</a>
+    //       <dl class="layui-nav-child">
+    //         <dd><a href="javascript:;">列表一</a></dd>
+    //         <dd><a href="javascript:;">列表二</a></dd>
+    //         <dd><a href="">超链接</a></dd>
+    //       </dl>
+    //     </li>
+    //     <li class="layui-nav-item"><a href="">云市场</a></li>
+    //     <li class="layui-nav-item"><a href="">发布商品</a></li>
+  
+    kpt();
+function kpt(){
+  var Nam = window.localStorage.getItem("UserNmae");
+  htm="";
+  htm+=' <img src="http://t.cn/RCzsdCq" class="layui-nav-img">';
+  htm+=''+Nam+'';
+ $('.Name_s').html(htm);
+}
+
+  
+</script>
+</body>
+</html>

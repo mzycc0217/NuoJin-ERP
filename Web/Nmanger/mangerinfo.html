@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../UrlModel/url.js"></script>
+    <script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+    <style>
+        th {
+            height: 50px;
+        }
+        
+        td {
+            width: 134px;
+            height: 60px;
+        }
+        
+        input {
+            outline: none;
+            border: none;
+            width: 134px;
+            text-align: center;
+            font-size: 16px;
+        }
+        
+        table {
+            text-align: center;
+            margin-top: 200px;
+        }
+        
+        #sex,
+        #Departments,
+        #UserTypeStr {
+            height: 60px;
+            outline: none;
+            border: none;
+            font-size: 16px;
+        }
+        
+        button {
+            margin: 10px 6px;
+            width: 160px;
+            height: 40px;
+            border-width: 0px;
+            border-radius: 3px;
+            background: #1E90FF;
+            cursor: pointer;
+            outline: none;
+            font-family: Microsoft YaHei;
+            color: white;
+            font-size: 17px;
+        }
+        
+        button:hover {
+            background: #5599FF;
+        }
+    </style>
+</head>
+
+<body>
+    <form action="" id=form>
+        <table border="1" cellspacing="0" align="center">
+            <tr>
+                <th colspan="8">个人资料</th>
+            </tr>
+            <tr>
+                <td>姓名</td>
+                <td>
+                    <input type="text" placeholder="" name="" value="" id="RealName">
+                </td>
+                <td>性别</td>
+                <td>
+                    <select name="" id="sex">
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
+                </td>
+                <td colspan="2">出生日期</td>
+                <td>
+                    <input type="date" placeholder="" name="" value="" id="test1">
+                </td>
+
+            </tr>
+            <tr>
+                <td>部门</td>
+                <td colspan="2">
+                    <select name="" id="Departments" class="departs">
+
+                    </select>
+                </td>
+
+                <td>职位</td>
+                <td colspan="3">
+                    <select name="" id="UserTypeStr" class="typs">
+                        <option value="UserTypeStr" id="UserTypeStrs"></option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>电话</td>
+                <td colspan="2">
+                    <input type="tel" placeholder="" name="" value="" style="width: 90%;" id="phones">
+                </td>
+                <td>微信</td>
+                <td colspan="3">
+                    <input type="text" placeholder="" name="" value="" style="width: 90%;" id="weixin">
+                </td>
+            </tr>
+            <tr>
+                <td>民族</td>
+                <td>
+                    <input type="text" placeholder="" name="" value="" id="upnation">
+                </td>
+                <td>身份证号</td>
+                <td colspan="4">
+                    <input type="text" placeholder="" name="" value="" style="width: 90%;" id="Numberst">
+                </td>
+            </tr>
+            <tr>
+                <td>最高学历</td>
+                <td>
+                    <input type="text" placeholder="" name="" value="" id="upnations">
+                </td>
+                <td>E-mail</td>
+                <td colspan="4">
+                    <input type="email" name="" style="width: 90%;" id="Emails">
+                </td>
+            </tr>
+
+            <tr>
+                <td>住址</td>
+                <td colspan="6">
+                    <input type="text" placeholder="" name="" value="" style="width: 90%;" id="address">
+                </td>
+            </tr>
+
+        </table>
+    </form>
+    <!-- <div align="center"><button type="submit" id="submit">立即提交</button> <button type="reset" id="reset">重置</button></div> -->
+</body>
+<script>
+    $('input').attr('readonly', 'readonly')
+    $('select').attr('disabled', 'disabled')
+   window.onload = function() {
+              user();
+            anomation();
+        }
+    function user() {         
+        $.ajax({            
+            url: window.url + "User/GetUserList", //后台请求的数据，用的是PHP
+            dataType: "json", //数据格式
+            type: "post", //请求方式
+            data: {
+                UserId: localStorage.getItem('UserId')
+            },
+            headers:  {                
+                Authorization:  window.header.Ae,
+                UserId:  window.header.Ud,
+                AppFlag:  window.header.Fg            
+            },
+            success: function(data) {   //如果请求成功，返回数据。
+         
+                //真实姓名： RealName，部门：Department.Name 职位：UserTypeStr，性别：SexTypeStr，民族：Nation，
+                //出生日期：DateOfBirth，身份证号：IdCard ，最高学历：Education，
+                //电话：Phone，邮箱：Email ，微信：WeiXin ，地址：Address ，密码：Address 
+                var data = data[0];
+                console.log('%c 🍋 data: ', 'font-size:20px;background-color: #2EAFB0;color:#fff;', data);
+
+                $("#RealName").val(data.RealName)
+                $("#Departments").val(data.DepartmentId) //data.DepartmentId
+                $("#UserTypeStrs").val(data.UserType[0].UserType.Desc)
+                $("#upsexs").val(data.SexType)
+                $("#upnation").val(data.Nation)
+                $("#test1").val((data.DateOfBirth).slice(0, 10))
+                $("#Numberst").val(data.IdCard)
+                $("#upnations").val(data.Education)
+                $("#phones").val(data.Phone)
+                $("#Emails").val(data.Email)
+                $("#weixin").val(data.WeiXin)
+                $("#address").val(data.Address)
+                $("#Departments").val(data.Department.Name)
+
+
+            },
+                     
+        })  
+
+        bumen()
+            //获取部门
+        function bumen() {
+            $.ajax({
+                type: "POST",
+                url: window.url + "Department/GetDepartmentList",
+                 headers:  {                
+                    Authorization:  window.header.Ae,
+                    UserId:  window.header.Ud,
+                    AppFlag:  window.header.Fg            
+                },
+                data: {
+                    DepartmentName: "",
+                    PageIndex: 0,
+                    PageSize: 0
+                },
+                success: function(bmlist) {
+                    var data = bmlist[0].Count;
+                    var str = "";
+                    for (var i = 0; i < bmlist.length; i++) {
+                        str += '<option value="' + bmlist[i].DepartmentId + '">' + bmlist[i].Name + '</option>';
+                    }
+
+                    $(".departs").html(str);
+                }
+            })    
+        }
+        //获取职位类型
+        depart();
+
+        function depart() {
+            $.ajax({
+                url: window.url + "User/GetUserTypeList", //POST /api/User/GetUserTypeList
+                type: "post",
+                data: {
+                    PageIndex: 0,
+                    PageSize: 0
+                },
+                 headers:  {                
+                    Authorization:  window.header.Ae,
+                                    UserId:  window.header.Ud,
+                                    AppFlag:  window.header.Fg            
+                },
+                success: (res) => {
+                    var data = res[0].Count;
+                    var str = "";
+                    for (var i = 0; i < res.length; i++) {
+                        str += '<option value="' + res[i].UserTypeId + '">' + res[i].Name + '</option>';
+                    }
+                    $(".typs").html(str);
+
+                }
+            })
+
+
+        }
+    }
+    // //修改资料
+
+    // $("#submit").on('click', function() {
+
+
+    //     $.ajax({
+    //         url: window.url + "User/Update", //POST POST /api/User/Update
+    //         type: "post",
+    //         async: false,
+    //         data: {
+    //             UserId: localStorage.getItem('UserId'),
+    //             RealeName: $("#RealName").val(),
+    //             UserTypeId: $("#UserTypeStr").val(),
+    //             DepartmentId: $("#Department").val(),
+    //             SexType: $("#upsexs").val(),
+    //             Nation: $("#upnation").val(),
+    //             Education: $("#upnations").val(),
+    //             DateOfBirth: $("#test1").val(),
+    //             Phone: $("#phones").val(),
+    //             Email: $("#Emails").val(),
+    //             WeiXin: $("#weixin").val(),
+    //             IdCard: $("#Numberst").val(),
+    //             Address: $("#address").val()
+    //         },
+    //          headers:  {                
+    //             Authorization:  window.header.Ae,
+    //                             UserId:  window.header.Ud,
+    //                             AppFlag:  window.header.Fg            
+    //         },
+    //         success: (res) => {
+    //             user()
+
+    //         }
+
+    //     })
+    // })
+    // $('#reset').on('click', function() {
+    //     document.getElementById("form").reset();
+
+    // })
+</script>
+
+</html>

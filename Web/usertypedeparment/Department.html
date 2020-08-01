@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+    <script src="../layui/layui.all.js"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../JS/funtion.js"></script>
+    <script src="../UrlModel/url.js"></script>
+    <title>部门</title>
+</head>
+
+<body>
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="padding-top: 30px;">部门</label>
+            <div class="layui-input-block" style="width: 20%;padding-top: 20px;">
+                <select name="department" lay-verify="required" id="department" lay-filter="watchS"></select>
+            </div>
+        </div>
+    </form>
+    <div class="layui-form-item">
+        <label class="layui-form-label">搜索</label>
+        <div class="layui-input-inline">
+            <input type="text" name="input" class="layui-input" oninput="searchbtn()" id="search">
+        </div>
+        <button style="float: left;" type="button" class="layui-btn" data-type="reload" id="searchbtn">搜索</button>
+    </div>
+    <input type="text" id="myvalue" style="display: none;">
+    <table class="layui-hide" id="test" lay-filter="test"></table>
+    <form action="">
+        <script type="text/html" id="toolbarDemo">
+            <button data-method="offset" data-type="auto" class="layui-btn layui-btn-normal" id="addto">添加</button>
+            </div>
+        </script>
+    </form>
+    <!--详情-->
+    <div class="site-text" style="margin: 5%; display: none" id="box2" target="test123">
+        <form class="layui-form layui-form-pane" onsubmit="return false" id="book2" lay-filter="t2">
+            <div class="layui-form-item">
+                <input type="hidden" id="tuId1">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input atlasName" /><br>
+                </div>
+                <label class="layui-form-label">部门名称</label>
+                <div class="layui-input-block">
+                    <input class="layui-input batchNumber" /><br>
+                </div>
+                <label class="layui-form-label">手机号码</label>
+                <div class="layui-input-block">
+                    <input class="layui-input remark" /><br>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
+<script>
+ window.onload = function() {
+            anomation();
+        }
+    //表
+    layui.use(['laypage', 'layer', 'table', 'element', 'jquery', 'form', 'upload'], function() {
+        var laypage = layui.laypage //分页
+            ,
+            layer = layui.layer //弹层
+            ,
+            table = layui.table //表格
+            ,
+            element = layui.element //元素操作
+            ,
+            form = layui.form,
+            upload = layui.upload,
+            $ = layui.jquery;
+        table.render({
+            elem: '#test',
+            height: 515,
+            url: window.url + 'User/GetUserList' //数据接口
+                ,
+            title: '用户列表',
+            id: 'test',
+            toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+                ,
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            method: 'post',
+            page: true, //开启分页
+            limit: 10,
+            cols: [
+                [{
+                    type: 'checkbox',
+                    fixed: 'left'
+                }, {
+                    title: '序号',
+                    fixed: 'left',
+                    type: "numbers"
+                }, {
+                    title: '姓名',
+                    fixed: 'left',
+                    templet: function(res) {
+                        return res.RealName
+                    }
+                }, {
+                    field: 'Name',
+                    title: '部门名称',
+                    fixed: 'left',
+                    unresize: true,
+                    templet: function(res) {
+                        return res.Department.Name
+                    }
+                }, {
+                    title: '手机号',
+                    fixed: 'left',
+                    unresize: true,
+                    templet: function(res) {
+                        return res.Phone
+                    }
+                }]
+            ],
+            request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+                    ,
+                limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+            parseData: (res) => { //将原始数据解析成 table 组件所规定的数据 
+                if (res.length != 0) {
+                    return {
+                        "code": 0, //解析接口状态
+                        "msg": "成功", //解析提示文本
+                        "count": res[0].Count, //总数
+                        data: res //解析数据列表
+                    }
+                    if (res == 0) {
+                        console.log("无")
+                    }
+                }
+            },
+        });
+        form.on('select(watchS)', function(data) {
+            $("#myvalue").val(data.value)
+            table.reload('test', {
+                url: window.url + 'User/GetUserList',
+                where: {
+                    DepartmentId: data.value
+                } //设定异步数据接口的额外参数
+                //,height: 300
+            });
+
+            getdepartment()
+        });
+        GetDepaertMent();
+
+        function GetDepaertMent(data) {
+            $.ajax({
+                type: "POST",
+                url: window.url + "Department/GetDepartmentList",
+                data: {
+                    PageIndex: 0,
+                    PageSize: 0
+                },
+                headers: {
+                    Authorization: window.header.Ae,
+                    UserId: window.header.Ud,
+                    AppFlag: window.header.Fg
+                },
+                success: function(res) {
+                    var htm = "";
+                    for (let i = 0; i < res.length; i++) {
+                        htm += "<option value=" + res[i].DepartmentId + ">" + res[i].Name + "</option>";
+                    }
+                    $("#department").html(htm);
+                    layui.form.render();
+                },
+            })
+        }
+        //监听行的双击事件数据详情
+        table.on('rowDouble(test)', function(obj) {
+            var data = obj.data;
+            layer.open({
+                type: 1,
+                area: ['420px', '300px'],
+                title: ['详情', 'font-size:18px'],
+                shadeClose: true,
+                shade: 0,
+                manmin: true,
+                content: $('#box2'),
+                success: function(layero, index) {
+                    $("#tuId1").val(data.AtlasId),
+                        $(".atlasName").val(data.RealName),
+                        $(".batchNumber").val(data.Department.Name),
+                        $(".remark").val(data.Phone),
+                        layui.form.render();
+                },
+                cancel: function() {
+                    $("#box2").css("display", "none");
+                }
+            });
+        });
+
+        getdepartment()
+
+        function getdepartment() {
+            $("#addto").click(function() {
+
+                var checkStatus = table.checkStatus("test"); //获取数据
+                var data = checkStatus.data;
+                // aaa = data[0].DepartmentId
+                // console.log(aaa);
+
+                if (data.length == 0) {
+                    top.layer.alert("您没有选中数据!", {
+                        skin: 'layui-layer-lan',
+                        closeBtn: 0,
+                        anim: 3 //动画类型
+                    });
+                } else {
+                    var index = top.layer.confirm('您确定要添加吗？', {
+                        btn: ['确定', '取消']
+                    }, function() {
+                        var UserId = [];
+                        for (var i = 0; i < data.length; i++) {
+                            UserId.push(data[i].UserId)
+                        }
+                        var myid = $("#myvalue").val();
+                        var department = $("#department").val();
+
+                        if (department == null) {
+                            console.log("111")
+                        }
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "Approval/AuditPerson",
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                id: myid,
+                                user_id: UserId
+                            }),
+
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            success: function(res) {
+                                layer.close(index)
+
+
+                            },
+                            error: function(err) {
+                                console.log(err);
+                            },
+                        })
+                    })
+                }
+            })
+        }
+        //分页
+        laypage.render({
+            elem: 'pageDemo' //分页容器的id
+                ,
+            count: 100 //总页数
+                ,
+            skin: '#1E9FFF' //自定义选中色值
+                ,
+            jump: function(obj, first) {
+                if (!first) {
+                    layer.msg('第' + obj.curr + '页', {
+                        offset: 'b'
+                    });
+                }
+            }
+        });
+
+
+
+
+        //模糊查询
+        $('#searchbtn').on('click', function() {
+            var demoReload = $('#search');
+            table.reload('test', {
+
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                },
+                where: {
+                    RealName: demoReload.val()
+                }
+            }, 'data');
+        });
+    });
+
+    function searchbtn() {
+        var demoReload = $('#search');
+        layui.table.reload('test', {
+            page: {
+                curr: 1 //重新从第 1 页开始
+            },
+            where: {
+                RealName: demoReload.val()
+            }
+        }, 'data');
+    }
+</script>

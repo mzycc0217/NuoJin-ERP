@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>开通账号</title>
+    <link rel="stylesheet" href="../Layui/layui-v2.5.6/layui/css/layui.css">
+</head>
+<body>
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+          <label class="layui-form-label">姓名</label>
+          <div class="layui-input-block">
+            <input type="text"  name="Name_s" id="Names_d" placeholder="请输入姓名" autocomplete="off" class="layui-input" style="width: 50%;">
+          </div>
+        </div>
+      
+        <div class="layui-form-item">
+          <label class="layui-form-label">部门</label>
+          <div class="layui-input-block" style="width: 45%;">
+            <select name="depaltment" id="depaltments">
+          
+            </select>
+          </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">职位</label>
+            <div class="layui-input-block" style="width: 45%;">
+              <select name="User_type" id="User_type">
+              
+              </select>
+            </div>
+          </div>
+
+          <div class="layui-form-item">
+            <label class="layui-form-label">账号</label>
+            <div class="layui-input-block">
+              <input type="text" name="Number_N" id="Number_N" placeholder="请输入登陆用的账号" autocomplete="off" class="layui-input" style="width: 50%;">
+            </div>
+          </div>
+      
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <button class="layui-btn dredge" type="button">确定开通</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+          </div>
+        </div>
+      </form>
+       
+    
+</body>
+</html>
+<script src="../UrlModel/url.js"></script>
+<script src="../Layui/layui-v2.5.6/layui/layui.all.js"></script>
+<script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+<script src="../Layui/layui-v2.5.6/layui/lay/modules/layer.js"></script>
+<script>
+  window.onload = function() {
+            anomation();
+        }
+ layui.use(['element', 'jquery','form'], function () {
+        var element = layui.element;
+        var $ = layui.jquery;
+        var form = layui.form;
+        
+      
+
+$(".dredge").on("click",function(){
+
+var Names_d=$("#Names_d").val();
+var depaltments=$("#depaltments").val();
+var User_type=$("#User_type").val();
+var Number_N=$("#Number_N").val();
+
+
+$.ajax({
+  url:window.url+"User/Add",//POST /api/User/Add
+    type:"post",
+    data:{
+      RealeName:Names_d,
+      UserTypeId:User_type,
+      DepartmentId:depaltments,
+      UserName:Number_N
+    },
+     headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+    success:(res)=>{
+      console.log(res)
+      top.layer.alert("添加成功", {
+              icon: 1,
+              skin: 'layui-layer-lan',
+              closeBtn: 0,
+              anim: 4 //动画类型
+            });
+    }
+ 
+})
+
+})
+
+
+
+ })
+ 
+
+ //获取职位类型
+depart();
+function depart(){
+$.ajax({
+    url:window.url+"User/GetUserTypeList",//POST /api/User/GetUserTypeList
+    type:"post",
+    data:{
+        PageIndex:0,
+        PageSize:0
+    },
+     headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+    success:(res)=>{
+        console.log(res)
+        var htm='';
+        for (let i = 0; i < res.length; i++) {
+            htm+="<option value="+res[i].UserTypeId+">"+res[i].Name+"</option>"
+        }
+        $("#User_type").html(htm);
+        layui.form.render();
+    }
+})
+
+
+}
+//获取职位类型
+
+bumen();
+function bumen() {
+        $.ajax({
+            type: "POST",
+            url: window.url+"Department/GetDepartmentList",
+             headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            data: {
+                DepartmentName: "", PageIndex: 0,
+                PageSize: 0
+            },
+            success: function (bmlist) {
+                var data = bmlist[0].Count;
+                var str = "";
+                for (var i = 0; i < data; i++) {
+                    str += '<option value="' + bmlist[i].DepartmentId + '">' + bmlist[i].Name + '</option>';
+
+                }
+                
+                $("#depaltments").html(str);
+                layui.form.render();
+                // $("#upbm").html(str);
+            }
+        })
+    }
+
+
+</script>

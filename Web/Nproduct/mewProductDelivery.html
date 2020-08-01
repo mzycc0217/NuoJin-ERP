@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Layui/layui-v2.5.6/layui/css/layui.css">
+    <script src="../UrlModel/url.js"></script>
+    <script src="../Layui/layui-v2.5.6/layui/layui.all.js"></script>
+    <script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+    <script src="../Layui/layui-v2.5.6/layui/lay/modules/layer.js"></script>
+    <script src="../Layui/layui-v2.5.6/layui/lay/modules/laydate.js"></script>
+    <title>成品入库</title>
+</head>
+
+<body>
+    <div class="layui-tab">
+        <ul class="layui-tab-title">
+            <li>成品入库</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item">
+
+            </div>
+        </div>
+    </div>
+    <table class="layui-hide" id="test4" lay-filter="test4"></table>
+    <div class="site-text" style="margin: 5%; display: none" id="productBox4" target="test123">
+        <form class="layui-form layui-form-pane" onsubmit="return false" id="productBook4" lay-filter="productt4">
+            <div class="layui-form-item">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-block">
+                    <input id="productDes1" class="layui-input" /></br>
+                </div>
+                <label class="layui-form-label">仓库</label>
+                <div class="layui-input-block">
+                    <select id="productWarehouseId1"></select>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="site-text" style="margin: 5%; display: none" id="productBox5" target="test123">
+        <form class="layui-form layui-form-pane" onsubmit="return false" id="productBook5" lay-filter="productt5">
+            <div class="layui-form-item">
+                <!-- <input type="hidden" id="leaderId"> -->
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" id="productOverDes"><br>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script type="text/html" id="barDemo4">
+        <a class="layui-btn layui-btn-xs" lay-event="edit4">入库</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="over4">驳回</a>
+    </script>
+    <!--序号列-->
+    <script type="text/html" id="xuHao">
+        {{d.LAY_TABLE_INDEX+1}}
+    </script>
+    <!--信息-->
+    <script type="text/html" id="buttonTpl">
+        {{# if(d.Finshed_Sign == 1){ }}
+        <button class="layui-btn layui-btn-warm layui-btn-xs">成品</button> {{# } else if(d.Finshed_Sign == 2) { }}
+        <button class="layui-btn  layui-btn-xs">半成品</button> {{# } }}
+    </script>
+</body>
+<script>
+    window.onload = function() {
+        anomation();
+    }
+
+    function productware(rawid) {
+        $.ajax({
+            type: 'POST',
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            url: window.url + "SaleProduct/BackSaleMonad", //后台数据地址
+            data: {
+                FishProductId: rawid,
+            },
+            success: function(data) {
+                console.log('%c 🍯 data: ', 'font-size:20px;background-color: #7F2B82;color:#fff;', data);
+                $.each(data, function(index, item) { //循环后台返回的json数据
+                    //new Option方法是新建一个option，第一个参数是需要显示的值，第二个参数是option的value值,然后append到下拉框中。
+                    $("#productWarehouseId1").append(new Option(item.entrepot.EntrepotName, item.EntrepotId));
+                })
+                layui.form.render('select');
+            }
+        });
+    }
+    layui.use(['laypage', 'layer', 'table', 'element', 'jquery', 'form'], function() {
+        var laypage = layui.laypage //分页
+            ,
+            layer = layui.layer //弹层
+            ,
+            table = layui.table //表格
+            ,
+            element = layui.element //元素操作
+            ,
+            form = layui.form;
+
+        table.render({
+            elem: '#test4',
+            height: 515,
+            url: window.url + 'FinshedProductMonad/GetFinshedProductMonad' //数据接口
+                ,
+            title: '检验入库',
+            id: 'testReload4',
+            toolbar: '#toolbarDemo4' //开启头部工具栏，并为其绑定左侧模板
+                ,
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            method: 'post',
+            page: true, //开启分页
+            limit: 10,
+
+            cols: [
+                [{
+                    type: 'checkbox',
+                    fixed: 'left'
+                }, {
+                    title: '序号',
+                    fixed: 'left',
+                    templet: '#xuHao',
+                }, {
+                    field: 'z_FnishedProduct.Name',
+                    title: '产成品',
+                    fixed: 'left',
+                    templet: function(res) {
+                        if (res.z_FnishedProduct == null || res.z_FnishedProduct.Name == null) {
+                            return "无"
+                        } else {
+                            return res.z_FnishedProduct.Name;
+                        }
+                    }
+                }, {
+                    field: 'z_FnishedProduct.Z_FinshedProductType.Name',
+                    title: '类型',
+                    fixed: 'left',
+                    templet: function(res) {
+                        if (res.z_FnishedProduct.Z_FinshedProductType == null || res.z_FnishedProduct.Z_FinshedProductType.Name == null) {
+                            return "无"
+                        } else {
+                            return res.z_FnishedProduct.Z_FinshedProductType.Name;
+                        }
+                    }
+                }, {
+                    field: 'Finshed_Sign',
+                    title: '出售类型',
+                    fixed: 'left',
+                    templet: '#buttonTpl',
+                    minWidth: 150,
+                    align: 'center'
+
+                }, {
+                    field: 'ApplyNumber',
+                    title: '入库数量',
+                }, {
+                    field: 'Company',
+                    title: '单位',
+                    templet: function(res) {
+                        if (res.Company == null || res.Company.Name == null) {
+                            return "无"
+                        } else {
+                            return res.Company.Name;
+                        }
+                    }
+                }, {
+                    field: 'Supplier',
+                    title: '供货商',
+                    templet: function(res) {
+                        if (res.Supplier == null || res.Supplier.Name == null) {
+                            return "无"
+                        } else {
+                            return res.Supplier.Name;
+                        }
+                    }
+                }, {
+                    field: 'ApplyTime',
+                    title: '申请日期',
+                    templet: function(res) {
+                        return showTime(res.ApplyTime);
+                    }
+                }, {
+                    fixed: 'right',
+                    title: '操作',
+                    width: 240,
+                    toolbar: '#barDemo4',
+                }]
+            ],
+            request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+                    ,
+                limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+            parseData: (res) => { //将原始数据解析成 table 组件所规定的数据
+                console.log('%c 🍻 res: ', 'font-size:20px;background-color: #FFDD4D;color:#fff;', res);
+
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": "成功", //解析提示文本
+                    "count": res.Count, //总数
+                    data: res.data //解析数据列表
+                }
+            }
+        });
+
+        //寻找数据
+        $('.layui-btn').on('click', function() {
+            var productName = $("#productName").val();
+            //执行重载
+            table.reload('testReload4', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                },
+                where: {
+                    Name: productName
+                }
+            }, 'data');
+        });
+
+
+
+        //监听行工具事件
+        table.on('tool(test4)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+
+            layEvent = obj.event; //获得 lay-event 对应的值
+            console.log('%c 🍡 data.FnishedProductId: ', 'font-size:20px;background-color: #ED9EC7;color:#fff;', data.FnishedProductId);
+            productware(data.FnishedProductId);
+            data.Id
+            console.log('%c 🥘 data.Id: ', 'font-size:20px;background-color: #FFDD4D;color:#fff;', data.Id);
+            if (layEvent === 'edit4') {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '300px'],
+                    title: ['入库', 'font-size:18px'],
+                    btn: ['确定', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#productBox4'),
+                    yes: function(index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "FinshedProductMonad/AddFinshedProductMonad",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                FinishProductId: data.Id,
+                                ContentDes: $("#productDes1").val(),
+                                enportid: $("#productWarehouseId1").val(),
+                                user_Id: localStorage.getItem('UserId')
+                            }),
+                            success: function(res) {
+
+                                table.reload('testReload4')
+                                $("#productBox4").css("display", "none");
+                                layer.close(index)
+                            },
+                            error: function(res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function(layero) {
+                        $("#productBox4").css("display", "none");
+                    },
+                    cancel: function() {
+                        $("#productBox4").css("display", "none");
+                    }
+                });
+                return false;
+            } else if (layEvent === "over4") {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '200px'],
+                    title: ['备注', 'font-size:18px'],
+                    btn: ['确定', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#productBox5'),
+                    yes: function(index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "SaleProduct/SetRejectSaleMonad",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                Sale_Id: data.Id,
+                                Des: $("#productOverDes").val(),
+                            }),
+                            success: function(res) {
+                                console.log('%c 🍞 res: ', 'font-size:20px;background-color: #E41A6A;color:#fff;', res);
+                                // table.reload('testReload4')
+                                // $("#productBox5").css("display", "none");
+                                // layer.close(index)
+                            },
+                            error: function(res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function(layero) {
+                        $("#productBox5").css("display", "none");
+                    },
+                    cancel: function() {
+                        $("#productBox5").css("display", "none");
+                    }
+                });
+                return false;
+            }
+
+
+        });
+        //分页
+        laypage.render({
+            elem: 'pageDemo' //分页容器的id
+                ,
+            count: 100 //总页数
+                ,
+            skin: '#1E9FFF' //自定义选中色值
+                ,
+            jump: function(obj, first) {
+                if (!first) {
+                    layer.msg('第' + obj.curr + '页', {
+                        offset: 'b'
+                    });
+                }
+            }
+        });
+    });
+</script>
+
+</html>

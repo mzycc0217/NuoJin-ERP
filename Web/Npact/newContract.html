@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>销售合同</title>
+    <link rel="stylesheet" href="../Layui/layui-v2.5.6/layui/css/layui.css">
+    <style>
+        .container-fluid {
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid ">
+        <div class="demoTable">
+            搜索名称：
+            <div class="layui-inline">
+                <input class="layui-input" id="demoReload" autocomplete="off">
+            </div>
+            <button class="layui-btn" data-type="reload">搜索</button>
+        </div>
+        <table id="sell" lay-filter="sell_test"></table>
+    </div>
+</body>
+
+</html>
+<script src="../Layui/layui-v2.5.6/layui/layui.all.js"></script>
+<script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+<script src="../Layui/layui-v2.5.6/layui/lay/modules/layer.js"></script>
+<script src="../UrlModel/url.js"></script>
+<script>
+ window.onload = function() {
+            anomation();
+        }
+    //设置图片的放大效果
+    function hoverOpenImg() {
+        var img_show = null; //tips提示
+        $('td img').hover(function() {
+            var img = "<img class='img_msg'src='" + $(this).attr('src') + "' style='width:170px;height:200px'/>";
+            img_show = layer.tips(img, this, {
+                tips: [2, 'rgba(41,41,41,.5)'],
+                area: ['200px']
+            });
+        }, function() {
+            layer.close(img_show);
+        });
+        $('td img').attr('style', 'max-width:50px');
+    }
+    layui.use(['element', 'jquery', 'table', 'layer', 'form', 'upload'], function() {
+        var element = layui.element;
+        var $ = layui.jquery;
+        var table = layui.table;
+        var layer = layui.layer;
+        var upload = layui.upload;
+        var form = layui.form;
+        table.render({
+            elem: '#sell',
+            id: "sell_test",
+            height: 515,
+            headers:  {                
+                Authorization:  window.header.Ae,
+                UserId:  window.header.Ud,
+                 AppFlag:  window.header.Fg            
+            },
+            page: true,
+            method: 'post',
+            parseData: function(res) { //将原始数据解析成 table 组件所规定的数据
+                console.log(res)
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": "成功", //解析提示文本
+                    "count": res[0].Count,
+                    data: res //解析数据列表
+
+                }
+            },
+            url: window.url + 'Sale/GetSaleList' //post /api/Sale/GetSaleList
+                ,
+            page: true //开启分页
+                ,
+            done: function(res, curr, count) {
+                hoverOpenImg(); //显示大图
+            },
+            cols: [
+                [ //表头
+                    {
+                        field: 'SaleId',
+                        title: '序号',
+                        fixed: 'left',
+                        sort: true,
+                        type: 'numbers',
+                    }, {
+                        field: 'SaleType',
+                        title: '销售名称',
+                        templet: (res) => {
+                            return re.RawMaterialName
+                        }
+                    }, {
+                        field: 'SaleType',
+                        title: '销售类别',
+                        templet: (res) => {
+                            return re.RawMaterial.WarehousingType.Name
+                        }
+                    }, {
+                        field: 'Url',
+                        title: '销售合同',
+                        templet: function(res) {
+                            if (res.Url.lastIndexOf("jpg") != -1 || res.Url.lastIndexOf("png") != -1) {
+                                return "<div> <a href='" + res.Url + "' target='_blank'> <img src='" + res.Url + "' id='image'></a></div>"
+                            }
+                            return "<div><a href='" + res.Url + "' target='_blank'> <img src='../../img/2.jpg' id='image' > </a></div>"
+                        }
+                    }, {
+                        field: 'User',
+                        title: '销售员',
+
+                        templet: (re) => {
+                            if (re.TechnicalDescription != null) {
+                                return re.RawMaterial.TechnicalDescription
+
+                            } else {
+                                return "<span>无</span>"
+                            }
+
+                        }
+                    }
+                ]
+            ],
+            request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+                    ,
+                limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+            where: {
+                //  ApprovalType:5
+            }
+        });
+        //寻找数据
+        $('.layui-btn').on('click', function() {
+            var demoReload = $("#demoReload").val();
+            //执行重载
+            table.reload('testReload', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                },
+                where: {
+                    RawMaterialName: demoReload
+                }
+            }, 'data');
+        });
+    })
+</script>

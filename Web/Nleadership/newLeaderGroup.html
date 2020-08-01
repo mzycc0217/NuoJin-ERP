@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../layui/layui.all.js"></script>
+    <script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../JS/funtion.js"></script>
+    <script src="../UrlModel/url.js"></script>
+    <title>领导审核</title>
+    <style>
+        .mapHead {
+            margin: 20px;
+        }
+        
+        .layui-table-page select {
+            height: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mapWrap">
+        <div class="mapHead">
+            <div class="demoTable">
+                搜索原料名称：
+                <div class="layui-inline">
+                    <input class="layui-input" name="name" id="keyName" autocomplete="off" />
+                </div>
+                <button class="layui-btn" data-type="reload">搜索</button>
+            </div>
+            <div class="site-text" style="margin: 5%; display: none" id="box3" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book3" lay-filter="t3">
+                    <div class="layui-form-item">
+                        <input type="hidden" id="leaderId">
+                        <label class="layui-form-label">准购数量</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="nums"><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="site-text" style="margin: 5%; display: none" id="box4" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book4" lay-filter="t4">
+                    <div class="layui-form-item">
+                        <!-- <input type="hidden" id="leaderId"> -->
+                        <label class="layui-form-label">备注</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="des"><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="site-text" style="margin: 5%; display: none" id="box5" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book5" lay-filter="t5">
+                    <div class="layui-form-item">
+                        <!-- <input type="hidden" id="leaderId"> -->
+                        <label class="layui-form-label">备注</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="overDes"><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="site-text" style="margin: 5%; display: none" id="box6" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book6" lay-filter="t6">
+                    <div class="layui-form-item">
+                        <!-- <input type="hidden" id="leaderId"> -->
+                        <label class="layui-form-label">审核人</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="verifier"><br>
+                        </div>
+                        <label class="layui-form-label">备注</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="verifierDes"><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <table class="layui-hide" id="test" lay-filter="test"></table>
+
+            <script type="text/html" id="barDemo">
+                <a class="layui-btn layui-btn-xs" lay-event="edit">审核通过</a>
+                <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="amend">修改</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="over">驳回</a>
+            </script>
+            <!--序号列-->
+            <script type="text/html" id="xuHao">
+                {{d.LAY_TABLE_INDEX+1}}
+            </script>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    window.onload = function() {
+        anomation();
+    }
+
+    //领导审批的表
+    layui.use(['laypage', 'layer', 'table', 'element', 'jquery', 'form'], function() {
+        var laypage = layui.laypage //分页
+            ,
+            layer = layui.layer //弹层
+            ,
+            table = layui.table //表格
+            ,
+            element = layui.element //元素操作
+            ,
+            form = layui.form;
+
+        table.render({
+            elem: '#test',
+            height: 515,
+            url: window.url + 'ZpurChase/GetZpurChaseP' //数据接口
+                ,
+            title: '领导审核表',
+            id: 'testReload',
+            toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+                ,
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            method: 'post',
+            page: true, //开启分页
+            limit: 10,
+
+            cols: [
+                [{
+                    type: 'checkbox',
+                    fixed: 'left'
+                }, {
+                    title: '序号',
+                    fixed: 'left',
+                    templet: '#xuHao',
+                }, {
+                    field: 'z_Raw',
+                    title: '原材料',
+                    fixed: 'left',
+                    templet: function(res) {
+                        if (res.z_Raw == null) {
+                            return "无"
+                        } else {
+                            return res.z_Raw.Name
+                        }
+
+                    }
+                }, {
+                    field: 'Z_RowType',
+                    title: '类型',
+                    fixed: 'left',
+                    templet: function(res) {
+                        if (res.Z_RowType == null) {
+                            return "无"
+                        } else {
+                            return res.Z_RowType.Name
+                        }
+
+                    }
+                }, {
+                    field: 'Project',
+                    title: '项目',
+                    fixed: 'left',
+                    templet: function(res) {
+                        return res.Project.Name
+                    }
+                }, {
+                    field: 'QuasiPurchaseNumber',
+                    title: '准购数量',
+                    align: 'center',
+                    style: 'background-color: #009688; color: #fff;'
+                }, {
+                    field: 'ApplyNumber',
+                    title: '申请数量',
+                }, {
+                    field: 'Company',
+                    title: '单位',
+                    templet: function(res) {
+                        if (res.company == null) {
+                            return "无"
+                        } else {
+                            return res.company.Name
+                        }
+
+                    }
+                }, {
+                    field: 'ApplicantRemarks',
+                    title: '申请人备注说明',
+                }, {
+                    field: 'ApplyTime',
+                    title: '申请日期',
+                    templet: function(res) {
+                        return showTime(res.ApplyTime);
+                    }
+                }, {
+                    fixed: 'right',
+                    title: '操作',
+                    width: 240,
+                    toolbar: '#barDemo',
+                }]
+            ],
+            request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+                    ,
+                limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+            parseData: (res) => { //将原始数据解析成 table 组件所规定的数据
+
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": "成功", //解析提示文本
+                    "count": res.Count, //总数
+                    data: res.data //解析数据列表
+                }
+            }
+        });
+
+        //寻找数据
+        $('.layui-btn').on('click', function() {
+            var keyName = $("#keyName").val();
+            //执行重载
+            table.reload('testReload', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                },
+                where: {
+                    DepartmentName: keyName
+                }
+            }, 'data');
+        });
+
+        //监听行工具事件
+        table.on('tool(test)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+            layEvent = obj.event; //获得 lay-event 对应的值);
+
+            if (layEvent === 'amend') {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '200px'],
+                    title: ['修改', 'font-size:18px'],
+                    btn: ['确定', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box3'),
+                    success: function(layero, index) {
+                        $("#leaderId").val(data.PurchaseId)
+                        $("#nums").val(data.QuasiPurchaseNumber)
+                        layui.form.render();
+                    },
+                    yes: function(index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "ZpurChase/EditPursh",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                Id: $("#leaderId").val(),
+                                QuasiPurchaseNumber: $("#nums").val()
+                            }),
+                            success: function(res) {
+
+                                table.reload('testReload')
+                                $("#box3").css("display", "none");
+                                layer.close(index)
+                            },
+                            error: function(res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function(layero) {
+                        $("#box3").css("display", "none");
+                    },
+                    cancel: function() {
+                        $("#box3").css("display", "none");
+                    }
+                });
+                return false;
+
+            } else if (layEvent === 'edit') {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '220px'],
+                    title: ['备注', 'font-size:18px'],
+                    btn: ['确定', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box4'),
+                    yes: function(index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "ZpurChase/SetZpurChasePdst",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                Purchase_Id: data.PurchaseId,
+                                ContentDes: $("#des").val(),
+                                user_Id: localStorage.getItem('UserId')
+                            }),
+                            success: function(res) {
+                                table.reload('testReload')
+                                $("#box4").css("display", "none");
+                                layer.close(index)
+                            },
+                            error: function(res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function(layero) {
+                        $("#box4").css("display", "none");
+                    },
+                    cancel: function() {
+                        $("#box4").css("display", "none");
+                    }
+                });
+                return false;
+            } else if (layEvent === "over") {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '200px'],
+                    title: ['备注', 'font-size:18px'],
+                    btn: ['确定', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box5'),
+                    yes: function(index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "ZpurChase/RejetPursh",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                Purchase_Id: data.PurchaseId,
+                                ContentDes: $("#overDes").val(),
+                                user_Id: localStorage.getItem('UserId')
+                            }),
+                            success: function(res) {
+                                table.reload('testReload')
+                                $("#box5").css("display", "none");
+                                layer.close(index)
+                            },
+                            error: function(res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function(layero) {
+                        $("#box5").css("display", "none");
+                    },
+                    cancel: function() {
+                        $("#box5").css("display", "none");
+                    }
+                });
+                return false;
+            }
+        });
+
+        // //监听行的双击事件数据详情
+        // table.on('rowDouble(test)', function(obj) {
+        //         var data = obj.data;
+        //         console.log('%c 🍍 data: ', 'font-size:20px;background-color: #7F2B82;color:#fff;', data);
+        //         console.log('%c 🍔 data.PurchaseId: ', 'font-size:20px;background-color: #F5CE50;color:#fff;', data.PurchaseId);
+        //         layer.open({
+        //             type: 1,
+        //             area: ['700px', '200px'],
+        //             title: ['详情', 'font-size:18px'],
+        //             shadeClose: true,
+        //             shade: 0,
+        //             manmin: true,
+        //             content: $('#box6'),
+        //             success: function(res) {
+        //                 $.ajax({
+        //                     type: "POST",
+        //                     url: window.url + "ZpurChase/GetPursh",
+        //                     headers: {
+        //                         Authorization: window.header.Ae,
+        //                         UserId: window.header.Ud,
+        //                         AppFlag: window.header.Fg
+        //                     },
+        //                     contentType: "application/json",
+        //                     data: JSON.stringify({
+        //                         Purchase_Id: data.PurchaseId,
+        //                         Id: data.UserId,
+        //                         PageIndex: -1,
+        //                         PageSize: -1
+        //                     }),
+        //                     success: function(res) {
+        //                         console.log('%c 🍉 res: ', 'font-size:20px;background-color: #6EC1C2;color:#fff;', res);
+        //                         // table.reload('testReload')
+        //                         // $("#box5").css("display", "none");
+        //                         // layer.close(index)
+        //                     },
+        //                     error: function(res) {
+        //                         layer.msg(res);
+        //                     }
+
+        //                 })
+
+
+
+        //             },
+        //             cancel: function() {
+        //                 $("#box11").css("display", "none");
+        //             }
+        //         });
+        //     })
+        //分页
+        laypage.render({
+            elem: 'pageDemo' //分页容器的id
+                ,
+            count: 100 //总页数
+                ,
+            skin: '#1E9FFF' //自定义选中色值
+                ,
+            jump: function(obj, first) {
+                if (!first) {
+                    layer.msg('第' + obj.curr + '页', {
+                        offset: 'b'
+                    });
+                }
+            }
+        });
+    });
+</script>

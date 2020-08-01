@@ -1,0 +1,420 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../layui/layui.all.js"></script>
+    <script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../JS/funtion.js"></script>
+    <script src="../UrlModel/url.js"></script>
+    <title>添加部门</title>
+    <style>
+        .mapHead {
+            margin: 20px;
+        }
+
+        .layui-table-page select {
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="mapWrap">
+        <div class="mapHead">
+            <div class="demoTable">
+                搜索部门：
+                <div class="layui-inline">
+                    <input class="layui-input" name="name" id="keyName" autocomplete="off" />
+                </div>
+                <button class="layui-btn" data-type="reload">搜索</button>
+            </div>
+            <!--添加数据-->
+            <div class="site-text" style="margin: 5%; display: none" id="box1" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book1" lay-filter="t1">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">部门名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="departmentName" /><br>
+                        </div>
+                        <label class="layui-form-label">部门备注</label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" id="departmentDest" /><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--修改-->
+            <div class="site-text" style="margin: 5%; display: none" id="box3" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book3" lay-filter="t3">
+                    <div class="layui-form-item">
+                        <input type="hidden" id="departmentId1">
+                        <label class="layui-form-label">部门名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input departmentName" /><br>
+                        </div>
+                        <label class="layui-form-label">备注</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input departmentDesc" /><br>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <!--详情-->
+            <div class="site-text" style="margin: 5%; display: none" id="box2" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book2" lay-filter="t2">
+                    <div class="layui-form-item">
+                        <input type="hidden" id="depId">
+                        <label class="layui-form-label">部门名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input departmentName" onfocus="this.blur()" /><br>
+                        </div>
+                        <label class="layui-form-label">部门备注</label>
+                        <div class="layui-input-block">
+                            <input class="layui-input departmentDest" onfocus="this.blur()" /><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--部门表格-->
+            <table class="layui-hide" id="test" lay-filter="test"></table>
+            <script type="text/html" id="toolbarDemo">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+                </div>
+            </script>
+            <script type="text/html" id="barDemo">
+                <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="over">注销</a>
+                <a class="layui-btn  layui-btn-xs" lay-event="start">启动</a>
+            </script>
+            <!--序号列-->
+            <script type="text/html" id="xuHao">
+                {{d.LAY_TABLE_INDEX+1}}
+            </script>
+            <!--注销-->
+            <script type="text/html" id="buttonTpl">
+                {{#  if(d.IsCancellation == 1){ }}
+                <button class="layui-btn layui-btn-warm layui-btn-xs">已注销</button>
+                {{#  } else { }}
+                <button class="layui-btn layui-btn-normal layui-btn-xs">未注销</button>
+                {{#  } }}
+            </script>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+ window.onload = function() {
+        anomation();
+        }
+    //部门的表
+    layui.use(['laypage', 'layer', 'table', 'element', 'jquery', 'form'], function () {
+        var laypage = layui.laypage //分页
+            , layer = layui.layer //弹层
+            , table = layui.table //表格
+            , element = layui.element //元素操作
+            , form = layui.form;
+
+        table.render({
+            elem: '#test'
+            , height: 515
+            , url: window.url + 'Department/GetDepartmentList'//数据接口
+            , title: '部门表'
+            , id: 'testReload'
+            , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+            , headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            method: 'post',
+            page: true,//开启分页
+            limit: 10
+            , cols: [
+                [{
+                    type: 'checkbox',
+                    fixed: 'left'
+                }, {
+                    title: '序号',
+                    fixed: 'left',
+                    templet: '#xuHao',
+                }, {
+                    field: 'Name',
+                    title: '部门',
+                    fixed: 'left',
+                }, {
+                    field: 'Manager',
+                    title: '部门经理',
+                    fixed: 'left',
+                    templet: function (res) {
+                        return res.Manager == null ? "<span>无</span>" : res.Manager;
+                    }
+                }, {
+                    field: 'Desc',
+                    title: '备注',
+                }, {
+                    field: 'CreateDate',
+                    title: '发布日期',
+                    templet: function (res) {
+                        return showTime(res.CreateDate);
+                    }
+                }, {
+                    field: 'IsCancellation',
+                    title: '是否注销',
+                    templet: '#buttonTpl',
+                    minWidth: 80,
+                    align: 'center'
+                }
+                    , {
+                    fixed: 'right',
+                    title: '操作',
+                    width: 240,
+                    toolbar: '#barDemo',
+                }]
+            ],
+            request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+                ,
+                limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+            parseData: (res) => { //将原始数据解析成 table 组件所规定的数据
+                console.log(res);
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": "成功", //解析提示文本
+                    "count": res[0].Count, //总数
+                    data: res //解析数据列表
+                }
+            }
+        });
+
+        //寻找数据
+        $('.layui-btn').on('click', function () {
+            var keyName = $("#keyName").val();
+            //执行重载
+            table.reload('testReload', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                , where: {
+                    DepartmentName: keyName
+                }
+            }, 'data');
+        });
+
+        //头工具栏事件
+        table.on('toolbar(test)', function (obj) {
+            if (obj.event == "add") {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '220px'],
+                    title: ['添加部门', 'font-size:18px'],
+                    btn: ['确定', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box1'),
+                    yes: function (index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "Department/Add",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                Name: $("#departmentName").val(),
+                                Desc: $("#departmentDest").val(),
+                            }), success: function (res) {
+                                table.reload('testReload')
+                                $("#box1").css("display", "none");
+                                layer.close(index)
+                            },
+                            error: function (res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function (layero) {
+                        $("#box1").css("display", "none");
+                    },
+                    cancel: function () {
+                        $("#box1").css("display", "none");
+                    }
+                });
+                return false;
+            }
+        });
+        //监听行的双击事件数据详情
+        table.on('rowDouble(test)', function (obj) {
+            var data = obj.data;
+            layer.open({
+                type: 1,
+                area: ['420px', '220px'],
+                title: ['详情', 'font-size:18px'],
+                shadeClose: true,
+                shade: 0,
+                manmin: true,
+                content: $('#box2'),
+                success: function (layero, index) {
+                       $("#depId").val(data.DepartmentId),
+                        $(".departmentName").val(data.Name),
+                        $(".departmentDest").val(data.Desc),
+                        layui.form.render();
+
+                }, cancel: function () {
+                    $("#box2").css("display", "none");
+                }
+            });
+        });
+        //监听行工具事件
+        table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+            layEvent = obj.event; //获得 lay-event 对应的值
+            var tr = obj.tr//获取当前行的tr的DOM对象
+            if (layEvent === 'edit') {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '220px'],
+                    title: ['修改部门', 'font-size:18px'],
+                    btn: ['确定修改', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box3'),
+                    success: function (layero, index) {
+                        $("#departmentId1").val(data.DepartmentId),
+                            $(".departmentName").val(data.Name),
+                            $('.departmentDesc').val(data.Desc),
+                            layui.form.render();
+                    }, yes: function (index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "Department/Update",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                DepartmentId: $("#departmentId1").val(),
+                                Name: $(".departmentName").val(),
+                                Desc: $('.departmentDesc').val(),
+                            }), success: function (res) {
+                                table.reload('testReload')
+                                $("#box3").css("display", "none");
+                                layer.close(index)
+                            },
+                            error: function (res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function (layero) {
+                        $("#box3").css("display", "none");
+                    },
+                    cancel: function () {
+                        $("#box3").css("display", "none");
+                    }
+                });
+                return false;
+            } else if (layEvent === 'del') {
+                var wareArr = [];
+                wareArr.push(data.DepartmentId);
+                console.log(data.WarehousingId)
+                layer.confirm('真的删除行么', function (index) {
+                    //向服务端发送删除指令
+                    $.ajax({
+                        type: "POST",
+                        url: window.url + "Department/DeleteList",
+                        headers: {
+                            Authorization: window.header.Ae,
+                            UserId: window.header.Ud,
+                            AppFlag: window.header.Fg
+                        },
+                        contentType: "application/json",
+                        data: JSON.stringify(wareArr),
+                        success: function (res) {
+                            table.reload('testReload')
+                            layer.close(index)
+                        },
+                        error: function (res) {
+                            layer.msg(res);
+                        }
+                    })
+                });
+            } else if (layEvent === 'over') {
+                var wareArr = [];
+                wareArr.push(data.DepartmentId);
+                layer.confirm('真的要注销该部门么', function (index) {
+                    //向服务端发送注销指令
+                    $.ajax({
+                        type: "POST",
+                        url: window.url + "Department/CancellationList",
+                        headers: {
+                            Authorization: window.header.Ae,
+                            UserId: window.header.Ud,
+                            AppFlag: window.header.Fg
+                        },
+                        contentType: "application/json",
+                        data: JSON.stringify(wareArr),
+                        success: function (res) {
+                            table.reload('testReload')
+                            layer.close(index)
+                        },
+                        error: function (res) {
+                            layer.msg(res);
+                        }
+                    })
+                });
+            } else if (layEvent === 'start') {
+                var departmentArr = [];
+                departmentArr.push(data.DepartmentId);
+                layer.confirm('真的要启动该部门么', function (index) {
+                    //向服务端发送注销指令
+                    $.ajax({
+                        type: "POST",
+                        url: window.url + "Department/CancelList",
+                        headers: {
+                            Authorization: window.header.Ae,
+                            UserId: window.header.Ud,
+                            AppFlag: window.header.Fg
+                        },
+                        contentType: "application/json",
+                        data: JSON.stringify(departmentArr),
+                        success: function (res) {
+                            table.reload('testReload')
+                            layer.close(index)
+                        },
+                        error: function (res) {
+                            layer.msg(res);
+                        }
+                    })
+                });
+            }
+        });
+        //分页
+        laypage.render({
+            elem: 'pageDemo' //分页容器的id
+            , count: 100 //总页数
+            , skin: '#1E9FFF' //自定义选中色值
+            , jump: function (obj, first) {
+                if (!first) {
+                    layer.msg('第' + obj.curr + '页', { offset: 'b' });
+                }
+            }
+        });
+    });
+
+</script>

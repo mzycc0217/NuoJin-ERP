@@ -1,0 +1,484 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="../JS/jquery-2.1.0.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../My97DatePicker/My97DatePicker/WdatePicker.js"></script>
+    <script src="../My97DatePicker/My97DatePicker/calendar.js"></script>
+    <title>出入库管理</title>
+    <style type="text/css">
+        .nnav {
+            height: 50px;
+        }
+
+        /*.hiddle {
+            display: none;
+        }*/
+        .selecttext {
+            width: 300px;
+            display: inline;
+        }
+
+        .textlable {
+            width: 56px;
+        }
+
+        .disclass {
+            display: none;
+        }
+        #Kctable{
+            white-space:nowrap;
+
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+
+        <div class="container-fluid">
+            <div id="CR" style="text-align:center">
+                <ul class="nav nav-pills">
+                    <li role="presentation"><a href="#" data-toggle="modal" data-target="#RK" data-whatever="@mdo">物品申请入库</a></li>
+                    <li role="presentation"><a href="#" data-toggle="modal" data-target="#CK" data-whatever="@mdo">物品申请出库</a></li>
+
+
+                    <li role="presentation" style="float:right"><button type="button" id="Qtable" class="btn-primary" onclick="RKdata()">入库记录</button></li>
+                    <li role="presentation" style="float:right"><button type="button" id="Qtable" class="btn-primary" onclick="CKdata()">出库记录</button></li>
+                    <li role="presentation" style="float:right"><button type="button" id="KC" class="btn-success" onclick="KCdata()">库存查询</button></li>
+                </ul>
+            </div>
+            <div>
+                <!--入库-->
+                <div class="modal fade" id="RK" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">入库</h4>
+                            </div>
+                            <div class="modal-body" id="Rk" style="text-align:center">
+                                <div class="form-group">
+                                    <label for="Rkph" class="control-label textlable">批号</label>
+                                    <select id="Rkph" class="form-control selecttext">
+                                        <option value="1">das</option>
+                                        <option value="2">sda</option>
+                                        <option value="3">asd</option>
+                                    </select>
+                                </div><div class="form-group">
+                                    <label for="Rksl" class="control-label textlable">数量</label>
+                                    <input type="text" id="Rksl" class="form-control selecttext" onkeyup="onlyNumber(this)" />
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                <button id="Rkbtn" type="button" onclick="RKonclick()" class="btn btn-primary">提交入库申请</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--出库-->
+                <div class="modal fade" id="CK" tabindex="-1" role="dialog" aria-labelledby="myModalLabe2">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabe2">出库</h4>
+                            </div>
+                            <div class="modal-body" id="Rk" style="text-align:center">
+                                <div class="form-group">
+                                    <label for="Ckph" class="control-label textlable">用途</label>
+                                    <select id="Ckph" class="form-control selecttext">
+                                        <option value="1">das</option>
+                                        <option value="2">sda</option>
+                                        <option value="3">asd</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Ckname" class="control-label textlable">物品名称</label>
+                                    <select id="Ckname" class="form-control selecttext">
+                                        <option value="1">双氧水</option>
+                                        <option value="2">铁</option>
+                                        <option value="3">玻璃</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Cksl" class="control-label textlable">数量</label>
+                                    <input type="text" id="Cksl" class="form-control selecttext" onkeyup="onlyNumber(this)" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="Ckdw" class="control-label textlable">单位</label>
+                                    <select id="Ckdw" class="form-control selecttext">
+                                        <option value="1">g</option>
+                                        <option value="2">kg</option>
+                                        <option value="3">t</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="margin-left:60%">
+                                    <label style="font-weight:bold">领用人:</label>
+                                    <label id="Ckrkr"></label>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                <button id="Ckbtn" type="button" class="btn btn-primary"onclick="CKonclick()">提交出库申请</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--table入库记录-->
+                <div id="RKjl" class="disclass">
+                    <h3>入库记录</h3>
+                    <div class="btn-group" role="group" aria-label="...">
+                        <select id="Rtype" onclick="RYbtnonclick()" style="height:35px;">
+                            <option value="0">原材料入库</option>
+                            <option value="1">产品出入库</option>
+                            <option value="2">科研耗材出入库</option>
+                            <option value="3">办公用品出入库</option>
+                        </select>
+                    </div>
+                    <div class="btn-group" role="group" aria-label="..." style="float:right">
+                        <input type="text" id="RYname" placeholder="请输入名称" class="form-control selecttext" />
+                        <input type="button" id="RYsearch" name="name" class="btn btn-primary" onclick="RYbtnonclick()" value="搜索" />
+                    </div>
+                    <div id="RYtablediv">
+                        <div id="RYtablepage"></div>
+                    </div>
+                </div>
+                <!--table出库记录-->
+                <div id="CKjl" class="disclass">
+                    <h3>出库记录</h3>
+                    <div class="btn-group" role="group" aria-label="...">
+                        <select id="Ctype" onclick="Ckbtnonclick()" style="height:35px;">
+                            <option value="0">原材料出库</option>
+                            <option value="1">产品出出库</option>
+                            <option value="2">科研耗材出库</option>
+                            <option value="3">办公用品出库</option>
+                        </select>
+                    </div>
+                    <div class="btn-group" role="group" aria-label="..." style="float:right">
+                        <input type="text" id="CKname" placeholder="请输入名称" class="form-control selecttext" />
+                        <input type="button" id="CKsearch" name="name" class="btn btn-primary" onclick="Ckbtnonclick()" value="搜索" />
+                    </div>
+                    <div id="CKtablediv">
+                        <div id="CKtablepage"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="Kctable">
+                <div class="btn-group" role="group" aria-label="..." style="width:100%">
+                    <select class="form-control selecttext" id="Scategory">
+                        <option value="1">原材料</option>
+                        <option value="2">产品</option>
+                        <option value="3">科研耗材</option>
+                        <option value="4">办公用品</option>
+                    </select>
+                    <input type="text" name="Sname" id="RawMaterialName" placeholder="物品名称" class="form-control selecttext" />
+                    <input type="button" id="Ssearch" name="name" class="btn-primary" value="搜索" />
+                    <div id="Kctables">
+                        <div id="Kctablesapge"></div>
+                    </div>
+                    <!--<table class="table table-hover">
+                        <tr>
+                            <td>物品名称</td>
+                            <td>物品数量</td>
+                            <td>物品单位</td>
+                        </tr>
+                    </table>-->
+                </div>
+
+            </div>
+        </div>
+        <footer></footer>
+    </div>
+</body>
+</html>
+<script src="../JS/funtion.js"></script>
+<script type="text/javascript">
+    function onlyNumber(obj) {
+
+        //得到第一个字符是否为负号    
+        var t = obj.value.charAt(0);
+        //先把非数字的都替换掉，除了数字和.和-号    
+        obj.value = obj.value.replace(/[^\d\.\-]/g, '');
+        //前两位不能是0加数字      
+        obj.value = obj.value.replace(/^0\d[0-9]*/g, '');
+        //必须保证第一个为数字而不是.       
+        obj.value = obj.value.replace(/^\./g, '');
+        //保证只有出现一个.而没有多个.       
+        obj.value = obj.value.replace(/\.{2,}/g, '.');
+        //保证.只出现一次，而不能出现两次以上       
+        obj.value = obj.value.replace('.', '$#$').replace(/\./g, '').replace('$#$', '.');
+        //如果第一位是负号，则允许添加    
+        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');
+        if (t == '-') {
+            return;
+        }
+
+    }
+
+    //入库
+    function RKonclick() {
+        if (confirm("确认提交入库申请？")) {
+            var Rkph = $("#Rkph").value;
+            var Rksl = $("#Rksl").value;
+            $.ajax({
+                type: "POST",
+                url: "http://192.168.3.26:9100/api/Stock/AddWarehousing",
+                headers: { Authorization: "Bearer ${Base.token}" },
+                data: {
+                    PurchaseId: Rkph, Number: Rksl
+                },
+                success: function (res) {
+                    uptable(res);
+                }
+            })
+        }
+
+    }
+    //出库
+    function CKonclick() {
+        if (confirm("确认提交出库申请？")) {
+            var Ckph = $("#Ckph").val();
+            var Ckname = $("#Ckname").val();
+            var Cksl = $("#Cksl").val();
+            $.ajax({
+                type: "POST",
+                url: "http://192.168.3.26:9100/api/Stock/AddOutOfStock",
+                  headers: { Authorization: "Bearer ${Base.token}"},
+                data: {
+                    ProjectId: Ckph, RawMaterialId: Ckname, Number: Cksl
+                },
+                success: function (res) {
+                    uptable(res);
+                }
+            })
+        }
+
+    }
+
+    //出入库div显示与隐藏
+    function CKdata() {
+        document.getElementById("CKjl").style.display = "block";
+        document.getElementById("Kctable").style.display = "none";
+        document.getElementById("RKjl").style.display = "none";
+    }
+    function RKdata() {
+        //入库div
+        document.getElementById("RKjl").style.display = "block";
+        document.getElementById("Kctable").style.display = "none";
+        document.getElementById("CKjl").style.display = "none";
+    }
+    //库存查询
+    function KCdata(page) {
+        document.getElementById("Kctable").style.display = "block";
+        document.getElementById("RKjl").style.display = "none";
+        document.getElementById("CKjl").style.display = "none";
+        if (page == null) {
+            page = 1;
+        }
+        var selectvalue = document.getElementById("Scategory").value;
+        var RawMaterialName = document.getElementById("RawMaterialName").value;
+
+        $.ajax({
+            type: "POST",
+            url: "http://192.168.3.26:9100/api/Stock/GetStorageRoomList",
+            headers: { Authorization: "Bearer ${Base.token}" },
+            data: {
+                WarehousingType: selectvalue, Name: RawMaterialName, PageIndex: page, PageSize: 10
+            },
+            success: function (res) {
+                var data = res;
+                var tablestr = "<table class='table table-hover'>";
+                tablestr = tablestr + "<thead><tr><th>物品类别</th><th>物品名称</th><th>物品数量</th><th>物品单位</th></tr></thead><tbody>";
+                var len = data[0].Count;
+                for (var i = 0; i < data.length; i++) {
+                    tablestr = tablestr + "<tr><td>" + data[i].RawMaterial.RawMaterialType + "</td><td>" + data[i].RawMaterial.Name + "</td><td>" + data[i].Number + "</td><td>" + data[i].Number + "</td></tr>"
+                }
+                tablestr = tablestr + "</tbody></table>";
+                $("Kctables").html(tablestr);
+                var index = len / 10;
+                index = Math.round(index);
+
+                var str = "<p>";
+
+                for (var i = 1; i < index + 1; i++) {
+                    str += "  <button type='button' onclick='cxclickRdepartment(" + i + ")'>" + i + "</button>";
+                }
+                str += "</p>";
+                $("#Kctablesapge").html(str);
+            }
+
+        })
+    }
+    //入库查询
+    function RYbtnonclick(page) {
+        if (page == null) {
+            page = 1;
+        }
+
+        var name = document.getElementById("RYname").value;
+        var type = document.getElementById("Rtype").value;
+        if (type == 0 || type == 1) {
+            $.ajax({
+                type: "POST",
+                URL: "http://192.168.3.26:9100/api/Stock/GetWarehousing",
+                headers: { Authorization: "Bearer ${Base.token}" },
+                data: {
+                    WarehousingType: type, RawMaterialId: name, PageIndex: page, PageSize: 10
+                },
+                success: function (res) {
+                    if (res == null) {
+                        alert("暂无入库记录");
+                    }
+                    else {
+                        var data = res;
+                        var len = data[0].Count;
+                        tableStr = "<table id='RYtable' class='table table - hover' title=''> < thead > <tr><td>原料类别</td><td>物料名称</td> <td>分子量</td><td>CAS号</td> <td>入库数量</td> <td>单位</td> <td>批号</td><td>入库人</td>  <td>审批状态</td><td>审核人</td> <td name='disclass'>审核</td> </tr> </thead ><tbody>"
+                        for (var i = 0; i < data.length; i++) {
+                            tableStr = tableStr + "<tr><td>" + data[i].RawMaterial.RawMaterialType + "</td><td>" + data[i].RawMaterial.Name + "</td><td>" + data[i].RawMaterial.MolecularWeight + "</td><td>" + data[i].RawMaterial.CASNumber + "</td><td>" + data[i].RawMaterial.Number + "</td><td>" + data[i].Company.Name + "</td><td>" + data[i].PurchaseId + "</td><td>" + data[i].Applicant.RealName + "</td><td>" + data[i].ApprovalType + "</td><td>" + data[i].WarehouseKeeper.RealName + "</td><td><button id='btn" + i + "'  type='button' class='btn btn-default'   onclick='selectsuers(" + i + ")'>未审核通过</button></td><td><input type='hidden'  value='" + data[i].WarehousingId + "' id='text" + i + "' />/td></tr>";
+                        }
+                        tableStr = tableStr + "</tbody></table>";
+                        $("#RYtablediv").html(tableStr);
+                        var index = len / 10;
+                        index = Math.round(index);
+
+                        var str = "<p>";
+
+                        for (var i = 1; i < index + 1; i++) {
+                            str += "  <button type='button' onclick='RYbtnonclick(" + i + ")'>" + i + "</button>";
+                        }
+                        str += "</p>";
+                        $("#RYtablepage").html(str);
+                    }
+                }
+            })
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                URL: "http://192.168.3.26:9100/api/Stock/GetWarehousing",
+                headers: { Authorization: "Bearer ${Base.token}" },
+                data: {
+                    WarehousingType: type, RawMaterialId: name, PageIndex: page, PageSize: 10
+                },
+                success: function (res) {
+                    if (res == null) {
+                        alert("暂无入库记录");
+                    }
+                    else {
+                        var data = res;
+                        var len = data[0].Count;
+                        tableStr = "<table id='RYtable' class='table table - hover' title=''> < thead > <tr><td>耗材类别</td><td>耗材名称</td>  <td>入库数量</td> <td>单位</td> <td>批号</td><td>入库人</td>  <td>审批状态</td><td>审核人</td> <td name='disclass'>审核</td> </tr> </thead ><tbody>"
+                        for (var i = 0; i < data.length; i++) {
+                            tableStr = tableStr + "<tr><td>" + data[i].RawMaterial.RawMaterialType + "</td><td>" + data[i].RawMaterial.Name + "</td><td>" + data[i].RawMaterial.Number + "</td><td>" + data[i].Company.Name + "</td><td>" + data[i].PurchaseId + "</td><td>" + data[i].Applicant.RealName + "</td><td>" + data[i].ApprovalType + "</td><td>" + data[i].WarehouseKeeper.RealName + "</td><td><button id='btn" + i + "'  type='button' class='btn btn-default'   onclick='selectsuers(" + i + ")'>未审核通过</button></td><td><input type='hidden'  value='" + data[i].WarehousingId + "' id='text" + i + "' />/td></tr>";
+                        }
+                        tableStr = tableStr + "</tbody></table>";
+                        $("#RYtablediv").html(tableStr);
+                        var index = len / 10;
+                        index = Math.round(index);
+
+                        var str = "<p>";
+
+                        for (var i = 1; i < index + 1; i++) {
+                            str += "  <button type='button' onclick='RYbtnonclick(" + i + ")'>" + i + "</button>";
+                        }
+                        str += "</p>";
+                        $("#RYtablepage").html(str);
+                    }
+                }
+            })
+        }
+    }
+    //出库查询
+    function Ckbtnonclick(page) {
+        if (page == null) {
+            page = 1;
+        }
+
+        var name = document.getElementById("CKname").value;
+        var type = document.getElementById("Ctype").value;
+        if (type == 0 || type == 1) {
+            $.ajax({
+                type: "POST",
+                url: "http://192.168.3.26:9100/api/Stock/GetOutOfStock",
+                headers: { Authorization: "Bearer ${Base.token}" },
+                data: {
+                    WarehousingType: type, RawMaterialId: name, PageIndex: page, PageSize: 10
+                },
+                success: function (res) {
+                    if (res == null) {
+                        alert("暂无出库记录");
+                    }
+                    else {
+                        var data = res;
+                        var len = data[0].Count;
+                        tableStr = "<table  class='table table - hover' title=''> < thead > <tr><td>原料类别</td><td>物料名称</td> <td>分子量</td><td>CAS号</td> <td>出库数量</td> <td>单位</td> <td>用途</td><td>领用人</td>  <td>审批状态</td><td>审核人</td> <td name='disclass'>审核</td> </tr> </thead ><tbody>"
+                        for (var i = 0; i < data.length; i++) {
+                            tableStr = tableStr + "<tr><td>" + data[i].RawMaterial.RawMaterialType + "</td><td>" + data[i].RawMaterial.Name + "</td><td>" + data[i].RawMaterial.MolecularWeight + "</td><td>" + data[i].RawMaterial.CASNumber + "</td><td>" + data[i].RawMaterial.Number + "</td><td>" + data[i].Company.Name + "</td><td>" + data[i].PurchaseId + "</td><td>" + data[i].Applicant.RealName + "</td><td>" + data[i].ApprovalType + "</td><td>" + data[i].WarehouseKeeper.RealName + "</td><td><button id='btn" + i + "'  type='button' class='btn btn-default'   onclick='selectsuers(" + i + ")'>未审核通过</button></td><td><input type='hidden'  value='" + data[i].WarehousingId + "' id='text" + i + "' />/td></tr>";
+                        }
+                        tableStr = tableStr + "</tbody></table>";
+                        $("#CKtablediv").html(tableStr);
+                        var index = len / 10;
+                        index = Math.round(index);
+
+                        var str = "<p>";
+
+                        for (var i = 1; i < index + 1; i++) {
+                            str += "  <button type='button' onclick='Ckbtnonclick(" + i + ")'>" + i + "</button>";
+                        }
+                        str += "</p>";
+                        $("#CKtablepage").html(str);
+                    }
+                }
+            })
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: "http://192.168.3.26:9100/api/Stock/GetWarehousing",
+                headers: { Authorization: "Bearer ${Base.token}" },
+                data: {
+                    WarehousingType: type, RawMaterialId: name, PageIndex: page, PageSize: 10
+                },
+                success: function (res) {
+                    if (res == null) {
+                        alert("暂无出库记录");
+                    }
+                    else {
+                        var data = res;
+                        var len = data[0].Count;
+                        tableStr = "<table id='RYtable' class='table table - hover' title=''> < thead > <tr><td>耗材类别</td><td>耗材名称</td>  <td>出库数量</td> <td>单位</td> <td>批号</td><td>领用人</td>  <td>审批状态</td><td>审核人</td> <td name='disclass'>审核</td> </tr> </thead ><tbody>"
+                        for (var i = 0; i < data.length; i++) {
+                            tableStr = tableStr + "<tr><td>" + data[i].RawMaterial.RawMaterialType + "</td><td>" + data[i].RawMaterial.Name + "</td><td>" + data[i].RawMaterial.Number + "</td><td>" + data[i].Company.Name + "</td><td>" + data[i].PurchaseId + "</td><td>" + data[i].Applicant.RealName + "</td><td>" + data[i].ApprovalType + "</td><td>" + data[i].WarehouseKeeper.RealName + "</td><td><button id='btn" + i + "'  type='button' class='btn btn-default'   onclick='selectsuers(" + i + ")'>未审核通过</button></td><td><input type='hidden'  value='" + data[i].WarehousingId + "' id='text" + i + "' />/td></tr>";
+                        }
+                        tableStr = tableStr + "</tbody></table>";
+                        $("#CKtablediv").html(tableStr);
+                        var index = len / 10;
+                        index = Math.round(index);
+
+                        var str = "<p>";
+
+                        for (var i = 1; i < index + 1; i++) {
+                            str += "  <button type='button' onclick='Ckbtnonclick(" + i + ")'>" + i + "</button>";
+                        }
+                        str += "</p>";
+                        $("#CKtablepage").html(str);
+                    }
+                }
+            })
+        }
+    }
+
+
+
+</script>

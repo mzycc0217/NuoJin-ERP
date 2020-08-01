@@ -1,0 +1,501 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../layui/layui.all.js"></script>
+    <script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../JS/funtion.js"></script>
+    <script src="../UrlModel/url.js"></script>
+    <title>图谱</title>
+    <style>
+        .mapHead {
+            margin: 20px;
+        }
+        
+        .layui-table-page select {
+            height: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mapWrap">
+        <div class="mapHead">
+            <div class="demoTable">
+                搜索图谱：
+                <div class="layui-inline">
+                    <input class="layui-input" name="name" id="keyName" autocomplete="off" />
+                </div>
+                <button class="layui-btn" data-type="reload">搜索</button>
+            </div>
+            <!--添加数据-->
+            <div class="site-text" style="margin: 5%; display: none" id="box1" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book1" lay-filter="t1">
+                    <div class="layui-form-item">
+
+                        <label class="layui-form-label">图谱名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="atlasName" /><br>
+                        </div>
+                        <label class="layui-form-label">图谱批号</label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" id="batchNumber" /><br>
+                        </div>
+                        <label class="layui-form-label">图谱备注</label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" id="remark" /><br>
+                        </div>
+                        <label class="layui-form-label">选择文件</label>
+                        <div class="layui-input-block">
+                            <button type="button" class="layui-btn layui-btn-normal " id="test8" style="margin-right:215px">选择文件</button>
+                            <input type="hidden" value="" id="wen">
+                            <span id="spans" style="position: relative; top: -30px; left: 100px;"></span><br>
+                        </div>
+                        <label class="layui-form-label">检测时间</label>
+                        <div class="layui-input-block">
+                            <input type="date" class="layui-input" id="time" /><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--修改-->
+            <div class="site-text" style="margin: 5%; display: none" id="box3" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book3" lay-filter="t3">
+                    <div class="layui-form-item">
+                        <input type="hidden" id="tuId">
+                        <label class="layui-form-label">图谱名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input atlasName" /><br>
+                        </div>
+                        <label class="layui-form-label">图谱批号</label>
+                        <div class="layui-input-block">
+                            <input class="layui-input batchNumber" /><br>
+                        </div>
+                        <label class="layui-form-label">图谱备注</label>
+                        <div class="layui-input-block">
+                            <input class="layui-input remark" /><br>
+                        </div>
+                        <label class="layui-form-label">选择文件</label>
+                        <div class="layui-input-block">
+                            <button type="button" class="layui-btn layui-btn-normal " id="test9" style="margin-right:215px">选择文件</button>
+                            <input type="hidden" value="" class="wen">
+                            <span class="spans" style="position: relative; top: -30px; left: 100px;"></span><br>
+                        </div>
+                        <label class="layui-form-label">检测时间</label>
+                        <div class="layui-input-block">
+                            <input type="date" class="layui-input time" /><br>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <!--详情-->
+            <div class="site-text" style="margin: 5%; display: none" id="box2" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book2" lay-filter="t2">
+                    <div class="layui-form-item">
+                        <input type="hidden" id="tuId1">
+                        <label class="layui-form-label">图谱名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input atlasName" /><br>
+                        </div>
+                        <label class="layui-form-label">图谱批号</label>
+                        <div class="layui-input-block">
+                            <input class="layui-input batchNumber" /><br>
+                        </div>
+                        <label class="layui-form-label">图谱备注</label>
+                        <div class="layui-input-block">
+                            <input class="layui-input remark" /><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--图谱表格-->
+            <table class="layui-hide" id="test" lay-filter="test"></table>
+            <script type="text/html" id="toolbarDemo">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+                </div>
+            </script>
+            <script type="text/html" id="barDemo">
+                <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+            </script>
+            <!--序号列-->
+            <script type="text/html" id="xuHao">
+                {{d.LAY_TABLE_INDEX+1}}
+            </script>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+ window.onload = function() {
+            anomation();
+        }
+    //设置图片的放大效果
+    function hoverOpenImg() {
+        var img_show = null; //tips提示
+        $('td img').hover(function() {
+            var img = "<img class='img_msg'src='" + $(this).attr('src') + "' style='width:170px;height:200px'/>";
+            img_show = layer.tips(img, this, {
+                tips: [2, 'rgba(41,41,41,.5)'],
+                area: ['200px']
+            });
+        }, function() {
+            layer.close(img_show);
+        });
+        $('td img').attr('style', 'max-width:50px');
+    }
+    //图谱的表
+    layui.use(['laypage', 'layer', 'table', 'element', 'jquery', 'form', 'upload'], function() {
+        var laypage = layui.laypage //分页
+            ,
+            layer = layui.layer //弹层
+            ,
+            table = layui.table //表格
+            ,
+            element = layui.element //元素操作
+            ,
+            form = layui.form,
+            upload = layui.upload;
+
+        table.render({
+            elem: '#test',
+            height: 515,
+            url: window.url + 'Atlas/GetAtlasList' //数据接口
+                ,
+            title: '图谱表',
+            id: 'testReload',
+            toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+                ,
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            method: 'post',
+            page: true, //开启分页
+            limit: 10,
+            done: function(res, curr, count) {
+                hoverOpenImg(); //显示大图
+            },
+            cols: [
+                [{
+                    type: 'checkbox',
+                    fixed: 'left'
+                }, {
+                    title: '序号',
+                    fixed: 'left',
+                    templet: '#xuHao'
+                }, {
+                    field: 'Name',
+                    title: '名称',
+                    width: 150,
+                    fixed: 'left',
+                    unresize: true,
+
+                }, {
+                    field: 'BatchNumber',
+                    title: '批号',
+                    width: 150,
+
+                }, {
+                    field: 'Desc',
+                    title: '备注',
+                    width: 150,
+
+                }, {
+                    field: 'Url',
+                    title: '图片',
+                    width: 200,
+                    templet: function(res) {
+                        if (res.Url.lastIndexOf("jpg") != -1 || res.Url.lastIndexOf("png") != -1) {
+                            return "<div> <a href='" + window.urlImg + res.Url + "' target='_blank'> <img src='" + window.urlImg + res.Url + "' id='image'></a></div>"
+                        }
+                        return "<div><a href='" + window.urlImg + res.Url + "' target='_blank'> <img src='../img/2.jpg' id='image' > </a></div>"
+                    }
+                }, {
+                    field: 'TestingTime', //showTime
+                    title: '检测时间',
+                    width: 150,
+                    templet: function(res) {
+                        return showTime(res.TestingTime);
+                    }
+                }, {
+                    field: 'CreateDate',
+                    title: '发布日期',
+                    templet: function(res) {
+                        return showTime(res.CreateDate);
+                    }
+                }, {
+                    fixed: 'right',
+                    title: '操作',
+                    toolbar: '#barDemo'
+                }]
+            ],
+            request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+                    ,
+                limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+            parseData: (res) => { //将原始数据解析成 table 组件所规定的数据
+                console.log(res)
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": "成功", //解析提示文本
+                    "count": res[0].Count, //总数
+                    data: res //解析数据列表
+                }
+            },
+        });
+
+        //寻找数据
+        $('.layui-btn').on('click', function() {
+            var keyName = $("#keyName").val();
+            //执行重载
+            table.reload('testReload', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                },
+                where: {
+                    Name: keyName
+                }
+            }, 'data');
+        });
+        //上传文件
+        upload.render({
+            elem: '#test8',
+            url: window.url + 'FileUp/FileUp',
+            auto: true //自动调用上传接口
+                ,
+            method: "post",
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            accept: 'file',
+            done: function(res, index, upload) { //上传成功的回调
+                $("#wen").val(res.Url)
+
+            },
+            choose: function(obj) { //图片或者文件的回调
+                //将每次回调选择的文件追加到文件的回调
+                var files = obj.pushFile();
+                //预读本地文件，如果是多个文件，则会遍历。（不支持IE8/9）
+                obj.preview(function(index, file, result) {
+                    $("#spans").text(file.name)
+                });
+            }
+        })
+        upload.render({
+            elem: '#test9',
+            url: window.url + 'FileUp/ConstructionFileUp',
+            auto: true //自动调用上传接口
+                ,
+            method: "post",
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg,
+                sign: 3,
+            },
+            accept: 'file',
+            done: function(res, index, upload) { //上传成功的回调
+                $(".wen").val(res.Url)
+            },
+            choose: function(obj) { //图片或者文件的回调
+                //将每次回调选择的文件追加到文件的回调
+                var files = obj.pushFile();
+                //预读本地文件，如果是多个文件，则会遍历。（不支持IE8/9）
+                obj.preview(function(index, file, result) {
+                    $(".spans").text(file.name)
+                });
+            }
+        })
+
+        //头工具栏事件
+        table.on('toolbar(test)', function(obj) {
+            if (obj.event == "add") {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '400px'],
+                    title: ['添加图谱', 'font-size:18px'],
+                    btn: ['确定', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box1'),
+                    yes: function(index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "Atlas/Add",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                Name: $("#atlasName").val(),
+                                BatchNumber: $("#batchNumber").val(),
+                                Desc: $("#remark").val(),
+                                Url: $("#wen").val(),
+                                TestingTime: $("#time").val()
+                            }),
+                            success: function(res) {
+                                table.reload('testReload')
+                                $("#box1").css("display", "none");
+                                layer.close(index)
+                            },
+                            error: function(res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function(layero) {
+                        $("#box1").css("display", "none");
+                    },
+                    cancel: function() {
+                        $("#box1").css("display", "none");
+                    }
+                });
+                return false;
+            }
+        });
+        //监听行的双击事件数据详情
+        table.on('rowDouble(test)', function(obj) {
+            var data = obj.data;
+            layer.open({
+                type: 1,
+                area: ['420px', '300px'],
+                title: ['详情', 'font-size:18px'],
+                shadeClose: true,
+                shade: 0,
+                manmin: true,
+                content: $('#box2'),
+                success: function(layero, index) {
+                    $("#tuId1").val(data.AtlasId),
+                        $(".atlasName").val(data.Name),
+                        $(".batchNumber").val(data.BatchNumber),
+                        $(".remark").val(data.Desc),
+                        layui.form.render();
+                },
+                cancel: function() {
+                    $("#box2").css("display", "none");
+                }
+            });
+        });
+        table.on('tool(test)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+            layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'del') {
+                var s = [];
+                s.push(data.AtlasId);
+                layer.confirm('真的删除行么', function(index) {
+                    //向服务端发送删除指令
+                    $.ajax({
+                        type: "POST",
+                        url: window.url + "Atlas/DeleteList",
+                        headers: {
+                            Authorization: window.header.Ae,
+                            UserId: window.header.Ud,
+                            AppFlag: window.header.Fg
+                        },
+                        contentType: "application/json",
+                        data: JSON.stringify(s),
+                        success: function(res) {
+                            table.reload('testReload')
+                            layer.close(index)
+                        },
+                        error: function(res) {
+                            layer.msg(res);
+                        }
+                    })
+                });
+
+            } else if (layEvent === 'edit') {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '400px'],
+                    title: ['修改图谱信息', 'font-size:18px'],
+                    btn: ['确定修改', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box3'),
+                    success: function(layero, index) {
+                        $("#tuId").val(data.AtlasId),
+                            $(".atlasName").val(data.Name),
+                            $(".batchNumber").val(data.BatchNumber),
+                            $(".remark").val(data.Desc),
+                            $(".wen").val(data.Url),
+                            $(".time").val(data.TestingTime)
+                        layui.form.render();
+                    },
+                    yes: function(index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "Atlas/Update",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                AtlasId: $("#tuId").val(),
+                                Name: $(".atlasName").val(),
+                                BatchNumber: $(".batchNumber").val(),
+                                Desc: $(".remark").val(),
+                                Url: $(".wen").val(),
+                                TestingTime: $(".time").val(),
+                            }),
+                            success: function(res) {
+                                table.reload('testReload');
+                                $("#box3").css("display", "none");
+                                layer.close(index)
+                            },
+                            error: function(res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function(layero) {
+                        $("#box3").css("display", "none");
+                    },
+                    cancel: function() {
+                        $("#box3").css("display", "none");
+                    }
+                });
+                return false;
+            }
+        });
+        //分页
+        laypage.render({
+            elem: 'pageDemo' //分页容器的id
+                ,
+            count: 100 //总页数
+                ,
+            skin: '#1E9FFF' //自定义选中色值
+                ,
+            jump: function(obj, first) {
+                if (!first) {
+                    layer.msg('第' + obj.curr + '页', {
+                        offset: 'b'
+                    });
+                }
+            }
+        });
+
+    });
+</script>

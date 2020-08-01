@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../Layui/layui-v2.5.6/layui/css/layui.css">
+</head>
+<body>
+    <button type="button" class="layui-btn layui-btn-radius" id="addModel">添加模块</button>
+   
+
+    <table id="Menu_tree" lay-filter="idTest" ></table>
+    <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="add">添加</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs"   lay-event="del">删除</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs"   lay-event="addelement">添加元素</a>
+       
+      </script>
+
+      <div id="test12" class="demo-tree-more"></div>
+</body>
+<!-- 模块 -->
+    <form class="layui-form" action="" name="form1" id="form_Mokuai" style="display: none;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">模块名称</label>
+        <div class="layui-input-block">
+          <input type="text" name="title_Model" required  lay-verify="required" placeholder="请输入模块名称" autocomplete="off" class="layui-input" style="width: 60%;">
+        </div>
+      </div> 
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">模块Key</label>
+        <div class="layui-input-block">
+          <input type="text" name="title_Key" required  lay-verify="required" placeholder="请输入Key" autocomplete="off" class="layui-input" style="width: 60%;">
+        </div>
+      </div> 
+    
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button class="layui-btn save" lay-submit lay-filter="formDemo">保存</button>
+          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+      </div>
+</form>
+
+
+<!-- 菜单修改 -->
+<form class="layui-form" action="" name="form4" id="form_menus" style="display: none;"  lay-filter="formTestt">
+  
+    <div class="layui-form-item">
+      <label class="layui-form-label">菜单名称</label>
+      <div class="layui-input-block" style="width: 60%;">
+        <select name="caidands" class="caidan_Nmaestd" lay-filter="caidandt">
+        
+         
+        </select>
+      </div>
+    </div>
+  
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">菜单ID</label>
+      <div class="layui-input-block">
+        <input type="text" name="Menu_IDS" required disabled  lay-verify="required" placeholder="菜单ID" autocomplete="off" class="layui-input" style="width: 60%;">
+      </div>
+    </div> 
+
+  
+  <div class="layui-form-item">
+      <label class="layui-form-label">菜单名称</label>
+      <div class="layui-input-block">
+        <input type="text" name="title_Menutd" required  lay-verify="required" placeholder="菜单名称" autocomplete="off" class="layui-input" style="width: 60%;">
+      </div>
+    </div> 
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">菜单url</label>
+      <div class="layui-input-block">
+        <input type="text" name="Menu_Urltd" required  lay-verify="required" placeholder="菜单url" autocomplete="off" class="layui-input" style="width: 60%;">
+      </div>
+    </div> 
+
+  
+  
+  <div class="layui-form-item">
+      <div class="layui-input-block">
+        <button class="layui-btn savestd" lay-submit lay-filter="fork">修改</button>
+        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+      </div>
+    </div>
+</form>
+
+<!-- 菜单 -->
+<form class="layui-form" action="" name="form2" id="form_menu" style="display: none;"  lay-filter="formTest">
+    <div class="layui-form-item">
+        <label class="layui-form-label">模块ID</label>
+        <div class="layui-input-block">
+          <input type="text" name="ModelID" required  lay-verify="required" autocomplete="off" class="layui-input" style="width: 60%;" disabled>
+        </div>
+      </div> 
+    
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单名称</label>
+        <div class="layui-input-block">
+          <input type="text" name="title_Menu" required  lay-verify="required" placeholder="菜单名称" autocomplete="off" class="layui-input" style="width: 60%;">
+        </div>
+      </div> 
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">菜单url</label>
+        <div class="layui-input-block">
+          <input type="text" name="Menu_Url" required  lay-verify="required" placeholder="菜单url" autocomplete="off" class="layui-input" style="width: 60%;">
+        </div>
+      </div> 
+
+    
+    
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button class="layui-btn savest" lay-submit lay-filter="fork">保存</button>
+          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+      </div>
+</form>
+
+<!-- 元素id -->
+<form class="layui-form" action="" name="form3" id="form_dt" style="display: none;"  lay-filter="formTestElement">
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单名称</label>
+        <div class="layui-input-block caidand" style="width: 60%;">
+          <select name="caidand" class="caidan_Nmaest" lay-filter="element_s" id="_Nmaest">
+          
+           
+          </select>
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">元素</label>
+        <div class="layui-input-block elements">
+          
+        </div>
+      </div>
+      <!-- <div class="layui-form-item">
+        <label class="layui-form-label">菜单ID</label>
+        <div class="layui-input-block">
+          <input type="text" name="ID_Menu" required  lay-verify="required" placeholder="菜单ID" autocomplete="off" class="layui-input" style="width: 60%;">
+        </div>
+      </div>  -->
+    
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label">元素名称</label>
+        <div class="layui-input-block">
+          <input type="text" name="Element_Menu" required  lay-verify="required" placeholder="元素名称" autocomplete="off" class="layui-input" style="width: 60%;">
+        </div>
+      </div> 
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">元素value</label>
+        <div class="layui-input-block">
+          <input type="text" name="Element_Val" required  lay-verify="required" placeholder="元素value" autocomplete="off" class="layui-input" style="width: 60%;">
+        </div>
+      </div> 
+
+    
+    
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button class="layui-btn savestEle" lay-submit lay-filter="fork">保存</button>
+          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+      </div>
+</form>
+
+</html>
+
+<script src="../Layui/layui-v2.5.6/layui/layui.all.js"></script>
+<script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+<script src="../Layui/layui-v2.5.6/layui/lay/modules/layer.js"></script>
+<script>
+    
+    layui.config({
+    base: '../ceshi/treetable-lay/module/'
+}).extend({
+    treetable: 'treetable-lay/treetable'
+}).use(['treetable'], function () {
+    var treetable = layui.treetable;
+     
+})
+  
+    layui.use(['element', 'jquery','table','layer','form','tree'], function () {
+        var element = layui.element;
+        var $ = layui.jquery;
+        var table=layui.table;
+        var layer=layui.layer;
+        var form=layui.form;
+        var tree = layui.tree;
+        
+
+     table.render({
+     elem: '#Menu_tree'
+     ,id: 'idTest'
+    ,height: 400
+    ,page:false
+    ,width:1200
+    , method: 'post'
+    , parseData: function (res) {//将原始数据解析成 table 组件所规定的数据
+
+          return {
+              "code": 0,//解析接口状态
+              "msg": "成功",//解析提示文本
+              "count":20,
+               data:res[0].ModuleList//解析数据列表
+
+          }
+
+      }
+    ,url: 'http://192.168.3.26:9100/api/UserJurisdiction/GetList' //数据接口
+    ,cols: [[ //表头
+     
+      {field: 'Name', title: '菜单名称', width:400}
+      ,{field: 'Key', title: '菜单描述', width:400, sort: true}
+      ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:400}
+    ]]
+  });
+  
+  $('#addModel').on('click', function () {
+   console.log(1)
+    layer.open({
+      type:1,
+      area: ['500px', '300px'],
+    title: '添加模块'
+  ,content: $('#form_Mokuai')
+});   
+});
+$('.save').on('click',function(){
+    console.log(1)
+ console.log(1)
+var title_Model=document.form1.title_Model.value;
+ var title_Key=document.form1.title_Key.value;
+
+
+ $.ajax({
+    url:'http://192.168.3.26:9100/api/UserJurisdiction/AddModule',
+    type:"post",
+    data:{
+        Name:title_Model,
+        Key:title_Key
+    },
+    success:(res)=>{
+    console.log(res);
+    table.reload('tableReload', {
+           url: "http://192.168.3.26:9100/api/UserJurisdiction/GetList"
+        });//表格重载
+    }
+
+})
+
+})
+
+//删除添加模态框
+
+
+table.on('tool(idTest)', function (obj) {
+    var data=obj.data;
+    console.log(data)
+if(obj.event==='del'){
+    top.layer.confirm('您确定要删除吗？', {
+                    btn: ['忍痛割爱', '还是留着吧'] //按钮
+                }, function () {
+                        const p=[];
+                        var ids=data.ModuleId;
+                         p.push(ids);
+                          $.ajax({
+                            url:"http://192.168.3.26:9100/api/UserJurisdiction/DeleteModule",
+                            type:"post",
+                            contentType:"application/json",
+                            data:JSON.stringify(p),
+                            success:(res)=>{
+                              console.log(res)
+                                table.reload('idTest', {
+                                    url: 'http://192.168.3.26:9100/api/UserJurisdiction/GetList'
+                                });//表格重载
+                                top.layer.alert("删除成功", {
+                                    icon: 1,
+                                    skin: 'layui-layer-lan'
+                                  , closeBtn: 0
+                                   , anim: 4 //动画类型
+                                });
+                            }
+                        })
+
+
+                },function(){
+                    return;
+
+                })
+
+}
+
+else if(obj.event==="edit"){
+
+  const id=BigInt(data.ModuleId);
+
+$.ajax({
+
+    url:"http://192.168.3.26:9100/api/UserJurisdiction/GetMenuList",
+    type:"post",
+   
+    data:{
+     ModuleId: id
+    },
+    success:(res)=>{
+       console.log(res)
+       htm='';
+       console.log(res.length)
+     
+      for(var j=0;j<res.length;j++){
+      //  htm+=' <select name="caidand" class="caidan_Nmaest">'
+       htm+='<option value='+res[j].MenuId+' lay-data='+res[j].Url+'>'+res[j].Title+'</option>';
+       }
+    //   htm+='</select>'
+      $('.caidan_Nmaestd').html(htm)
+      form.render();
+    }
+});
+
+
+
+  layer.open({
+      type:1,
+      area: ['500px', '300px'],
+    title: '修改菜单'
+  ,content: $('#form_menus')
+}); 
+
+
+}
+
+
+else if(obj.event==='add'){
+    const id=BigInt(data.ModuleId) ;
+    
+   form.val("formTest",{
+    "ModelID":id
+     
+
+   })
+
+ layer.open({
+      type:1,
+      area: ['500px', '300px'],
+    title: '添加菜单'
+  ,content: $('#form_menu')
+}); 
+
+
+}
+else if(obj.event==='addelement'){
+    const id=BigInt(data.ModuleId);
+
+   $.ajax({
+
+       url:"http://192.168.3.26:9100/api/UserJurisdiction/GetMenuList",
+       type:"post",
+      
+       data:{
+        ModuleId: id
+       },
+       success:(res)=>{
+          console.log(res)
+          htm='';
+          console.log(res.length)
+        
+         for(var j=0;j<res.length;j++){
+          // htm+=' <select name="caidand" class="caidan_Nmaest">'
+          htm+='<option value='+res[j].MenuId+'>'+res[j].Title+'</option>';
+          
+          }
+        //  htm+='</select>'
+         $('.caidan_Nmaest').html(htm)
+         form.render();
+
+          layer.open({
+          type:1,
+          area: ['500px', '500px'],
+          title: '添加元素'
+          ,content: $('#form_dt')
+}); 
+       }
+   })
+
+
+}
+ 
+
+
+})
+
+    //添加菜单
+$('.savest').on('click',function(){
+console.log(1);
+var title_Menu=$("input[name='title_Menu' ]").val()
+var Menu_Url=$("input[name='Menu_Url']").val()
+var ModelID=BigInt($("input[name='ModelID'] ").val())
+ $.ajax({
+    url:'http://192.168.3.26:9100/api/UserJurisdiction/AddMenu',
+   type:"post",
+    async:false,
+    data:{
+        ModuleId:ModelID,
+        Title:title_Menu,
+        Url:Menu_Url,
+       
+    },
+    success:(res)=>{
+    console.log(res);
+    // table.reload('tableReload', {
+    //        url: "http://192.168.3.26:9100/api/UserJurisdiction/AddModule"
+    //     });//表格重载
+    }
+
+})
+
+})
+
+$('.cst').on('click',function(){
+console.log(1)
+    var data=[];
+    $.ajax({
+    url:'http://192.168.3.26:9100/api/UserJurisdiction/GetList',
+   type:"post",
+    async:false,
+    
+    success:(res)=>{
+     console.log(res[0].Module)
+       this.data=res[0].Module;
+
+    }
+    });
+console.log(this.data)
+//基本演示
+var renderTable = function () {//树桩表格参考文档：https://gitee.com/whvse/treetable-lay
+            layer.load(2);
+            treetable.render({
+                treeColIndex: 1,//树形图标显示在第几列
+                treeSpid: 0,//最上级的父级id
+                treeIdName: 'permissionId',//id字段的名称
+                treePidName: 'pid',//pid字段的名称
+                treeDefaultClose: false,//是否默认折叠
+                treeLinkage: true,//父级展开时是否自动展开所有子级
+                elem: '#permissionTable',
+                url: '${ctx}/permission/permissionTree',
+                page: false,
+                cols: [[
+                    {type: 'numbers', title: '编号'},
+                    {field: 'permissionName', title: '资源名称'},
+                    {field: 'permissionUrl', title: '资源路径'},
+                    {field: 'permissionType', title: '资源简介'},
+                    {field: 'pid', title: '排序'},
+                    {field: 'resType', title: '类型',
+                    	templet: function(d){
+                    		if(d.resType==0){
+                    			return '菜单';
+                    		}else{
+                    			return '按钮';
+                    		}
+                        }	
+                    },
+                    {templet: complain, title: '操作'}
+                ]],
+                done: function () {
+                    layer.closeAll('loading');
+                }
+            });
+        };
+
+  });
+
+//获取到菜单id获取菜单之后修改
+form.on('select(caidandt)',function(data){
+  console.log(data)
+  var text_s= $(".caidan_Nmaestd option:selected").text();//获取文本
+  var url = $(data.elem).find("option:selected").attr("lay-data");
+  var Menu_Urltd=data.value;
+  console.log(Menu_Urltd)
+  form.val('formTestt',{
+     "title_Menutd":text_s,
+     "Menu_Urltd":url,
+    "Menu_IDS":Menu_Urltd
+  })
+ 
+});
+
+
+
+//修改菜单
+   $(".savestd").on('click',function(){
+    console.log(111)
+    var menu_Nmame=document.form4.title_Menutd.value;
+    var Menu_Urltd=document.form4.Menu_Urltd.value;
+    var Menu_IDS=document.form4.Menu_IDS.value;
+    
+    $.ajax({
+     url:"http://192.168.3.26:9100/api/UserJurisdiction/UpdateMenu",
+     type:"post",
+     async:false,
+     data:{
+      MenuId:Menu_IDS,
+      Title:menu_Nmame,
+      Url :Menu_Urltd
+     },
+    success:(res)=>{
+      console.log(res)
+    }
+   
+
+    })
+     
+   })
+  
+
+//获取元素
+form.on('select(element_s)',function(data){
+console.log(data.value)
+$.ajax({
+
+url:"http://192.168.3.26:9100/api/UserJurisdiction/GetElementList",//POST /api/UserJurisdiction/GetElementList
+type:"post",
+
+data:{
+  MenuId :data.value
+},
+success:(res)=>{
+console.log(res);
+  htm='';
+  for (let i = 0; i < res.length; i++) {
+    
+    htm+='<input type="checkbox" title="'+res[i].Name +'">';// name="like[write]"
+    
+  }
+  $(".elements").html(htm);
+form.render();
+}
+
+
+})
+
+})
+
+//添加元素
+
+$(".savestEle").on('click',()=>{
+  console.log(11)
+  var Name =document.form3.Element_Menu.value;
+  var Value =document.form3.Element_Val.value;
+  var id=document.form3.caidand.value; 
+ alert(Name+Value+id)
+  $.ajax({
+     url:"http://192.168.3.26:9100/api/UserJurisdiction/AddElement",//POST /api/UserJurisdiction/AddElement
+     type:"post",
+      async:false,
+     data:{
+      MenuId:id,
+      Name :Name,
+      Value :Value
+     },
+     success:(res)=>{
+         console.log(res)
+     }
+
+
+
+  })
+ 
+
+})
+
+
+
+
+
+
+
+
+
+    })
+
+
+</script>

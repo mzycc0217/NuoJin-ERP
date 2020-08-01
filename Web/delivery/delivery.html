@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>入库申请</title>
+    <link rel="stylesheet" href="../Layui/layui-v2.5.6/layui/css/layui.css">
+</head>
+
+<body>
+
+    <div class="layui-tab">
+        <ul class="layui-tab-title">
+            <li class="layui-this">采购入库</li>
+            <li>化学入库</li>
+            <li>办公入库</li>
+            <li>成品入库</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item">
+                <table class="layui-hide" id="test1" lay-filter="test1"></table>
+            </div>
+            <div class="layui-tab-item">
+                <table class="layui-hide" id="test2" lay-filter="test2"></table>
+            </div>
+            <div class="layui-tab-item">
+                <table class="layui-hide" id="test3" lay-filter="test3"></table>
+            </div>
+            <div class="layui-tab-item">
+                <table class="layui-hide" id="test4" lay-filter="test4"></table>
+            </div>
+        </div>
+    </div>
+    <div class="site-text" style="margin: 5%; display: none" id="box3" target="test123">
+        <form class="layui-form layui-form-pane" onsubmit="return false" id="book3" lay-filter="t3">
+            <div class="layui-form-item">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-block">
+                    <textarea id="des" placeholder="备注说明" class="layui-textarea"></textarea>
+                </div>
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-block">
+                    <select id="warehouseId"></select>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-xs" lay-event="edit">入库</a>
+    </script>
+    <!--序号列-->
+    <script type="text/html" id="xuHao">
+        {{d.LAY_TABLE_INDEX+1}}
+    </script>
+</body>
+
+</html>
+<script src="../UrlModel/url.js"></script>
+<script src="../Layui/layui-v2.5.6/layui/layui.all.js"></script>
+<script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+<script src="../Layui/layui-v2.5.6/layui/lay/modules/layer.js"></script>
+<script src="../Layui/layui-v2.5.6/layui/lay/modules/laydate.js"></script>
+
+<script>
+    window.onload = function() {
+        warehouse();
+    }
+
+    function warehouse() {
+        $.ajax({
+            type: 'POST',
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            url: window.url + 'EntrePose/GetEntrePose', //后台数据地址
+            data: {
+                PageIndex: -1,
+                PageSize: -1
+            },
+            success: function(data) {
+                console.log('%c 🍏 data: ', 'font-size:20px;background-color: #ED9EC7;color:#fff;', data);
+                $.each(data.data, function(index, item) { //循环后台返回的json数据
+                    //new Option方法是新建一个option，第一个参数是需要显示的值，第二个参数是option的value值,然后append到下拉框中。
+                    $("#warehouseId").append(new Option(item.EntrepotName, item.Id));
+                })
+                layui.form.render('select');
+            }
+        });
+    }
+    layui.use(['laypage', 'layer', 'table', 'element', 'jquery', 'form'], function() {
+        var laypage = layui.laypage //分页
+            ,
+            layer = layui.layer //弹层
+            ,
+            table = layui.table //表格
+            ,
+            element = layui.element //元素操作
+            ,
+            form = layui.form;
+
+        table.render({
+            elem: '#test1',
+            height: 515,
+            url: window.url + 'ZpurChase/GetAddPursh' //数据接口
+                ,
+            title: '检验入库',
+            id: 'testReload',
+            toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+                ,
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            method: 'post',
+            page: true, //开启分页
+            limit: 10,
+
+            cols: [
+                [{
+                    type: 'checkbox',
+                    fixed: 'left'
+                }, {
+                    title: '序号',
+                    fixed: 'left',
+                    templet: '#xuHao',
+                }, {
+                    field: 'z_Raw',
+                    title: '原材料',
+                    fixed: 'left',
+                    templet: function(res) {
+                        if (res.z_Raw == null || res.z_Raw.Name == null) {
+                            return "无"
+                        } else {
+                            return res.z_Raw.Name;
+                        }
+                    }
+                }, {
+                    field: 'Z_RowType',
+                    title: '类型',
+                    fixed: 'left',
+                    templet: function(res) {
+                        if (res.Z_RowType == null || res.Z_RowType.Name == null) {
+                            return "无"
+                        } else {
+                            return res.z_Raw.Name;
+                        }
+                    }
+                }, {
+                    field: 'Project',
+                    title: '项目',
+                    fixed: 'left',
+                    templet: function(res) {
+                        if (res.Project == null || res.Project.Name == null) {
+                            return "无"
+                        } else {
+                            return res.Project.Name;
+                        }
+                    }
+                }, {
+                    field: 'ApplyNumber',
+                    title: '申请数量',
+                }, {
+                    field: 'Company',
+                    title: '单位',
+                    templet: function(res) {
+                        if (res.company == null || res.company.Name == null) {
+                            return "无"
+                        } else {
+                            return res.company.Name;
+                        }
+                    }
+                }, {
+                    field: 'Supplier',
+                    title: '供货商',
+                    templet: function(res) {
+                        if (res.Supplier == null || res.Supplier.Name == null) {
+                            return "无"
+                        } else {
+                            return res.Supplier.Name;
+                        }
+                    }
+                }, {
+                    field: 'Amount',
+                    title: '金额',
+                }, {
+                    field: 'PurchaseAmount',
+                    title: '申请的数量'
+                }, {
+                    field: 'Purpose',
+                    title: '用途',
+                }, {
+                    field: 'Price',
+                    title: '单价',
+                }, {
+                    field: 'WaybillNumber',
+                    title: '运单号',
+                }, {
+                    field: 'PurchaseContract',
+                    title: '采购合同',
+                    templet: function(res) {
+                        if (res.PurchaseContract != null) {
+                            if (res.PurchaseContract.lastIndexOf("jpg") != -1 || res.PurchaseContract.lastIndexOf("png") != -1) {
+                                return "<div> <a href='" + window.urlImg + res.PurchaseContract + "' target='_blank'> <img src='" + window.urlImg + res.PurchaseContract + "' id='image'></a></div>"
+                            }
+                            return "<div><a href='" + window.urlImg + res.PurchaseContract + "' target='_blank'> <img src='../img/2.jpg' id='image' > </a></div>"
+                        } else {
+                            return "<div><img src='../img/2.jpg' id='image' ></a></div>"
+                        }
+
+                    }
+                }, {
+                    field: 'ExpectArrivalTime',
+                    title: '期望到货日期',
+                }, {
+                    field: 'ArrivalTime',
+                    title: '到货日期',
+                }, {
+                    field: 'AssetExpenditureDesc',
+                    title: '支出备注',
+                }, {
+                    field: 'ApplyTime',
+                    title: '申请日期',
+                    templet: function(res) {
+                        return showTime(res.ApplyTime);
+                    }
+                }, {
+                    fixed: 'right',
+                    title: '操作',
+                    width: 240,
+                    toolbar: '#barDemo',
+                }]
+            ],
+            request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+                    ,
+                limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+            parseData: (res) => { //将原始数据解析成 table 组件所规定的数据
+                console.log('%c 🍿 res: ', 'font-size:20px;background-color: #93C0A4;color:#fff;', res);
+
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": "成功", //解析提示文本
+                    "count": res.Count, //总数
+                    data: res.data //解析数据列表
+                }
+            }
+        });
+
+        //寻找数据
+        $('.layui-btn').on('click', function() {
+            var keyName = $("#keyName").val();
+            //执行重载
+            table.reload('testReload', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                },
+                where: {
+                    DepartmentName: keyName
+                }
+            }, 'data');
+        });
+
+
+
+        //监听行工具事件
+        table.on('tool(test1)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+            layEvent = obj.event; //获得 lay-event 对应的值
+            data.PurchaseId
+            console.log('%c 🍗 data.PurchaseId: ', 'font-size:20px;background-color: #93C0A4;color:#fff;', data.PurchaseId);
+            if (layEvent === 'edit') {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '300px'],
+                    title: ['入库', 'font-size:18px'],
+                    btn: ['确定', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box3'),
+                    yes: function(index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "ZpurChase/AddPursh",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                Purchase_Id: data.PurchaseId,
+                                ContentDes: $("#des").val(),
+                                enportid: $("#warehouseId").val(),
+                                user_Id: localStorage.getItem('UserId')
+                            }),
+                            success: function(res) {
+                                console.log('%c 🌰 res: ', 'font-size:20px;background-color: #7F2B82;color:#fff;', res);
+                                // table.reload('testReload')
+                                // $("#box3").css("display", "none");
+                                // layer.close(index)
+                            },
+                            error: function(res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function(layero) {
+                        $("#box3").css("display", "none");
+                    },
+                    cancel: function() {
+                        $("#box3").css("display", "none");
+                    }
+                });
+                return false;
+            }
+
+        });
+        //分页
+        laypage.render({
+            elem: 'pageDemo' //分页容器的id
+                ,
+            count: 100 //总页数
+                ,
+            skin: '#1E9FFF' //自定义选中色值
+                ,
+            jump: function(obj, first) {
+                if (!first) {
+                    layer.msg('第' + obj.curr + '页', {
+                        offset: 'b'
+                    });
+                }
+            }
+        });
+    });
+</script>

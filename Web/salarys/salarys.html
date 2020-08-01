@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../Layui/layui-v2.5.6/layui/css/layui.css">
+</head>
+
+<body>
+    <!-- 表格 -->
+    <table id="caigou" lay-filter="idTests"></table>
+    <!-- <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="hege">审批</a>
+      </script> -->
+</body>
+
+</html>
+<script src="../Layui/layui-v2.5.6/layui/layui.all.js"></script>
+<script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+<script src="../Layui/layui-v2.5.6/layui/lay/modules/layer.js"></script>
+<script src="../UrlModel/url.js"></script>
+<script>
+ window.onload = function() {
+            anomation();
+        }
+    layui.use(['element', 'jquery', 'table', 'layer', 'form', 'laydate', 'util'], function() {
+        var element = layui.element;
+        var $ = layui.jquery;
+        var table = layui.table;
+        var layer = layui.layer;
+        var form = layui.form;
+        var util = layui.util;
+        var laydate = layui.laydate;
+
+
+        var s = 1;
+        table.render({
+            elem: '#caigou',
+            id: 'idTests',
+            height: 500,
+            limit: 10,
+            limits: [5, 10, 20],
+            page: true ,
+            headers:  {                
+                Authorization:  window.header.Ae,
+                UserId:  window.header.Ud,
+                AppFlag:  window.header.Fg            
+            },
+            width: 1200,
+            method: 'post',
+            parseData: function(res) { //将原始数据解析成 table 组件所规定的数据
+                console.log('res: ', res);
+
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": "成功", //解析提示文本
+                    "count": res[0].Count,
+                    data: res //解析数据列表
+                }
+            },
+            request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+                    ,
+                limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+            url: window.url + 'Wage/GetList' //数据接口POST /api/Wage/GetList
+                ,
+            cols: [
+                [ //表头
+
+                    {
+                        field: 'WageId',
+                        title: '编号',
+                        width: 60,
+                        type: "numbers"
+                    }, {
+                        field: 'RealName',
+                        title: '姓名',
+                        width: 100,
+                        sort: true,
+                        templet: function(res) {
+                            return res.User.RealName
+                            console.log(res);
+
+                        }
+                    }, {
+                        field: 'month',
+                        title: '月份',
+                        width: 100,
+                        sort: true,
+                        templet: function(res) {
+                            return (util.toDateString(res.StartTime * 1000).slice(6, 7)) + "月";
+                        }
+                    }, {
+                        field: 'StartTime',
+                        title: '开始时间',
+                        width: 200,
+                        sort: true,
+                        templet: function(res) {
+                            return util.toDateString(res.StartTime * 1000).slice(0, 10);
+                        }
+                    }, {
+                        field: 'EndTime',
+                        title: '截止时间',
+                        width: 200,
+                        sort: true,
+                        templet: function(res) {
+                            return util.toDateString(res.EndTime * 1000).slice(0, 10);
+                        }
+                    }, {
+                        field: 'BasePay',
+                        title: '基本工资',
+                        width: 150,
+                        sort: true,
+                        templet: function(res) {
+                            return res.BasePay
+                        }
+                    }, {
+                        field: 'PostSalary',
+                        title: '岗位工资',
+                        width: 150,
+                        sort: true,
+                        templet: function(res) {
+                            return res.PostSalary
+                        }
+                    }, {
+                        field: 'MeritPay',
+                        title: '绩效工资',
+                        sort: true
+                    }, {
+                        field: 'all',
+                        title: '实际工资',
+                        sort: true,
+                        templet: function(res) {
+                            return res.BasePay + res.PostSalary + res.MeritPay
+                        }
+                    }
+                ]
+            ],
+            where: {
+
+                UserId: localStorage.getItem('UserId')
+            }
+        });
+
+
+
+    })
+</script>

@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+    <script src="../layui/layui.all.js"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../JS/funtion.js"></script>
+    <script src="../UrlModel/url.js"></script>
+    <title>设置职位</title>
+</head>
+<style>
+    .icons {
+        display: inline-block;
+        width: 38px;
+        height: 38px;
+        position: absolute;
+        line-height: 38px;
+        text-align: center;
+        left: 262px;
+        z-index: 1;
+    }
+    
+    .iconss {
+        display: inline-block;
+        width: 38px;
+        height: 38px;
+        position: absolute;
+        line-height: 38px;
+        text-align: center;
+        left: 152px;
+        top: 0;
+        z-index: 1;
+    }
+</style>
+
+<body>
+    <div class="mapWrap">
+        <div class="mapHead">
+            <div class="layui-form-item" style="margin-top: 20px;">
+                <label class="layui-form-label">搜索</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="input" class="layui-input" oninput="searchbtn()" id="search">
+                </div>
+            </div>
+            <!-- 点击啊弹出 -->
+            <div class="layui-form-item">
+                <i class="layui-icon layui-icon-add-1 icons" onclick="add('查找用户角色','absolut')"></i>
+                <label class="layui-form-label">人员</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="title" required lay-verify="required" placeholder="请选择姓名" autocomplete="off" class="layui-input" id="person">
+                </div>
+                <input type="text" id="myvalue" style="display: none;">
+                <!--  -->
+                <label class="layui-form-label">职位</label>
+                <div class="layui-input-inline">
+                    <i class="layui-icon layui-icon-add-1 iconss" onclick="add('查找用户职位','absolut_Position')"></i>
+                    <input type="text" name="title" required lay-verify="required" placeholder="请选择职位" autocomplete="off" class="layui-input Position">
+                    <input type="text" id="Positionval" style="display: none;">
+                    <!-- style="display: none;" -->
+                </div>
+                <button type="button" class="layui-btn" lay-submit lay-filter="formDemo" id="setposition">设置</button>
+            </div>
+            <!-- 弹出内容 -->
+            <!-- 选择角色的按钮 -->
+            <div class="modal fade bs-example-modal-lg" tabindex="-1" id="absolut" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;">
+                <div class="layui-form-item" style="margin-top: 30px;">
+                    <label class="layui-form-label">搜索</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="input" class="layui-input" oninput="searchperson()" id="searchperson">
+                    </div>
+                </div>
+                <table class="layui-hide" id="name" lay-filter="name"></table>
+            </div>
+
+            <!-- 选择职位 -->
+            <div class="modal fade bs-example-modal-lg" tabindex="-1" id="absolut_Position" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;">
+                <div class="layui-form-item" style="margin-top: 30px;">
+                    <label class="layui-form-label">搜索</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="input" class="layui-input" oninput="searchPosition()" id="searchPosition">
+                    </div>
+                </div>
+                <table class="layui-hide" id="PositionList" lay-filter="PositionList"></table>
+            </div>
+            <!--修改-->
+            <div class="site-text" style="margin: 5%; display: none" id="box" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book" lay-filter="t">
+                    <div class="layui-form-item">
+                        <!-- <input type="hidden" id="Id">
+                        <input type="hidden" id="user_id"> -->
+                        <label class="layui-form-label">职位名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="PositionId" /><br>
+                        </div>
+                        <label class="layui-form-label">职位标志</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="Sign" /><br>
+                        </div>
+                        <label class="layui-form-label">排序</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="Sort" /><br>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <table class="layui-hide" id="test" lay-filter="test"></table>
+            <script type="text/html" id="barDemo">
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="modify">修改</a>
+            </script>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+    var index;
+
+    function add(title, content) {
+        index = layer.open({
+            //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+            type: 1,
+            skin: 'layui-layer-molv', //'layui-layer-rim', //加上边框
+            title: title,
+            area: ['80%', '80%'],
+            content: $("#" + content + ""),
+            //Ajax获取
+            end: function(res) {
+                $("#" + content + "").css("display", 'none');
+            }
+        });
+    };
+    //表
+    layui.use(['laypage', 'layer', 'table', 'element', 'jquery', 'form', 'upload'], function() {
+        var laypage = layui.laypage //分页
+            ,
+            layer = layui.layer //弹层
+            ,
+            table = layui.table //表格
+            ,
+            element = layui.element //元素操作
+            ,
+            form = layui.form,
+            upload = layui.upload,
+            $ = layui.jquery;
+        table.render({
+            elem: '#test',
+            height: 531,
+            url: window.url + 'SetPosItion/GetPosition' //数据接口
+                ,
+            title: '职位列表',
+            id: 'test',
+            toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+                ,
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            method: 'post',
+            page: true, //开启分页
+            limit: 10,
+            cols: [
+                [{
+                    title: '序号',
+                    fixed: 'left',
+                    type: "numbers"
+                }, {
+                    title: '姓名',
+                    field: 'RealName ',
+                    fixed: 'left',
+                    templet: function(res) {
+                        return res.UserDetails.RealName
+                    }
+                }, {
+                    title: '职位',
+                    field: 'RealName ',
+                    fixed: 'left',
+                    templet: function(res) {
+                        console.log(res);
+                        return res.Position_User.PositionName
+                    }
+                }, {
+                    fixed: 'right',
+                    title: '操作',
+                    toolbar: '#barDemo',
+                }]
+            ],
+            request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+                    ,
+                limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+            parseData: (res) => { //将原始数据解析成 table 组件所规定的数据 
+                console.log(res);
+                if (res.length != 0) {
+                    return {
+                        "code": 0, //解析接口状态
+                        "msg": "成功", //解析提示文本
+                        "count": res[0].Counts, //总数
+                        data: res //解析数据列表
+                    }
+                    if (res == 0) {
+                        console.log("无")
+                    }
+                }
+            },
+
+        });
+
+        //方法级渲染
+        table.render({
+            elem: '#name',
+            height: 515,
+            url: window.url + 'User/GetUserList' //数据接口
+                ,
+            title: '用户列表',
+            id: 'name',
+
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            method: 'post',
+            page: true, //开启分页
+            limit: 10,
+            cols: [
+                [{
+                    title: '序号',
+                    fixed: 'left',
+                    type: "numbers"
+                }, {
+                    title: '姓名',
+                    width: 100,
+                    fixed: 'left',
+                    templet: function(res) {
+                        return res.RealName
+                    }
+                }, {
+                    field: 'SexTypeStr',
+                    title: '性别',
+                    width: 80,
+                    templet: '#sexTpl'
+                }, {
+                    field: 'UserName',
+                    title: '用户名',
+                    width: 80,
+                }, {
+                    field: 'Nation',
+                    title: '民族',
+                    width: 80
+                }, {
+                    field: 'Department.Name',
+                    title: '部门',
+                    width: 150,
+
+                    templet: function(res) {
+                        return res.Department.Name;
+                    }
+                }, {
+                    field: 'Education',
+
+                    title: '学历',
+                    width: 100,
+                }, {
+                    field: 'DateOfBirth',
+                    title: '出生日期',
+                    width: 160,
+                }, {
+                    field: 'Phone',
+                    title: '电话',
+                    width: 100,
+                }, {
+                    field: 'Address',
+                    title: '地址',
+                    width: 300,
+                }]
+            ],
+            request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+                    ,
+                limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+            parseData: (res) => { //将原始数据解析成 table 组件所规定的数据 
+                if (res.length != 0) {
+                    return {
+                        "code": 0, //解析接口状态
+                        "msg": "成功", //解析提示文本
+                        "count": res[0].Count, //总数
+                        data: res //解析数据列表
+                    }
+                    if (res == 0) {
+                        console.log("无")
+                    }
+                }
+            },
+
+        });
+        table.on('rowDouble(name)', function(obj) {
+            var data = obj.data;
+            $("#person").val(data.RealName)
+            $("#myvalue").val(data.UserId)
+            layer.close(index);
+        });
+
+        //方法级渲染
+        table.render({
+            elem: '#PositionList',
+            height: 515,
+            url: window.url + 'Position/GetPostion' //数据接口
+                ,
+            title: '职位',
+            id: 'PositionList',
+
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            method: 'post',
+            page: true, //开启分页
+            limit: 10,
+            cols: [
+                [{
+                    title: '序号',
+                    fixed: 'left',
+                    type: "numbers"
+                }, {
+
+                    title: 'PositionName',
+                    title: '职位',
+                    width: 300,
+                    templet: function(res) {
+                        return res.PositionName
+                    }
+                }, {
+                    field: 'PositionDes',
+                    title: '职位描述',
+                    width: 300,
+                    templet: function(res) {
+                        console.log();
+                        return res.PositionDes
+                    }
+                }]
+            ],
+            request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+                    ,
+                limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+            parseData: (res) => { //将原始数据解析成 table 组件所规定的数据 
+                if (res.length != 0) {
+                    return {
+                        "code": 0, //解析接口状态
+                        "msg": "成功", //解析提示文本
+                        "count": res[0].Counts, //总数
+                        data: res //解析数据列表
+                    }
+                    if (res == 0) {
+                        console.log("无")
+                    }
+                }
+            },
+
+
+        });
+        table.on('rowDouble(PositionList)', function(obj) {
+            var data = obj.data;
+            $(".Position").val(data.PositionName)
+            $("#Positionval").val(data.Id)
+            layer.close(index);
+        });
+
+        //设置
+        $("#setposition").click(function() {
+                $.ajax({
+                    type: "POST",
+                    url: window.url + "SetPosItion/SetPosition",
+                    headers: {
+                        Authorization: window.header.Ae,
+                        UserId: window.header.Ud,
+                        AppFlag: window.header.Fg
+                    },
+                    data: {
+                        User_id: $("#myvalue").val(),
+                        PositionId: $("#Positionval").val()
+                    },
+                    success: function(res) {
+                        console.log(res);
+                        window.parent.location.reload()
+
+                    },
+                    error: function(err) {
+                        console.log(err);
+                    },
+                })
+            })
+            //监听行工具事件
+        table.on('tool(test)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+            layEvent = obj.event; //获得 lay-event 对应的值
+            console.log(data);
+            if (layEvent === 'modify') {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '300px'],
+                    title: ['修改职位', 'font-size:18px'],
+                    btn: ['确定', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box'),
+                    success: function(layero, index) {
+                        // $("#proId").val(data.Id),
+                        $("#PositionId").val(data.Position_User.PositionName),
+                            $("#Sign").val(data.Position_User.PositionDes),
+                            $("#Sort").val(data.Position_User.Order),
+
+                            layui.form.render();
+                    },
+                    yes: function(index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "SetPosItion/EditPosition",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                // Id: data.Id,
+                                // UserId: data.UserId,
+                                // PositionId: $("#PositionId").val(),
+                                // Sign: $("#Sign").val(),
+                                User_id: data.User_id,
+                                PositionId: $("#PositionId").val()
+                            }),
+                            success: function(res) {
+                                console.log(res);
+                                table.reload('test')
+                                $("#box").css("display", "none");
+                                layer.close(index)
+                            },
+                            error: function(res) {
+                                console.log(res);
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function(layero) {
+                        $("#box").css("display", "none");
+                    },
+                    cancel: function() {
+                        $("#box").css("display", "none");
+                    }
+                });
+                return false;
+            }
+        });
+
+
+        //分页
+        laypage.render({
+            elem: 'pageDemo' //分页容器的id
+                ,
+            count: 100 //总页数
+                ,
+            skin: '#1E9FFF' //自定义选中色值
+                ,
+            jump: function(obj, first) {
+                if (!first) {
+                    layer.msg('第' + obj.curr + '页', {
+                        offset: 'b'
+                    });
+                }
+            }
+        });
+    });
+
+    function searchperson() {
+        var demoReload = $('#searchperson');
+        layui.table.reload('name', {
+            page: {
+                curr: 1 //重新从第 1 页开始
+            },
+            where: {
+                RealName: demoReload.val()
+            }
+        }, 'data');
+    }
+
+    function searchPosition() {
+        var demoReload = $('#searchPosition');
+        layui.table.reload('Position', {
+            page: {
+                curr: 1 //重新从第 1 页开始
+            },
+            where: {
+                RealName: demoReload.val()
+            }
+        }, 'data');
+    }
+
+    function searchbtn() {
+        var demoReload = $('#search');
+        layui.table.reload('test', {
+            page: {
+                curr: 1 //重新从第 1 页开始
+            },
+            where: {
+                RealName: demoReload.val()
+            }
+        }, 'data');
+    }
+</script>

@@ -1,0 +1,316 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../layui/layui.all.js"></script>
+    <script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../JS/funtion.js"></script>
+    <script src="../UrlModel/url.js"></script>
+    <title>添加销售分类</title>
+    <style>
+        .mapHead {
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="mapWrap">
+        <div class="mapHead">
+            <div class="demoTable">
+                搜索销售：
+                <div class="layui-inline">
+                    <input class="layui-input" name="name" id="keyName" autocomplete="off" />
+                </div>
+                <button class="layui-btn" data-type="reload">搜索</button>
+            </div>
+            <!--添加销售分类-->
+            <div class="site-text" style="margin: 5%; display: none" id="box12" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book12" lay-filter="t12">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">销售分类</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="sellName" /><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--修改销售分类-->
+            <div class="site-text" style="margin: 5%; display: none;" id="box13" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book13" lay-filter="t13">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">销售分类</label>
+                        <input type="hidden" id="sellId">
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input sellName"><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--弹出销售数据-->
+            <div class="site-text" style="margin: 5%; display: none;" id="box20" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book20" lay-filter="t20">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">销售分类</label>
+                        <input type="hidden" id="sellId1">
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input sellName" onfocus="this.blur()"><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--销售表格-->
+            <table class="layui-hide" id="test6" lay-filter="test6"></table>
+            <script type="text/html" id="toolbarDemo6">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-sm" lay-event="add6">添加</button>
+                </div>
+            </script>
+            <script type="text/html" id="barDemo">
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+            </script>
+            <!--序号列-->
+            <script type="text/html" id="xuHao">
+                {{d.LAY_TABLE_INDEX+1}}
+            </script>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+   window.onload = function() {
+            anomation();
+        }
+    //销售分类
+    layui.use(['laypage', 'layer', 'table', 'element', 'jquery'], function () {
+        var laypage = layui.laypage //分页
+            , layer = layui.layer //弹层
+            , table = layui.table //表格
+            , element = layui.element //元素操作
+            , jquery = layui.jquery;
+        table.render({
+            elem: '#test6'
+            , height: 515
+            , url: window.url + 'Sale/GetSaleTypeList'//数据接口
+            , title: '销售分类表',
+            id: 'testFund6'
+            , toolbar: '#toolbarDemo6' //开启头部工具栏，并为其绑定左侧模板
+            , headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            method: 'post',
+            page: true,//开启分页
+            limit: 10
+            , cols: [
+                [{
+                    type: 'checkbox',
+                    fixed: 'left'
+                }, {
+                    title: '序号',
+                    fixed: 'left',
+                    templet: '#xuHao',
+                }, {
+                    field: 'SaleTypeName',
+                    title: '销售分类',
+                }, {
+                    fixed: 'right',
+                    title: '操作',
+                    toolbar: '#barDemo',
+
+                }]
+            ],
+            request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+                ,
+                limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+            parseData: (res) => { //将原始数据解析成 table 组件所规定的数据
+                console.log(res)
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": "成功", //解析提示文本
+                    "count": res[0].Count, //总数
+                    data: res //解析数据列表
+                }
+            }
+        });
+        //寻找数据
+        $('.layui-btn').on('click', function () {
+            var keyName = $("#keyName").val();
+            //执行重载
+            table.reload('testFund6', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                , where: {
+                    SaeleTypeName : keyName
+                }
+            }, 'data');
+        });
+        //头工具栏事件
+        table.on('toolbar(test6)', function (obj) {
+            if (obj.event == "add6") {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '220px'],
+                    title: ['添加销售分类', 'font-size:18px'],
+                    btn: ['确定', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box12'),
+                    yes: function (index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "Sale/AddSaleType",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                SaleTypeName: $("#sellName").val(),
+                            }), success: function (res) {
+                                table.reload('testFund6');
+                                $("#box12").css("display", "none");
+                                layer.close(index)
+                            },
+                            error: function (res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function (layero) {
+                        $("#box12").css("display", "none");
+                    },
+                    cancel: function () {
+                        $("#box12").css("display", "none");
+                    }
+                });
+                return false;
+            }
+        });
+
+        //监听行工具事件
+        table.on('tool(test6)', function (obj) {
+            var data = obj.data;
+            layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'del') {
+                var saleArr1 = [];
+                saleArr1.push(data.SaleTypeId);
+                console.log(data.SaleTypeId)
+                layer.confirm('真的删除行么', function (index) {
+                    //向服务端发送删除指令
+                    $.ajax({
+                        type: "POST",
+                        url: window.url + "Sale/DeleteSaleTypeList",
+                        headers: {
+                            Authorization: window.header.Ae,
+                            UserId: window.header.Ud,
+                            AppFlag: window.header.Fg
+                        },
+                        contentType: "application/json",
+                        data: JSON.stringify(saleArr1),
+                        success: function (res) {
+                            table.reload('testFund6');
+                            layer.close(index)
+                        },
+                        error: function (res) {
+                            layer.msg(res);
+                        }
+                    })
+                });
+            } else if (layEvent === 'edit') {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '22x'],
+                    title: ['修改销售分类', 'font-size:18px'],
+                    btn: ['确定修改', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box13'),
+                    success: function (layero, index) {
+                        $("#sellId").val(data.SaleTypeId);
+                        $(".sellName").val(data.SaleTypeName);
+
+                    }, yes: function (index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "Sale/UpdateAssetsType",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                SaleTypeId: $("#sellId").val(),
+                                SaleTypeName: $(".sellName").val(),
+                            }), success: function (res) {
+                                table.reload('testFund6');
+                                $("#box13").css("display", "none");
+                                layer.close(index)
+                            },
+                            error: function (res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function (layero) {
+                        $("#box13").css("display", "none");
+                    },
+                    cancel: function () {
+                        $("#box13").css("display", "none");
+                    }
+                });
+                return false;
+            }
+        });
+        //监听行的双击事件数据详情
+        table.on('rowDouble(test6)', function (obj) {
+            var data = obj.data;
+            console.log(data);
+            layer.open({
+                type: 1,
+                area: ['400px', '200px'],
+                title: ['销售分类信息', 'font-size:18px'],
+                shadeClose: true,
+                shade: 0,
+                manmin: true,
+                content: $('#box20'),
+                success: function (layero, index) {
+                    $("#sellId1").val(data.SaleTypeId);
+                    $(".sellName").val(data.SaleTypeName);
+                    layui.form.render();
+                }, cancel: function () {
+                    $("#box20").css("display", "none");
+                }
+            });
+        })
+        //分页
+        laypage.render({
+            elem: 'pageDemo' //分页容器的id
+            , count: 100 //总页数
+            , skin: '#1E9FFF' //自定义选中色值
+            //,skip: true //开启跳页
+            , jump: function (obj, first) {
+                if (!first) {
+                    layer.msg('第' + obj.curr + '页', { offset: 'b' });
+                }
+            }
+        });
+    });
+
+
+</script>

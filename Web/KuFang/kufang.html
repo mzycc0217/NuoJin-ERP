@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>库房</title>
+     <link rel="stylesheet" href="../Layui/layui-v2.5.6/layui/css/layui.css">
+</head>
+<body>
+
+<!--筛选-->
+  <form class="layui-form" action="" lay-filter="form_csts">
+    <div class="layui-form-item">
+      <label class="layui-form-label">选择产品类型:</label>
+      <div class="layui-input-block" style="width:40%;">
+        <select name="Types" lay-verify="required" id="typs" lay-filter="typess">
+        </select>
+      </div>
+    </div>
+  </form>
+
+
+    <!--赋值单-->
+    <form class="layui-form" id=foms_tt style="display: none;" lay-filter="formstt">
+        <div class="layui-form-item">
+          <label class="layui-form-label">原材料</label>
+          <div class="layui-input-block">
+            <input type="text" name="RawMaterial" id="RawMaterial"  placeholder="请输入标题" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">类型</label>
+            <div class="layui-input-block">
+              <input type="text" name="RawMaterialType" id="RawMaterialType" placeholder="请输入标题" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          
+
+          <div class="layui-form-item">
+            <label class="layui-form-label">库管人</label>
+            <div class="layui-input-block">
+              <input type="text" name="WarehouseKeeper" id="WarehouseKeeper" placeholder="请输入标题" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+   
+      </form>
+
+    <!-- 库存表格  -->
+    <table id="kufang" lay-filter="kufang"></table>
+    <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="xiugai">修改</a>
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="del">删除</a>
+      </script>
+</body>
+</html>
+<script src="../UrlModel/url.js"></script>
+<script src="../Layui/layui-v2.5.6/layui/layui.all.js"></script>
+<script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+<script src="../Layui/layui-v2.5.6/layui/lay/modules/layer.js"></script>
+<script src="../Layui/layui-v2.5.6/layui/lay/modules/laydate.js"></script>
+<script>
+     layui.use(['element', 'jquery','table','layer','form','tree','laydate'], function () {
+        var element = layui.element;
+        var $ = layui.jquery;
+        var table=layui.table;
+        var layer=layui.layer;
+        var form=layui.form;
+        var tree = layui.tree;
+        var laydate=layui.laydate;
+        
+//获取库房内容
+var s=1;
+        table.render({
+     elem:'#kufang'
+     ,id: 'kufang'
+    ,height: 500,
+    limit: 10,
+      limits:[5,10,20]
+    ,page:true
+     ,headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            }
+    ,width:1200
+    , method: 'post'
+    , parseData: function (res) {//将原始数据解析成 table 组件所规定的数据
+         console.log(res)
+          return {
+              "code": 0,//解析接口状态
+              "msg": "成功",//解析提示文本
+              "count":res[0].Count,
+               data:res//解析数据列表
+          }
+      },
+      request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+              , limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            }
+    ,url: window.url+'Stock/GetStorageRoomList' //POST /api/Stock/GetStorageRoomList
+    ,cols: [[ //表头
+ 
+      {type: 'numbers',field: 'StorageRoomId', title: '编号', width:200}
+      ,{field: 'RawMaterial', title: '原材料', width:200, sort: true,templet:function(res){
+        return res.RawMaterial.Name
+      }}
+      ,{field: 'RawMaterialType', title: '类型', width:200, sort: true,templet:function(res){
+        return res.RawMaterial.WarehousingType.Name
+      }}
+    //   ,{field: 'WarehousingType', title: '入库类型', width:200, sort: true,templet:function(res){
+    //     return res.RawMaterial.Name
+    //   }}
+      ,{field: 'WarehouseKeeper', title: '库管人', width:200, sort: true,templet:function(res){
+        return res.WarehouseKeeper
+      }}
+     // ,{field: 'ApplicantRemarks', title: '申请人备注', width:300, sort: true}
+      // ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:200}
+    ]],
+   
+  });
+//修改
+  table.on('tool(kufang)', function (obj){
+    var data=obj.data;
+    console.log(data)
+    if (obj.event==='xiugai') {//
+
+        layer.open({
+      type:1,
+      area: ['500px', '500px'],
+    title: '添加菜单'
+  ,content: $('#foms_tt')
+  ,end:function (res) {
+       $("#foms_tt").css("display",'none');
+   }
+}); 
+
+   form.val('formstt',{
+     "RawMaterial":data.RawMaterial.Name,
+    "RawMaterialType":data.RawMaterial.WarehousingType.Name,
+     "WarehouseKeeper":data.WarehouseKeeper
+   })
+      
+    //  data.RawMaterial
+    //  data.RawMaterialType
+    //  data.WarehouseKeeper
+
+    }
+  })
+
+
+//筛选
+form.on('select(typess)',function(res){
+console.log(res)
+table.reload('kufang', {
+  url:  window.url+'Stock/GetStorageRoomList'
+  ,where: {
+  
+     //类别
+     WarehousingTypeId:res.value
+  } //设定异步数据接口的额外参数
+  //,height: 300
+});
+})
+
+//删除
+table.on('tool(kufang)', function (obj) {
+  var data=obj.data;
+    console.log(data)
+    if (obj.event==='del') {
+    console.log(data.RawMaterialId)
+
+    top.layer.confirm('您确定要删除你可爱的员工吗？', {
+                    btn: ['忍痛割爱', '还是留着吧'] //按钮
+                }, function () {
+                    //确定删除  
+                    var post_detail = {
+                        detail: []
+                    };//放一个空数组
+                    post_detail.detail.push("WorkerID");//将id放入数组
+                    for (var i = 0; i < data.length; i++) {//遍历数组
+                        post_detail['detail[' + i + ']'] = data[i].WorkerID;
+                    }
+
+                    $.ajax({
+                        url: '/Defalut/Detail',
+
+                        type: 'post',
+                        data: post_detail,
+                        cache: false,
+                        success: function (res) {
+                            if (res.code == 0) {
+                                table.reload('tableReload', {
+                                    url: '/Defalut/Exmpre'
+                                });//表格重载
+                                top.layer.alert(res.msg, {
+                                    icon: 1,
+                                    skin: 'layui-layer-lan'
+                                  , closeBtn: 0
+                                   , anim: 4 //动画类型
+                                });
+
+                            }
+                            else {
+                                top.layer.alert(res.msg, {
+                                    icon: 5,
+                                    skin: 'layui-layer-lan'
+                                  , closeBtn: 0
+                                 , anim: 4 //动画类型
+                                });
+                            }
+                        }
+
+                    });
+
+
+                }, function () {
+                    //取消删除
+                    layer.msg('拜拜', {
+                        time: 20000, //20s后自动关闭
+
+                    });
+                });
+    
+    }
+
+})
+
+
+
+
+  //双击详情
+
+  table.on('rowDouble(kufang)', function(obj){
+    var data=obj.data;
+    layer.open({
+      type:1,
+      area: ['500px', '500px'],
+    title: '添加菜单'
+  ,content: $('#foms_tt')
+  ,end:function (res) {
+       $("#foms_tt").css("display",'none');
+   }
+}); 
+
+   form.val('formstt',{
+     "RawMaterial":data.RawMaterial.Name,
+    "RawMaterialType":data.RawMaterial.WarehousingType.Name,
+     "WarehouseKeeper":data.WarehouseKeeper
+   })
+      
+
+
+
+  })
+
+     })
+
+
+
+
+
+
+
+//获取类型
+type();
+function type(){
+
+  $.ajax({
+url:window.url+"RawMaterial/WarehousingType",//POST /api/RawMaterial/WarehousingType
+type:"post",
+data: {
+  "PageIndex": 0,
+  "PageSize": 0
+},
+headers:{
+                 Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+},
+success:(res)=>{
+  console.log(res)
+  htm='';
+  for(var j=0;j<res.length;j++){
+  //  htm+=' <select name="caidand" class="caidan_Nmaest">'
+   htm+='<option value='+res[j].WarehousingId+'>'+res[j].Name+'</option>';
+   }
+//   htm+='</select>'
+  $('#typs').html(htm)
+  layui.form.render();
+}
+
+})
+
+}
+
+
+</script>

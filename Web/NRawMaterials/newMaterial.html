@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../layui/layui.all.js"></script>
+    <script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../JS/funtion.js"></script>
+    <script src="../UrlModel/url.js"></script>
+    <title>添加原材料用品的类别</title>
+    <style>
+        .mapHead {
+            margin: 20px;
+        }
+        
+        .layui-table-page select {
+            height: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mapWrap">
+        <div class="mapHead">
+            <div class="demoTable">
+                搜索原材料的名称：
+                <div class="layui-inline">
+                    <input class="layui-input" name="name" id="keyName" autocomplete="off" />
+                </div>
+                <button class="layui-btn" data-type="reload">搜索</button>
+            </div>
+            <!--添加数据-->
+            <div class="site-text" style="margin: 5%; display: none" id="box1" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book1" lay-filter="t1">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">原材料名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="rawName" /><br>
+                        </div>
+                        <label class="layui-form-label">原材料备注</label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" id="rawDec" /><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--修改-->
+            <div class="site-text" style="margin: 5%; display: none" id="box3" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book3" lay-filter="t3">
+                    <div class="layui-form-item">
+                        <input type="hidden" id="rawId">
+                        <label class="layui-form-label">原材料名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input rawName" /><br>
+                        </div>
+                        <label class="layui-form-label">原材料备注</label>
+                        <div class="layui-input-block">
+                            <input class="layui-input rawDec" /><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--详情-->
+            <div class="site-text" style="margin: 5%; display: none" id="box2" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book2" lay-filter="t2">
+                    <div class="layui-form-item">
+                        <input type="hidden" id="rawId1">
+                        <label class="layui-form-label">原材料名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input rawName" onfocus="this.blur()" /><br>
+                        </div>
+                        <label class="layui-form-label">原材料备注</label>
+                        <div class="layui-input-block">
+                            <input class="layui-input rawDec" onfocus="this.blur()" /><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--表格-->
+            <table class="layui-hide" id="test" lay-filter="test"></table>
+            <script type="text/html" id="toolbarDemo">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+                </div>
+            </script>
+            <script type="text/html" id="barDemo">
+                <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+            </script>
+            <!--序号列-->
+            <script type="text/html" id="xuHao">
+                {{d.LAY_TABLE_INDEX+1}}
+            </script>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+ window.onload = function() {
+            anomation();
+        }
+    //表
+    layui.use(['laypage', 'layer', 'table', 'element', 'jquery', 'form'], function() {
+        var laypage = layui.laypage //分页
+            ,
+            layer = layui.layer //弹层
+            ,
+            table = layui.table //表格
+            ,
+            element = layui.element //元素操作
+            ,
+            form = layui.form;
+
+        table.render({
+            elem: '#test',
+            height: 515,
+            url: window.url + 'RowType/GetRowType' //数据接口
+                ,
+            title: '原材料用品表',
+            id: 'testReload',
+            toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+                ,
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            method: 'post',
+            page: true, //开启分页
+            limit: 10,
+            cols: [
+                [{
+                    type: 'checkbox',
+                    fixed: 'left'
+                }, {
+                    title: '序号',
+                    fixed: 'left',
+                    templet: '#xuHao',
+                }, {
+                    field: 'Name',
+                    title: '原材料用品类型名称',
+                    fixed: 'left',
+                }, {
+                    field: 'Dec',
+                    title: '备注',
+                }, {
+                    fixed: 'right',
+                    title: '操作',
+                    width: 240,
+                    toolbar: '#barDemo',
+                }]
+            ],
+            request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+                    ,
+                limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+            parseData: (res) => { //将原始数据解析成 table 组件所规定的数据
+                console.log(res);
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": "成功", //解析提示文本
+                    "count": res.Count, //总数
+                    data: res.data //解析数据列表
+                }
+            }
+        });
+
+        //寻找数据
+        $('.layui-btn').on('click', function() {
+            var keyName = $("#keyName").val();
+            //执行重载
+            table.reload('testReload', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                },
+                where: {
+                    Name: keyName
+                }
+            }, 'data');
+        });
+
+        //头工具栏事件
+        table.on('toolbar(test)', function(obj) {
+            if (obj.event == "add") {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['500px', '220px'],
+                    title: ['添加', 'font-size:18px'],
+                    btn: ['确定', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box1'),
+                    yes: function(index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "RowType/AddRowType",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                Name: $("#rawName").val(),
+                                Dec: $("#rawDec").val(),
+                            }),
+                            success: function(res) {
+                                console.log('%c 🍜 res: ', 'font-size:20px;background-color: #93C0A4;color:#fff;', res);
+                                table.reload('testReload')
+                                $("#box1").css("display", "none");
+                                layer.close(index)
+                            },
+                            error: function(res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function(layero) {
+                        $("#box1").css("display", "none");
+                    },
+                    cancel: function() {
+                        $("#box1").css("display", "none");
+                    }
+                });
+                return false;
+            }
+        });
+        //监听行的双击事件数据详情
+        table.on('rowDouble(test)', function(obj) {
+            var data = obj.data;
+            layer.open({
+                type: 1,
+                area: ['420px', '220px'],
+                title: ['详情', 'font-size:18px'],
+                shadeClose: true,
+                shade: 0,
+                manmin: true,
+                content: $('#box2'),
+                success: function(layero, index) {
+                    $("#rawId1").val(data.Id),
+                        $(".rawName").val(data.Name),
+                        $(".rawDec").val(data.Dec)
+                    layui.form.render();
+
+                },
+                cancel: function() {
+                    $("#box2").css("display", "none");
+                }
+            });
+        });
+        //监听行工具事件
+        table.on('tool(test)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+            layEvent = obj.event; //获得 lay-event 对应的值
+            var tr = obj.tr //获取当前行的tr的DOM对象
+            if (layEvent === 'edit') {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '220px'],
+                    title: ['修改', 'font-size:18px'],
+                    btn: ['确定修改', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box3'),
+                    success: function(layero, index) {
+                        $("#rawId").val(data.Id),
+                            $(".rawName").val(data.Name),
+                            $(".rawDec").val(data.Dec)
+                        layui.form.render();
+                    },
+                    yes: function(index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "RowType/EditRowType",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                Id: $("#rawId").val(),
+                                Name: $(".rawName").val(),
+                                Dec: $('.rawDec').val(),
+                            }),
+                            success: function(res) {
+                                table.reload('testReload')
+                                $("#box3").css("display", "none");
+                                layer.close(index)
+                            },
+                            error: function(res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function(layero) {
+                        $("#box3").css("display", "none");
+                    },
+                    cancel: function() {
+                        $("#box3").css("display", "none");
+                    }
+                });
+                return false;
+            } else if (layEvent === 'del') {
+                var wareArr = [];
+                wareArr.push(data.Id);
+                console.log(data.Id)
+                layer.confirm('真的删除行么', function(index) {
+                    //向服务端发送删除指令
+                    $.ajax({
+                        type: "POST",
+                        url: window.url + "RowType/RemoveRowType",
+                        headers: {
+                            Authorization: window.header.Ae,
+                            UserId: window.header.Ud,
+                            AppFlag: window.header.Fg
+                        },
+                        contentType: "application/json",
+                        data: JSON.stringify({
+                            del_Id: wareArr,
+                        }),
+                        success: function(res) {
+                            table.reload('testReload')
+                            layer.close(index)
+                        },
+                        error: function(res) {
+                            layer.msg(res);
+                        }
+                    })
+                });
+            }
+        });
+        //分页
+        laypage.render({
+            elem: 'pageDemo' //分页容器的id
+                ,
+            count: 100 //总页数
+                ,
+            skin: '#1E9FFF' //自定义选中色值
+                ,
+            jump: function(obj, first) {
+                if (!first) {
+                    layer.msg('第' + obj.curr + '页', {
+                        offset: 'b'
+                    });
+                }
+            }
+        });
+    });
+</script>

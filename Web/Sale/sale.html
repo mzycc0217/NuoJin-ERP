@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>销售</title>
+    <link rel="stylesheet" href="../Layui/layui-v2.5.6/layui/css/layui.css">
+</head>
+<body>
+<!-- 提交申请销售表单 -->
+<form class="layui-form" lay-filter="form_sell" action="" id="form_sell" style="display: none;">
+    <input type="text" name="OutOfStockId" id="OutOfStockIds"  placeholder="销售id" autocomplete="off" class="layui-input" style="display: none;">
+    <div class="layui-form-item">
+      <label class="layui-form-label">单价</label>
+      <div class="layui-input-block">
+        <input type="text" name="_price" id="_prices" placeholder="请输入单价" autocomplete="off" class="layui-input" style="width:60%">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">销售类型</label>
+        <div class="layui-input-block" style="width:43%">
+          <select name="sellType" id="sellTypes">
+           
+          </select>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">上传合同</label>
+        <div class="layui-input-block">
+        <button type="button" class="layui-btn layui-btn-normal xuanze" id="Filest">选择文件</button>
+        <span id="spans"></span>
+      </div>
+      </div>
+
+      <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">收入备注</label>
+        <div class="layui-input-block">
+          <textarea name="desc"  id="Descs" placeholder="请输入内容" class="layui-textarea" style="width:60%"></textarea>
+        </div>
+      </div>
+
+    <div class="layui-form-item">
+      <div class="layui-input-block">
+        <button class="layui-btn" id="tijiaosi" type="button">确定</button>
+        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+      </div>
+    </div>
+  </form>
+
+
+
+
+
+    <!-- 仓库库存表格 -->  <!-- 动态添加按钮 -->
+    <!-- <script type="text/html" id="Sells">
+      {{#  if(d.RawMaterialId == "43116412239757312"){ }}
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="sell">销售</a>
+        {{# } }}
+        {{#  if(d.RawMaterialId != "43116412239757312"){ }}
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="sell">111</a>
+        {{# } }}
+     </script> -->
+  <script type="text/html" id="Sells">
+     
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="sell">销售</a>
+      
+     </script>
+
+    <table id="sell" lay-filter="sell_test"></table>
+</body>
+</html>
+<script src="../Layui/layui-v2.5.6/layui/layui.all.js"></script>
+<script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+<script src="../Layui/layui-v2.5.6/layui/lay/modules/layer.js"></script>
+<script src="../UrlModel/url.js"></script>
+<script>
+/* //添加销售信息：
+
+ UserId (integer, optional): 销售员Id ,拿去当前用户的id
+Url (string, optional): 销售合同 ,//路径上传文件
+Price (number, optional): 单价 ,单价
+OutOfStockId (integer, optional): 出库信息Id ,//当前表中的id
+AssetIncomeDesc (string, optional): 收入备注 ,
+SaleTypeId (integer, optional): 销售类型Id//销售类型//获取销售类型
+
+
+
+ */
+ window.onload = function() {
+            anomation();
+        }
+
+layui.use(['element', 'jquery','table','layer','form','upload'], function () {
+        var element = layui.element;
+        var $ = layui.jquery;
+        var table=layui.table;
+        var layer=layui.layer;
+        var upload = layui.upload;
+        var form=layui.form;
+        
+
+
+        upload.render({
+    elem: '#Filest'
+    ,url: window.url+'FileUp/FileUp' //POST /api/FileUp/FileUp
+    ,auto: false//不会自动调用上传接口
+    ,method:"post"
+    ,headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            }
+    ,accept:'file',
+    size:10240,
+    //,multiple: true
+    bindAction:'#tijiaosi'
+    ,done: function(res, index, upload){//上传成功之候的回调
+    
+      sales(res.FileName);//调用提交方法
+    }
+    ,choose: function(obj){//学则图片或者文件的回调
+        //将每次选择的文件追加到文件队列
+        var files = obj.pushFile();
+     
+    console.log(files)
+    //预读本地文件，如果是多文件，则会遍历。(不支持ie8/9)
+    obj.preview(function(index, file, result){
+    
+      $("#spans").text(file.name)
+      
+      
+      //obj.resetFile(index, file, '123.jpg'); //重命名文件名，layui 2.3.0 开始新增
+      
+      //这里还可以做一些 append 文件列表 DOM 的操作
+      
+      //obj.upload(index, file); //对上传失败的单个文件重新上传，一般在某个事件中使用
+      //delete files[index]; //删除列表中对应的文件，一般在某个事件中使用
+    });
+    }
+  });
+
+
+
+
+
+
+        //获取可以出售的数据
+        table.render({
+    elem: '#sell',
+    id:"sell_test"
+    ,height: 312
+    ,headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            }
+    ,page:true
+    ,width:900
+    , method: 'post'
+    , parseData: function (res) {//将原始数据解析成 table 组件所规定的数据
+      console.log(res)
+      console.table(res[0].RawMaterial)
+          return {
+              "code": 0,//解析接口状态
+              "msg": "成功",//解析提示文本
+              "count":res[0].Count,
+               data:res//解析数据列表
+
+          }
+      }
+    ,url: window.url+'Stock/GetStorageRoomList' //数据接口post /api/Stock/GetStorageRoomList 
+    ,page: true //开启分页
+    ,cols: [[ //表头
+      {field: 'StorageRoomId', title: 'ID', width:80, sort: true, fixed: 'left',type: 'numbers',}
+      ,{field: 'RawMaterial', title: '原料名称', width:80,templet:(re)=>{
+        return re.RawMaterial.Name
+      }}
+
+      ,{field: 'Number', title: '数量', width:80, sort: true}
+      ,{field: 'WarehouseKeeper', title: '库管人', width:80,templet:(re)=>{
+        if (re.WarehouseKeeper!=null) {
+          return re.WarehouseKeeper
+          
+        }
+        else{
+        return "<span>无</span>"
+        }
+      }} 
+      ,{field: 'WarehousingType', title: '类别', width: 177,templet:(re)=>{
+        return re.RawMaterial.WarehousingType.Name
+      }}//Sells
+      ,{field: 'TechnicalDescription', title: '说明', width: 80, sort: true,templet:(re)=>{
+        if (re.TechnicalDescription!=null) {
+          return re.RawMaterial.TechnicalDescription
+          
+        }
+        else{
+        return "<span>无</span>"
+        }
+       
+      }}
+      ,{field: 'CreateDate', title: '入库日期', width: 80, sort: true,templet:(re)=>{
+       return showTime(re.CreateDate)
+       
+      }}
+    
+      , ,{fixed: 'right', title:'操作', toolbar: '#Sells', width:200}
+    ]],
+    request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+              , limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+            where:{
+    //  ApprovalType:5
+    }
+  });
+      //监听表格后面按钮
+
+
+      table.on('tool(sell_test)', function (obj) {
+      console.log(obj.data)
+     form.val('form_sell',{
+        "OutOfStockId":obj.data.StorageRoomId
+     })
+      layer.open({
+      type:1,
+      area: ['400px', '500px'],
+    title: '销售单'
+  ,content: $('#form_sell')
+  ,end:function (res) {
+       $("#form_sell").css("display",'none');
+   }
+}); 
+
+      })
+        
+        })
+
+
+//提交销售
+function sales(relUrl){
+    var OutOfStockIds=$("#OutOfStockIds").val();
+    var _prices=$("#_prices").val();
+    var sellTypes=$("#sellTypes").val();
+    var Descs=$("#Descs").val();
+    alert(OutOfStockIds);
+    $.ajax({
+    url:window.url+"Sale/AddSale",//POST /api/Sale/AddSale
+    type:"post",
+    data:{
+
+       Price:_prices,
+       OutOfStockId :OutOfStockIds,
+       AssetIncomeDesc:Descs,
+       SaleTypeId:sellTypes,
+       UserId:localStorage.getItem('UserId'),
+       Url:relUrl
+    },
+     headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+     success:(res)=>{
+    console.log(res)
+}
+
+
+})
+
+
+}
+
+
+
+    //获取销售类型
+    typest();   
+     function typest(){
+
+     $.ajax({
+    url:window.url+"Sale/GetSaleTypeList",//POST /api/Sale/GetSaleTypeList
+    type:"post",
+    data:{
+        PageIndex:0,
+        PageSize :0
+    },
+    headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+    success:function(res){
+           
+           var htm='';
+           for (let i = 0; i < res.length; i++) {
+               htm+='  <option value='+res[i].SaleTypeId+'>'+res[i].SaleTypeName+'</option>';
+           }
+           $("#sellTypes").html(htm)
+           layui.form.render();
+    }
+
+     })
+
+    }
+
+
+//时间
+function showTime(tempDate) {
+    var d = new Date(tempDate);
+    var year = d.getFullYear();
+    var month = d.getMonth();
+    month++;
+    var day = d.getDate();
+    var hours = d.getHours();
+
+    var minutes = d.getMinutes();
+    var seconds = d.getSeconds();
+    month = month < 10 ? "0" + month : month;
+    day = day < 10 ? "0" + day : day;
+    hours = hours < 10 ? "0" + hours : hours;
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+
+    var time = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+    return time;
+}
+
+</script>

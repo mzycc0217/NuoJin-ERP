@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../Layui/layui-v2.5.6/layui/css/layui.css">
+</head>
+
+<body>
+    <div style="display: flex;">
+        <button type="button" class="layui-btn layui-btn-normal" id="shaixuan">已审批</button>
+        <button type="button" class="layui-btn layui-btn-normal" id="weishenpi">未审批</button>
+
+        <form class="layui-form" action="" lay-filter="form_csts">
+            <div class="layui-form-item">
+                <label class="layui-form-label">原料</label>
+                <div class="layui-input-block" style="width: 80%;">
+                    <select name="Types" lay-verify="required" id="typs" lay-filter="typess">
+        
+        </select>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+
+    <table id="caigou" lay-filter="idTests"></table>
+
+
+    <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="hege">审批</a>
+    </script>
+
+    <!--表单-->
+    <form class="layui-form" id=foms_t style="display: none;" lay-filter="formst">
+        <input type="text" name="PurchaseId" id="PurchaseId" style="width: 50%; display: none;" placeholder="准购数量" autocomplete="off" class="layui-input" disabled>
+
+        <div class="layui-form-item layui-form">
+            <label class="layui-form-label">项目名称</label>
+            <div class="layui-input-block">
+
+                <input type="text" name="Projectsd" id="Projects" style="width: 50%;" placeholder="项目名称" autocomplete="off" class="layui-input" disabled>
+
+            </div>
+        </div>
+
+
+        <div class="layui-form-item layui-form">
+            <label class="layui-form-label">原材料名称</label>
+            <div class="layui-input-block">
+
+                <input type="text" name="cailiao" id="cailiaos" style="width: 50%;" placeholder="原材料名称" autocomplete="off" class="layui-input" disabled>
+
+            </div>
+        </div>
+
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">准购数量</label>
+            <div class="layui-input-block">
+                <input type="number" name="Numbers" id="Numbers" style="width: 50%;" placeholder="准购数量" autocomplete="off" class="layui-input" disabled>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">申请数量</label>
+            <div class="layui-input-block">
+                <input type="number" name="PreSale" id="PreSale" style="width: 50%;" placeholder="申请数量" autocomplete="off" class="layui-input" style="width:60%" disabled>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">单价</label>
+            <div class="layui-input-block">
+                <input type="text" name="Price" id="price" style="width: 50%;" onkeyup=" value=value.replace(/^\D*(\d*(?:\.\d{0,2})?).*$/g, '$1')" placeholder="单价" autocomplete="off" class="layui-input" style="width:60%" disabled>
+            </div>
+        </div>
+        <div style="display: flex;">
+            <div class="layui-form-item">
+                <label class="layui-form-label">申请日期</label>
+                <div class="layui-input-block">
+                    <input type="text" name="stattime" id="stattimes" disabled placeholder="申请日期" autocomplete="off" class="layui-input" style="width: 120%;">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">期望日期</label>
+                <div class="layui-input-block">
+                    <input type="text" name="hopeTime" id="hopeTimes" disabled placeholder="期望到货日期" autocomplete="off" class="layui-input" style="width: 120%;">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">采购日期</label>
+                <div class="layui-input-block">
+                    <input type="text" name="caigoutime" id="caigoutimes" placeholder="采购日期" autocomplete="off" class="layui-input" style="width: 120%;">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">运单号</label>
+            <div class="layui-input-block">
+                <input type="text" name="cars_t" id="cars_t" style="width: 50%;" placeholder="运单号" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">文件</label>
+            <div class="layui-input-block">
+                <input type="text" name="cars_ts" id="cars_ts" disabled style="width: 50%;" placeholder="文件" autocomplete="off" class="layui-input">
+                <span id="spans"></span>
+            </div>
+
+        </div>
+
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">申请人备注说明</label>
+            <div class="layui-input-block">
+                <textarea name="desc" id="desc" placeholder="备注说明" class="layui-textarea" style="width: 50%;" disabled></textarea>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">审核备注说明</label>
+            <div class="layui-input-block">
+                <textarea name="desct" id="desct" placeholder="备注说明" class="layui-textarea" style="width: 50%;"></textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn tijiaos" id="shangchuan">合格</button>
+                <!-- onclick="tijiao()" -->
+                <button type="reset" class="layui-btn layui-btn-primary bohui">驳回</button>
+            </div>
+        </div>
+    </form>
+
+</body>
+
+</html>
+<script src="../UrlModel/url.js"></script>
+<script src="../Layui/layui-v2.5.6/layui/layui.all.js"></script>
+<script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+<script src="../Layui/layui-v2.5.6/layui/lay/modules/layer.js"></script>
+<script src="../Layui/layui-v2.5.6/layui/lay/modules/laydate.js"></script>
+
+<script>
+    layui.use(['element', 'jquery', 'table', 'layer', 'form', 'tree', 'laydate'], function() {
+        var element = layui.element;
+        var $ = layui.jquery;
+        var table = layui.table;
+        var layer = layui.layer;
+        var form = layui.form;
+        var tree = layui.tree;
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#caigoutimes' //指定元素
+                ,
+            type: "datetime"
+        });
+
+        var s = 1;
+        table.render({
+            elem: '#caigou',
+            id: 'idTests',
+            height: 500,
+            limit: 10,
+            limits: [5, 10, 20],
+            page: true ,
+            headers:  {                
+                Authorization:  window.header.Ae,
+                                UserId:  window.header.Ud,
+                                AppFlag:  window.header.Fg            
+            },
+            width: 1200,
+            method: 'post',
+            parseData: function(res) { //将原始数据解析成 table 组件所规定的数据
+                console.log(res)
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": "成功", //解析提示文本
+                    "count": res[0].Count,
+                    data: res //解析数据列表
+                }
+            },
+            request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+                    ,
+                limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+            url: window.url + 'Purchase/GetPurchaseList' //数据接口POST /api/Purchase/GetPurchaseList
+                ,
+            cols: [
+                [ //表头
+
+                    {
+                        field: 'PurchaseId',
+                        title: '编号',
+                        width: 200,
+                        templet: function(res) {
+                            return s++
+                        }
+                    }, {
+                        field: 'Project.Name',
+                        title: '项目名称',
+                        width: 200,
+                        sort: true,
+                        templet: function(res) {
+                            return res.Project.Name
+                        }
+                    }, {
+                        field: 'RawMaterial',
+                        title: '原材料',
+                        width: 200,
+                        sort: true,
+                        templet: function(res) {
+                            return res.RawMaterial.Name
+                        }
+                    }, {
+                        field: 'Applicant',
+                        title: '申请人姓名',
+                        width: 200,
+                        sort: true,
+                        templet: function(res) {
+                            return res.Applicant.RealName
+                        }
+                    }, {
+                        field: 'ApplicantRemarks',
+                        title: '申请人备注',
+                        width: 300,
+                        sort: true
+                    }, {
+                        fixed: 'right',
+                        title: '操作',
+                        toolbar: '#barDemo',
+                        width: 200
+                    }
+                ]
+            ],
+            where: {
+                IsApproval: true
+            }
+        });
+
+        //   table.on('row(idTests)', function(obj){
+        //   console.log(obj.tr) //得到当前行元素对象
+        //   console.log(obj.data) //得到当前行数据
+        //   //obj.del(); //删除当前行
+        //   //obj.update(fields) //修改当前行数据
+        // });
+
+
+
+
+
+        //提交修改
+        $(".tijiaos").on('click', function() {
+                var PurchaseId = $("#PurchaseId").val();
+                //原单号
+                var caigoutime = $("#caigoutime").val();
+                var cars_t = $("#cars_t").val();
+                //获取备注
+                var desct = $("#desct").val();
+
+                $.ajax({
+
+                    url: window.url + "Purchase/UpdatePurchaseApprovalType",
+                    type: "post",
+
+                    data: {
+                        PurchaseId: PurchaseId,
+
+
+                        PurchaseTime: caigoutime,
+                        WaybillNumber: cars_t,
+                        ApprovalDesc: desct
+
+                    },
+                    headers: {               
+                        Authorization:  window.header.Ae,
+                                        UserId:  window.header.Ud,
+                                        AppFlag:  window.header.Fg
+                    },
+                    success: (res) => {
+                        window.location.reload();
+                    }
+
+                })
+
+
+
+
+
+
+
+
+
+
+
+
+
+            })
+            //驳回
+        $(".bohui").on('click', function() {
+            var PurchaseId = $("#PurchaseId").val();
+
+            $.ajax({
+
+                url: window.url + "Purchase/UpdatePurchaseApprovalType",
+                type: "post",
+
+                data: {
+                    PurchaseId: PurchaseId,
+
+
+                    ApprovalType: 4
+
+                },
+                headers: {               
+                    Authorization:  window.header.Ae,
+                                    UserId:  window.header.Ud,
+                                    AppFlag:  window.header.Fg
+                },
+                success: (res) => {
+                    window.location.reload();
+                }
+
+            })
+
+
+
+        })
+        table.on('tool(idTests)', function(obj) {
+            var data = obj.data;
+            console.log(data)
+            if (obj.event === 'hege') { //POST /api/Purchase/UpdatePurchaseApprovalType
+                console.log(data.Project.Name)
+
+                form.val('formst', {
+                    "ApplicantId": data.PurchaseId,
+                    "Projectsd": data.Project.Name,
+                    "cailiao": data.RawMaterial.Name,
+                    "Numbers": data.QuasiPurchaseNumber,
+                    "PreSale": data.ApplyNumber,
+                    "Price": data.Price,
+                    "stattime": data.ApplyTime,
+                    "hopeTime": data.ExpectArrivalTime,
+                    "cars_ts": window.url + data.PurchaseContract,
+                    "desc": data.ApplicantRemarks
+
+
+
+
+                })
+
+
+
+
+                layer.open({
+                    type: 1,
+                    area: ['700px', '800px'],
+                    title: '添加菜单',
+                    content: $('#foms_t'),
+                    end: function(res) {
+                        $("#foms_t").css("display", 'none');
+                    }
+                });
+
+
+
+            } else if (obj.event === 'nono') {
+
+            }
+
+        })
+
+
+        $("#shaixuan").on('click', function() {
+                table.reload('idTests', {
+                    url: window.url + 'Purchase/GetPurchaseList',
+                    where: {
+                        UserId: localStorage.getItem('UserId'),
+                        IsApproval: true
+                    } //设定异步数据接口的额外参数
+                    //,height: 300
+                });
+            })
+            //未审核的
+        $("#weishenpi").on('click', function() {
+            table.reload('idTests', {
+                url: window.url + 'Purchase/GetPurchaseList' ,
+                headers:  {                
+                    Authorization:  window.header.Ae,
+                                    UserId:  window.header.Ud,
+                                    AppFlag:  window.header.Fg            
+                }
+
+                ,
+                where: {
+                    IsApproval: true,
+                    UserId: localStorage.getItem('UserId'),
+                } //设定异步数据接口的额外参数
+                //,height: 300
+            });
+        })
+
+        form.on('select(typess)', function(res) {
+            console.log(res)
+            table.reload('idTests', {
+                url: window.url + 'Purchase/GetPurchaseList',
+                where: {
+                    IsApproval: true,
+                    //类别
+                    WarehousingTypeId: res.value
+                } //设定异步数据接口的额外参数
+                //,height: 300
+            });
+
+
+
+        })
+
+
+
+
+
+    })
+
+    //获取类型
+    type();
+
+    function type() {
+
+        $.ajax({
+
+            url: window.url + "RawMaterial/WarehousingType", //POST /api/RawMaterial/WarehousingType
+            type: "post",
+            data: {
+                "PageIndex": 0,
+                "PageSize": 0
+            },
+            headers: {               
+                Authorization:  window.header.Ae,
+                                UserId:  window.header.Ud,
+                                AppFlag:  window.header.Fg
+            },
+            success: (res) => {
+                console.log(res)
+                htm = '';
+                for (var j = 0; j < res.length; j++) {
+                    //  htm+=' <select name="caidand" class="caidan_Nmaest">'
+                    htm += '<option value=' + res[j].WarehousingId + '>' + res[j].Name + '</option>';
+                }
+                //   htm+='</select>'
+                $('#typs').html(htm)
+                layui.form.render();
+            }
+
+        })
+
+    }
+</script>

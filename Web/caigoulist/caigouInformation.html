@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Layui/layui-v2.5.6/layui/css/layui.css">
+    <title>采购单</title>
+    <style>
+        .wrap {
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div style="display: flex;">
+            <button type="button" class="layui-btn layui-btn-normal" id="shaixuan">已审批</button>
+            <button type="button" class="layui-btn layui-btn-normal" id="weishenpi">未审批</button>
+            <button type="button" class="layui-btn layui-btn-normal" id="overGe">不合格</button>
+            <form class="layui-form" action="" lay-filter="form_csts">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">原材料名称</label>
+                    <div class="layui-input-block" style="width: 80%;">
+                        <input type="text" id="Project_Name" oninput="project()" placeholder="项目名称" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <table id="caigou" lay-filter="idTests"></table>
+        <script type="text/html" id="barDemo">
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="over">删除</a>
+        </script>
+        <!--序号列-->
+        <script type="text/html" id="xuHao">
+            {{d.LAY_TABLE_INDEX+1}}
+        </script>
+    </div>
+</body>
+
+</html>
+<script src="../UrlModel/url.js"></script>
+<script src="../Layui/layui-v2.5.6/layui/layui.all.js"></script>
+<script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+<script src="../Layui/layui-v2.5.6/layui/lay/modules/layer.js"></script>
+<script src="../Layui/layui-v2.5.6/layui/lay/modules/laydate.js"></script>
+
+<script>
+    window.onload = function() {
+        audit('ZpurChase/GetZpurChaseTwoCaigoud'); //所有表单 
+        anomation();
+
+    }
+
+    function audit(URL) {
+        layui.use(['element', 'jquery', 'table', 'layer', 'form'], function() {
+            var element = layui.element;
+            var $ = layui.jquery;
+            var table = layui.table;
+            var layer = layui.layer;
+            var form = layui.form;
+            table.render({
+                elem: '#caigou',
+                id: 'idTests',
+                height: 500,
+                limit: 10,
+                limits: [5, 10, 20],
+                page: true,
+                url: window.url + URL //数据接口POST /api/Purchase/GetPurchaseList
+                    ,
+                headers: {
+                    Authorization: window.header.Ae,
+                    UserId: window.header.Ud,
+                    AppFlag: window.header.Fg
+                },
+                method: 'post',
+                cols: [
+                    [{
+                        type: 'checkbox',
+                        fixed: 'left'
+                    }, {
+                        title: '序号',
+                        fixed: 'left',
+                        templet: '#xuHao',
+                    }, {
+                        field: 'z_Raw',
+                        title: '原材料',
+                        fixed: 'left',
+                        templet: function(res) {
+                            // 
+                            if (res.z_Raw == null) {
+                                return "无"
+                            } else {
+                                return res.z_Raw.Name
+                            }
+                        }
+                    }, {
+                        field: 'Z_RowType',
+                        title: '类型',
+                        fixed: 'left',
+                        templet: function(res) {
+                            if (res.Z_RowType == null) {
+                                return "无"
+                            } else {
+                                return res.Z_RowType.Name
+                            }
+                        }
+
+                    }, {
+                        field: 'Project',
+                        title: '项目',
+                        fixed: 'left',
+                        templet: function(res) {
+                            return res.Project.Name
+                        }
+                    }, {
+                        field: 'ApplyNumber',
+                        title: '申请数量',
+                    }, {
+                        field: 'Company',
+                        title: '单位',
+                        templet: function(res) {
+                            if (res.company == null) {
+                                return "无"
+                            } else {
+                                return res.company.Name
+                            }
+                        }
+                    }, {
+                        field: 'ApprovalDesc',
+                        title: '申请人备注说明',
+                    }, {
+                        field: 'ApplyTime',
+                        title: '申请日期',
+                        templet: function(res) {
+                            return showTime(res.ApplyTime);
+                        }
+                    }, {
+                        fixed: 'right',
+                        title: '操作',
+                        width: 240,
+                        toolbar: '#barDemo',
+                    }]
+                ],
+                request: {
+                    pageName: 'PageIndex' // 页码的参数名称，默认：page
+                        ,
+                    limitName: 'PageSize' //每页数据量的参数名，默认：limit
+                },
+                parseData: (res) => { //将原始数据解析成 table 组件所规定的数据
+
+                    return {
+                        "code": 0, //解析接口状态
+                        "msg": "成功", //解析提示文本
+                        "count": res.Count, //总数
+                        data: res.data //解析数据列表
+                    }
+                }
+            });
+            //监听行工具事件
+            table.on('tool(idTests)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+                var data = obj.data //获得当前行数据
+                layEvent = obj.event; //获得 lay-event 对应的值
+                if (layEvent === 'over') {
+                    var wareArr = [];
+                    wareArr.push(data.PurchaseId);
+                    layer.confirm('真的删除行么', function(index) {
+                        //向服务端发送删除指令
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "ZpurChase/RemovePursh",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                Del_Id: wareArr
+                            }),
+                            success: function(res) {
+                                table.reload('idTests')
+                                layer.close(index)
+                            },
+                            error: function(res) {
+                                layer.msg(res);
+                            }
+                        })
+                    });
+                }
+            });
+        });
+
+    }
+    // 审批完成
+    $("#shaixuan").on('click', function() {
+            $("#shaixuan").css("background", "green");
+            $("#overGe").css("background", "#1E9FFF");
+            $("#weishenpi").css("background", "#1E9FFF");
+            audit('ZpurChase/GetZpurChaseOneCaigoud')
+        })
+        // 未审批
+    $("#weishenpi").click(function() {
+        $("#weishenpi").css("background", "green");
+        $("#shaixuan").css("background", "#1E9FFF");
+        $("#overGe").css("background", "#1E9FFF");
+        audit('ZpurChase/GetZpurChaseThreeCaigoud')
+    });
+    // 驳回的
+    $("#overGe").click(function() {
+        $("#overGe").css("background", "green");
+        $("#shaixuan").css("background", "#1E9FFF");
+        $("#weishenpi").css("background", "#1E9FFF");
+        audit('ZpurChase/GetRejectPursh')
+    })
+</script>

@@ -1,0 +1,351 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <script src="../JS/funtion.js"></script>
+    <script src="../UrlModel/url.js"></script>
+    <script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+    <script src="../Layui/layui-v2.5.6/layui/layui.all.js"></script>
+    <link rel="stylesheet" href="../Layui/layui-v2.5.6/layui/css/layui.css">
+    <link>
+    <title>人员角色</title>
+    <style>
+        .container-fluid {
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid ">
+        <div class="demoTable">
+            搜索姓名：
+            <div class="layui-inline">
+                <input class="layui-input" id="demoReload" autocomplete="off">
+            </div>
+            <button class="layui-btn" data-type="reload">搜索</button>
+        </div>
+        <!--角色的显示-->
+        <div class="site-text" style="margin: 5%; display: none" id="box10" target="test123">
+            <div id="test1"></div>
+
+        </div>
+        <!-- 表格 -->
+        <table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
+        <!--序号列-->
+        <script type="text/html" id="xuHao">
+            {{d.LAY_TABLE_INDEX+1}}
+        </script>
+        <script type="text/html" id="sexTpl">
+            {{# if(d.SexTypeStr === '女'){ }}
+            <button class="layui-btn layui-btn-normal">{{ d.SexTypeStr }}</button> {{# } else { }}
+            <button class="layui-btn layui-btn-warm"> {{ d.SexTypeStr}}</button> {{# } }}
+        </script>
+        <script type="text/html" id="barDemo">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">查看角色</a>
+        </script>
+    </div>
+</body>
+
+</html>
+<script>
+ window.onload = function() {
+             DepartmentList('.departmentName')
+            anomation();
+        }
+    //部门的列表
+    function DepartmentList(b) {
+        $.ajax({
+            type: 'POST',
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            url: window.url + 'Department/GetDepartmentList', //后台数据地址
+            data: {
+                PageIndex: 0,
+                PageSize: 0
+            },
+            success: function (data) {
+
+                $.each(data, function (index, item) { //循环后台返回的json数据
+                    //new Option方法是新建一个option，第一个参数是需要显示的值，第二个参数是option的value值,然后append到下拉框中。
+                    $(b).append(new Option(item.Name, item.DepartmentId));
+                })
+                layui.form.render("select");
+            }
+        })
+    }
+    //表格数据的查询
+    layui.use(['laypage', 'layer', 'table', 'element', 'jquery', 'form', 'transfer'], function () {
+        var laypage = layui.laypage //分页
+            ,
+            layer = layui.layer //弹层
+            ,
+            table = layui.table //表格
+            ,
+            form = layui.form,
+            element = layui.element //元素操作
+            ,
+            jquery = layui.jquery,
+            transfer = layui.transfer; //穿梭
+        //方法级渲染
+        table.render({
+            elem: '#LAY_table_user',
+            id: "testReload",
+            url: window.url + 'User/GetUserList' //数据接口
+            ,
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            method: 'post',
+            title: '培训表',
+            page: true, //开启分页
+            toolbar: '#toolbarDemo' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+            ,
+            page: true,
+            height: 515,
+            limit: 10,
+            cols: [
+                [{
+                    checkbox: true,
+                    fixed: 'left',
+                    fixed: true,
+                }, {
+                    title: '序号',
+                    fixed: 'left',
+                    templet: '#xuHao'
+                }, {
+                    field: 'RealName',
+                    title: '姓名',
+                }, {
+                    fixed: 'right',
+                    title: '操作',
+                    toolbar: '#barDemo',
+
+                }]
+            ],
+            parseData: (res) => { //将原始数据解析成 table 组件所规定的数据
+
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": "成功", //解析提示文本
+                    "count": res[0].Count, //总数
+                    data: res //解析数据列表
+                }
+            },
+            request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+                ,
+                limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+        });
+        //寻找数据
+        $('.layui-btn').on('click', function () {
+            var demoReload = $("#demoReload").val();
+            //执行重载
+            table.reload('testReload', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                },
+                where: {
+                    RealName: demoReload
+                }
+            }, 'data');
+        });
+        //监听行工具事件
+        table.on('tool(user)', function (obj) {
+            var datas = obj.data;
+
+            layEvent = obj.event; //获得 lay-event 对应的值
+            var userListTypes = []
+            var sp = []
+            var userTypeDel = {};
+            if (layEvent === 'edit') {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['600px', '700px'],
+                    title: ['角色添加', 'font-size:18px'],
+                    btn: ['确定添加', '删除'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box10'),
+                    success: function (layero, index) {
+                        var skkk = [];
+                        //渲染
+                        var userTypeDatas;
+                        userTypeData().then(function (data) {
+                            var userTypeLists = datasi(data);
+                            userTypeDatas = userTypeLists;
+                        }).then(function (data) {
+                            UserList(datas.UserId).then(function (datas) {
+                                if (datas.data != undefined) {
+                                    var rightCount = []; //存放右侧的数据的
+                                    for (let i = 0; i < datas.data.length; i++) {
+                                        rightCount.push(datas.data[i].User_Type_ID)
+                                    }
+                                    rightList = rightCount
+                                    userTypeDel = datas
+                                } else {
+                                    rightList = []
+                                }
+                                transfer.render({
+                                    elem: '#test1', //绑定元素
+                                    data: userTypeDatas,
+                                    height: 700,
+                                    value: rightList,
+                                    title: ['添加角色', '存在的角色'],
+                                    parseData: function (res) {
+                                        return {
+                                            "value": res.id //数据值
+                                            ,
+                                            "title": res.name //数据标题
+                                            ,
+                                            "disabled": res.disabled //是否禁用
+                                            ,
+                                            "checked": res.checked //是否选中
+                                        }
+                                    },
+                                    onchange: function (data, index) {
+                                        var userLists = [];
+                                        for (var p = 0; p < data.length; p++) {
+                                            userLists.push(data[p].value)
+                                        }
+                                        userListTypes = userLists
+                                    }
+                                });
+
+                            })
+                        })
+                    },
+                    yes: function (index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "User/AddUserTypes",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                id: datas.UserId,
+                                user_Typeid: userListTypes
+                            }),
+                            success: function (res) {
+                                table.reload('testReload')
+                                $("#box10").css("display", "none");
+                                layer.close(index)
+                            },
+                            error: function (res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function (layero) {
+                        var userTypeAll = userListTypes
+                        var userTypeDelArr = [];
+                        for (let i = 0; i < userTypeDel.data.length; i++) {
+                            for (let k = 0; k < userTypeAll.length; k++) {
+                                if (userTypeDel.data[i].User_Type_ID == userTypeAll[k]) {
+                                    userTypeDelArr.push(userTypeDel.data[i].Id)
+                                }
+                            }
+                        }
+
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "User/DeleteUserType",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                id: datas.UserId,
+                                Del_ID: userTypeDelArr
+                            }),
+                            success: function (res) {
+                                table.reload('testReload')
+                                $("#box10").css("display", "none");
+                            },
+                            error: function (res) {
+                                layer.msg(res);
+                            }
+                        })
+                    },
+                    cancel: function () {
+                        $("#box10").css("display", "none");
+                    }
+                });
+                return false;
+            }
+        });
+
+    })
+    //映射
+    function datasi(demos) {
+        var userTypeContent = [];
+        for (let i = 0; i < demos.length; i++) {
+            var obj = {};
+            obj.id = demos[i].UserTypeId
+            obj.name = demos[i].Name
+            userTypeContent.push(obj)
+        }
+        return userTypeContent;
+    }
+
+    //用户类型左侧
+    function userTypeData() {
+        var userTypeLeft = new Promise(function (resolve, reject) {
+            $.ajax({
+                url: window.url + 'User/GetUserTypeList',
+                type: "post",
+                data: {
+                    PageSize: 0,
+                    PageIndex: 0,
+                },
+                headers: {
+                    Authorization: window.header.Ae,
+                    UserId: window.header.Ud,
+                    AppFlag: window.header.Fg
+                },
+                success: function (res) {
+                    resolve(res);
+                }
+
+            })
+        })
+        return userTypeLeft;
+    }
+
+    //用户类型右侧
+    function UserList(x) {
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                url: window.url + 'User/GetUserType?user_id=' + x,
+                type: "GET",
+                headers: {
+                    Authorization: window.header.Ae,
+                    UserId: window.header.Ud,
+                    AppFlag: window.header.Fg
+                },
+                success: function (res) {
+
+                    resolve(res);
+                }
+
+            });
+
+        });
+
+    }
+</script>

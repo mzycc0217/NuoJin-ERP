@@ -1,0 +1,331 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <script src="../JS/jquery-1.8.3.min.js"></script>
+    <script src="../JS/jquery-2.1.0.min.js"></script>
+    <script src="../JS/jquery.js"></script>
+    <script src="../JS/jquery.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../My97DatePicker/My97DatePicker/WdatePicker.js"></script>
+    <script src="../My97DatePicker/My97DatePicker/calendar.js"></script>
+    <title></title>
+    <title>西安欧得ERP管理系统</title>
+    <style type="text/css">
+        #nav {
+            width: 204px;
+            height: 100%;
+            text-align: center;
+        }
+
+        .side-nav-item {
+            display: block;
+            padding: 10px 15px 10px 15px;
+            background-color: #FFFFFF;
+            cursor: pointer;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+            -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+        }
+
+        .item-title {
+            background-color: #F5F5F5;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+            border-bottom: 1px solid #DDDDDD;
+        }
+
+        .panel-heading {
+            margin-top: 5px;
+            padding: 0;
+            border-radius: 3px;
+            border: 1px solid transparent;
+            border-color: #DDDDDD;
+        }
+
+        .item-body {
+            padding: 10px 15px 5px 15px;
+            border-bottom: 1px solid #DDDDDD;
+        }
+
+        .item-second {
+            margin-top: 5px;
+            cursor: pointer;
+        }
+
+            .item-second a {
+                display: block;
+                height: 100%;
+                width: 100%;
+            }
+
+        .at {
+            color: red;
+        }
+
+        .auto-style1 {
+            height: 817px;
+        }
+
+        .u {
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="container-fluid" style="margin-left: 0px; margin-right: 0px">
+            <div style="height: 103px" class="row">
+                <iframe name="topFrame" src="../newtop.html" style="width: 1908px; height: 106px; border: none"></iframe>
+            </div>
+            <div id="main" class="auto-style1">
+                <!--左侧导航-->
+                <div style="display: inline">
+                    <div id="nav" style="width: 203px; height: 800px; float: left; margin-left: -11px">
+                        <div class="side-nav">
+                            <div class="panel-group" id="accordion">
+                                <!--项目管理-->
+                                <div class="panel-heading panel">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#item-xmgl" id="headxmgl" class="side-nav-item item-title a">
+                                        项目管理
+                                    </a>
+                                    <div id="item-xmgl" class="panel-collapse collapse">
+                                        <div class="item-body">
+                                            <ul class="list-unstyled nav nav-pills ">
+                                                <li class="item-second u"><a href="#" onclick="aclick('../Nprojectmanagement/newaddProject.html')">新增项目</a></li>
+                                                <li class="item-second u"><a href="#" onclick="aclick('../Nprojectmanagement/newCheckProject.html')">查看项目</a></li>
+                                                <li class="item-second u"><a href="#" onclick="aclick('../Nprojectmanagement/newLogoutProject.html')">注销项目</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--财务管理-->
+                                <div class="panel-heading panel">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#item-cwgl" id="headcwgl" class="side-nav-item item-title a">
+                                        财务管理
+                                    </a>
+                                    <div id="item-cwgl" class="panel-collapse collapse">
+                                        <div class="item-body">
+                                            <ul class="list-unstyled nav nav-pills ">
+                                                <li class="item-second u"><a href="#">采购资金</a></li>
+                                                <li class="item-second u"><a href="#" onclick="aclick('../Nfinancialmanagement/newPayrollmanagement.html')">工资管理</a></li>
+                                                <li class="item-second u"><a href="#">往来账务</a></li>
+                                                <li class="item-second u"><a href="#">其他财务</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--销售管理-->
+                                <div class="panel-heading panel">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#item-xsgl" id="headcwgl" class="side-nav-item item-title a">
+                                        销售管理
+                                    </a>
+                                    <div id="item-xsgl" class="panel-collapse collapse">
+                                        <div class="item-body">
+                                            <ul class="list-unstyled nav nav-pills ">
+                                                <li class="item-second u"><a href="#" onclick="aclick('../Nfinancialmanagement/newMarket.html')">销售管理</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--采购管理-->
+                                <div class="panel-heading panel">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#item-cggl" id="headcwgl" class="side-nav-item item-title a">
+                                        采购管理
+                                    </a>
+                                    <div id="item-cggl" class="panel-collapse collapse">
+                                        <div class="item-body">
+                                            <ul class="list-unstyled nav nav-pills ">
+                                                <li class="item-second u"><a href="#" onclick="aclick('../Npurchasemanagement/CGGL.aspx')">采购管理</a></li>
+                                                <li class="item-second u"><a href="#" onclick="aclick('../Nsuppliermanagement/newSupplierList.html')">供应商查看</a></li>
+                                                <li class="item-second u"><a href="#" onclick="aclick('../Nsuppliermanagement/newAddSupplier.html')">新增供应商</a></li>
+                                                <li class="item-second u"><a href="#" onclick="aclick('../Nsuppliermanagement/newAmendSupplier.html')">修改供应商</a></li>
+                                                <li class="item-second u"><a href="#" onclick="aclick('../Nsuppliermanagement/newLogoutSupplier.html')">注销供应商</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--库房管理-->
+                                <div class="panel-heading panel">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#item-kfgl" id="headcwgl" class="side-nav-item item-title a">
+                                        库房管理
+                                    </a>
+                                    <div id="item-kfgl" class="panel-collapse collapse">
+                                        <div class="item-body">
+                                            <ul class="list-unstyled nav nav-pills ">
+                                                <li class="item-second u"><a href="#" onclick="aclick('../Nwarehousemanagement/newCoutin.html')">库房管理</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--人事管理-->
+                                <div class="panel-heading panel">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#item-rsgl" id="headrsgl" class="side-nav-item item-title a">
+                                        人事管理
+                                    </a>
+                                    <div id="item-rsgl" class="panel-collapse collapse">
+                                        <div class="item-body">
+                                            <ul class="list-unstyled nav nav-pills ">
+                                                <li class="item-second u"><a href="#" onclick="aclick('../NPersonnelmanagement/requirement.html')">部门人员需求</a></li>
+                                                <li class="item-second u"><a href="#" onclick="aclick('../NPersonnelmanagement/newRruzhi.html')">入职</a></li>
+                                                <li class="item-second u"><a href="#" onclick="aclick('../NPersonnelmanagement/newRTrain.html')">培训</a></li>
+                                                <li class="item-second u"><a href="#" onclick="aclick('../NPersonnelmanagement/newRdimission.html')">离职</a></li>
+                                                <li class="item-second u"><a href="#" onclick="aclick('../NPersonnelmanagement/inInformation.html')">在职人员信息</a></li>
+                                                <li class="item-second u"><a href="#">日常管理</a></li>
+                                                <li class="item-second u"><a href="#" onclick="aclick('../NPersonnelmanagement/newUserType.html')">用户类型</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--设备管理-->
+                                <div class="panel-heading panel">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#item-sbgl" id="headcwgl" class="side-nav-item item-title a">
+                                        设备管理
+                                    </a>
+                                    <div id="item-sbgl" class="panel-collapse collapse">
+                                        <div class="item-body">
+                                            <ul class="list-unstyled nav nav-pills ">
+                                                <li class="item-second u"><a href="#" onclick="aclick('../Nequipmentmanagement/newFacility.html')">设备管理</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--部门管理-->
+                                <div class="panel-heading panel">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#item-bmgl" id="headyclbm" class="side-nav-item item-title a">
+                                        部门管理
+                                    </a>
+                                    <div id="item-bmgl" class="panel-collapse collapse">
+                                        <div class="item-body">
+                                            <ul class="list-unstyled nav nav-pills ">
+                                                <li class="item-second u"><a href="#" onclick="aclick('../Ndivisionalmanagement/newAddDepartment.html')">新增部门</a></li>
+                                                <li class="item-second u"><a href="#" onclick="aclick('../Ndivisionalmanagement/newAmendDepartment.html')">部门修改</a></li>
+                                                <li class="item-second u"><a href="#" onclick="aclick('../Ndivisionalmanagement/newLogoutDepartment.html')">注销部门</a></li>
+                                                <li class="item-second u"><a href="#" onclick="aclick('../Ndivisionalmanagement/newDepartmentList.html')">部门浏览查看</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--人员管理-->
+                                <div class="panel-heading panel">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#item-rygl" id="headyclbm" class="side-nav-item item-title a">
+                                        人员管理
+                                    </a>
+                                    <div id="item-rygl" class="panel-collapse collapse">
+                                        <div class="item-body">
+                                            <ul class="list-unstyled nav nav-pills ">
+                                                <li class="item-second u"><a href="#" onclick="aclick('../NPersonnelmanagement/newRruzhi.html')">入职</a></li>
+                                                <li class="item-second u"><a href="#" onclick="aclick('../NPersonnelmanagement/inInformation.html')">人员查看</a></li>
+                                                <li class="item-second u"><a href="#">人员注销</a></li>
+                                                <li class="item-second u"><a href="#">人员信息修改</a></li>
+                                                <li class="item-second u"><a href="#">权限分配</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--个人中心-->
+                                <div class="panel-heading panel">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#item-grzx" id="headyclbm" class="side-nav-item item-title a">
+                                        个人中心
+                                    </a>
+                                    <div id="item-grzx" class="panel-collapse collapse">
+                                        <div class="item-body">
+                                            <ul class="list-unstyled nav nav-pills ">
+                                                <li class="item-second u"><a href="#">个人中心</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--系统维护-->
+                                <div class="panel-heading panel">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#item-xtwh" id="headyclbm" class="side-nav-item item-title a">
+                                        系统维护
+                                    </a>
+                                    <div id="item-xtwh" class="panel-collapse collapse">
+                                        <div class="item-body">
+                                            <ul class="list-unstyled nav nav-pills ">
+                                                <li class="item-second u"><a href="#">基础数据维护</a></li>
+                                                <li class="item-second u"><a href="#">菜单管理</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 原材料编码库管理-->
+                                <div class="panel-heading panel">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#item-yclbm" id="headyclbm" class="side-nav-item item-title a">
+                                        原材料编码库管理
+                                    </a>
+                                    <div id="item-yclbm" class="panel-collapse collapse">
+                                        <div class="item-body">
+                                            <ul class="list-unstyled nav nav-pills ">
+                                                <li class="item-second u"><a href="#" onclick="aclick('../Nmaterialmangement/newRawMaterial.html')">原材料编码</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--检测图谱库管理-->
+                                <div class="panel-heading panel">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#item-jctpkgl" id="headyclbm" class="side-nav-item item-title a">
+                                        检测图谱库管理
+                                    </a>
+                                    <div id="item-jctpkgl" class="panel-collapse collapse">
+                                        <div class="item-body">
+                                            <ul class="list-unstyled nav nav-pills ">
+                                                <li class="item-second u"><a href="#">检测图谱库管理</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--有机合成方法库-->
+                                <div class="panel-heading panel">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#item-yjhcffk" id="headyclbm" class="side-nav-item item-title a">
+                                        有机合成方法库
+                                    </a>
+                                    <div id="item-yjhcffk" class="panel-collapse collapse">
+                                        <div class="item-body">
+                                            <ul class="list-unstyled nav nav-pills ">
+                                                <li class="item-second u"><a href="#">有机合成方法库</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--右侧页面-->
+                <div id="main_right" style="display: inline; position: absolute; height: 80%">
+                    <iframe id="Fm" name="mainFrame" src="middel.html" style="width: 1698px; border: none; height: 111%"></iframe>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
+<script>
+    function aclick(url) {
+        document.getElementById("Fm").src = "" + url + "";
+
+    }
+
+    $(document).ready(function () {
+        var path = window.location.pathname;  //先得到地址栏内容
+        var regExp = /[\/\.\?]+/;
+        str = path.split(regExp);
+        var node = str.slice(-2, -1);   //截取地址栏信息得到文件名
+        $('#' + node + ' a').addClass('at');  //提前写好对应的id,菜单加亮
+        $('#' + node).parent().parent().parent().addClass('in'); //id父级的父级的父级添加展开class
+    })
+
+</script>

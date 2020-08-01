@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="JS/jquery-2.1.0.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <title></title>
+</head>
+<body>
+    <div id="header" style="height: 102px; background-image: url(img/145825zn1sxa8anrg11gt1.jpg); background-repeat: round;">
+
+        <div id="nav" style="padding-top: 61px;">
+
+
+            <div style="display: inline-block; background-color: white;margin-left:211px;position:absolute">
+                <ul class="nav nav-pills ">
+                    <li role="presentation" class="lia"><a href="../newmain.aspx" target="_top"><span class="glyphicon glyphicon-home"></span>首页</a></li>
+                    <li role="presentation" class="lia"><a href="#" onclick="javascript:parent.mainFrame.focus();parent.mainFrame.print();"><span class="glyphicon glyphicon-print"></span>打印</a></li>
+                    <li role="presentation" class="lia"><a href="javascript:history.go(-1)"><span class="glyphicon glyphicon-arrow-left"></span>后退</a></li>
+                    <li role="presentation" class="lia"><a href="javascript:history.go(1)"><span class="glyphicon glyphicon-arrow-right"></span>前进</a></li>
+                    <li role="presentation" class="lia"><a href="Relogin.aspx" target="_top" onclick="if (!window.confirm('您确认要注消当前登录用户吗？')){return false;}"><span class="glyphicon glyphicon-remove-circle"></span>注销</a></li>
+                    <li role="presentation" class="lia"><a href="Logout.aspx" target="_top"><span class="glyphicon glyphicon-remove"></span>退出</a></li>
+                </ul>
+
+            </div>
+            <div style="float:right; width: 300px; font-size: 30px; height: 35px;position:relative">
+                <span class="glyphicon glyphicon-user" style="color: white">
+                    <label id="username">Name</label>
+                </span>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

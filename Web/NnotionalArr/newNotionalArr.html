@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../layui/layui.all.js"></script>
+    <script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+    <script src="../JS/funtion.js"></script>
+    <script src="../UrlModel/url.js"></script>
+    <title>名义下单子Arr</title>
+    <style>
+        .wrap {
+            margin: 20px;
+        }
+        
+        .layui-tab-title>li {
+            background-color: #009688;
+            color: #fff;
+            margin: 0 20px;
+        }
+        
+        .layui-tab-card>.layui-tab-title li {
+            margin: 0 50px;
+        }
+        
+        .layui-tab-card>.layui-tab-title {
+            background-color: #fff;
+        }
+        
+        .layui-tab-item>div {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="layui-tab layui-tab-card">
+            <ul class="layui-tab-title">
+                <li class="layui-this" id="billPurchaseBtn">采购单</li>
+                <li id="billChemicalBtn">化学单</li>
+                <li id="billOfficeBtn">办公单</li>
+                <li id="billProduct">产品单</li>
+            </ul>
+            <div class="layui-tab-content" style="height: 100%;">
+                <div class="layui-tab-item layui-show">
+                    <div class="mapHead">
+                        <div style="display: flex;">
+                            <button type="button" class="layui-btn layui-btn-normal" id="shaixuan">已审批</button>
+                            <button type="button" class="layui-btn layui-btn-normal" id="weishenpi">未审批</button>
+                            <button type="button" class="layui-btn layui-btn-normal" id="overGe">不合格</button>
+                            <form class="layui-form" action="" lay-filter="form_csts">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">名称</label>
+                                    <div class="layui-input-block" style="width: 80%;">
+                                        <input type="text" id="Project_Name" oninput="project()" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <table id="caigou" lay-filter="idTests"></table>
+                        <script type="text/html" id="barDemo">
+                            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="over">删除</a>
+                        </script>
+                        <!--序号列-->
+                        <script type="text/html" id="xuHao">
+                            {{d.LAY_TABLE_INDEX+1}}
+                        </script>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="chemisterFather">
+                        <div style="display: flex;">
+                            <button type="button" class="layui-btn layui-btn-normal" id="chemical_shaixuan">已审批</button>
+                            <button type="button" class="layui-btn layui-btn-normal" id="chemical_weishenpi">未审批</button>
+                            <button type="button" class="layui-btn layui-btn-normal" id="chemical_overGe">不合格</button>
+                            <form class="layui-form" action="" lay-filter="form_csts">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">原材料名称</label>
+                                    <div class="layui-input-block" style="width: 80%;">
+                                        <input type="text" id="chemical_Name" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <table id="caigou2" lay-filter="idTests2"></table>
+                        <script type="text/html" id="barDemo2">
+                            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="over2">删除</a>
+                        </script>
+                        <!--序号列-->
+                        <script type="text/html" id="xuHao">
+                            {{d.LAY_TABLE_INDEX+1}}
+                        </script>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="officeFather">
+                        <div style="display: flex;">
+                            <button type="button" class="layui-btn layui-btn-normal" id="office_shaixuan">已审批</button>
+                            <button type="button" class="layui-btn layui-btn-normal" id="office_weishenpi">未审批</button>
+                            <button type="button" class="layui-btn layui-btn-normal" id="office_overGe">不合格</button>
+                            <form class="layui-form" action="" lay-filter="form_csts">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">原材料名称</label>
+                                    <div class="layui-input-block" style="width: 80%;">
+                                        <input type="text" id="office_Name" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <table id="caigou3" lay-filter="idTests3"></table>
+                        <script type="text/html" id="barDemo3">
+                            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="over3">删除</a>
+                        </script>
+                        <!--序号列-->
+                        <script type="text/html" id="xuHao">
+                            {{d.LAY_TABLE_INDEX+1}}
+                        </script>
+                    </div>
+                </div>
+                <!-- 成品半成品 -->
+                <div class="layui-tab-item">
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script type="text/html" id="xuHao">
+        {{d.LAY_TABLE_INDEX+1}}
+    </script>
+</body>
+<script>
+    billPurchaseBtn();
+    window.onload = function() {
+        anomation();
+
+    }
+
+    function billPurchaseBtn() {
+        $(".mapHead").css("display", "block")
+        purchaseArr()
+    }
+    $("#billPurchaseBtn").click(function() {
+        $(".mapHead").css("display", "block")
+        purchaseArr()
+
+    });
+    $("#billChemicalBtn").click(function() {
+        $(".chemisterFather").css("display", "block");
+        ChemicalArr();
+    })
+    $("#billOfficeBtn").click(function() {
+        $(".officeFather").css("display", "block");
+        officeArr();
+
+    })
+
+
+    function purchaseArr() {
+        audit('ZpurChase/GetZpurChaseTwoCaigoud'); //所有表单
+        function audit(URL) {
+            layui.use(['element', 'jquery', 'table', 'layer', 'form'], function() {
+                var element = layui.element;
+                var $ = layui.jquery;
+                var table = layui.table;
+                var layer = layui.layer;
+                var form = layui.form;
+                table.render({
+                    elem: '#caigou',
+                    id: 'idTests',
+                    height: 500,
+                    limit: 10,
+                    limits: [5, 10, 20],
+                    page: true,
+                    url: window.url + URL //数据接口POST /api/Purchase/GetPurchaseList
+                        ,
+                    headers: {
+                        Authorization: window.header.Ae,
+                        UserId: window.header.Ud,
+                        AppFlag: window.header.Fg
+                    },
+                    method: 'post',
+                    cols: [
+                        [{
+                            type: 'checkbox',
+                            fixed: 'left'
+                        }, {
+                            title: '序号',
+                            fixed: 'left',
+                            templet: '#xuHao',
+                        }, {
+                            field: 'z_Raw',
+                            title: '原材料',
+                            fixed: 'left',
+                            templet: function(res) {
+                                // 
+                                if (res.z_Raw == null) {
+                                    return "无"
+                                } else {
+                                    return res.z_Raw.Name
+                                }
+                            }
+                        }, {
+                            field: 'Z_RowType',
+                            title: '类型',
+                            fixed: 'left',
+                            templet: function(res) {
+                                if (res.Z_RowType == null) {
+                                    return "无"
+                                } else {
+                                    return res.Z_RowType.Name
+                                }
+                            }
+
+                        }, {
+                            field: 'Project',
+                            title: '项目',
+                            fixed: 'left',
+                            templet: function(res) {
+                                return res.Project.Name
+                            }
+                        }, {
+                            field: 'ApplyNumber',
+                            title: '申请数量',
+                        }, {
+                            field: 'Company',
+                            title: '单位',
+                            templet: function(res) {
+                                if (res.company == null) {
+                                    return "无"
+                                } else {
+                                    return res.company.Name
+                                }
+                            }
+                        }, {
+                            field: 'ApprovalDesc',
+                            title: '申请人备注说明',
+                        }, {
+                            field: 'ApplyTime',
+                            title: '申请日期',
+                            templet: function(res) {
+                                return showTime(res.ApplyTime);
+                            }
+                        }, {
+                            fixed: 'right',
+                            title: '操作',
+                            width: 240,
+                            toolbar: '#barDemo',
+                        }]
+                    ],
+                    request: {
+                        pageName: 'PageIndex' // 页码的参数名称，默认：page
+                            ,
+                        limitName: 'PageSize' //每页数据量的参数名，默认：limit
+                    },
+                    parseData: (res) => { //将原始数据解析成 table 组件所规定的数据
+                        console.log('%c 🍫 res: ', 'font-size:20px;background-color: #42b983;color:#fff;', res);
+                        return {
+                            "code": 0, //解析接口状态
+                            "msg": "成功", //解析提示文本
+                            "count": res.Count.Result, //总数
+                            data: res.data //解析数据列表
+                        }
+                    }
+                });
+                //监听行工具事件
+                table.on('tool(idTests)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+                    var data = obj.data //获得当前行数据
+                    layEvent = obj.event; //获得 lay-event 对应的值
+                    if (layEvent === 'over') {
+                        var wareArr = [];
+                        wareArr.push(data.PurchaseId);
+                        layer.confirm('真的删除行么', function(index) {
+                            //向服务端发送删除指令
+                            $.ajax({
+                                type: "POST",
+                                url: window.url + "ZpurChase/RemovePursh",
+                                headers: {
+                                    Authorization: window.header.Ae,
+                                    UserId: window.header.Ud,
+                                    AppFlag: window.header.Fg
+                                },
+                                contentType: "application/json",
+                                data: JSON.stringify({
+                                    Del_Id: wareArr
+                                }),
+                                success: function(res) {
+                                    table.reload('idTests')
+                                    layer.close(index)
+                                },
+                                error: function(res) {
+                                    layer.msg(res);
+                                }
+                            })
+                        });
+                    }
+                });
+            });
+
+        }
+        // 审批完成
+        $("#shaixuan").on('click', function() {
+                $("#shaixuan").css("background", "green");
+                $("#overGe").css("background", "#1E9FFF");
+                $("#weishenpi").css("background", "#1E9FFF");
+                audit('ZpurChase/GetZpurChaseOneCaigoud')
+            })
+            // 未审批
+        $("#weishenpi").click(function() {
+            $("#weishenpi").css("background", "green");
+            $("#shaixuan").css("background", "#1E9FFF");
+            $("#overGe").css("background", "#1E9FFF");
+            audit('ZpurChase/GetZpurChaseThreeCaigoud')
+        });
+        // 驳回的
+        $("#overGe").click(function() {
+            $("#overGe").css("background", "green");
+            $("#shaixuan").css("background", "#1E9FFF");
+            $("#weishenpi").css("background", "#1E9FFF");
+            audit('ZpurChase/GetRejectPursh')
+        })
+    }
+
+
+    function ChemicalArr() {
+        chemisterAudit('ChemistryMonad/GetChemistryMonadTwoCaigoud'); //所有表单 
+        function chemisterAudit(URL) {
+            layui.use(['element', 'jquery', 'table', 'layer', 'form'], function() {
+                var element = layui.element;
+                var $ = layui.jquery;
+                var table = layui.table;
+                var layer = layui.layer;
+                var form = layui.form;
+                table.render({
+                    elem: '#caigou2',
+                    id: 'idTests2',
+                    height: 515,
+                    limit: 10,
+                    limits: [5, 10, 20],
+                    page: true,
+                    url: window.url + URL //数据接口POST /api/Purchase/GetPurchaseList
+                        ,
+                    headers: {
+                        Authorization: window.header.Ae,
+                        UserId: window.header.Ud,
+                        AppFlag: window.header.Fg
+                    },
+                    method: 'post',
+                    cols: [
+                        [{
+                            type: 'checkbox',
+                            fixed: 'left'
+                        }, {
+                            title: '序号',
+                            fixed: 'left',
+                            templet: '#xuHao',
+                        }, {
+                            field: 'Z_Chemistry',
+                            title: '化学',
+                            fixed: 'left',
+                            templet: function(res) {
+                                // 
+                                if (res.Z_Chemistry == null) {
+                                    return "无"
+                                } else {
+                                    return res.Z_Chemistry.Name
+                                }
+                            }
+                        }, {
+                            field: 'Z_Chemistry.Z_ChemistryType',
+                            title: '类型',
+                            fixed: 'left',
+                            templet: function(res) {
+                                if (res.Z_Chemistry.Z_ChemistryType == null) {
+                                    return "无"
+                                } else {
+                                    return res.Z_Chemistry.Z_ChemistryType.Name
+                                }
+                            }
+
+                        }, {
+                            field: 'ApplyNumber ',
+                            title: '申请数量',
+                        }, {
+                            field: 'Company',
+                            title: '单位',
+                            templet: function(res) {
+                                if (res.Company == null) {
+                                    return "无"
+                                } else {
+                                    return res.Company.Name
+                                }
+                            }
+                        }, {
+                            field: 'ApplicantRemarks',
+                            title: '申请人备注说明',
+                        }, {
+                            field: 'ApplyTime',
+                            title: '申请日期',
+                            templet: function(res) {
+                                return showTime(res.ApplyTime);
+                            }
+                        }, {
+                            fixed: 'right',
+                            title: '操作',
+                            width: 240,
+                            toolbar: '#barDemo2',
+                        }]
+                    ],
+                    request: {
+                        pageName: 'PageIndex' // 页码的参数名称，默认：page
+                            ,
+                        limitName: 'PageSize' //每页数据量的参数名，默认：limit
+                    },
+                    parseData: (res) => { //将原始数据解析成 table 组件所规定的数据
+                        console.log('%c 🍖 res: ', 'font-size:20px;background-color: #4b4b4b;color:#fff;', res);
+                        return {
+                            "code": 0, //解析接口状态
+                            "msg": "成功", //解析提示文本
+                            "count": res.Count, //总数
+                            data: res.data //解析数据列表
+                        }
+                    }
+                });
+                //监听行工具事件
+                table.on('tool(idTests2)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+                    var data = obj.data //获得当前行数据
+                    layEvent = obj.event; //获得 lay-event 对应的值
+                    if (layEvent === 'over2') {
+                        var wareArr = [];
+                        wareArr.push(data.PurchaseId);
+                        layer.confirm('真的删除行么', function(index) {
+                            //向服务端发送删除指令
+                            $.ajax({
+                                type: "POST",
+                                url: window.url + "ChemistryMonad/RemoveChemistryMonad",
+                                headers: {
+                                    Authorization: window.header.Ae,
+                                    UserId: window.header.Ud,
+                                    AppFlag: window.header.Fg
+                                },
+                                contentType: "application/json",
+                                data: JSON.stringify({
+                                    Del_Id: wareArr
+                                }),
+                                success: function(res) {
+                                    table.reload('idTests2')
+                                    layer.close(index)
+                                },
+                                error: function(res) {
+                                    layer.msg(res);
+                                }
+                            })
+                        });
+                    }
+                });
+            });
+
+        }
+        // 审批完成
+        $("#chemical_shaixuan").on('click', function() {
+                $("#chemical_shaixuan").css("background", "green");
+                $("#chemical_overGe").css("background", "#1E9FFF");
+                $("#chemical_weishenpi").css("background", "#1E9FFF");
+                chemisterAudit('ChemistryMonad/GetChemistryMonadCaigoudk')
+            })
+            // 未审批
+        $("#chemical_weishenpi").click(function() {
+            $("#chemical_weishenpi").css("background", "green");
+            $("#chemical_shaixuan").css("background", "#1E9FFF");
+            $("#chemical_overGe").css("background", "#1E9FFF");
+            chemisterAudit('ChemistryMonad/GetChemistryMonadCaigoudp')
+        });
+        // 驳回的
+        $("#chemical_overGe").click(function() {
+            $("#chemical_overGe").css("background", "green");
+            $("#chemical_shaixuan").css("background", "#1E9FFF");
+            $("#chemical_weishenpi").css("background", "#1E9FFF");
+            chemisterAudit('ChemistryMonad/GetRejectChemistryMonad')
+        })
+    }
+
+
+
+    function officeArr() {
+        officeAudit('OfficeMonad/GetOfficeMonadTwoCaigoud'); //所有表单
+        function officeAudit(URL) {
+            layui.use(['element', 'jquery', 'table', 'layer', 'form'], function() {
+                var element = layui.element;
+                var $ = layui.jquery;
+                var table = layui.table;
+                var layer = layui.layer;
+                var form = layui.form;
+                table.render({
+                    elem: '#caigou3',
+                    id: 'idTests3',
+                    height: 515,
+                    limit: 10,
+                    limits: [5, 10, 20],
+                    page: true,
+                    url: window.url + URL //数据接口POST /api/Purchase/GetPurchaseList
+                        ,
+                    headers: {
+                        Authorization: window.header.Ae,
+                        UserId: window.header.Ud,
+                        AppFlag: window.header.Fg
+                    },
+                    method: 'post',
+                    cols: [
+                        [{
+                            type: 'checkbox',
+                            fixed: 'left'
+                        }, {
+                            title: '序号',
+                            fixed: 'left',
+                            templet: '#xuHao',
+                        }, {
+                            field: 'Z_Office',
+                            title: '化学',
+                            fixed: 'left',
+                            templet: function(res) {
+                                // 
+                                if (res.Z_Office == null) {
+                                    return "无"
+                                } else {
+                                    return res.Z_Office.Name
+                                }
+                            }
+                        }, {
+                            field: 'Z_Office.Z_OfficeType',
+                            title: '类型',
+                            fixed: 'left',
+                            templet: function(res) {
+                                if (res.Z_Office.Z_OfficeType == null) {
+                                    return "无"
+                                } else {
+                                    return res.Z_Office.Z_OfficeType.Name
+                                }
+                            }
+
+                        }, {
+                            field: 'ApplyNumber',
+                            title: '申请数量',
+                        }, {
+                            field: 'Company',
+                            title: '单位',
+                            templet: function(res) {
+                                if (res.Company == null) {
+                                    return "无"
+                                } else {
+                                    return res.Company.Name
+                                }
+                            }
+                        }, {
+                            field: 'ApplicantRemarks',
+                            title: '申请人备注说明',
+                        }, {
+                            field: 'ApplyTime',
+                            title: '申请日期',
+                            templet: function(res) {
+                                return showTime(res.ApplyTime);
+                            }
+                        }, {
+                            fixed: 'right',
+                            title: '操作',
+                            width: 240,
+                            toolbar: '#barDemo2',
+                        }]
+                    ],
+                    request: {
+                        pageName: 'PageIndex' // 页码的参数名称，默认：page
+                            ,
+                        limitName: 'PageSize' //每页数据量的参数名，默认：limit
+                    },
+                    parseData: (res) => { //将原始数据解析成 table 组件所规定的数据
+                        console.log('%c 🍻 res: ', 'font-size:20px;background-color: #42b983;color:#fff;', res);
+                        return {
+                            "code": 0, //解析接口状态
+                            "msg": "成功", //解析提示文本
+                            "count": res.Count, //总数
+                            data: res.data //解析数据列表
+                        }
+                    }
+                });
+                //监听行工具事件
+                table.on('tool(idTests3)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+                    var data = obj.data //获得当前行数据
+                    layEvent = obj.event; //获得 lay-event 对应的值
+                    if (layEvent === 'over3') {
+                        var wareArr = [];
+                        wareArr.push(data.PurchaseId);
+                        layer.confirm('真的删除行么', function(index) {
+                            //向服务端发送删除指令
+                            $.ajax({
+                                type: "POST",
+                                url: window.url + "OfficeMonad/RemoveOfficeMonad",
+                                headers: {
+                                    Authorization: window.header.Ae,
+                                    UserId: window.header.Ud,
+                                    AppFlag: window.header.Fg
+                                },
+                                contentType: "application/json",
+                                data: JSON.stringify({
+                                    Del_Id: wareArr
+                                }),
+                                success: function(res) {
+                                    table.reload('idTests2')
+                                    layer.close(index)
+                                },
+                                error: function(res) {
+                                    layer.msg(res);
+                                }
+                            })
+                        });
+                    }
+                });
+            });
+
+        }
+        // 审批完成
+        $("#office_shaixuan").on('click', function() {
+                $("#office_shaixuan").css("background", "green");
+                $("#office_overGe").css("background", "#1E9FFF");
+                $("#office_weishenpi").css("background", "#1E9FFF");
+                officeAudit('OfficeMonad/GetOfficeMonadCaigoudd')
+            })
+            // 未审批
+        $("#office_weishenpi").click(function() {
+            $("#office_weishenpi").css("background", "green");
+            $("office_shaixuan").css("background", "#1E9FFF");
+            $("#office_overGe").css("background", "#1E9FFF");
+            officeAudit('OfficeMonad/GetOfficeMonadCaigoudp')
+        });
+        // 驳回的
+        $("#office_overGe").click(function() {
+            $("#office_overGe").css("background", "green");
+            $("#office_shaixuan").css("background", "#1E9FFF");
+            $("#office_weishenpi").css("background", "#1E9FFF");
+            officeAudit('OfficeMonad/GetRejectOfficeMonad')
+        })
+    }
+</script>
+
+</html>

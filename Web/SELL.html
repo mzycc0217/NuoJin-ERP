@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="../newadmin/jquery-2.1.0.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="My97DatePicker/My97DatePicker/WdatePicker.js"></script>
+    <script src="My97DatePicker/My97DatePicker/calendar.js"></script>
+    <style type="text/css">
+        .nnav {
+            height: 50px;
+        }
+
+        /*.hiddle {
+            display: none;
+        }*/
+        .selecttext {
+            width: 300px;
+            display: inline;
+        }
+
+        .textlable {
+            width: 56px;
+        }
+
+        .disclass {
+            display: none;
+        }
+    </style>
+</head>
+<body onload="showDate()">
+    <div class="container-fluid">
+        <div id="nav">
+            <!--订单-->
+            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="HEIGHT: 38px;
+    font-size: 14px;
+    width: 199px;">
+                新增订单
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">下订单</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="modal-body" id="Rk" style="text-align:center">
+                                <div class="form-group">
+                                    <label for="Xlb" class="control-label textlable">销售类别</label>
+                                    <select id="Xlb" class="form-control selecttext">
+                                        <option value="1">贸易</option>
+                                        <option value="2">库存</option>
+                                        <option value="3">研发</option>
+                                        <option value="4">生产</option>
+                                    </select>
+                                </div><div class="form-group">
+                                    <label for="Xname" class="control-label textlable">产品名称</label>
+                                    <select id="Xname" class="form-control selecttext">
+                                        <!--产品名称，编号-->
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Rkdw" class="control-label textlable">CAS号</label>
+                                    <select id="Xcas" class="form-control selecttext">
+                                        <!--产品CAS号-->
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Xfzl" class="control-label textlable">分子量</label>
+                                    <select id="Xfzl" class="form-control selecttext">
+                                        <!--分子量-->
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Xht" class="control-label textlable">合同号</label>
+                                    <input id="Xht" class="form-control selecttext" type="text" name="name" placeholder="请输入合同号" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="Xprice">销售单价</label>
+                                    <input id="Xprice" type="text" name="name" placeholder="请输入销售单价" class="form-control selecttext" onfocusout="Xgetzj()"
+                                           onpropertychange="submitform()"
+                                           onkeyup="onlyNumber(this)" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="Xsl">销售数量</label>
+                                    <input id="Xsl" type="text" name="name" placeholder="请输入数量" class="form-control selecttext" onfocusout="Xgetzj()" onpropertychange="submitform()" onkeyup="onlyNumber(this)" />
+                                    <select Style="height: 30px;margin-right:-47px">
+                                        <!--单位-->
+                                        <option value="value">text</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="margin-left: 55%">
+                                    <label for="Xsqtime" class="control-label">下单时间</label>&nbsp;&nbsp;&nbsp;
+                                    <label ID="Xsqtime" class="control-label"></label>
+                                    <label class="control-label" Style="font-weight: bold;">总价:</label>
+                                    <label ID="Xzj" name="ZJ" runat="server" Text=""></label>
+                                </div>
+                                <div class="form-group" style="margin-left: 70%">
+                                    <!--申请人-->
+                                    <label class="control-label" Style="font-weight: bold;">申请人：</label>
+                                    <label ID="Ssqr" Text=""></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary">下订单</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="body">
+            <table class="table table-hover">
+               <tr><td>销售记录</td></tr>
+            </table>
+        </div>
+       
+    </div>
+</body>
+</html>
+<script>
+    function onlyNumber(obj) {
+
+        //得到第一个字符是否为负号    
+        var t = obj.value.charAt(0);
+        //先把非数字的都替换掉，除了数字和.和-号    
+        obj.value = obj.value.replace(/[^\d\.\-]/g, '');
+        //前两位不能是0加数字      
+        obj.value = obj.value.replace(/^0\d[0-9]*/g, '');
+        //必须保证第一个为数字而不是.       
+        obj.value = obj.value.replace(/^\./g, '');
+        //保证只有出现一个.而没有多个.       
+        obj.value = obj.value.replace(/\.{2,}/g, '.');
+        //保证.只出现一次，而不能出现两次以上       
+        obj.value = obj.value.replace('.', '$#$').replace(/\./g, '').replace('$#$', '.');
+        //如果第一位是负号，则允许添加    
+        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');
+        if (t == '-') {
+            return;
+        }
+
+    }
+    function Xgetzj() {
+
+        var Cprice = document.getElementById("Xprice").value;
+        var Csl = document.getElementById("Xsl").value;
+        if (Cprice != "" || csl != "") {
+            var zj = Csl * Cprice;
+            document.getElementById("Xzj").innerText = zj.toFixed(2);
+        }
+    }
+    function showDate() {
+        var date = new Date(); //创建时间对象
+
+        var year = date.getFullYear(); //获取年
+
+        var month = date.getMonth() + 1;//获取月
+
+        var day = date.getDate(); //获取当日
+
+        var time = year + "-" + month + "-" + day; //组合时间
+        document.getElementById("Xsqtime").innerText = time;
+        document.getElementById("Ssqr").innerText = "ahsjkhasaj";
+    }
+</script>

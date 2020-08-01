@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>销售信息</title>
+    <link rel="stylesheet" href="../Layui/layui-v2.5.6/layui/css/layui.css">
+</head>
+<body>
+  <!--
+     SaleId (integer, optional):
+销售Id ,
+UserId (integer, optional):
+
+销售员Id ,
+Url (string, optional):
+
+销售合同 ,
+SaleTypeId (integer, optional):
+
+销售类型Id ,
+Price (number, optional):
+
+单价 ,
+OutOfStockId (integer, optional):
+
+出库信息Id ,
+IsStatement (boolean, optional):
+
+是否结单 ,
+AssetIncomeDesc (string, optional):
+
+资产收入备注  
+-->
+     <!-- 销售信息表格 -->
+     <script type="text/html" id="Sells">
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="sell_Edit">修改</a>
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="sell_Dell">删除</a>
+     </script>
+    <table id="sell" lay-filter="sell_test"></table>
+</body>
+</html>
+<script src="../Layui/layui-v2.5.6/layui/layui.all.js"></script>
+<script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+<script src="../Layui/layui-v2.5.6/layui/lay/modules/layer.js"></script>
+<script src="../UrlModel/url.js"></script>
+<script>
+ window.onload = function() {
+            anomation();
+        }
+layui.use(['element', 'jquery','table','layer','form','upload'], function () {
+        var element = layui.element;
+        var $ = layui.jquery;
+        var table=layui.table;
+        var layer=layui.layer;
+        var upload = layui.upload;
+        var form=layui.form;
+
+
+
+
+    table.render({
+    elem: '#sell',
+    id:"sell_test"
+    ,height: 312
+    ,headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            }
+    ,page:true
+    ,width:900
+    , method: 'post'
+    , parseData: function (res) {//将原始数据解析成 table 组件所规定的数据
+      console.log(res)
+      console.table(res[0].RawMaterial)
+          return {
+              "code": 0,//解析接口状态
+              "msg": "成功",//解析提示文本
+              "count":res[0].Count,
+               data:res//解析数据列表
+
+          }
+      }
+    ,url: window.url+'Sale/GetSaleList' //post /api/Sale/GetSaleList 
+    ,page: true //开启分页
+    ,cols: [[ //表头
+      {field: 'SaleId', title: '编号', width:80, sort: true, fixed: 'left',type: 'numbers',}
+      ,{field: 'ActualSale', title: '实际销售', width:80,templet:(re)=>{
+        return re.RawMaterial.Name
+      }}
+      ,{field: 'Price', title: '单价', width:80, sort: true}
+      ,{field: 'Url', title: '销售合同', width:80,templet:(re)=>{
+        if (re.WarehouseKeeper!=null) {
+          return re.WarehouseKeeper
+          
+        }
+        else{
+        return "<span>无</span>"
+        }
+      }} 
+      ,{field: 'SaleType', title: '销售类别', width: 177,templet:(re)=>{
+        return re.RawMaterial.WarehousingType.Name
+      }}//Sells
+      ,{field: 'User', title: '销售员', width: 80, sort: true,templet:(re)=>{
+        if (re.TechnicalDescription!=null) {
+          return re.RawMaterial.TechnicalDescription
+          
+        }
+        else{
+        return "<span>无</span>"
+        }
+       
+      }}
+    
+      , ,{fixed: 'right', title:'操作', toolbar: '#Sells', width:200}
+    ]],
+    request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+              , limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+            where:{
+    //  ApprovalType:5
+    }
+  });
+        
+
+        table.on("tool(sell_test)",function(obj){
+          console.log(obj)
+          if (obj.event="sell_Edit") {
+              console.log("修改 ")
+          }
+          if (obj.event="sell_Dell") {
+            console.log("删除 ")
+          }
+
+
+        })
+
+})
+
+
+
+</script>

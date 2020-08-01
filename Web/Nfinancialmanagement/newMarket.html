@@ -1,0 +1,453 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../JS/jquery-1.8.3.min.js"></script>
+    <script src="../JS/jquery-2.1.0.min.js"></script>
+    <script src="../JS/jquery.js"></script>
+    <script src="../JS/jquery.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../My97DatePicker/My97DatePicker/WdatePicker.js"></script>
+    <script src="../My97DatePicker/My97DatePicker/calendar.js"></script>
+    <script src="../JS/funtion.js"></script>
+    <title>销售</title>
+    <style>
+        .sellHead {
+            margin: 20px;
+        }
+
+        /* 最大的父级 */
+
+        .table > tbody > tr > td {
+            padding: 8px 0px;
+        }
+
+        table {
+            margin-top: 30px;
+        }
+
+            table th,
+            table td {
+                text-align: center;
+                white-space: nowrap;
+            }
+
+        .contents,
+        .container-fluid {
+            padding: 20px;
+        }
+
+        .modal-body input,
+        textarea {
+            width: 250px;
+            border: 1px solid #999999;
+            font-size: 20px;
+            border-radius: 10px;
+            outline: none;
+            margin: 5px 0;
+            vertical-align: middle;
+            display: inline-block;
+        }
+
+        .modal-content {
+            margin: 0 auto;
+            text-align: center;
+            width: 420px;
+        }
+
+        .amendList {
+            margin-left: -27px;
+        }
+        .text{
+           display:inline-block;
+        }
+        .texts{
+            width:300px;
+            display:inline-block;
+            height:35px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sell">
+        <div class="sellHead">
+            <button class="sellAddBtn btn btn-primary" data-toggle="modal" data-target="#myModal">添加销售信息</button>
+            <button class="sellHunt" onclick="sellFn()">搜索</button>
+            <input type="text" id="sellName">
+            <!-- 添加销售信息-->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">添加销售信息</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                <span>销售员</span>
+                                <input type="text" id="sellsName" placeholder="请选择" data-toggle="modal" data-target="#sellUser" onclick="sname()"style="font-size:16px;"/>
+                                <input type="hidden"id="marketName">
+                            </div>
+                            <div>
+                                <span>预销售</span>
+                                <input type="text" class="preSales">
+                            </div>
+                            <div>
+                                <span class="amendList">实际销售</span>
+                                <input type="text" class="effectiveSale">
+                            </div>
+                            <div>
+                                <span>单价</span>
+                                <input type="text" class="unitPrice">
+                            </div>
+                            <!-- <div>
+                        <span class="amendList">销售总额</span>
+                        <input type="text" class="totalSales">
+                    </div> -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary" id="saveAdd" data-dismiss="modal"
+                                    data-target=".bs-example-modal-sm"
+                                    onclick="addMarketFn()">
+                                确认添加
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 添加用户信息-->
+            <div class="modal fade bs-example-modal-lg" tabindex="-1" id="sellUser" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content" style="width:1000px;">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="exampleModalLabe5">姓名</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div id="DepartmentDIV" class="text"></div>
+                            <input type="text" id="Sname" value="" class="texts" />
+                            <button type="button" class="btn btn-default btns" onclick="sname()" >搜索</button>
+                            <div style="float:right">
+                                <label style="font-size:16px">已选人员：</label>
+                                <label id="username" style="font-size:16px"></label>
+                                <input type="hidden" name="name" id="Xuserid" value="" />
+                            </div>
+                            <div id="usertable">
+                            </div>
+                            <div id="usertablepage"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">确认添加</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- 修改销售信息-->
+            <div class="modal fade bs-example-modal-lg" id="xsId" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">修改设备信息</h4>
+                        </div>
+                        <div class="modal-body">
+                            <input type='hidden' id="modificationSell">
+                            <div>
+                                <span>预销售</span>
+                                <input type="text" id="preSales">
+                            </div>
+                            <div>
+                                <span class="amendList">实际销售</span>
+                                <input type="text" id="effectiveSale">
+                            </div>
+                            <div>
+                                <span>单价</span>
+                                <input type="text" id="unitPrice">
+                            </div>
+                            <!-- <div>
+                        <span class="amendList">销售总额</span>
+                        <input type="text" id="totalSales">
+                    </div> -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary" id="saveAdd" data-dismiss="modal"
+                                    data-target=".bs-example-modal-sm"
+                                    onclick="alterFn()">
+                                确认修改
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- 表单 -->
+    <div class="sellTable">
+        <div id="page"></div>
+    </div>
+   </div>
+</body>
+</html>
+<script>
+    var total = $("#effectiveSale").val() + '*' + $("#unitPrice").val();
+    // 页面的数据
+    window.onload = function () {
+        sellFn();
+        Department();
+        sDepartment()
+    }
+    // 显示需求数据
+    function sellFn(page) {
+        if (page == null) {
+            page = 1;
+        }
+        //  搜索框
+        var sellName = $("#sellName").val();
+        $.ajax({
+            type: "POST",
+            url: 'http://318jp82710.eicp.vip/api/Sale/GetSaleList',
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem("token"),
+                UserId: window.localStorage.getItem("UserId"),
+                AppFlag: window.localStorage.getItem("AppFlag")
+            },
+            data: {
+                PageIndex: page,
+                PageSize: 10,
+                User: sellName,
+            },
+            success: function (res) {
+                console.log(res);
+                if (res == "") {
+                    $("#sellName").val("");
+                    alert("该无该销售员请您确认后再搜");
+                } else {
+                    var data = res;
+                    // 创建表格
+                    var tableStr = "<table class='table table-hover'>";
+                    tableStr = tableStr + "<th>销售员</th><th>预销售</th><th>实际销售</th><th>单价</th><th>销售总额</th><th>是否删除</th><th>是否结单</th><th>出库信息</th><th>发布日期</th><th>更新日期</th></tr>";
+                    var len = data[0].Count;
+                    for (var i = 0; i < data.length; i++) {
+                        tableStr = tableStr + " <tr><td>" + data[i].User + "</td><td>" + data[i].PreSale + "</td><td>" + data[i].Price + "</td><td>" + data[i].Amount + "</td><td>" + data[i].IsDelete + "</td><td>" + data[i].isStatement + "</td><td>" + data[i].OutOfStock + "</td><td>" + data[i].CreateDate + "</td><td>" + data[i].UpdateDate + "</td><td><button type='button' data-toggle='modal' data-target='#xsId'onclick='sellAmend()'>更改</button><button type='button' data-toggle='modal' data-target='.bs-example-modal-lg2'  onclick='sellAmend(" + i + ")'>结单状态</button><button type='button' data-toggle='modal' data-target='.bs-example-modal-lg3' onclick='repairsState(" + i + ")'>删除</button></td><td><input type='hidden'value='" + data[i].UserId + "' id='sellId" + i + "' /></td></tr> ";
+                    }
+                    tableStr = tableStr + "</tbody></table>";
+                    //将动态生成的table添加的事先隐藏的div中.
+                    $(".sellTable").html(tableStr);
+                    var index = len / 10;
+                    index = Math.round(index);
+                    var str = "<p>";
+                    for (var i = 1; i < index + 1; i++) {
+                        str += "  <button type='button' onclick='facilityFn(" + i + ")'>" + i + "</button>";
+                    }
+                    str += "</p>";
+                    $("#page").html(str);
+                }
+            }
+        })
+    }
+    //部门列表
+    function Department() {
+        $.ajax({
+            type: "POST",
+            url: "http://318jp82710.eicp.vip/api/Department/GetDepartmentList",
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem("token"),
+                UserId: window.localStorage.getItem("UserId"),
+                AppFlag: window.localStorage.getItem("AppFlag")
+            },
+            data: {
+                PageIndex: 0, PageSize: 0
+            },
+            success: function (res) {
+                var data = res;
+                var Str = "<select class='texts' id='bumen'>";
+                var len = data[0].Count;
+                for (var i = 0; i < len; i++) {
+                    Str = Str + "<option value='" + data[i].DepartmentId + "'>" + data[i].Name + "</option>"
+                }
+                Str = Str + "</select>";
+                $("#DepartmentDIV").html(Str);
+            }
+        })
+    }
+    //部门
+    function sDepartment() {
+        $.ajax({
+            type: "POST",
+            url: "http://318jp82710.eicp.vip/api/Department/GetDepartmentList",
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem("token"),
+                UserId: window.localStorage.getItem("UserId"),
+                AppFlag: window.localStorage.getItem("AppFlag")
+            },
+            data: {
+                PageIndex: 0, PageSize: 0
+            },
+            success: function (res) {
+                var data = res;
+                var Str = "部门<select class=''  id='sDepartment' style='width:140px;height:27px'>";
+                var len = data[0].Count;
+                for (var i = 0; i < len; i++) {
+                    Str = Str + "<option value='" + data[i].DepartmentId + "'>" + data[i].Name + "</option>"
+                }
+                Str = Str + "</select>";
+                $("#sDepartmentdiv").html(Str);
+            }
+        })
+    }
+    //姓名
+    function sname(page) {
+        if (page = null) {
+            page = 1;
+        }
+        var name = document.getElementById("Sname").value;
+        var Department = $("#bumen").text();
+
+        $.ajax({
+            type: "POST",
+            url: "http://318jp82710.eicp.vip/api/User/GetUserList",
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem("token"),
+                UserId: window.localStorage.getItem("UserId"),
+                AppFlag: window.localStorage.getItem("AppFlag")
+            },
+            data: {
+                DepartmentId: Department, RealName: name
+            }, success: function (res) {
+                console.log(res);
+                if (res == "") {
+                    alert("暂无人员");
+                }
+                var data = res;
+                var len = data[0].Count;
+                var StrTable = "<table class='table table-hover' style='text-align:center'><thead><tr><th>真实姓名</th><th>职位</th><th>在职状态</th><th>性别</th><th>出生日期</th><th>操作</th></tr></thead><tbody>";
+                for (var i = 0; i < res.length; i++) {
+                    StrTable = StrTable + "<tr><td id='" + i + "'>" + data[i].RealName + "</td><td>" + data[i].UserTypeStr + "</td><td>" + data[i].PositionTypeStr + "</td><td>" + data[i].SexTypeStr + "</td><td>" + data[i].DateOfBirth + "</td><td><input type='button' value='选他' onclick='useridclick(" + i + ")'/></td><td><input type='hidden' id='userid" + i + "' value='" + data[i].UserId + "'/></td></tr>"
+                }
+                StrTable = StrTable + "</tbody></table>";
+                $("#usertable").html(StrTable);
+                var index = len / 10;
+                index = Math.round(index);
+
+                var str = "<p>";
+
+                for (var i = 1; i < index + 1; i++) {
+                    str += "  <button type='button' onclick='sname(" + i + ")'>" + i + "</button>";
+                }
+                str += "</p>";
+                $("#usertablepage").html(str);
+            }
+        })
+    }
+    //显示用户姓名
+    function useridclick(i) {
+        var userid = document.getElementById("userid" + i + "").value;
+        var username = $("#" + i + "").text();
+
+        document.getElementById("username").innerText = username;
+
+        document.getElementById("Xuserid").value = userid;
+        document.getElementById("sellsName").innerText = username;
+
+        document.getElementById("marketName").value = userid;
+    }
+
+    // 添加销售当前用户的销售信息
+    function addMarketFn() {
+        var userId = $("#marketName").val();
+        var preSales = $(".preSales").val();
+        var effectiveSale = $(".effectiveSale").val();
+        var unitPrice = $(".unitPrice").val();
+        if ( preSales == "" || effectiveSale == "" || unitPrice == "") {
+            alert("请填写完整！");
+        } else {
+        $.ajax({
+            type: "POST",
+            url: 'http://318jp82710.eicp.vip/api/Sale/AddSale',
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem("token"),
+                UserId: window.localStorage.getItem("UserId"),
+                AppFlag: window.localStorage.getItem("AppFlag")
+            },
+            data: {
+                UserId:userId,
+                PreSale: preSales,
+                ActualSale: effectiveSale,
+                Price: unitPrice,
+            },
+            success: function (res) {
+                uptable(res);
+            }
+        })
+        }
+    }
+    console.log(window.localStorage.getItem("token"), window.localStorage.getItem("UserId"), window.localStorage.getItem("AppFlag"))
+
+    // 调用数据修改
+    function sellAmend(ss) {
+        var sellId = $("#sellId" + ss + "").val();
+        $.ajax({
+            type: "POST",
+            url: 'http://318jp82710.eicp.vip/api/Device/GetList',
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem("token"),
+                UserId: window.localStorage.getItem("UserId"),
+                AppFlag: window.localStorage.getItem("AppFlag")
+            },
+            data: {
+                UserId : sellId,
+            },
+            success: function (res) {
+                console.log(res);
+                var data = res;
+                $("#preSales").val(data[0].PreSale );
+                $("#effectiveSale").val(data[0].ActualSale);
+                $("#unitPrice").val(data[0].Price)
+                $("#modificationSell").val(data[0].UserId);
+            }
+        })
+
+    }
+    //修改当前的用户
+    function alterFn() {
+        var modificationSell = $("#modificationSell").val();
+        var preSales=$("#preSales").val();
+        var effectiveSale=$("#effectiveSale").val();
+        var unitPrice = $("#unitPrice").val();
+            $.ajac({
+                type: "POST",
+                url: 'http://318jp82710.eicp.vip/api/Sale/UpdateSale',
+                headers: {
+                    Authorization: "Bearer " + window.localStorage.getItem("token"),
+                    UserId: window.localStorage.getItem("UserId"),
+                    AppFlag: window.localStorage.getItem("AppFlag")
+                },
+                data: {
+                    UserId: modificationSell,
+                    PreSale: preSales,
+                    ActualSale: effectiveSale,
+                    Price: unitPrice,
+                },
+                success: function (res) {
+                    uptable(res);
+                }
+        })
+    }
+    //删除当前用户
+
+</script>

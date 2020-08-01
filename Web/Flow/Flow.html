@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flow</title>
+    <link rel="stylesheet" href="../Layui/layui-v2.5.6/layui/css/layui.css">
+</head>
+<body>
+   
+      <!-- 添加流程 -->
+<form class="layui-form" action="" name="form13" id="flow" style="display: none;"  lay-filter="formT">
+  
+  
+  <div class="layui-form-item">
+      <label class="layui-form-label">名称</label>
+      <div class="layui-input-block" style="width: 50%;">
+        <select name="TypeKey" id="TypeKeys">
+          
+        </select>
+      </div>
+    </div> 
+  
+    <div class="layui-form-item">
+      <label class="layui-form-label">审批流Key</label>
+      <div class="layui-input-block" style="width: 50%;">
+       
+          <input class="layui-input"  autocomplete="off" name="forms_flowName"  id="forms_TypeKeyd"><span>(添加新流程)以下为流程图</span>
+        
+      </div>
+    </div> 
+
+ 
+  
+   
+  
+  <div class="layui-form-item">
+      <div class="layui-input-block">
+        <button class="layui-btn savests" lay-filter="fork" type='button'>确定</button>
+        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+      </div>
+    </div> 
+
+    <div class="layui-form-item">
+      <div class="layui-input-block">
+        <div class="att">
+    
+        </div>
+      </div>
+    </div> 
+   
+  </form>
+
+<!--添加流程模块-->
+  <form class="layui-form" action="" name="form14" id="flows" style="display: none;"  lay-filter="forms">
+
+  
+    <div class="layui-form-item">
+        <label class="layui-form-label">模块Key</label>
+        <div class="layui-input-block" style="width: 50%;">
+          <select name="flowNamet"  id="TypeKeydt">
+           <option value="Purchase">采购</option>
+           <option value="Warehousing">入库</option>
+           <option value="OutOfStock">出库</option>
+           <option value="DeviceRepair">设备报修</option>
+          </select>
+        </div>
+      </div> 
+    
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">key</label>
+        <div class="layui-input-block" style="width: 50%;">
+          <select name="flowName"  id="TypeKeyd">
+           
+          </select>
+          <span>对应下表中的流程名称</span>
+        </div>
+      </div> 
+     
+    
+    
+    
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button class="layui-btn savestsd" lay-filter="fork" type='button'>确定</button>
+          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+      </div>
+    </form>
+
+</div>
+<!--流程表-->
+<button type="button" class="layui-btn layui-btn-radius cst add">添加流程</button>
+<button type="button" class="layui-btn layui-btn-radius cst Modeladd">添加流程模块</button>
+<table id="Menu_tree" lay-filter="idTest" ></table>
+<script type="text/html" id="barDemo">
+    <!-- <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="add">添加</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> -->
+    <a class="layui-btn layui-btn-danger layui-btn-xs"   lay-event="del">删除</a>
+   
+   
+  </script>
+
+</body>
+</html>
+<script src="../UrlModel/url.js"></script>
+<script src="../Layui/layui-v2.5.6/layui/layui.all.js"></script>
+<script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+<script src="../Layui/layui-v2.5.6/layui/lay/modules/layer.js"></script>
+<script>
+ layui.use(['element', 'jquery','form','laydate','table','upload'], function () {
+        var element = layui.element;
+        var $ = layui.jquery;
+        var form = layui.form;
+        var laydate=layui.laydate;
+        var upload = layui.upload;
+        var table=layui.table;
+
+
+
+
+        table.render({
+     elem: '#Menu_tree'
+     ,id: 'idTest'
+    ,height: 400
+    ,page:false
+    ,width:1200
+    , page: true
+            , height: 515,
+            limit: 10,
+            limits: [5, 10, 20, 30, 40, 50, 60]
+    , method: 'post'
+    , parseData: function (res) {//将原始数据解析成 table 组件所规定的数据
+    console.log(res)
+          return {
+              "code": 0,//解析接口状态
+              "msg": "成功",//解析提示文本
+              "count":res.count,
+               data:res//解析数据列表
+
+          }
+
+      }
+    ,url:window.url+'Approval/GetApprovalList' //数据接口
+    ,cols: [[ //表头
+     
+      {field: 'ApprovalKey', title: '流程名称', width:400}
+      ,{field: 'CreateDate', title: '创建时间', width:400, templet:function(res){
+       
+       return showTime(res.CreateDate);
+
+      }}
+      ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:400}
+    ]],
+    request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+                 , limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+  });
+
+
+
+  table.on('tool(idTest)', function (obj) {
+    var data=obj.data;
+    
+if(obj.event==='del'){
+
+$.ajax({
+   url:window.url+"Approval/DeleteApprovalOfKey",//POST /api/Approval/DeleteApprovalOfKey
+   type:"post",
+    headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+   data:{
+    Key:data.ApprovalKey
+   },
+   success:(res)=>{
+    table.reload('idTest');
+   }
+   
+})
+
+}
+})
+
+
+
+
+  function showTime(tempDate)
+{
+      var d = new Date(tempDate); 
+      var year = d.getFullYear();
+      var month = d.getMonth();
+      month++;
+      var day = d.getDate();
+      var hours = d.getHours();
+      
+      var minutes = d.getMinutes();
+      var seconds = d.getSeconds();
+      month = month<10 ? "0"+month:month;
+      day = day<10 ? "0"+day:day;
+      hours = hours<10 ? "0"+hours:hours;
+      minutes = minutes<10 ? "0"+minutes:minutes;
+      seconds = seconds<10 ? "0"+seconds:seconds;
+      
+      
+      var time = year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds;
+      return time;
+}
+
+//添加
+$(".Modeladd").on('click',function(){//POST /api/Approval/AddRelatedApproval
+
+  layer.open({
+      type:1,
+    
+      
+      area: ['500px', '400px'],
+    title: '添加流程'
+  ,content: $('#flows'),
+  end:function (res) {
+       $("#flows").css("display",'none');
+   }
+});   
+$.ajax({
+url:window.url+"Approval/GetApprovalList",//POST /api/Approval/GetApprovalList
+type:"post",
+ headers: {
+     Authorization: window.header.Ae,
+     UserId: window.header.Ud,
+     AppFlag: window.header.Fg
+            },
+data:{
+    "PageIndex": 0,
+  "PageSize": 0
+},
+success:(res)=>{
+  htm='';
+  for (let i = 0; i < res.length; i++) {
+     htm+='<option value='+res[i].ApprovalKey+'>'+res[i].ApprovalKey+'</option>'  
+  }
+  $("#TypeKeyd").html(htm);
+  form.render();
+}
+})
+})
+
+$(".savestsd").on('click',function(){
+  var TypeKeydt=$("#TypeKeydt").val();
+  var t=$("#TypeKeyd").val();
+
+  $.ajax({
+   url:window.url+"Approval/AddRelatedApproval",//POST /api/Approval/AddRelatedApproval
+   type:"post",
+    headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+   data:{
+    RelatedKey :TypeKeydt,
+    ApprovalKey :t
+   },
+   success:(res)=>{
+    table.reload('idTest');
+   }
+   
+})
+
+
+
+})
+
+
+
+
+   
+     var leng;   
+ $('.add').on('click',function(){
+
+    layer.open({
+      type:1,
+      shade:false,
+      offset: 'r',
+      area: ['500px', '600px'],
+    title: '添加流程'
+  ,content: $('#flow'),
+  end:function (res) {
+       $("#flow").css("display",'none');
+   }
+});   
+
+$.ajax({
+url:window.url+"User/GetUserTypeList",//POST /api/User/GetUserTypeList
+type:"post",
+ headers: {
+     Authorization: window.header.Ae,
+     UserId: window.header.Ud,
+     AppFlag: window.header.Fg
+            },
+data:{
+    "PageIndex": 0,
+  "PageSize": 0
+},
+success:(res)=>{
+    console.log(res)
+   leng=res.length;
+  htm='';
+  for (let i = 0; i < res.length; i++) {
+     htm+='<option value='+res[i].Key+'>'+res[i].Name+'</option>'  
+  }
+  $("#TypeKeys").html(htm);
+  form.render();
+}
+
+
+})
+  
+
+             
+      
+      })  
+
+     
+//点击确定
+var ii=0;
+$('.savests').on('click',function(){
+ var s=$("#TypeKeys").val();
+var t1=$("#TypeKeys").find("option:selected").text();
+  var k=$("#forms_TypeKeyd").val();
+  
+  $.ajax({
+     url:window.url+"Approval/Add",//POST /api/Approval/Add
+type:"POST",
+headers:{
+       Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+},
+data:{
+    UserTypeKey:s,
+    Key:k
+},
+success:(res)=>{
+console.log(res)
+let s="";
+if (res !=undefined) {
+ 
+  var t=JSON.parse(res)
+  s=t;
+}
+ 
+if (s.Code===1) {
+    layer.open({
+  title: '添加模块'
+  ,content: s.Message
+});  
+    
+
+}
+else{
+
+
+    
+         $(".cst").addClass('nodisplay')
+        var stw=" <div  style='width: 180px; height: 100px; '><input type='text' id='cstp"+(ii+1)+"'><img src='../img/1.jpg' id='img"+(ii+1)+"' style='width: 30px; height: 30px; transform: rotate(90deg); margin: 0 auto;display: block '>";
+       if (ii<leng) {
+        $(".att").append(stw)
+         $("#cstp"+(ii+1)).val(t1) 
+          ii= ii+1;
+          console.log(ii)
+       }
+       else if (ii==leng){
+       
+        $(".cst").addClass('nodisplay')
+        $("#img"+(ii)).remove();
+       }
+}     
+         
+}
+
+  })
+
+      
+
+ })
+ 
+ })
+   
+  
+
+</script>
+<style>
+    .nodisplay{
+        display: none !important
+    }
+</style>

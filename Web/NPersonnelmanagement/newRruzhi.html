@@ -1,0 +1,529 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="../JS/jquery-1.8.3.min.js"></script>
+    <script src="../JS/jquery-2.1.0.min.js"></script>
+    <script src="../JS/jquery.js"></script>
+    <script src="../JS/jquery.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../My97DatePicker/My97DatePicker/WdatePicker.js"></script>
+    <script src="../My97DatePicker/My97DatePicker/calendar.js"></script>
+    <title>人事入职</title>
+    <style>
+        .text {
+            width: 200px;
+            display: inline;
+            height: 30px;
+        }
+
+        th, td {
+            text-align: center;
+        }
+
+        .th {
+            width: 131px;
+        }
+
+        .btn-lg {
+            height: 38px;
+            font-size: 14px;
+            width: 199px;
+        }
+
+        .prjectSou {
+            border: 1px solid #e5e5e5;
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="container-fluid" style="margin-top:15px;">
+        <div id="nav">
+            <div id="entry" style="display:inline">
+                <!--入职-->
+                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                    申请入职
+                </button>
+                <input type="text" id="cname" placeholder="输入部门名称进行查询" class="selecttext" style="height:33px;" />
+                <button type="button" class="btn btm-default prjectSou" data-dismiss="modal" onclick="cxclickRdepartment()">搜索</button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">入职</h4>
+                            </div>
+                            <div class="modal-body" style="text-align:center">
+                                <div class="form-group">
+                                    <label>姓名</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input id="realename" class="text" type="text" name="name" value="" />
+                                </div>
+
+
+                                <div class="form-group" id="bm">
+                                </div>
+                                <div class="form-group">
+                                    <label>职位</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <select id="usertype" class="text typs">
+                                     
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>用户名</label>&nbsp;&nbsp;&nbsp;
+
+                                    <input id="username" type="text" name="name" value="" class="text" />
+                                </div>
+                                <div class="form-group">
+                                    <label>性别</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <select id="sex" class="text">
+                                        <option value="0">男</option>
+                                        <option value="1">女</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>民族</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input id="nation" type="text" name="name" value="" class="text" />
+                                </div>
+                                <div class="form-group">
+                                    <label>出生日期</label>
+                                    <input id="birthday" type="text" name="name" value="" class="text" onclick="WdatePicker({isShowWeek:true})" />
+                                </div>
+                                <div class="form-group">
+                                    <label>身份证号</label>
+                                    <input id="idCrad" type="text" name="name" value="" class="text" />
+                                </div>
+                                <div class="form-group">
+                                    <label>最高学历</label>
+                                    <input id="academic" type="text" name="name" value="" class="text" />
+                                </div>
+                                <div class="form-group">
+                                    <label>电话</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input id="phonenumber" type="text" name="name" value="" class="text" />
+                                </div>
+                                <div class="form-group">
+                                    <label>邮箱</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input id="email" type="text" name="name" value="" class="text" />
+                                </div>
+                                <div class="form-group">
+                                    <label>微信</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input id="vx" type="text" name="name" value="" class="text" />
+                                </div>
+                                <div class="form-group">
+                                    <label>地址</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input id="adress" type="text" name="name" value="" class="text" />
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btm-default" data-dismiss="modal">取消</button>
+                                <button type="button" id="add" class="btn btn-primary" onclick="addclick()">添加</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div id="bodys">
+            <!--部门-->
+            <div id="mytable">
+            </div>
+            <div id="page">
+
+            </div>
+            <!--部门人员详情-->
+            <!-- Large modal -->
+            <div class="modal" id="details" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog" style="width:1400px;margin-left:15%">
+
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel"><label id="xqh4"></label>人员详情</h4>
+                        </div>
+
+                        <div id="detailstable" class="modal-body">
+                            <input type="text" id="ryname" value="" placeholder="请输入想要寻找的人" class="text" />
+                            <input type="button" class="btn btn-default" value="搜索" onclick="selectsuers()" />
+                            <div id="usertable"></div>
+                            <div id="usertablepage"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn-default" data-dismiss="modal">关闭</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--upuser-->
+    <div class="modal fade" id="upuser" tabindex="-1" role="dialog" aria-labelledby="upuserlable">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="upuserlable">修改个人信息</h4>
+                </div>
+                <div class="modal-body" style="text-align:center">
+                    <div class="form-group">
+                        <label>姓名</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input id="uprealename" class="text" type="text" name="name" value="" />
+                    </div>
+
+
+                    <div class="form-group" id="upbm">
+                    </div>
+                    <div class="form-group">
+                        <label>职位</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <select id="upusertype" class="text typs">
+                           
+                           
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>用户名</label>&nbsp;&nbsp;&nbsp;
+
+                        <input id="upusername" type="text" name="name" value="" class="text" placeholder="登陆账号" />
+                    </div>
+                    <div class="form-group">
+                        <label>性别</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <select id="upsex" class="text">
+                            <option value="0">男</option>
+                            <option value="1">女</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>民族</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input id="upnation" type="text" name="name" value="" class="text" />
+                    </div>
+                    <div class="form-group">
+                        <label>出生日期</label>
+                        <input id="upbirthday" type="text" name="name" value="" class="text" onclick="WdatePicker({isShowWeek:true})" />
+                    </div>
+                    <div class="form-group">
+                        <label>身份证号</label>
+                        <input id="upidCrad" type="text" name="name" value="" class="text" />
+                    </div>
+                    <div class="form-group">
+                        <label>最高学历</label>
+                        <input id="upacademic" type="text" name="name" value="" class="text" />
+                    </div>
+                    <div class="form-group">
+                        <label>电话</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input id="upphonenumber" type="text" name="name" value="" class="text" />
+                    </div>
+                    <div class="form-group">
+                        <label>邮箱</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input id="upemail" type="text" name="name" value="" class="text" />
+                    </div>
+                    <div class="form-group">
+                        <label>微信</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input id="upvx" type="text" name="name" value="" class="text" />
+                    </div>
+                    <div class="form-group">
+                        <label>地址</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input id="upadress" type="text" name="name" value="" class="text" />
+                    </div>
+                    <div class="form-group">
+                        <label>用户密码</label>
+                        <input id="uppassword" type="text" name="name" value="" class="text" />
+                    </div>
+                    <div id="useridtexthide"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btm-default" data-dismiss="modal">取消</button>
+                    <button type="button" id="add" class="btn btn-primary" onclick="upuserclick()">修改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="../UrlModel/url.js"></script>
+<script src="../JS/funtion.js"></script>
+<script>
+    
+    window.onload = function () {
+        bumen();
+        cxclickRdepartment();
+    }
+
+    function bumen() {
+        $.ajax({
+            type: "POST",
+            url: window.url+"Department/GetDepartmentList",
+             headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            data: {
+                DepartmentName: "", PageIndex: 0,
+                PageSize: 0
+            },
+            success: function (bmlist) {
+                var data = bmlist[0].Count;
+                var str = "  <label>部门</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select class='text' id='bmselect'>";
+                for (var i = 0; i < data; i++) {
+                    str = str + '<option value="' + bmlist[i].DepartmentId + '">' + bmlist[i].Name + '</option>';
+
+                }
+                str = str + "</select>";
+                $("#bm").html(str);
+                $("#upbm").html(str);
+            }
+        })
+    }
+    //添加入职人员
+    function addclick() {
+        var UserName = document.getElementById("username").value;
+        var realename = document.getElementById("realename").value;
+        var id = document.getElementById("usertype").value;
+        var DepartmentId = document.getElementById("bmselect").value;
+        var sex = document.getElementById("sex").value;
+        var nation = document.getElementById("nation").value;
+        var birthday = document.getElementById("birthday").value;
+        var idCrad = document.getElementById("idCrad").value;
+        var academic = document.getElementById("academic").value;
+        var phonenumber = document.getElementById("phonenumber").value;
+        var email = document.getElementById("email").value;
+        var vx = document.getElementById("vx").value;
+        var adress = document.getElementById("adress").value;
+        var password = "666666";
+
+
+        $.ajax({
+            type: "POST",
+            url: window.url+"User/Add",
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem("token"),
+                UserId: window.localStorage.getItem("UserId"),
+                AppFlag: window.localStorage.getItem("AppFlag")
+            },
+            data: {
+                UserName: UserName, Password: password, UserTypeId:id, DepartmentId: DepartmentId, RealeName: realename, DateOfBirth: birthday, SexType: sex, Nation: nation, Education: academic, Phone: phonenumber, Email: email,
+                WeiXin: vx, Address: adress, IdCard: idCrad
+            },
+            success: function (res) {
+                window.location.reload();
+            }
+        })
+    }
+    //通过部门查询
+    function cxclickRdepartment(page) {
+        if (page == null) {
+            page = 1;
+        }
+        var name = document.getElementById("cname").value;
+        $.ajax({
+            type: "POST",
+            url: "http://318jp82710.eicp.vip/api/Department/GetDepartmentList",
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem("token"),
+                UserId: window.localStorage.getItem("UserId"),
+                AppFlag: window.localStorage.getItem("AppFlag")
+            },
+            data: {
+                DepartmentName: name, PageIndex: page, PageSize: 10
+            },
+            success: function (res) {
+                if (res == "") {
+                    document.getElementById("cname").value = "";
+                    alert("暂无该部门请您确认后再搜");
+                }
+                var data = res;
+                var tableStr = "<table class='table table-hover'>";
+                tableStr = tableStr + "<thead><tr><th>部门名称</th><th>人数</th><th>查看部门人员</th><th></th></tr></thead><tbody>";
+
+                var len = data[0].Count;
+
+                for (var i = 0; i < data.length; i++) {
+                    tableStr = tableStr + "<tr><td>" + data[i].Name + "</td><td>" + data[i].UserCount + "</td><td><button id='btn" + i + "'  type='button' class='btn btn-default'  style='    height: 30px; width: 80px;margin-top: -5px;'  data-toggle='modal' data-target='#details' onclick='selectsuers(" + i + ")'>查看</button></td><td><input type='hidden'  value='" + data[i].DepartmentId + "' id='text" + i + "' /></td></tr>";
+
+
+                }
+
+                tableStr = tableStr + "</tbody></table>";
+
+                //将动态生成的table添加的事先隐藏的div中.
+
+                $("#mytable").html(tableStr);
+
+                var index = len / 10;
+                index = Math.round(index);
+
+                var str = "<p>";
+
+                for (var i = 1; i < index + 1; i++) {
+                    str += "  <button type='button' onclick='cxclickRdepartment(" + i + ")'>" + i + "</button>";
+                }
+                str += "</p>";
+                $("#page").html(str);
+            }
+        })
+    }
+    //查看该部门的入职人员
+    function selectsuers(bb) {
+        var bumenid = $("#text" + bb + "").val();
+        var ryname = document.getElementById("ryname").value;
+        $.ajax({
+            type: "POST",
+            url: "http://318jp82710.eicp.vip/api/User/GetUserList",
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem("token"),
+                UserId: window.localStorage.getItem("UserId"),
+                AppFlag: window.localStorage.getItem("AppFlag")
+            },
+            data: {
+                RealName: ryname, DepartmentId: bumenid,
+            },
+            success: function (res) {
+                var data = res;
+                // document.getElementById("xqh4").innerText = data[0].Department.Name;
+                var tableStr = "<table class='table table-hover'>";
+                tableStr = tableStr + "<thead><tr><th>姓名</th><th>性别</th><th>职位</th><th>用户名</th><th>部门</th><th>民族</th><th>学历</th><th>出生日期</th><th>身份证号</th><th>电话</th><th>邮箱</th><th>微信</th><th>地址</th><th>状态</th><th>修改</th></tr></thead><tbody>";
+                var len = data[0].Count;
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].PositionType == 3) {
+                        tableStr = tableStr + "<tr><td>" + data[i].RealName + "</td><td>" + data[i].SexTypeStr + "</td><td>" + data[i].UserTypeStr + "</td><td>" + data[i].UserName + "</td><td>" + data[i].Department.Name + "</td><td>" + data[i].Nation + "</td><td>" + data[i].Education + "</td><td>" + data[i].DateOfBirth + "</td><td>" + data[i].IdCard + "</td><td>" + data[i].Phone + "</td><td>" + data[i].Email + "</td><td>" + data[i].WeiXin + "</td><td>" + data[i].Address + "</td><td>" + data[i].PositionTypeStr + "</td><td><button id='btn" + i + "'  type='button' class='btn btn-default'  style='    height: 30px; width: 80px;margin-top: -5px;'  data-toggle='modal' data-target='#upuser' onclick='getuser(" + i + ")'>修改</button></td><td><input type='hidden'  value='" + data[i].UserId + "' id='userid" + i + "' /></td><td><input  type='button' value='去培训' class='btn btn-default' style='    height: 30px; width: 80px;margin-top: -5px;'  onclick='rain(" + i + ")'/></td></tr>";
+                    } else {
+                        tableStr = tableStr + "<tr><td>" + data[i].RealName + "</td><td>" + data[i].SexTypeStr + "</td><td>" + data[i].UserTypeStr + "</td><td>" + data[i].UserName + "</td><td>" + data[i].Department.Name + "</td><td>" + data[i].Nation + "</td><td>" + data[i].Education + "</td><td>" + data[i].DateOfBirth + "</td><td>" + data[i].IdCard + "</td><td>" + data[i].Phone + "</td><td>" + data[i].Email + "</td><td>" + data[i].WeiXin + "</td><td>" + data[i].Address + "</td><td>" + data[i].PositionTypeStr + "</td><td><button id='btn" + i + "'  type='button' class='btn btn-default'  style='    height: 30px; width: 80px;margin-top: -5px;'  data-toggle='modal' data-target='#upuser' onclick='getuser(" + i + ")'>修改</button></td><td><input type='hidden'  value='" + data[i].UserId + "' id='userid" + i + "' /></td></tr>";
+                    }
+
+                }
+                tableStr = tableStr + "</tbody></table>";
+                //将动态生成的table添加的事先隐藏的div中.
+                $("#usertable").html(tableStr);
+            }
+
+        })
+    }
+    //获取人员列表渲染
+    function getuser(user) {
+        var userid = $("#userid" + user + "").val();
+        $.ajax({
+            type: "POST",
+            url: "http://318jp82710.eicp.vip/api/User/GetUserList",
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem("token"),
+                UserId: window.localStorage.getItem("UserId"),
+                AppFlag: window.localStorage.getItem("AppFlag")
+            },
+            data: {
+                UserId: userid
+            },
+            success: function (res) {
+                var data = res;
+                document.getElementById("upusername").value = data[0].UserName;
+                document.getElementById("uprealename").value = data[0].RealName;
+                document.getElementById("upusertype").text = data[0].UserTypeStr;
+                document.getElementById("upsex").value = data[0].SexType;
+                document.getElementById("upnation").value = data[0].Nation;
+                document.getElementById("upbirthday").value = data[0].DateOfBirth;
+                document.getElementById("upidCrad").value = data[0].IdCard;
+                document.getElementById("upacademic").value = data[0].Education;
+                document.getElementById("upphonenumber").value = data[0].Phone;
+                document.getElementById("upemail").value = data[0].Email;
+                document.getElementById("upvx").value = data[0].WeiXin;
+                document.getElementById("upadress").value = data[0].Address;
+                document.getElementById("hideuserid").value = data[0].UserTypeId;
+                document.getElementById("usersId").value = data[0].UserId;
+            }
+        })
+    }
+    //更新用户职位状态
+    function rain(user) {
+        var userid = $("#userid" + user + "").val();
+        $.ajax({
+            type: "POST",
+            url: "http://318jp82710.eicp.vip/api/User/UpdatePositionType",
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem("token"),
+                UserId: window.localStorage.getItem("UserId"),
+                AppFlag: window.localStorage.getItem("AppFlag")
+            },
+            data: {
+                UserId: userid, PositionType: 2
+            }, success: function (res) {
+                uptable(res);
+            }
+        })
+    }
+    //获取当前的数据发送后台存储
+    function upuserclick() {
+        var userid = document.getElementById("usersId").value;
+        var UserName = document.getElementById("upusername").value;
+        var realename = document.getElementById("uprealename").value;
+        var usertype = document.getElementById("upusertype").text;
+        var DepartmentId = document.getElementById("bmselect").value;
+        var sex = document.getElementById("upsex").value;
+        var nation = document.getElementById("upnation").value;
+        var birthday = document.getElementById("upbirthday").value;
+        var idCrad = document.getElementById("upidCrad").value;
+        var academic = document.getElementById("upacademic").value;
+        var phonenumber = document.getElementById("upphonenumber").value;
+        var email = document.getElementById("upemail").value;
+        var vx = document.getElementById("upvx").value;
+        var adress = document.getElementById("upadress").value;
+        var password = document.getElementById("uppassword").value;
+        var hideuserid = document.getElementById("hideuserid").value;
+        var a = confirm("是否确认修改？");
+        if (a) {
+            $.ajax({
+                type: "POST",
+                url: "http://318jp82710.eicp.vip/api/User/Update",
+                headers: {
+                    Authorization: "Bearer " + window.localStorage.getItem("token"),
+                    UserId: window.localStorage.getItem("UserId"),
+                    AppFlag: window.localStorage.getItem("AppFlag")
+                },
+                data: {
+                    UserId: userid, UserName: UserName, Password: password, UserTypeStr: usertype, DepartmentId: DepartmentId, RealeName: realename, DateOfBirth: birthday, SexType: sex, Nation: nation, Education: academic, Phone: phonenumber, Email: email,
+                    WeiXin: vx, Address: adress, IdCard: idCrad, UserTypeId: hideuserid
+                },
+                success: function (res) {
+                    uptable(res);
+                }
+            })
+        }
+    }
+//获取职位类型
+depart();
+function depart(){
+$.ajax({
+    url:window.url+"User/GetUserTypeList",//POST /api/User/GetUserTypeList
+    type:"post",
+    data:{
+        PageIndex:0,
+        PageSize:0
+    },
+     headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+    success:(res)=>{
+        console.log(res)
+        var htm='';
+        for (let i = 0; i < res.length; i++) {
+            htm+="<option value="+res[i].UserTypeId+">"+res[i].Name+"</option>"
+        }
+        $(".typs").html(htm)
+    }
+})
+
+
+}
+
+
+</script>

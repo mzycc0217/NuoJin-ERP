@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../Layui/layui-v2.5.6/layui/css/layui.css">
+    <link rel="stylesheet" href="../Layui/layui-v2.5.6/layui/layui_ext/dtree/dtree.css">
+  
+    <link rel="stylesheet" href="../Layui/layui-v2.5.6/layui/layui_ext/dtree/font/dtreefont.css">
+</head>
+<body>
+    <table id="PeopleTables" lay-filter="PeopleTable" ></table>
+    <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="add">添加</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs"   lay-event="del">删除</a>
+       
+       
+      </script>
+
+
+      <form class="layui-form" action="" name="form6" id="shouquan" style="display: none;"  lay-filter="formTestt">
+  
+
+        <div class="layui-form-item">
+          <label class="layui-form-label">人员身份id</label>
+          <div class="layui-input-block">
+            <input type="text" name="pteopels" required  lay-verify="required" placeholder="人员身份id" autocomplete="off" class="layui-input" style="width: 60%;" disabled>
+          </div>
+        </div> 
+        <div class="layui-form-item">
+            <label class="layui-form-label">菜单</label>
+            <div class="layui-input-block elements">
+              <ul id="demoTree" class="dtree" data-id="0"></ul>
+            </div>
+          </div>
+   
+        <!-- <div class="layui-form-item">
+            <label class="layui-form-label">模块</label>
+            <div class="layui-input-block elements">
+              
+            </div>
+          </div>
+      
+    
+        <div class="layui-form-item">
+            <label class="layui-form-label">菜单</label>
+            <div class="layui-input-block elementsdd">
+              
+            </div>
+        </div> 
+    
+      
+        <div class="layui-form-item">
+            <label class="layui-form-label">元素</label>
+            <div class="layui-input-block elementsdp">
+              
+            </div>
+        </div>  -->
+    <div class="layui-form-item">
+          <div class="layui-input-block">
+            <button class="layui-btn savestdk" lay-submit lay-filter="fork">确定</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+          </div>
+      </div>
+       </form>
+      
+     
+   
+
+
+
+
+
+
+</body>
+</html>
+
+<script src="../Layui/layui-v2.5.6/layui/layui.all.js"></script>
+<script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+<script src="../Layui/layui-v2.5.6/layui/lay/modules/layer.js"></script>
+<script src="../UrlModel/url.js"></script>
+<script>
+ window.onload = function() {
+            anomation();
+        }
+layui.extend({
+    dtree: '../Layui/layui-v2.5.6/layui/layui_ext/dist/dtree'   // {/}的意思即代表采用自有路径，即不跟随 base 路径
+  }).use(['element', 'jquery','table','layer','form','tree','dtree',], function () {
+        var element = layui.element;
+        var $ = layui.jquery;
+        var table=layui.table;
+        var layer=layui.layer;
+        var form=layui.form;
+        var tree = layui.tree;
+        var util = layui.util;
+        var dtree = layui.dtree
+        
+
+
+
+
+
+
+     table.render({
+     elem: '#PeopleTables'
+     ,id: 'PeopleTable'
+    ,height: 400,
+    headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            }
+    ,page:false
+    ,width:1200
+    , method: 'post'
+    , parseData: function (res) {//将原始数据解析成 table 组件所规定的数据
+
+          return {
+              "code": 0,//解析接口状态
+              "msg": "成功",//解析提示文本
+              "count":20,
+               data:res//解析数据列表
+
+          }
+
+      }
+    ,url: window.url+'User/GetUserTypeList' //数据接口
+    ,cols: [[ //表头
+     
+      {field: 'Name', title: '人员类别', width:400}
+      ,{field: 'Desc', title: '人员描述', width:400, sort: true}
+      ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:400}
+    ]]
+  });
+
+  table.on('tool(PeopleTable)', function (obj) {
+    var data=obj.data;
+ 
+if(obj.event==='add'){
+ 
+   form.val('formTestt',{
+     "pteopels":data.UserTypeId
+   })
+
+
+    console.log(1)
+    layer.open({
+          type:1,
+          area: ['500px', '800px'],
+          title: '授权'
+          ,content: $('#shouquan')
+
+
+}); 
+   sk();
+  form.render();
+}
+  })
+
+
+
+
+
+
+
+$('.savestdk').click(function(){
+
+//             alert(UserTypeId)
+//   // alert($('input[name="interest"]:checked').attr('lay-data')) 
+//             //模块
+//             var chk_value =[];//定义一个数组      
+//             $('input[name="interest"]:checked').each(function(){//遍历每一个名字为interest的复选框，其中选中的执行函数      
+//             chk_value.push($(this).attr('lay-data'));//将选中的值添加到数组chk_value中     
+           
+//             });  
+          
+
+//         //菜单
+//             var chk_values =[];//定义一个数组      
+//             $('input[name="interests"]:checked').each(function(){//遍历每一个名字为interest的复选框，其中选中的执行函数      
+//             chk_values.push($(this).attr('lay-data'));//将选中的值添加到数组chk_value中     
+           
+//             });  
+            
+//           //元素s
+//           var chk_valuesd =[];//定义一个数组      
+//             $('input[name="interestd"]:checked').each(function(){//遍历每一个名字为interest的复选框，其中选中的执行函数      
+//             chk_valuesd.push($(this).attr('lay-data'));//将选中的值添加到数组chk_value中     
+           
+//             });   
+//人员id
+            var UserTypeId =document.form6.pteopels.value;
+var params = dtree.getCheckbarNodesParam("demoTree");
+  console.log(params)
+  
+  var Model=[];
+  var Menu=[];
+  var Elementid=[];
+	  for (let p = 0; p < params.length; p++) {
+		if (params[p].parentId=="undefined") {
+			Model.push(params[p].nodeId)
+		    var Menus=params.filter((t)=>{
+				if ( t.parentId == params[p].nodeId) {
+					return t.nodeId;
+				}
+				})
+				for (let k = 0; k < Menus.length; k++) {
+					Menu.push(Menus[k].nodeId)
+					var Elements=params.filter((s)=>{
+				if ( s.parentId == Menus[k].nodeId) {
+					return s.nodeId;
+				}
+				})
+                 for (let w = 0; w < Elements.length; w++) {
+					Elementid.push(Elements[w].nodeId)
+					 
+				 }
+
+				}
+		  }
+		 
+	  }
+            $.ajax({
+              url:window.url+"UserJurisdiction/ToGrantAuthorization",
+              type:"post",
+              async:false,
+              //contentType:"application/json",
+              headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+              data:{
+                UserTypeId:UserTypeId,
+                ModuleIds:Model,
+                MenuIds :Menu,
+                ElementIds :Elementid
+              },
+              success:(res)=>{
+                  console.log(res)
+              }
+ 
+     
+
+
+
+            })
+
+
+ })
+
+ var p=sk();
+    p.then((value)=>{
+      var t= sp(value);
+     
+        // var data=eval("(" + value + ")");
+        var DemoTree = dtree.render({
+        elem: "#demoTree",
+        accordion:true,
+        checkbar: true,
+        checkbarData: "choose", // 记录选中（默认）， "change"：记录变更， "all"：记录全部， "halfChoose"："记录选中和半选（V2.5.0新增）"
+        data:t, // 使用data加载
+  
+    
+    });
+    
+    // // 绑定节点点击
+    // dtree.on("node('demoTree')" ,function(obj){
+    //   layer.msg(JSON.stringify(obj.param));
+    // });
+  });
+
+
+  $("#checkbarTreea_btna").click(function(){
+  var params = dtree.getCheckbarNodesParam("demoTree");
+  
+  
+  var Model=[];
+  var Menu=[];
+  var Elementid=[];
+	  for (let p = 0; p < params.length; p++) {
+		if (params[p].parentId=="undefined") {
+			Model.push(params[p].nodeId)
+		    var Menus=params.filter((t)=>{
+				if ( t.parentId == params[p].nodeId) {
+					return t.nodeId;
+				}
+				})
+				for (let k = 0; k < Menus.length; k++) {
+					Menu.push(Menus[k].nodeId)
+					var Elements=params.filter((s)=>{
+				if ( s.parentId == Menus[k].nodeId) {
+					return s.nodeId;
+				}
+				})
+                 for (let w = 0; w < Elements.length; w++) {
+					Elementid.push(Elements[w].nodeId)
+					 
+				 }
+
+				}
+		  }
+		 
+	  }
+  console.log("mdoel",Model)
+  console.log("Menu",Menu)
+  console.log("Elementid",Elementid)
+
+});
+      
+  
+
+ 
+
+
+
+})
+
+
+// function sk(){
+
+//   var Modelst=[];
+//    $.ajax({
+//     url:"http://192.168.3.26:9100/api/UserJurisdiction/GetUserModuleList",
+//     type:"post",
+//     async:false,
+//     success:(res)=>{
+   
+//      var Models=[];
+//      for(let i=0;i<res[0].Module.length;i++){
+//       Models.push(res[0].Module[i]);
+//      }
+//      this.Modelst=Models; 
+
+//     }
+    
+
+//    })
+// console.log(this.Modelst)
+//   var htm='';
+//    for (let t = 0; t < this.Modelst.length; t++) {
+//     //  htm+=' ';<option value="">'+this.Modelst[t].Name+'</option>
+//     htm+='   <input type="checkbox" name="interest"  title='+this.Modelst[t].Name+' lay-data='+this.Modelst[t].ModuleId+'>';
+     
+//    }
+//   $(".elements").html(htm)
+
+//    var menus=[];
+//   this.Modelst.forEach(element => {
+   
+//     for(let p=0;p<element.Menu.length;p++){
+//       menus.push(element.Menu[p])
+    
+//     } 
+   
+   
+//   }); 
+//    htms='';
+//     for (let index = 0; index < menus.length; index++) {
+//        htms+='<input type="checkbox" name="interests" title='+menus[index].Title+' lay-data='+menus[index].MenuId+'>';
+      
+//     }
+//     $(".elementsdd").html(htms) 
+//  console.log(menus)
+// var elements=[];
+// menus.forEach(p=>{
+// for (let s = 0; s < p.Element.length; s++) {
+//   elements.push( p.Element[s]);
+  
+// }
+// })
+//      htmsd='';
+//     for (let index = 0; index < elements.length; index++) {
+//        htms+='<input type="checkbox" name="interestd" title='+elements[index].Name+' lay-data='+elements[index].ElementId  +'>';
+      
+//     }
+//     $(".elementsdp").html(htmsd) 
+
+// }
+
+
+//去重
+// es6提供的新的数据结构Set，类似数组，但是成员的值都是唯一的，没有重复的值。
+function dedupe(arr) {
+    var newSet = new Set(arr);  // arr变成了set的数据结构，并去除了其中重复的元素
+    return Array.from(newSet);  // Array.from方法将set数据结构转为数组数据结构
+}
+
+
+
+    // 初始化树
+   
+
+
+  function sk(){
+ return new Promise((reslove,reject)=>{
+
+   var Modelst=[];
+     $.ajax({
+    url:window.url+"UserJurisdiction/GetUserModuleList",
+    type:"post",
+    async:false,
+    headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+    success:(res)=>{
+   console.log(res)
+     var Models=[];
+     for(let i=0;i<res[0].Module.length;i++){
+      Models.push(res[0].Module[i]);
+     }
+     this.Modelst=Models; 
+      reslove(this.Modelst);
+    console.log(Models)
+    } 
+
+   })
+
+ }) 
+
+}
+
+//映射方法
+function sp(demo){
+    var st=[];
+for (let i = 0; i < demo.length; i++) {
+    var obj={}
+  obj.id=demo[i].ModuleId;
+  obj.title=demo[i].Name;
+  
+  obj.checkArr=[{"type": "0", "checked": "0"}];
+  obj.children=[]
+ for (let p = 0; p < demo[i].Menu.length; p++) {
+        var obs={};
+        obs.checkArr=[{"type": "0", "checked": "0"}];
+        obs.id=demo[i].Menu[p].MenuId
+        obs.title=demo[i].Menu[p].Title
+        obs.parentId=demo[i].ModuleId;
+		obs.children=[];
+		for (let t = 0; t <  demo[i].Menu[p].Element.length; t++) {
+			var obt={};
+			obt.checkArr=[{"type": "0", "checked": "0"}];
+			obt.id=demo[i].Menu[p].Element[t].ElementId 
+			obt.title=demo[i].Menu[p].Element[t].Name
+			obt.parentId=demo[i].Menu[p].MenuId;
+			obs.children.push(obt)
+		}
+        obj.children.push(obs)
+ }
+ st.push(obj) 
+}
+console.log("st",st)
+return st;
+}
+
+
+
+</script>

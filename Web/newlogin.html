@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="JS/jquery-2.1.0.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="My97DatePicker/My97DatePicker/WdatePicker.js"></script>
+    <script src="My97DatePicker/My97DatePicker/calendar.js"></script>
+    <title></title>
+    <style type="text/css">
+        .bg {
+            background-image: url('./img/102.png');
+            /* background-position:top; */
+            background-repeat: no-repeat;
+        }
+        
+        .login {
+            margin-top: 300px;
+            color: white;
+        }
+        
+        .content {
+            width: 360px;
+            height: 380px;
+            background: white;
+            border-radius: 4%;
+            border: 1px solid #CCCCCC;
+            box-shadow: 5px 5px 5px #CCCCCC;
+            margin: -90px auto;
+        }
+        
+        .Verification_code>img {
+            width: 82px;
+            height: 33px;
+            border-radius: 10%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div style="margin-left:10% ;margin-top: 3%;margin-bottom: 2%;">
+        <img src="./img/101.png"> <span style="font-size: 180%;margin-left:30px;">西安欧得ERP管理系统</span>
+    </div>
+
+    <div class="container-fluid bg">
+        <div class="col-sm-4 col-md-4"></div>
+        <div id="a" class="col-sm-4 col-md-4 login">
+            <form class="form-horizontal content">
+                <div class="form-group" style="text-align:center; color:#2F89D8;font-size: 160%;padding-top: 40px;">
+                    <span>用户登录</span>
+                    <!-- <span>西安欧得ERP <br />管理系统</span>  -->
+
+                </div>
+                <div>
+                    <div class="form-group" style="margin-top: 40px;">
+                        <label for="UserName" class="col-sm-3 control-label" style="color: black; font-weight: 300;"> 账号:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="UserName" value="" placeholder="UserName" style="background: white;">
+                        </div>
+                    </div>
+                    <div class="form-group" style="padding-top: 15px;">
+                        <label for="Password" class="col-sm-3 control-label" style="color: black; font-weight: 300;">密码:</label>
+                        <div class="col-sm-8">
+                            <input type="password" class="form-control" id="Password" placeholder="Password">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="padding-top: 15px; display: flex;">
+                        <label for="Verification" class="col-sm-3 control-label" style="color: black; font-weight: 300;">验证码:</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="Verification" placeholder="请输入验证码">
+                        </div>
+                        <div class="Verification_code" onclick="yzm()"></div>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="button" class="btn  btn-success" onclick="loginclick()" style="width: 70%; ;margin-left: 30px;">登陆</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class=" col-sm-4 col-md-4"></div>
+
+    </div>
+    </div>
+</body>
+
+</html>
+<script src="./UrlModel/url.js"></script>
+<script>
+    var p;
+
+    function GetVerCode() {
+        $.ajax({
+            type: "get",
+            url: window.url + "User/GetVerCode",
+            success: function(data) {
+                var iamge = "<img src='data:image/jpeg;base64," + data.ver + "'/>";
+                $(".Verification_code").html(iamge)
+                p = data.uid;
+            },
+        })
+
+    }
+
+
+    function yzm() {
+
+        GetVerCode();
+    }
+
+
+    window.onload = function() {
+        GetVerCode()
+    };
+
+    function Login() {
+        var username = document.getElementById("UserName").value;
+        var password = document.getElementById("Password").value;
+        var Verification = document.getElementById("Verification").value;
+        if (username != null && password != null && Verification != null && username != null && password != null && Verification != null) {
+            $.ajax({
+                type: "POST",
+                url: window.url + "User/Login",
+                async: false,
+                data: {
+                    UserName: username,
+                    Password: password,
+                    VerificationCode: Verification,
+                    Verification: p
+
+                },
+                success: function(res) {
+
+                    console.log(res);
+                    console.log(res.data);
+                    var data = res;
+                    if (data != null && data.Token != null) {
+                        //需要改下
+                        window.localStorage.setItem('token', data.Token);
+                        window.localStorage.setItem("UserId", data.User.UserId);
+                        window.localStorage.setItem("AppFlag", "pc");
+                        window.localStorage.setItem('UserTypeId', data.User.UserTypeId);
+                        window.localStorage.setItem('UserNmae', data.User.RealName);
+                        window.location = "./layOu/otLY.html";
+                    } else if (data != null) {
+                        var a = JSON.parse(data);
+                        if (a != null && a.Code == 1) {
+                            alert(a.Message);
+                        }
+                    } else {
+                        alert("未知错误");
+                    }
+
+                    $("#UserName").val("")
+                    $("#Password").val("")
+                    $("#Verification").val("")
+                }
+
+            })
+        } else {
+            alert("账号或密码为空");
+        }
+    }
+
+    function loginclick() {
+        Login()
+    }
+    //增加点击回车事件
+    $('body').keydown(function(e) {
+        if (e.which === 13) {
+            Login()
+        }
+    })
+</script>

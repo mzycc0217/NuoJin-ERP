@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../JS/jquery-1.8.3.min.js"></script>
+    <script src="../JS/jquery-2.1.0.min.js"></script>
+    <script src="../JS/jquery.js"></script>
+    <script src="../JS/jquery.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <title>日常管理</title>
+    <style>
+        .dailyList {
+            margin: 20px;
+        }
+
+        .btn {
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="dailyList">
+            <div class="btn-group dailyBtn" data-toggle="buttons">
+                <label class="btn btn-primary active">
+                    <input type="checkbox" autocomplete="off" checked onclick="Leave()">
+                    请假
+                </label>
+                <label class="btn btn-primary">
+                    <input type="checkbox" autocomplete="off"> 休假
+                </label>
+                <label class="btn btn-primary">
+                    <input type="checkbox" autocomplete="off">迟到
+                </label>
+                <label class="btn btn-primary">
+                    <input type="checkbox" autocomplete="off">早退
+                </label>
+            </div>
+        </div>
+        <div class="dailyTable">
+            <div class="page"></div>
+        </div>
+   </div>
+</body>
+</html>
+<script>
+    window.onload = Leave();
+    //请假表
+    function Leave(page) {
+        if (page == null) {
+            page = 1;
+        }
+        $.ajax({
+            type: "POST",
+            url: 'http://318jp82710.eicp.vip/api/Leave/GetList',
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem("token"),
+                UserId: window.localStorage.getItem("UserId"),
+                AppFlag: window.localStorage.getItem("AppFlag")
+            },
+            data: {
+                PageIndex: page,
+                PageSize: 10,
+            },
+            success: function(res) {
+                console.log(res);
+                var data = res;
+                // 创建
+                var tableStr = "<table class='table table-hover'>";
+                tableStr = tableStr + "<tr><th>姓名</th><th>原由</th><th>开始时间</th><th>结束时间</th><th>审批人</th><th>操作</th></tr>";
+                var len = data[0].Count;
+                for (var i = 0; i < data.length; i++) {
+                    tableStr = tableStr + " <tr><td>" + data[i].User.UserName + "</td><td>" + leaveType(data[i].LeaveType) + "</td><td>" + data[i].StartTime + "</td><td>" + data[i].EndTime + "</td><td><td>" + data[i].ApproveName + "</td></tr> ";
+                }
+                tableStr = tableStr + "</tbody></table>";
+                //将动态生成的table添加的事先隐藏的div中.
+                $(".dailyTable").html(tableStr);
+                var index = len / 10;
+                index = Math.round(index);
+                var str = "<p>";
+                for (var i = 1; i < index + 1; i++) {
+                    str += "  <button type='button' onclick='userNameType(" + i + ")'>" + i + "</button>";
+                }
+                str += "</p>";
+                $(".page").html(str);
+            }
+        })
+    }
+
+    function leaveType(x) {
+        if (x == 0) {
+            return ("事假")
+        } else if (x == 1) {
+            return ("病假")
+        } else if (x == 2) {
+            return ("产假")
+        } else {
+            return ("调休")
+        }
+    }
+</script>

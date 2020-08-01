@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../layui/layui.all.js"></script>
+    <script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+    <script src="../JS/funtion.js"></script>
+    <script src="../UrlModel/url.js"></script>
+    <title>单子Arr</title>
+    <style>
+        .wrap {
+            margin: 20px;
+            width: 800px;
+        }
+        
+        .layui-tab-title>li {
+            background-color: #009688;
+            color: #fff;
+            margin: 0 20px;
+        }
+        
+        .layui-tab-card>.layui-tab-title li {
+            margin: 0 50px;
+        }
+        
+        .layui-tab-card>.layui-tab-title {
+            background-color: #fff;
+        }
+        
+        .layui-tab-item>.layui-form-item {
+            width: 800px;
+        }
+        
+        .layui-tab-item {
+            margin-left: 130px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="layui-tab layui-tab-card" id="ss">
+            <ul class="layui-tab-title">
+                <li class="layui-this" id="billPurchaseBtn">采购单</li>
+                <li id="billChemicalBtn">化学单</li>
+                <li id="billOfficeBtn">办公单</li>
+                <li id="billProductBtn">产品单</li>
+            </ul>
+            <div class="layui-tab-content" style="height: 100%;">
+                <div class="layui-tab-item layui-show">
+                    <div class="bill" id="billPurchase">
+                        <div class="layui-form-item layui-form">
+                            <label class="layui-form-label">项目名称</label>
+                            <div class="layui-input-block" style="width: 60%;">
+                                <select name="Project" class="Project" id="Projects" lay-search>
+              </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-form">
+                            <label class="layui-form-label">原材料名称</label>
+                            <div class="layui-input-block" style="width: 60%;">
+                                <select name="cailiao" class="cailiao" id="cailiaos" lay-search lay-filter="cailiaos">
+              <option value="">请选择</option>
+              </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-form">
+                            <label class="layui-form-label">CAS号</label>
+                            <div class="layui-input-block" style="width: 60%;">
+                                <input type="text" id="CAS" class="layui-input" onfocus="this.blur()">
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-form">
+                            <label class="layui-form-label">类型</label>
+                            <div class="layui-input-block" style="width: 60%;">
+                                <input type="text" id="mold" class="layui-input" onfocus="this.blur()">
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-form">
+                            <label class="layui-form-label">单位</label>
+                            <div class="layui-input-block" style="width: 60%;">
+                                <input type="hidden" id="unitId">
+                                <input type="text" id="unit" class="layui-input" onfocus="this.blur()">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">申请数量</label>
+                            <div class="layui-input-block">
+                                <input type="number" name="PreSale" id="PreSale" style="width: 73%;" placeholder="申请数量" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">申请日期</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="stattime" id="stattimes" placeholder="申请日期" autocomplete="off" class="layui-input" style="width:73%">
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-form-text">
+                            <label class="layui-form-label">申请人备注说明</label>
+                            <div class="layui-input-block">
+                                <textarea name="desc" id="desc" placeholder="备注说明" class="layui-textarea" style="width: 73%;"></textarea>
+                            </div>
+                        </div>
+                        <div class="layui-form-item" style="text-align: right;">
+                            <div class="layui-input-block">
+                                <button class="layui-btn tijiao" id="shangchuan" onclick="tijiao()">立即提交</button>
+                                <!-- onclick="tijiao()" -->
+                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="bill" id="billChemical">
+                        <div class="layui-form-item layui-form">
+                            <label class="layui-form-label">化学名称</label>
+                            <div class="layui-input-block" style="width: 60%;">
+                                <select name="cailiao" class="chemicalName" id="chemicalName" lay-search lay-filter="chemicalName">
+              <option value="">请选择</option>
+              </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-form">
+                            <label class="layui-form-label">CAS号</label>
+                            <div class="layui-input-block" style="width: 60%;">
+                                <input type="text" id="chemicalCAS" class="layui-input" onfocus="this.blur()">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item layui-form">
+                            <label class="layui-form-label">类型</label>
+                            <div class="layui-input-block" style="width: 60%;">
+                                <input type="hidden" id="Z_RowTypeId">
+                                <input type="text" id="chemicalMold" class="layui-input" onfocus="this.blur()">
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-form">
+                            <label class="layui-form-label">单位</label>
+                            <div class="layui-input-block" style="width: 60%;">
+                                <input type="hidden" id="unitId">
+                                <input type="text" id="chemicalUnit" class="layui-input" onfocus="this.blur()">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">申请数量</label>
+                            <div class="layui-input-block">
+                                <input type="number" id="chemicalNumber" style="width: 63%;" placeholder="申请数量" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">申请日期</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="chemicalStattime" id="chemicalStattime" placeholder="申请日期" autocomplete="off" class="layui-input" style="width:63%">
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-form-text">
+                            <label class="layui-form-label">申请人备注说明</label>
+                            <div class="layui-input-block">
+                                <textarea name="chemicalDesc" id="chemicalDesc" placeholder="备注说明" class="layui-textarea" style="width: 73%;"></textarea>
+                            </div>
+                        </div>
+                        <div class="layui-form-item" style="text-align: right;">
+                            <div class="layui-input-block">
+                                <button class="layui-btn tijiao" id="shangchuan" onclick="chemicalTi()">立即提交</button>
+                                <!-- onclick="tijiao()" -->
+                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="bill" id="billOffice">
+                        <div class="layui-form-item layui-form">
+                            <label class="layui-form-label">办公用品</label>
+                            <div class="layui-input-block" style="width: 60%;">
+                                <select name="officeName" class="officeName" id="officeName" lay-search lay-filter="officeName">
+              <option value="">请选择</option>
+              </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-form">
+                            <label class="layui-form-label">CAS号</label>
+                            <div class="layui-input-block" style="width: 60%;">
+                                <input type="text" id="officeCAS" class="layui-input" onfocus="this.blur()">
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-form">
+                            <label class="layui-form-label">办公用品名称</label>
+                            <div class="layui-input-block" style="width: 60%;">
+                                <input type="hidden" id="Z_RowTypeId">
+                                <input type="text" id="officeMold" class="layui-input" onfocus="this.blur()">
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-form">
+                            <label class="layui-form-label">单位</label>
+                            <div class="layui-input-block" style="width: 60%;">
+                                <input type="hidden" id="unitId">
+                                <input type="text" id="officeUnit" class="layui-input" onfocus="this.blur()">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">申请数量</label>
+                            <div class="layui-input-block">
+                                <input type="number" name="officeNumber" id="officeNumber" style="width: 70%;" placeholder="申请数量" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">申请日期</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="officeStattime" id="officeStattime" placeholder="申请日期" autocomplete="off" class="layui-input" style="width:63%">
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-form-text">
+                            <label class="layui-form-label">申请人备注说明</label>
+                            <div class="layui-input-block">
+                                <textarea name="officeDesc" id="officeDesc" placeholder="备注说明" class="layui-textarea" style="width: 63%;"></textarea>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block" style="text-align: right;">
+                                <button class="layui-btn tijiao" id="shangchuan" onclick="officeTi()">立即提交</button>
+                                <!-- onclick="tijiao()" -->
+                                <button type="reset" class="layui-btn layui-btn-primary" id="reset">重置</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="bill" id="billProduct">
+                        <div class="layui-form-item layui-form">
+                            <label class="layui-form-label">标志</label>
+                            <div class="layui-input-block" style="width: 60%;">
+                                <select id="productSignArr" lay-filter="productSignArr">
+                                     <option value="1">成品</option>
+                                     <option value="2">半成品</option>
+                               </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-form">
+                            <label class="layui-form-label">名称</label>
+                            <div class="layui-input-block" style="width: 60%;">
+                                <select id="product_Cailiaos" lay-search lay-filter="product_Cailiaos">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-form">
+                            <label class="layui-form-label">CAS号</label>
+                            <div class="layui-input-block" style="width: 60%;">
+                                <input type="text" id="productCAS" class="layui-input" onfocus="this.blur()">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item layui-form">
+                            <label class="layui-form-label">类型</label>
+                            <div class="layui-input-block" style="width: 60%;">
+                                <input type="text" id="productMold" class="layui-input" onfocus="this.blur()">
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-form">
+                            <label class="layui-form-label">单位</label>
+                            <div class="layui-input-block" style="width: 60%;">
+                                <input type="text" id="productUnit" class="layui-input" onfocus="this.blur()">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">申请数量</label>
+                            <div class="layui-input-block">
+                                <input type="number" name="productPreSale" id="productPreSale" style="width: 73%;" placeholder="申请数量" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">申请日期</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="productStattime" id="productStattimes" placeholder="申请日期" autocomplete="off" class="layui-input" style="width:73%">
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-form-text">
+                            <label class="layui-form-label">申请人备注说明</label>
+                            <div class="layui-input-block">
+                                <textarea name="desc" id="productDesc" placeholder="备注说明" class="layui-textarea" style="width: 73%;"></textarea>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" onclick="productTi()">立即提交</button>
+                                <!-- onclick="tijiao()" -->
+                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    window.onload = function() {
+        anomation();
+        PurchaseFn();
+    }
+    $("#billPurchaseBtn").click(function() {
+        $("#billPurchase").css("display", "block");
+        PurchaseFn()
+    });
+    $("#billChemicalBtn").click(function() {
+        $("#billChemical").css("display", "block");
+        ChemicalFn()
+    });
+    $("#billOfficeBtn").click(function() {
+        $("#billOffice").css("display", "block");
+        OfficeFn()
+    });
+    $("#billProductBtn").click(function() {
+        $("#billProduct").css("display", "block");
+        ProductFn()
+    });
+    // 采购单
+    function PurchaseFn() {
+        layui.use(['element', 'jquery', 'form', 'laydate', 'table', 'upload'], function() {
+            var element = layui.element;
+            var $ = layui.jquery;
+            var form = layui.form;
+            var laydate = layui.laydate;
+            var upload = layui.upload;
+            //时间
+            laydate.render({
+                elem: '#stattimes' //指定元素
+                    ,
+                type: "datetime"
+            });
+
+
+            laydate.render({
+                elem: '#hopeTimes' //指定元素
+                    ,
+                type: "datetime"
+            });
+
+            laydate.render({
+                elem: '#caigoutimes' //指定元素
+                    ,
+                type: "datetime"
+            });
+            cailiao();
+            //获取项目
+            function cailiao() {
+                $.ajax({
+                    url: window.url + "Project/GetList", //POST /api/Project/GetList
+                    type: 'post',
+                    data: {
+                        "PageIndex": 0,
+                        "PageSize": 0
+                    },
+                    headers: {
+                        Authorization: window.header.Ae,
+                        UserId: window.header.Ud,
+                        AppFlag: window.header.Fg
+                    },
+
+                    success: (res) => {
+
+                        var htm = '';
+                        for (let s = 0; s < res.length; s++) { //Project
+                            htm += ' <option value="' + res[s].ProjectId + '">' + res[s].Name + '</option>'
+
+                        }
+                        $(".Project").html(htm);
+                        $.ajax({
+                            type: 'POST',
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            url: window.url + 'RawRoom/GetRawRoom', //后台数据地址
+                            data: {
+                                PageIndex: -1,
+                                PageSize: -1
+                            },
+                            success: function(data) {
+                                $.each(data.data, function(index, item) { //循环后台返回的json数据
+                                    //new Option方法是新建一个option，第一个参数是需要显示的值，第二个参数是option的value值,然后append到下拉框中。
+                                    $("#cailiaos").append(new Option(item.Z_Raw.Name, item.RawId));
+                                })
+                                layui.form.render('select');
+                            }
+                        });
+                        layui.use(['form'], function() {
+                            var form = layui.form
+                            form.on('select(cailiaos)', function(data) { //选择移交单位 赋值给input框    
+                                $.ajax({
+                                    type: 'POST',
+                                    headers: {
+                                        Authorization: window.header.Ae,
+                                        UserId: window.header.Ud,
+                                        AppFlag: window.header.Fg
+                                    },
+                                    url: window.url + 'Raw/GetRow', //后台数据地址
+                                    contentType: "application/json",
+                                    data: JSON.stringify({
+                                        Id: data.value,
+                                        PageIndex: -1,
+                                        PageSize: -1
+                                    }),
+                                    success: function(data) {
+
+                                        $("#CAS").val(data.data[0].CASNumber);
+                                        $("#mold").val(data.data[0].Z_RowType.Name);
+                                        $("#unit").val(data.data[0].Company.Name);
+                                    }
+                                });
+                            });
+                        });
+                    }
+                })
+            }
+
+        });
+
+    }
+    //提交数据
+    function tijiao() {
+        var Project = $("#Projects").val();
+        var cailiao = $("#cailiaos").val();
+        var PreSale = $("#PreSale").val();
+        var desc = $("#desc").val();
+        var stattimes = $("#stattimes").val();
+        //POST /api/Purchase/Add
+        $.ajax({
+            url: window.url + "Purchase/Add",
+            type: "post",
+            contentType: "application/json",
+            data: JSON.stringify({
+                ProjectId: Project, //项目id
+                RawId: cailiao, //原材料ID
+                ApplyNumber: PreSale, //申请的数量
+                ApplyTime: stattimes, //申请的时间
+                ApprovalDesc: desc, //审核备注
+                ApplicantId: localStorage.getItem('UserId') //申请人的Id
+            }),
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            success: (res) => {
+
+                if (res != null && res.code == 0) {
+                    window.location("newlogin.html");
+                } else if (res != null && res.code == 1) {
+                    alert(res.Message);
+                } else {
+                    alert("已完成")
+                    window.location.reload();
+                }
+            }
+
+        })
+    }
+    // 化学单
+    function ChemicalFn() {
+        //JavaScript代码区域
+        layui.use(['element', 'jquery', 'form', 'laydate', 'table', 'upload'], function() {
+            var element = layui.element;
+            var $ = layui.jquery;
+            var form = layui.form;
+            var laydate = layui.laydate;
+            var upload = layui.upload;
+            //时间
+            laydate.render({
+                elem: '#chemicalStattime' //指定元素
+                    ,
+                type: "datetime"
+            });
+            //选完文件后不自动上传
+            cailiao1();
+            var _Chemistry = [];
+
+            function cailiao1() {
+                $.ajax({
+                    type: 'POST',
+                    headers: {
+                        Authorization: window.header.Ae,
+                        UserId: window.header.Ud,
+                        AppFlag: window.header.Fg
+                    },
+                    url: window.url + 'ChemistryRoom/GetChemistryRoom', //后台数据地址
+                    data: {
+                        PageIndex: -1,
+                        PageSize: -1
+                    },
+                    success: function(data) {
+                        _Chemistry = data.data
+                        $.each(data.data, function(index, item) { //循环后台返回的json数据
+                            //new Option方法是新建一个option，第一个参数是需要显示的值，第二个参数是option的value值,然后append到下拉框中。
+                            $("#chemicalName").append(new Option(item.Z_Chemistry.Name, item.ChemistryId));
+                        })
+                        layui.form.render('select');
+                    }
+                });
+                layui.use(['form'], function() {
+                    var form = layui.form
+                    form.on('select(chemicalName)', function(data) { //选择移交单位 赋值给input框    
+                        const new_Chemistry = _Chemistry.filter(m => {
+                            if (m.ChemistryId === data.value) {
+
+                                return data;
+
+                            }
+                        })
+                        $("#chemicalCAS").val(new_Chemistry[0].Z_Chemistry.CASNumber);
+                        $("#chemicalMold").val(new_Chemistry[0].Z_Chemistry.Z_ChemistryType.Name);
+                        $("#chemicalUnit").val(new_Chemistry[0].Z_Chemistry.Company.Name);
+                    });
+                });
+            }
+        })
+    }
+    //提交数据
+    function chemicalTi() {
+        var chemicalName = $("#chemicalName").val();
+        var chemicalNumber = $("#chemicalNumber").val();
+        var chemicalDesc = $("#chemicalDesc").val();
+        var chemicalStattime = $("#chemicalStattime").val();
+        //POST /api/Purchase/Add
+        $.ajax({
+            url: window.url + "ChemistryMonad/SetAddChemistryMonad",
+            type: "post",
+            contentType: "application/json",
+            data: JSON.stringify({
+                ChemistryId: chemicalName, //原材料ID
+                ApplyNumber: chemicalNumber, //申请的数量
+                ApplyTime: chemicalStattime, //申请的时间
+                ApplicantRemarks: chemicalDesc, //审核备注
+                ApplicantId: localStorage.getItem('UserId') //申请人的Id
+            }),
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            success: (res) => {
+                if (res != null && res.code == 0) {
+                    window.location("newlogin.html");
+                } else if (res != null && res.code == 1) {
+                    alert(res.Message);
+                } else {
+                    alert("已完成")
+                    window.location.reload();
+                }
+            }
+
+        })
+    }
+    // 办公
+    function OfficeFn() {
+        layui.use(['element', 'jquery', 'form', 'laydate', 'table', 'upload'], function() {
+            var element = layui.element;
+            var $ = layui.jquery;
+            var form = layui.form;
+            var laydate = layui.laydate;
+            var upload = layui.upload;
+            // 、时间
+            laydate.render({
+                elem: '#officeStattime' //指定元素
+                    ,
+                type: "datetime"
+            });
+
+            //选完文件后不自动上传
+            OfficeRoom();
+            var _Office = [];
+
+            function OfficeRoom() {
+                $.ajax({
+                    type: 'POST',
+                    headers: {
+                        Authorization: window.header.Ae,
+                        UserId: window.header.Ud,
+                        AppFlag: window.header.Fg
+                    },
+                    url: window.url + 'OfficeRoom/GetOfficeRoom', //后台数据地址
+                    data: {
+                        PageIndex: -1,
+                        PageSize: -1
+                    },
+                    success: function(data) {
+
+                        _Offices = data.data
+
+                        $.each(data.data, function(index, item) { //循环后台返回的json数据
+                            //new Option方法是新建一个option，第一个参数是需要显示的值，第二个参数是option的value值,然后append到下拉框中。
+                            $("#officeName").append(new Option(item.Z_Office.Name, item.OfficeId));
+                        })
+                        layui.form.render('select');
+                    }
+                });
+                layui.use(['form'], function() {
+                    var form = layui.form
+                    form.on('select(officeName)', function(data) { //选择移交单位 赋值给input框    
+                        const new_Office = _Offices.filter(m => {
+                            if (m.OfficeId === data.value) {
+                                return data;
+                            }
+                        })
+                        $("#officeCAS").val(new_Office[0].Z_Office.CASNumber);
+                        $("#officeMold").val(new_Office[0].Z_Office.Z_OfficeType.Name);
+                        $("#officeUnit").val(new_Office[0].Z_Office.Company.Name);
+                    });
+                });
+            }
+        })
+    }
+    //提交数据
+    function officeTi() {
+        var officeName = $("#officeName").val();
+        var officeNumber = $("#officeNumber").val();
+        var officeDesc = $("#officeDesc").val();
+        var officeStattime = $("#officeStattime").val();
+        //POST /api/Purchase/Add
+        $.ajax({
+            url: window.url + "OfficeMonad/SetAddOfficeMonad",
+            type: "post",
+            contentType: "application/json",
+            data: JSON.stringify({
+                OfficeId: officeName, //原材料ID
+                ApplyNumber: officeNumber, //申请的数量
+                ApplyTime: officeStattime, //申请的时间
+                ApprovalDesc: officeDesc, //审核备注
+                ApplicantId: localStorage.getItem('UserId') //申请人的Id
+            }),
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            success: (res) => {
+
+                if (res != null && res.code == 0) {
+                    window.location("newlogin.html");
+                } else if (res != null && res.code == 1) {
+                    alert(res.Message);
+                } else {
+                    alert("已完成")
+                    window.location.reload();
+                }
+            }
+        })
+    }
+    // 产品
+    function ProductFn() {
+        layui.use(['element', 'jquery', 'form', 'laydate', 'table', 'upload'], function() {
+            var element = layui.element;
+            var $ = layui.jquery;
+            var form = layui.form;
+            var laydate = layui.laydate;
+            var upload = layui.upload;
+            //时间
+            laydate.render({
+                elem: '#productStattimes' //指定元素
+                    ,
+                type: "datetime"
+            });
+            //选完文件后不自动上传
+            // productcailiao();
+            var _product = [];
+            layui.form.on('select(productSignArr)', function(data) {
+
+
+                var Sign = data.value; //valu值
+
+                productcailiao(Sign);
+            })
+
+            function productcailiao(Sign) {
+                $.ajax({
+                    type: 'POST',
+                    headers: {
+                        Authorization: window.header.Ae,
+                        UserId: window.header.Ud,
+                        AppFlag: window.header.Fg
+                    },
+                    url: window.url + 'FnishedProductRoom/GetRawFnishedProductRoom', //后台数据地址
+                    data: {
+                        PageIndex: -1,
+                        PageSize: -1,
+                        Finshed_Sign: Sign
+                    },
+                    success: function(data) {
+
+                        _product = data.data
+
+                        $.each(data.data, function(index, item) { //循环后台返回的json数据
+
+                            //new Option方法是新建一个option，第一个参数是需要显示的值，第二个参数是option的value值,然后append到下拉框中。
+                            $("#product_Cailiaos").append(new Option(item.Z_FnishedProduct.Name, item.FnishedProductId));
+                        })
+                        layui.form.render('select');
+                    }
+                });
+                layui.use(['form'], function() {
+                    var form = layui.form
+                    form.on('select(product_Cailiaos)', function(data) { //选择移交单位 赋值给input框    
+                        const new_product = _product.filter(m => {
+                            if (m.FnishedProductId === data.value) {
+                                return data;
+                            }
+                        })
+                        $("#productCAS").val(new_product[0].Z_FnishedProduct.CASNumber);
+                        $("#productMold").val(new_product[0].Z_FnishedProduct.Z_FinshedProductType.Name);
+                        $("#productUnit").val(new_product[0].Z_FnishedProduct.Company.Name);
+                    });
+                });
+            }
+
+        })
+    }
+    //提交数据
+    function productTi() {
+        var productSign = $("#productSignArr").val();
+        var productCailiao = $("#product_Cailiaos").val();
+        var productPreSale = $("#productPreSale").val();
+        var productDesc = $("#productDesc").val();
+        var productStattimes = $("#productStattimes").val();
+        //POST /api/Purchase/Add
+        $.ajax({
+            url: window.url + "FinshedProductMonad/FinshedProductMonadMonad",
+            type: "post",
+            contentType: "application/json",
+            data: JSON.stringify({
+                Finshed_Sign: productSign, //项目id
+                FinshProdutId: productCailiao, //原材料ID
+                ApplyNumber: productPreSale, //申请的数量
+                ApplyTime: productStattimes, //申请的时间
+                ApplicantRemarks: productDesc, //审核备注
+                ApplicantId: localStorage.getItem('UserId') //申请人的Id
+            }),
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            success: (res) => {
+
+                if (res != null && res.code == 0) {
+                    window.location("newlogin.html");
+                } else if (res != null && res.code == 1) {
+                    alert(res.Message);
+                } else {
+                    alert("已完成")
+                    window.location.reload();
+                }
+            }
+
+        })
+    }
+
+    // $(function() {
+    //     $("#reset").click(function() {
+    //         location.reload(true);
+    //     });
+    // })
+</script>
+
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../UrlModel/url.js"></script>
+    <link rel="stylesheet" href="../Layui/layui-v2.5.6/layui/css/layui.css">
+    <script src="../Layui/layui-v2.5.6/layui/layui.all.js"></script>
+    <script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+    <script src="../Layui/layui-v2.5.6/layui/lay/modules/layer.js"></script>
+    <script src="../Layui/layui-v2.5.6/layui/lay/modules/laydate.js"></script>
+    <style>
+        .wrap {
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+
+        <div class="layui-form-item layui-form">
+            <label class="layui-form-label">项目名称</label>
+            <div class="layui-input-block" style="width: 40%;">
+                <select name="Project" class="Project" id="Projects" lay-search>
+              
+              </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-form">
+            <label class="layui-form-label">原材料名称</label>
+            <div class="layui-input-block" style="width: 40%;">
+                <select name="cailiao" class="cailiao" id="cailiaos" lay-search lay-filter="cailiaos">
+              <option value="">请选择</option>
+              </select>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form">
+            <label class="layui-form-label">CAS号</label>
+            <div class="layui-input-block" style="width: 40%;">
+                <input type="text" id="CAS" class="layui-input" onfocus="this.blur()">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-form">
+            <label class="layui-form-label">类型</label>
+            <div class="layui-input-block" style="width: 40%;">
+                <input type="hidden" id="Z_RowTypeId">
+                <input type="text" id="mold" class="layui-input" onfocus="this.blur()">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form">
+            <label class="layui-form-label">单位</label>
+            <div class="layui-input-block" style="width: 40%;">
+                <input type="hidden" id="unitId">
+                <input type="text" id="unit" class="layui-input" onfocus="this.blur()">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">申请数量</label>
+            <div class="layui-input-block">
+                <input type="number" name="PreSale" id="PreSale" style="width: 43%;" placeholder="申请数量" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">申请日期</label>
+            <div class="layui-input-block">
+                <input type="text" name="stattime" id="stattimes" placeholder="申请日期" autocomplete="off" class="layui-input" style="width:43%">
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">申请人备注说明</label>
+            <div class="layui-input-block">
+                <textarea name="desc" id="desc" placeholder="备注说明" class="layui-textarea" style="width: 40%;"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn tijiao" id="shangchuan" onclick="tijiao()">立即提交</button>
+                <!-- onclick="tijiao()" -->
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
+
+
+<script>
+    window.onload = function() {
+            anomation();
+        }
+        //JavaScript代码区域
+    layui.use(['element', 'jquery', 'form', 'laydate', 'table', 'upload'], function() {
+        var element = layui.element;
+        var $ = layui.jquery;
+        var form = layui.form;
+        var laydate = layui.laydate;
+        var upload = layui.upload;
+        //时间
+        laydate.render({
+            elem: '#stattimes' //指定元素
+                ,
+            type: "datetime"
+        });
+
+
+        laydate.render({
+            elem: '#hopeTimes' //指定元素
+                ,
+            type: "datetime"
+        });
+
+        laydate.render({
+            elem: '#caigoutimes' //指定元素
+                ,
+            type: "datetime"
+        });
+        //选完文件后不自动上传
+        cailiao();
+        //获取项目
+        function cailiao() {
+            $.ajax({
+                url: window.url + "Project/GetList", //POST /api/Project/GetList
+                type: 'post',
+                data: {
+                    "PageIndex": 0,
+                    "PageSize": 0
+                },
+                headers: {
+                    Authorization: window.header.Ae,
+                    UserId: window.header.Ud,
+                    AppFlag: window.header.Fg
+                },
+
+                success: (res) => {
+
+                    var htm = '';
+                    for (let s = 0; s < res.length; s++) { //Project
+                        htm += ' <option value="' + res[s].ProjectId + '">' + res[s].Name + '</option>'
+
+                    }
+                    $(".Project").html(htm);
+                    $.ajax({
+                        type: 'POST',
+                        headers: {
+                            Authorization: window.header.Ae,
+                            UserId: window.header.Ud,
+                            AppFlag: window.header.Fg
+                        },
+                        url: window.url + 'Raw/GetRow', //后台数据地址
+                        data: {
+                            PageIndex: -1,
+                            PageSize: -1
+                        },
+                        success: function(data) {
+                            $.each(data.data, function(index, item) { //循环后台返回的json数据
+                                //new Option方法是新建一个option，第一个参数是需要显示的值，第二个参数是option的value值,然后append到下拉框中。
+                                $("#cailiaos").append(new Option(item.Name, item.Id));
+                            })
+                            layui.form.render('select');
+                        }
+                    });
+                    layui.use(['form'], function() {
+                        var form = layui.form
+                        form.on('select(cailiaos)', function(data) { //选择移交单位 赋值给input框    
+                            $.ajax({
+                                type: 'POST',
+                                headers: {
+                                    Authorization: window.header.Ae,
+                                    UserId: window.header.Ud,
+                                    AppFlag: window.header.Fg
+                                },
+                                url: window.url + 'Raw/GetRow', //后台数据地址
+                                contentType: "application/json",
+                                data: JSON.stringify({
+                                    Id: data.value,
+                                    PageIndex: -1,
+                                    PageSize: -1
+                                }),
+                                success: function(data) {
+                                    $("#CAS").val(data.data[0].CASNumber);
+                                    $("#mold").val(data.data[0].Z_RowType.Name);
+                                    $("#unit").val(data.data[0].Company.Name);
+                                }
+                            });
+                        });
+                    });
+                }
+            })
+        }
+
+    });
+
+    //提交数据
+    function tijiao() {
+        var Project = $("#Projects").val();
+        var cailiao = $("#cailiaos").val();
+        var PreSale = $("#PreSale").val();
+        var desc = $("#desc").val();
+        var stattimes = $("#stattimes").val();
+        //POST /api/Purchase/Add
+        $.ajax({
+            url: window.url + "Purchase/Add",
+            type: "post",
+            contentType: "application/json",
+            data: JSON.stringify({
+                ProjectId: Project, //项目id
+                RawId: cailiao, //原材料ID
+                ApplyNumber: PreSale, //申请的数量
+                ApplyTime: stattimes, //申请的时间
+                ApprovalDesc: desc, //审核备注
+                ApplicantId: localStorage.getItem('UserId') //申请人的Id
+            }),
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            success: (res) => {
+                if (res != null && res.code == 0) {
+                    window.location("newlogin.html");
+                } else if (res != null && res.code == 1) {
+                    alert(res.Message);
+                } else {
+                    alert("已完成")
+                    window.location.reload();
+                }
+            }
+
+        })
+    }
+</script>

@@ -1,0 +1,396 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <script src="../JS/jquery-1.8.3.min.js"></script>
+    <script src="../JS/jquery-2.1.0.min.js"></script>
+    <script src="../JS/jquery.js"></script>
+    <script src="../JS/jquery.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../My97DatePicker/My97DatePicker/WdatePicker.js"></script>
+    <script src="../My97DatePicker/My97DatePicker/calendar.js"></script>
+    <title></title>
+    <style>
+        /* 最大的父级 */
+
+        .wrap {
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .heade {
+            white-space: nowrap;
+        }
+
+        .table > tbody > tr > td {
+            padding: 8px 0px;
+        }
+
+        table {
+            margin-top: 30px;
+        }
+
+            table th,
+            table td {
+                text-align: center;
+                white-space: nowrap;
+            }
+
+        .contents,
+        .container-fluid {
+            padding: 20px;
+        }
+
+        .modal-body input,
+        textarea {
+            width: 250px;
+            border: 1px solid #999999;
+            font-size: 20px;
+            border-radius: 10px;
+            outline: none;
+            margin: 5px 0;
+            vertical-align: middle;
+            display: inline-block;
+        }
+
+        textarea {
+            height: 33px;
+            resize: vertical;
+            overflow-y: hidden;
+        }
+
+        .modal-content {
+            margin: 0 auto;
+            text-align: center;
+            width: 420px;
+        }
+        /* 下拉框 */
+
+        .vacate,
+        #facilityId {
+            display: inline-block;
+            vertical-align: middle;
+            width: 140px;
+        }
+
+        #facilityBtn,
+        #facilityId {
+            height: 33px;
+            border: 1px solid #e5e5e5;
+            border-radius: 5px;
+        }
+
+        .amendList {
+            margin-left: 30px;
+        }
+
+        label > .choice {
+            width: 30px;
+            margin: 10px 15px;
+        }
+
+        .elect {
+            margin-right: 65px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12 contents">
+                        <div>
+                            <!-- 添加按钮 -->
+                            <button type="button" class="btn btn-primary vacate" data-toggle="modal" data-target="#myModal">
+                                添加设备
+                            </button>
+                            <input type="text" id="facilityId">
+                            <button id="facilityBtn" onclick="facilityFn()">查询</button>
+                        </div>
+                        <!-- 表格 -->
+                        <div class="needList">
+                            <div id="page"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 添加设备情况信息-->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">添加设备</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <span class="amendList">设备名称</span>
+                            <input type="text" class="facilityModel">
+                        </div>
+                        <div>
+                            <span>设备使用情况</span>
+                            <textarea class="facilityCase" name="" id="" cols="30" rows="10"></textarea>
+                        </div>
+                        <div>
+                            <span class="amendList">技术说明</span>
+                            <textarea class="technicalDescription" name="" id="" cols="30" rows="10"></textarea>
+                        </div>
+                        <div>
+                            <span class="amendList">使用年限</span>
+                            <input type="text" class="durableYears">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" id="saveAdd" data-dismiss="modal" data-dismiss="modal" data-toggle="modal" data-target=".bs-example-modal-sm" onclick="facilityAdd()">确认添加</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 修改设备信息-->
+        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">修改设备信息</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type='hidden' id="sNew">
+                        <div>
+                            <span class="amendList">设备名称</span>
+                            <input type="text" id="facilityModel">
+                        </div>
+                        <div>
+                            <span>设备使用情况</span>
+                            <textarea id="facilityCase" name="" cols="30" rows="10"></textarea>
+                        </div>
+                        <div>
+                            <span class="amendList">技术说明</span>
+                            <textarea id="technicalDescription" name="" cols="30" rows="10"></textarea>
+                        </div>
+                        <div>
+                            <span class="amendList">使用年限</span>
+                            <input type="text" id="durableYears">
+                        </div>
+                        <div>
+                            <span class="elect">是否报废</span>
+                            <label>
+                                是<input type="radio" name="whether" value="true" class="choice">
+                            </label>
+                            <label>
+                                否<input type="radio" name="whether" value="false" class="choice">
+                            </label>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary" id="saveAdd" data-dismiss="modal" data-dismiss="modal" data-toggle="modal" data-target=".bs-example-modal-sm" onclick="facilityUpdate()">确认添加</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade bs-example-modal-lg2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">设备报修</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="repairsId">
+                        <div>
+                            <span>报修备注</span>
+                            <textarea id="repairsComment" name="" cols="30" rows="10"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary repairBtn"  data-dismiss="modal" data-toggle="modal" data-target=".bs-example-modal-sm" onclick="repairs()">确认添加</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    window.onload = facilityFn();
+    // 显示需求数据
+    function facilityFn(page) {
+        if (page == null) {
+            page = 1;
+        }
+        //  搜索框
+        var facilityId = $("#facilityId").val();
+        $.ajax({
+            type: "POST",
+            url: 'http://192.168.3.26:9100/api/Device/GetList',
+            headers: { Authorization: "Bearer ${Base.token}" },
+            data: {
+                PageIndex: page,
+                PageSize: 10,
+                DeviceId: facilityId,
+            },
+            success: function (res) {
+                console.log(res);
+                if (res == "") {
+                    $("#facilityId").val("");
+                    alert("该无该设备请您确认后再搜");
+                } else {
+                    var data = res;
+                    // 创建表格
+                    var tableStr = "<table class='table table-hover'>";
+                    tableStr = tableStr + "<th>设备名称</th><th>设备使用情况</th><th>技术说明</th><th>使用年限</th><th>是否报废</th><th>报修次数</th><th>操作</th></tr>";
+                    var len = data[0].Count;
+                    for (var i = 0; i < data.length; i++) {
+                        tableStr = tableStr + " <tr><td>" + data[i].Name + "</td><td>" + data[i].Usage + "</td><td>" + data[i].TechnicalDescription + "</td><td>" + data[i].ServiceLife + "</td><td>" + data[i].IsScrap + "</td><td>" + data[i].RepairCount + "</td><td><button type='button' data-toggle='modal' data-target='.bs-example-modal-lg' onclick='facilityAmend(" + i + ")'>更改</button><button type='button' data-toggle='modal' data-target='.bs-example-modal-lg2'  onclick='facilityAmend(" + i + ")'>报修</button><button type='button' data-toggle='modal' data-target='.bs-example-modal-lg3' onclick='repairsState(" + i + ")'>报修状态</button></td><td><input type='hidden'value='" + data[i].DeviceId + "' id='facilityText" + i + "' /></td></tr> ";
+                    }
+                    tableStr = tableStr + "</tbody></table>";
+                    //将动态生成的table添加的事先隐藏的div中.
+                    $(".needList").html(tableStr);
+                    var index = len / 10;
+                    index = Math.round(index);
+                    var str = "<p>";
+                    for (var i = 1; i < index + 1; i++) {
+                        str += "  <button type='button' onclick='facilityFn(" + i + ")'>" + i + "</button>";
+                    }
+                    str += "</p>";
+                    $("#page").html(str);
+                }
+            }
+        })
+    }
+    // 添加设备
+    function facilityAdd() {
+        // 获取输入框中的值
+        var facilityModel = $(".facilityModel").val();
+        var facilityCase = $(".facilityCase").val();
+        var technicalDescription = $(".technicalDescription").val();
+        var durableYears = $(".durableYears").val();
+        if (facilityModel == "" || facilityCase == "" || technicalDescription == "" || durableYears == "") {
+            alert("请填写完整！")
+        } else {
+            // 发送请求
+            $.ajax({
+                type: "POST",
+                url: "http://192.168.3.26:9100/api/Device/Add",
+                headers: { Authorization: "Bearer ${Base.token}" },
+                data: {
+                    Name: facilityModel,
+                    Usage: facilityCase,
+                    TechnicalDescription: technicalDescription,
+                    ServiceLife: durableYears,
+                },
+                success: function (res) {
+                    uptable(res)
+                }
+            })
+        }
+    }
+    // 调用数据修改
+    function facilityAmend(ss) {
+        var facilityText = $("#facilityText" + ss + "").val();
+        $.ajax({
+            type: "POST",
+            url: 'http://192.168.3.26:9100/api/Device/GetList',
+            headers: { Authorization: "Bearer ${Base.token}" },
+            data: {
+                DeviceId: facilityText,
+            },
+            success: function (res) {
+                var data = res;
+                $("#facilityModel").val(data[0].Name);
+                $("#facilityCase").val(data[0].Usage);
+                $("#technicalDescription").val(data[0].TechnicalDescription);
+                $("#durableYears").val(data[0].ServiceLife);
+                $('input:radio[name="whether"]:checked').val(data[0].IsScrap);
+                $("#sNew").val(data[0].DeviceId);
+                $("#repairsId").val(data[0].DeviceId);
+            }
+        })
+
+    }
+    //更新数据
+    function facilityUpdate() {
+        var sNew = $("#sNew").val();
+        // 获取输入框中的值
+        var facilityModelX = $("#facilityModel").val();
+        var facilityCaseX = $("#facilityCase").val();
+        var technicalDescriptionX = $("#technicalDescription").val();
+        var durableYearsX = $("#durableYears").val();
+        var scrapX = $('input:radio[name="whether"]:checked').val();;
+        // 发送请求
+        $.ajax({
+            type: "POST",
+            url: "http://192.168.3.26:9100/api/Device/Update",
+            headers: { Authorization: "Bearer ${Base.token}" },
+            data: {
+                DeviceId: sNew,
+                Name: facilityModelX,
+                Usage: facilityCaseX,
+                TechnicalDescription: technicalDescriptionX,
+                ServiceLife: durableYearsX,
+                IsScrap: scrapX
+            },
+            success: function (res) {
+                uptable(res)
+            }
+        })
+    }
+
+    // 报修
+    function repairs() {
+        var repairsId = $("#repairsId").val();
+        var repairsComment = $("#repairsComment").val();
+        // 发送请求
+        $.ajax({
+            type: "POST",
+            url: "http://192.168.3.26:9100/api/Device/AddRepair",
+            headers: { Authorization: "Bearer ${Base.token}" },
+            data: {
+                DeviceId: repairsId,
+                Desc: repairsComment
+            },
+            success: function (res) {
+                uptable(res)
+            }
+        })
+    }
+    // 查看报修状态
+    function repairsState(bx) {
+        var facilityText = $("#facilityText" + bx + "").val();
+        console.log(facilityText);
+        $.ajax({
+            type: "POST",
+            url: "http://192.168.3.26:9100/api/Device/GetList",
+            headers: { Authorization: "Bearer ${Base.token}" },
+            data: {
+                DeviceId: facilityText,
+            },
+            success: function (res) {
+                var data = res;
+                if (data.IsRepair == false) {
+                    alert("未报修")
+                } else {
+                    alert("报修中")
+                }
+            }
+        })
+    }
+</script>

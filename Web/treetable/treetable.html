@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../Layui/layui-v2.5.6/layui/css/layui.css">
+</head>
+
+<body>
+    <button type="button" class="layui-btn layui-btn-radius" id="addModel">添加模块</button>
+
+    <!-- 模块 -->
+    <form class="layui-form" action="" name="form1" id="form_Mokuai" style="display: none;">
+        <div class="layui-form-item">
+            <label class="layui-form-label">模块名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="title_Model" required lay-verify="required" placeholder="请输入模块名称" autocomplete="off" class="layui-input" style="width: 60%;">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">模块Key</label>
+            <div class="layui-input-block">
+                <input type="text" name="title_Key" required lay-verify="required" placeholder="请输入Key" autocomplete="off" class="layui-input" style="width: 60%;">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn save" lay-submit lay-filter="formDemo">保存</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+
+
+    <!-- 菜单 -->
+    <form class="layui-form" action="" name="form2" id="form_menu" style="display: none;" lay-filter="formTest">
+        <div class="layui-form-item" style="display: none;">
+            <label class="layui-form-label">模块ID</label>
+            <div class="layui-input-block">
+                <input type="text" name="ModelID" id="ModeID" class="layui-input" style="width: 60%;" disabled>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">菜单名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="title_Menu" required lay-verify="required" placeholder="菜单名称" autocomplete="off" class="layui-input" style="width: 60%;">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">菜单url</label>
+            <div class="layui-input-block">
+                <input type="text" name="Menu_Url" required lay-verify="required" placeholder="菜单url" autocomplete="off" class="layui-input" style="width: 60%;">
+            </div>
+        </div>
+
+
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn savest" onclick="savest()" lay-submit lay-filter="fork">保存</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+
+
+    <!-- 模块修改 -->
+    <form class="layui-form" action="" name="form14" id="formTesttdM" style="display: none;" lay-filter="formTesttdM">
+
+
+        <div class="layui-form-item" style="display: none;">
+            <label class="layui-form-label">模块ID</label>
+            <div class="layui-input-block">
+                <input type="text" name="Model_t" id="Menu_IDM" disabled lay-verify="required" placeholder="模块ID" autocomplete="off" class="layui-input" style="width: 60%;">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">模块名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="Model_td" id="Model_tds" lay-verify="required" placeholder="模块名称" autocomplete="off" class="layui-input" style="width: 60%;">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">模块key</label>
+            <div class="layui-input-block">
+                <input type="text" name="Model_ts" id="Model_tsd" required lay-verify="required" placeholder="模块key" autocomplete="off" class="layui-input" style="width: 60%;">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">顺序</label>
+            <div class="layui-input-block">
+                <input type="text" name="Orders" id="Orders" lay-verify="required" placeholder="顺序" autocomplete="off" class="layui-input" style="width: 60%;">
+            </div>
+        </div>
+
+
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" onclick="savestdModel()" lay-filter="fork">修改</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+
+
+    <!-- 元素修改 -->
+    <form class="layui-form" action="" name="form13" id="formTesttdE" style="display: none;" lay-filter="formTesttdE">
+
+
+        <div class="layui-form-item" style="display: none;">
+            <label class="layui-form-label">元素ID</label>
+            <div class="layui-input-block">
+                <input type="text" name="Element_t" id="Menu_IDE" disabled lay-verify="required" placeholder="元素ID" autocomplete="off" class="layui-input" style="width: 60%;">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">元素名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="Element_td" id="Menu_IDEd" lay-verify="required" placeholder="元素名称" autocomplete="off" class="layui-input" style="width: 60%;">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">Url</label>
+            <div class="layui-input-block">
+                <input type="text" name="Element_ts" id="Menu_IDEs" lay-verify="required" placeholder="元素Url" autocomplete="off" class="layui-input" style="width: 60%;">
+            </div>
+        </div>
+
+
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" type="button" onclick="savestdElement()" lay-filter="fork">修改</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+
+
+
+    <!-- 菜单修改 -->
+    <form class="layui-form" action="" name="form4" id="form_menus" style="display: none;" lay-filter="formTestt">
+
+
+        <div class="layui-form-item" style="display: none;">
+            <label class="layui-form-label">菜单ID</label>
+            <div class="layui-input-block">
+                <input type="text" name="Menu_IDS" id="Menu_ID" disabled lay-verify="required" placeholder="菜单ID" autocomplete="off" class="layui-input" style="width: 60%;">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">模块名称</label>
+            <div class="layui-input-block" style="width: 47%;">
+                <select name="models" id="models">
+
+
+        </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">菜单名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="title_Menutd" id="title_MenutdS" lay-verify="required" placeholder="菜单名称" autocomplete="off" class="layui-input" style="width: 60%;">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">菜单url</label>
+            <div class="layui-input-block">
+                <input type="text" name="Menu_Urltd" id="title_MenutdSD" lay-verify="required" placeholder="菜单url" autocomplete="off" class="layui-input" style="width: 60%;">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">顺序</label>
+            <div class="layui-input-block">
+                <input type="text" name="Order" id="Order" lay-verify="required" placeholder="顺序" autocomplete="off" class="layui-input" style="width: 60%;">
+            </div>
+        </div>
+
+
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" onclick="savestd()" lay-filter="fork">修改</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- 元素id -->
+    <form class="layui-form" action="" name="form3" id="form_dt" style="display: none;" lay-filter="formTestElement">
+
+        <div class="layui-form-item" style="display: none;">
+            <label class="layui-form-label">菜单</label>
+            <div class="layui-input-block">
+                <input type="text" name="caidand" id="Element_Id" placeholder="菜单名称" autocomplete="off" class="layui-input" style="width: 60%;" lay-data="id" disabled>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">元素名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="Element_Menu" required lay-verify="required" placeholder="元素名称" autocomplete="off" class="layui-input" style="width: 60%;">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">元素url</label>
+            <div class="layui-input-block">
+                <input type="text" name="Element_Val" required lay-verify="required" placeholder="元素value" autocomplete="off" class="layui-input" style="width: 60%;">
+            </div>
+        </div>
+
+
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn savestEle" onclick="savestEle()" lay-filter="fork">保存</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+    <!-- 修改元素 -->
+    <input type="text" id="text_MenuID" style="display: none;">
+    <!-- 修改菜单 -->
+    <input type="text" id="text_t" style="display: none;">
+
+    <!-- 表格 -->
+    <div class="" style="margin-top: 20px;margin-left:20px;">
+        <div id="demo" lay-filter="demos" style="width: 90%;"></div>
+    </div>
+</body>
+
+</html>
+<script src="../Layui/layui-v2.5.6/layui/layui.all.js"></script>
+<script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+<script src="../Layui/layui-v2.5.6/layui/lay/modules/layer.js"></script>
+<script src="../UrlModel/url.js"></script>
+<script>
+
+ window.onload = function() {
+            anomation();
+        }
+    var i = 1;
+
+    var layout = [{
+        name: '编号',
+        headerClass: 'value_col',
+        colClass: 'value_col',
+        style: 'width: 4%',
+        render: function(row) {
+            var tid = JSON.parse(row).id;
+            var a = i++;
+            return a
+
+
+        }
+    }, {
+        name: '菜单名称',
+        treeNodes: true,
+        headerClass: 'value_col',
+        colClass: 'value_col',
+        style: 'width: 10%'
+    }, {
+        name: '操作',
+        headerClass: 'value_col',
+        colClass: 'value_col',
+        style: 'width: 10%',
+        render: function(row) {
+            // 
+            var tid = JSON.parse(row).id;
+
+            var t = BigInt(tid)
+
+            // 
+            return '<button type="button" class="layui-btn layui-btn-danger  layui-btn-sm" onclick="del(' + JSON.parse(
+                    row).id + ',' + JSON.parse(row).biaoshi +
+                ')">删除</button>&nbsp;&nbsp;<button type="button" class="layui-btn layui-btn-normal  layui-btn-sm" onclick="add(' +
+                JSON.parse(row).id + ',' + JSON.parse(row).biaoshi +
+                ')">添加</button>&nbsp;&nbsp;<button type="button" class="layui-btn layui-btn-warm  layui-btn-sm" id="edit"  onclick="Edit(' +
+                JSON.parse(row).id + ',' + JSON.parse(row).biaoshi + ')")>编辑</button>'
+                // return '<a class="layui-btn layui-btn-danger"style="font-size:14px;width:20px;height:20px" onclick="del(' +JSON.parse(row).id + ')"><i class="layui-icon">&#xe640;</i> 删除</a>'; //列渲染
+        }
+    }, ];
+
+    var Menus = [];
+    layui.config({
+            base: '../Layui/layui-v2.5.6/layui/lay/modules/'
+        }).extend({
+            treetable: 'treetable'
+        }).use(['element', 'tree', 'jquery', 'form', 'treetable', 'layer'], function() {
+            var element = layui.element;
+            var $ = layui.jquery;
+            var tree = layui.tree;
+            var form = layui.form;
+            var layer = layui.layer;
+
+            var p = sk();
+            p.then((value) => {
+                this.Menus = value;
+                var t = sp(value);
+
+
+
+                layui.treetable({
+                    elem: '#demo', //传入元素选择器
+                    spreadable: false, //设置是否全展开，默认不展开
+                    // checkbox: true,
+                    width: 20,
+                    nodes: t,
+                    layout: layout
+                });
+                element.render();
+            })
+
+            //收起
+            $('#collapse').on('click', function() {
+                layui.collapse(tree1);
+            });
+            //删除
+            $('#deleteAll').on('click', function() {
+                var arr = layui.getSelected(tree1);
+                //
+            });
+            //展开
+            $('#expand').on('click', function() {
+                layui.expand(tree1);
+            });
+
+
+
+
+
+            //弹出添加模态框
+            $('#addModel').on('click', function() {
+
+
+                layer.open({
+                    type: 1,
+                    area: ['500px', '300px'],
+                    title: '添加模块',
+                    content: $('#form_Mokuai'),
+                    end: function(res) {
+                        $("#form_Mokuai").css("display", 'none');
+                    }
+                });
+            });
+            //提交添加
+            $('.save').on('click', function() {
+
+
+                var title_Model = document.form1.title_Model.value;
+                var title_Key = document.form1.title_Key.value;
+                alert(title_Model + title_Key)
+
+                $.ajax({
+                    url: window.url + 'UserJurisdiction/AddModule',
+                    type: "post",
+                    async: false,
+                    headers: {
+                        Authorization: window.header.Ae,
+                        UserId: window.header.Ud,
+                        AppFlag: window.header.Fg
+                    },
+                    data: {
+                        Name: title_Model,
+                        Key: title_Key
+                    },
+                    success: (res) => {
+
+                        table.reload('tableReload', {
+                            url: window.url + "UserJurisdiction/GetList"
+                        }); //表格重载
+                    }
+
+                })
+
+            })
+
+            $('.edit').on('click', function() {
+
+                var id = $(this).data('lay-data');
+                alert(id)
+                $.ajax({
+
+                    url: window.url + "UserJurisdiction/GetMenuList",
+                    type: "post",
+                    headers: {
+                        Authorization: window.header.Ae,
+                        UserId: window.header.Ud,
+                        AppFlag: window.header.Fg
+                    },
+                    data: {
+                        ModuleId: id
+                    },
+                    success: (res) => {
+                        htm = '';
+                        for (var j = 0; j < res.length; j++) {
+                            //  htm+=' <select name="caidand" class="caidan_Nmaest">'
+                            htm += '<option value=' + res[j].MenuId + ' lay-data=' + res[j].Url + '>' + res[j].Title +
+                                '</option>';
+                        }
+                        //   htm+='</select>'
+                        $('.caidan_Nmaestd').html(htm)
+                        form.render();
+                    }
+                });
+                layer.open({
+                    type: 1,
+                    area: ['500px', '300px'],
+                    title: '修改菜单',
+                    content: $('#form_menus'),
+                    end: function(res) {
+                        $("#form_menus").css("display", 'none');
+                    }
+                });
+
+
+            })
+
+
+        })
+        //获取数据
+    function sk() {
+        return new Promise((reslove, reject) => {
+
+            var Modelst = [];
+            $.ajax({
+                url: window.url + "UserJurisdiction/GetUserModuleList",
+                type: "post",
+                async: false,
+                headers: {
+                    Authorization: window.header.Ae,
+                    UserId: window.header.Ud,
+                    AppFlag: window.header.Fg
+                },
+                success: (res) => {
+                    var Models = [];
+                    for (let i = 0; i < res[0].Module.length; i++) {
+                        Models.push(res[0].Module[i]);
+                    }
+                    this.Modelst = Models;
+                    reslove(this.Modelst);
+
+                    Menus = Models;
+
+                }
+
+
+            })
+
+
+
+        })
+
+
+
+    }
+
+    //映射方法
+    function sp(demo) {
+        var st = [];
+        for (let i = 0; i < demo.length; i++) {
+            var obj = {}
+            obj.id = demo[i].ModuleId;
+            obj.name = demo[i].Name;
+            obj.Key = demo[i].Key;
+
+            obj.biaoshi = 1,
+                obj.DisplayOrder = demo[i].DisplayOrder,
+                obj.checkArr = [{
+                    "type": "0",
+                    "checked": "0"
+                }];
+            obj.children = []
+            for (let p = 0; p < demo[i].Menu.length; p++) {
+                var obs = {};
+                obs.checkArr = [{
+                    "type": "0",
+                    "checked": "0"
+                }];
+                obs.id = demo[i].Menu[p].MenuId
+                obs.name = demo[i].Menu[p].Title
+                obs.biaoshi = 2,
+                    obs.Key = demo[i].Menu[p].Key;
+
+                obs.DisplayOrder = demo[i].Menu[p].DisplayOrder,
+                    obs.urls = demo[i].Menu[p].Url,
+                    obs.parentId = demo[i].ModuleId;
+                obs.children = [];
+                for (let t = 0; t < demo[i].Menu[p].Element.length; t++) {
+                    var obt = {};
+                    obt.biaoshi = 3,
+                        obt.checkArr = [{
+                            "type": "0",
+                            "checked": "0"
+                        }];
+                    obt.id = demo[i].Menu[p].Element[t].ElementId;
+                    obt.name = demo[i].Menu[p].Element[t].Name
+                    obt.Url = demo[i].Menu[p].Element[t].Value;
+                    obs.DisplayOrder = demo[i].Menu[p].Element[t].DisplayOrder,
+                        obt.parentId = demo[i].Menu[p].MenuId;
+                    obs.children.push(obt)
+                }
+                obj.children.push(obs)
+
+            }
+            st.push(obj)
+
+
+        }
+
+        return st;
+    }
+    //删除
+    function del(nodeId, biaoshi) {
+
+        var tp = BigInt(nodeId)
+        $("#text_t").val(tp)
+        if (biaoshi == 1) {
+            top.layer.confirm('您确定要删除吗？', {
+                btn: ['忍痛割爱', '还是留着吧'] //按钮
+            }, function() {
+                const p = [];
+                var sss = $("#text_t").val();
+
+                p.push(sss);
+
+                $.ajax({
+                    url: window.url + "UserJurisdiction/DeleteModule",
+                    type: "post",
+                    contentType: "application/json",
+                    dataType: "json",
+                    headers: {
+                        Authorization: window.header.Ae,
+                        UserId: window.header.Ud,
+                        AppFlag: window.header.Fg
+                    },
+                    data: JSON.stringify(p),
+                    success: (res) => {
+
+                        window.location.reload();
+                        top.layer.alert("删除成功", {
+                            icon: 1,
+                            skin: 'layui-layer-lan',
+                            closeBtn: 0,
+                            anim: 4 //动画类型
+                        });
+                    }
+
+                })
+
+
+            }, function() {
+                return;
+
+            })
+
+        } else if (biaoshi == 2) {
+            top.layer.confirm('您确定要删除吗？', {
+                btn: ['忍痛割爱', '还是留着吧'] //按钮
+            }, function() {
+                const p = [];
+                var sst = $("#text_t").val();
+
+                p.push(sst);
+
+                $.ajax({
+                    url: window.url + "UserJurisdiction/DeleteMenu", //POST /api/UserJurisdiction/DeleteMenu
+                    type: "post",
+                    contentType: "application/json",
+                    dataType: "json",
+                    headers: {
+                        Authorization: window.header.Ae,
+                        UserId: window.header.Ud,
+                        AppFlag: window.header.Fg
+                    },
+
+                    data: JSON.stringify(p),
+                    success: (res) => {
+
+                        window.location.reload();
+                        top.layer.alert("删除成功", {
+                            icon: 1,
+                            skin: 'layui-layer-lan',
+                            closeBtn: 0,
+                            anim: 4 //动画类型
+                        });
+                    }
+
+                })
+
+
+            }, function() {
+                return;
+
+            })
+
+        } else if (biaoshi == 3) {
+
+            top.layer.confirm('您确定要删除吗？', {
+                btn: ['忍痛割爱', '还是留着吧'] //按钮
+            }, function() {
+                const p = [];
+                var sst = $("#text_t").val();
+
+                p.push(sst);
+
+                $.ajax({
+                    url: window.url + "UserJurisdiction/DeleteElement", //POST /api/UserJurisdiction/DeleteElement
+                    type: "post",
+                    contentType: "application/json",
+                    dataType: "json",
+                    headers: {
+                        Authorization: window.header.Ae,
+                        UserId: window.header.Ud,
+                        AppFlag: window.header.Fg
+                    },
+                    // 
+                    data: JSON.stringify(p),
+
+                    success: (res) => {
+
+                        window.location.reload();
+                        top.layer.alert("删除成功", {
+                            icon: 1,
+                            skin: 'layui-layer-lan',
+                            closeBtn: 0,
+                            anim: 4 //动画类型
+                        });
+                    }
+
+                })
+            }, function() {
+                return;
+
+            })
+
+        }
+
+    }
+
+    //弹出添加才菜单
+    function add(id, biaoshi) {
+
+        const ids = BigInt(id);
+        document.getElementById('ModeID').value = ids;
+        if (biaoshi == 1) {
+            layer.open({
+                type: 1,
+                area: ['500px', '300px'],
+                title: '添加菜单',
+                content: $('#form_menu'),
+                end: function(res) {
+                    $("#form_menu").css("display", 'none');
+                }
+            });
+        }
+        //添加元素
+        else if (biaoshi == 2) {
+
+            $("#Element_Id").val(ids)
+            layer.open({
+                type: 1,
+                area: ['500px', '400px'],
+                title: '添加元素',
+                content: $('#form_dt'),
+                end: function(res) {
+                    $("#form_dt").css("display", 'none');
+                }
+            });
+            // }
+            //  })
+
+        } else {
+            layer.open({
+                title: '警告',
+                content: '我没有儿子了，不要点我，当然您可以删除我，修改我哦'
+            });
+
+        }
+
+    }
+
+    //添加菜单
+    function savest() {
+
+        var title_Menu = $("input[name='title_Menu' ]").val()
+        var Menu_Url = $("input[name='Menu_Url']").val()
+        var ModelID = BigInt($("input[name='ModelID'] ").val())
+        $.ajax({
+            url: window.url + 'UserJurisdiction/AddMenu',
+            type: "post",
+            async: false,
+            data: {
+                ModuleId: ModelID,
+                Title: title_Menu,
+                Url: Menu_Url,
+
+            },
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            success: (res) => {
+                window.location.reload();
+                // table.reload('tableReload', {
+                //        url: "http://192.168.3.26:9100/api/UserJurisdiction/AddModule"
+                //     });//表格重载
+            }
+
+        })
+
+
+    }
+    //添加元素
+    function savestEle() {
+
+        var Name = document.form3.Element_Menu.value;
+        var Value = document.form3.Element_Val.value;
+        var id = document.form3.caidand.value;
+
+        $.ajax({
+            url: window.url + "UserJurisdiction/AddElement", //POST /api/UserJurisdiction/AddElement
+            type: "post",
+            async: false,
+            data: {
+                MenuId: id,
+                Name: Name,
+                Value: Value
+            },
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            success: (res) => {
+                window.location.reload();
+            }
+
+
+
+        })
+
+
+    }
+
+
+    //修改
+    function Edit(nodeId, biaoshi) {
+
+        const ids = BigInt(nodeId);
+
+        var t = sp(Menus);
+
+        if (biaoshi == 2) {
+
+
+
+
+            var pt = [];
+            t.forEach(skt => {
+                for (i = 0; i < skt.children.length; i++) {
+                    var kps = skt.children.filter(e => {
+                        return e.id == ids;
+                    })
+                    if (kps.length != 0) {
+                        pt = kps;
+                    }
+                }
+
+            })
+            var parentid = "";
+            pt.forEach(elemen => {
+                parentid = elemen.parentId
+
+                $("#title_MenutdS").val(elemen.name)
+                $("#title_MenutdSD").val(elemen.urls)
+                $("#Order").val(elemen.DisplayOrder)
+            });
+
+            $("#Menu_ID").val(ids)
+            layer.open({
+                type: 1,
+                area: ['500px', '400px'],
+                title: '修改菜单',
+                content: $('#form_menus'),
+                end: function(res) {
+                    $("#form_menus").css("display", 'none');
+                }
+            });
+
+            $.ajax({
+                url: window.url +
+                    "UserJurisdiction/GetUserModuleList", //POST /api/UserJurisdiction/GetModuleList   POST /api/UserJurisdiction/GetUserModuleList
+                type: "post",
+                headers: {
+                    Authorization: window.header.Ae,
+                    UserId: window.header.Ud,
+                    AppFlag: window.header.Fg
+                },
+                success: (res) => {
+
+                    htm = '';
+
+
+                    for (var j = 0; j < res[0].Module.length; j++) {
+
+                        //  htm+=' <select name="caidand" class="caidan_Nmaest">'
+                        htm += '<option value=' + res[0].Module[j].ModuleId + '>' + res[0].Module[j].Name + '</option>';
+                    }
+                    //   htm+='</select>'
+                    $('#models').html(htm)
+
+
+
+                    layui.form.render();
+                    //设置layui的下拉框自动选择
+                    var select = 'dd[lay-value=' + parentid + ' ]';
+                    $('#models').siblings("div.layui-form-select").find('dl').find(select).click();
+                }
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        } else if (biaoshi == 1) {
+            var kpt = t.filter(es => {
+                return es.id == ids
+            })
+
+            kpt.forEach(element => {
+                $("#Orders").val(element.DisplayOrder)
+                $("#Model_tds").val(element.name)
+                $("#Model_tsd").val(element.Key)
+            });
+
+            $("#Menu_IDM").val(ids)
+            layer.open({
+                type: 1,
+                area: ['500px', '300px'],
+                title: '修改模块',
+                content: $('#formTesttdM'),
+                end: function(res) {
+                    $("#formTesttdM").css("display", 'none');
+                }
+            });
+
+        } else if (biaoshi == 3) {
+            var pts = [];
+            t.forEach(skt => {
+                for (i = 0; i < skt.children.length; i++) {
+                    skt.children.forEach(ect => {
+                        for (let ps = 0; ps < ect.children.length; ps++) {
+                            var kps = ect.children.filter(es => {
+                                return es.id == ids;
+                            })
+                            if (kps.length != 0) {
+                                pts = kps;
+                            }
+
+                        }
+                    })
+
+                }
+
+            })
+
+            pts.forEach(tk => {
+
+                $("#text_MenuID").val(tk.parentId)
+                $("#Menu_IDEd").val(tk.name)
+                $("#Menu_IDEs").val(tk.Url)
+
+            });
+
+            $("#Menu_IDE").val(ids)
+
+            layer.open({
+                type: 1,
+                area: ['500px', '300px'],
+                title: '修改元素',
+                content: $('#formTesttdE'),
+                end: function(res) {
+                    $("#formTesttdE").css("display", 'none');
+                }
+            });
+
+        }
+
+
+
+    }
+    //修改菜单
+    function savestd() {
+        var ModeliD = document.form4.models.value;
+        var menu_Nmame = document.form4.title_Menutd.value;
+        var Menu_Urltd = document.form4.Menu_Urltd.value;
+        var Menu_IDS = document.form4.Menu_IDS.value;
+        var Order = document.form4.Order.value;
+
+        $.ajax({
+            url: window.url + "UserJurisdiction/UpdateMenu",
+            type: "post",
+            async: false,
+            data: {
+                MenuId: Menu_IDS,
+                ModuleId: ModeliD,
+                Title: menu_Nmame,
+                Url: Menu_Urltd,
+                DisplayOrder: Order
+            },
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            success: (res) => {
+                window.location.reload();
+            }
+
+
+        })
+
+
+    }
+
+    //修改模块
+    function savestdModel() {
+
+        var Model_t = document.form14.Model_t.value;
+        var Model_td = document.form14.Model_td.value;
+        var Model_ts = document.form14.Model_ts.value;
+        var Orders = document.form14.Orders.value;
+        alert(Orders)
+        $.ajax({
+            url: window.url + "UserJurisdiction/UpdateModule", //POST /api/UserJurisdiction/UpdateModule
+            type: "post",
+            async: false,
+            data: {
+                ModuleId: Model_t,
+                Name: Model_td,
+                Key: Model_ts,
+                DisplayOrder: Orders
+            },
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            success: (res) => {
+                window.location.reload();
+            }
+
+        })
+
+
+    }
+    //修改元素
+    function savestdElement() {
+
+        var Element_t = document.form13.Element_t.value;
+        var Element_td = document.form13.Element_td.value;
+        var Value = document.form13.Element_ts.value;
+        //  alert('Value: '+ Value);
+        var id = $("#text_MenuID").val();
+        $.ajax({
+            url: window.url + "UserJurisdiction/UpdateElement", //POST /api/UserJurisdiction/UpdateElement
+            type: "post",
+            async: false,
+            data: {
+                MenuId: id,
+                ElementId: Element_t,
+                Name: Element_td,
+                Value: Value
+            },
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            success: (res) => {
+                window.location.reload();
+
+            }
+
+
+        })
+
+    }
+</script>
+<style>
+
+</style>

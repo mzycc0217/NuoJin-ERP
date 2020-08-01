@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../Layui/layui-v2.5.6/layui/css/layui.css">
+</head>
+<body>
+    <form class="layui-form" action="" name="froms">
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">出库信息</label>
+            <div class="layui-input-block" style="width: 55%;">
+                <select name="OutOfStockIds" id="OutOfStockId" >
+                    <option value=""></option>
+                    <option value="0">北京</option>
+                    <option value="1">上海</option>
+                    <option value="2">广州</option>
+                    <option value="3">深圳</option>
+                    <option value="4">杭州</option>
+                  </select>
+            </div>
+          </div>
+     
+
+        <div class="layui-form-item">
+          <label class="layui-form-label">欲销售数量</label>
+          <div class="layui-input-block">
+            <input type="number" name="PreSale"   placeholder="欲销售数量" autocomplete="off" class="layui-input" style="width:60%">
+          </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">实际销售数量</label>
+            <div class="layui-input-block">
+              <input type="number" name="ActualSale"   placeholder="实际销售数量" autocomplete="off" class="layui-input" style="width:60%">
+            </div>
+          </div>
+
+          <div class="layui-form-item">
+            <label class="layui-form-label">单价</label>
+            <div class="layui-input-block">
+              <input type="text" name="Price" id="price"  oninput="cs()" onkeyup=" value=value.replace(/^\D*(\d*(?:\.\d{0,2})?).*$/g, '$1')"  placeholder="单价" autocomplete="off" class="layui-input" style="width:60%">
+            </div>
+          </div>
+
+          <div class="layui-form-item">
+            <label class="layui-form-label">销售总额</label>
+            <div class="layui-input-block">
+              <input type="text" name="Amount" id="Amount" placeholder="销售总额" autocomplete="off" class="layui-input" style="width:60%" disabled>
+            </div>
+          </div>
+         
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <button class="layui-btn" onclick="tijioa()">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+          </div>
+        </div>
+      </form>
+       
+   
+</body>
+</html>
+<script src="../UrlModel/url.js"></script>
+<script src="../Layui/layui-v2.5.6/layui/layui.all.js"></script>
+<script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+<script src="../Layui/layui-v2.5.6/layui/lay/modules/layer.js"></script>
+<script>
+ 
+    
+  
+  function cs(){
+     
+       var PreSale=document.froms.PreSale.value;
+       var Price=document.froms.Price.value;
+        var p=PreSale * Price;
+        
+        $("#Amount").val(p.toFixed(2))
+  }
+
+async function tijioa(){
+    var PreSale=document.froms.PreSale.value;
+    var ActualSale=document.froms.ActualSale.value;
+    var Amount=document.froms.Amount.value;
+    var Price=document.froms.Price.value;
+    var OutOfStockId=$("#OutOfStockId").val();
+    await this.ajss(PreSale,ActualSale,Amount,Price,OutOfStockId);
+ 
+}
+function ajss(PreSale,ActualSale,Amount,Price,OutOfStockId){
+     $.ajax({
+      url:window.url+"Sale/AddSale",
+      headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+      data:{
+        PreSale:PreSale,
+        ActualSale:ActualSale,
+        Amount:Amount,
+        Price:Price,
+        OutOfStockId:OutOfStockId
+      },
+      success:(res)=>{
+      console.log(res)
+      }
+      
+  })
+}
+
+</script>

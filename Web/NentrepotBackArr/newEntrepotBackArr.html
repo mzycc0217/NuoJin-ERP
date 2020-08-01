@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../layui/layui.all.js"></script>
+    <script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+    <script src="../JS/funtion.js"></script>
+    <script src="../UrlModel/url.js"></script>
+    <title>仓库的单子退库Arr</title>
+    <style>
+        .wrap {
+            margin: 20px;
+        }
+        
+        .layui-tab-title>li {
+            background-color: #009688;
+            color: #fff;
+            margin: 0 20px;
+        }
+        
+        .layui-tab-card>.layui-tab-title li {
+            margin: 0 50px;
+        }
+        
+        .layui-tab-card>.layui-tab-title {
+            background-color: #fff;
+        }
+        
+        .layui-tab-item>div {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="layui-tab layui-tab-card">
+            <ul class="layui-tab-title">
+                <li class="layui-this" id="billPurchaseBtn">采购单</li>
+                <li id="billChemicalBtn">化学单</li>
+                <li id="billOfficeBtn">办公单</li>
+                <li id="billProduct">产品单</li>
+            </ul>
+            <div class="layui-tab-content" style="height: 100%;">
+                <div class="layui-tab-item layui-show">
+                    <div class="mapHead">
+                        <div class="demoTable">
+                            搜索名称：
+                            <div class="layui-inline">
+                                <input class="layui-input" name="name" id="keyName" autocomplete="off" />
+                            </div>
+                            <button class="layui-btn" data-type="reload">搜索</button>
+                        </div>
+                        <table class="layui-hide" id="test" lay-filter="test"></table>
+                        <script type="text/html" id="barDemo">
+                            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="over">确定</a>
+                        </script>
+                        <!--序号列-->
+                        <script type="text/html" id="xuHao">
+                            {{d.LAY_TABLE_INDEX+1}}
+                        </script>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="chemisterFather">
+                        <div class="demoTable">
+                            搜索名称：
+                            <div class="layui-inline">
+                                <input class="layui-input" name="name" id="chemicalName" autocomplete="off" />
+                            </div>
+                            <button class="layui-btn" data-type="reload">搜索</button>
+                        </div>
+                        <table class="layui-hide" id="test2" lay-filter="test2"></table>
+                        <script type="text/html" id="barDemo2">
+                            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="over2">确定</a>
+                        </script>
+                        <!--序号列-->
+                        <script type="text/html" id="xuHao">
+                            {{d.LAY_TABLE_INDEX+1}}
+                        </script>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="officeFather">
+                        <div class="demoTable">
+                            搜索名称：
+                            <div class="layui-inline">
+                                <input class="layui-input" name="name" id="officeName" autocomplete="off" />
+                            </div>
+                            <button class="layui-btn" data-type="reload">搜索</button>
+                        </div>
+                        <table class="layui-hide" id="test3" lay-filter="test3"></table>
+                        <script type="text/html" id="barDemo3">
+                            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="over3">确定</a>
+                        </script>
+                        <!--序号列-->
+                        <script type="text/html" id="xuHao">
+                            {{d.LAY_TABLE_INDEX+1}}
+                        </script>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    billPurchaseBtn();
+    window.onload = function() {
+        anomation();
+    }
+
+    function billPurchaseBtn() {
+        $(".mapHead").css("display", "block")
+        purchaseArr()
+    }
+    $("#billPurchaseBtn").click(function() {
+        $(".mapHead").css("display", "block")
+        purchaseArr()
+
+    });
+    $("#billChemicalBtn").click(function() {
+        $(".chemisterFather").css("display", "block");
+        ChemicalArr();
+    })
+    $("#billOfficeBtn").click(function() {
+        $(".officeFather").css("display", "block");
+        officeArr();
+    })
+
+
+
+    function purchaseArr() {
+        layui.use(['laypage', 'layer', 'table', 'element', 'jquery', 'form'], function() {
+            var laypage = layui.laypage //分页
+                ,
+                layer = layui.layer //弹层
+                ,
+                table = layui.table //表格
+                ,
+                element = layui.element //元素操作
+                ,
+                form = layui.form;
+
+            table.render({
+                elem: '#test',
+                height: 515,
+                url: window.url + 'ZpurChase/GetRejectPurshs' //数据接口
+                    ,
+                title: '仓库的退库表',
+                id: 'testReload',
+                toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+                    ,
+                headers: {
+                    Authorization: window.header.Ae,
+                    UserId: window.header.Ud,
+                    AppFlag: window.header.Fg
+                },
+                method: 'post',
+                page: true, //开启分页
+                limit: 10,
+                cols: [
+                    [{
+                        type: 'checkbox',
+                        fixed: 'left'
+                    }, {
+                        title: '序号',
+                        fixed: 'left',
+                        templet: '#xuHao',
+                    }, {
+                        field: 'z_Raw',
+                        title: '原材料',
+                        fixed: 'left',
+                        templet: function(res) {
+                            if (res.z_Raw == null || res.z_Raw.Name == null) {
+                                return "无"
+                            } else {
+                                return res.z_Raw.Name;
+                            }
+                        }
+                    }, {
+                        field: 'RawNumber',
+                        title: '领取数量',
+                    }, {
+                        field: 'userDetails',
+                        title: '领料人',
+                        templet: function(res) {
+                            if (res.userDetails == null || res.z_Raw.Name == null) {
+                                return "无"
+                            } else {
+                                return res.userDetails.RealName;
+                            }
+                        }
+                    }, {
+                        field: 'entrepotid',
+                        title: '仓库名称',
+                        templet: function(res) {
+                            if (res.entrepot == null || res.entrepot.EntrepotName == null) {
+                                return "无"
+                            } else {
+                                return res.entrepot.EntrepotName;
+                            }
+                        }
+                    }, {
+                        field: 'GetRawTime',
+                        title: '退库日期',
+                        templet: function(res) {
+                            return showTime(res.GetRawTime);
+                        }
+                    }, {
+                        fixed: 'right',
+                        title: '操作',
+                        width: 240,
+                        toolbar: '#barDemo',
+                    }]
+                ],
+                request: {
+                    pageName: 'PageIndex' // 页码的参数名称，默认：page
+                        ,
+                    limitName: 'PageSize' //每页数据量的参数名，默认：limit
+                },
+                parseData: (res) => { //将原始数据解析成 table 组件所规定的数据
+                    console.log('%c 🍗 res: ', 'font-size:20px;background-color: #7F2B82;color:#fff;', res);
+                    return {
+                        "code": 0, //解析接口状态
+                        "msg": "成功", //解析提示文本
+                        "count": res.Count, //总数
+                        data: res //解析数据列表
+                    }
+                }
+            });
+
+            //寻找数据
+            $('.layui-btn').on('click', function() {
+                var keyName = $("#keyName").val();
+                //执行重载
+                table.reload('testReload', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    },
+                    where: {
+                        Name: keyName
+                    }
+                }, 'data');
+            });
+
+            //监听行工具事件
+            table.on('tool(test)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+                var data = obj.data //获得当前行数据
+                layEvent = obj.event; //获得 lay-event 对应的值
+                if (layEvent === 'over') {
+                    layer.confirm('真的退库么', function(index) {
+                        //向服务端发送删除指令
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "ZpurChase/BackPursh",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                Id: data.Id,
+                            }),
+                            success: function(res) {
+
+                                table.reload('testReload')
+                                layer.close(index)
+                            },
+                            error: function(res) {
+                                layer.msg(res);
+                            }
+                        })
+                    });
+
+                }
+            });
+            //分页
+            laypage.render({
+                elem: 'pageDemo' //分页容器的id
+                    ,
+                count: 100 //总页数
+                    ,
+                skin: '#1E9FFF' //自定义选中色值
+                    ,
+                jump: function(obj, first) {
+                    if (!first) {
+                        layer.msg('第' + obj.curr + '页', {
+                            offset: 'b'
+                        });
+                    }
+                }
+            });
+        });
+    }
+
+
+    function ChemicalArr() {
+        layui.use(['laypage', 'layer', 'table', 'element', 'jquery', 'form'], function() {
+            var laypage = layui.laypage //分页
+                ,
+                layer = layui.layer //弹层
+                ,
+                table = layui.table //表格
+                ,
+                element = layui.element //元素操作
+                ,
+                form = layui.form;
+
+            table.render({
+                elem: '#test2',
+                height: 515,
+                url: window.url + 'ChemistryMonad/GetRejectChiemistry' //数据接口
+                    ,
+                title: '仓库的退库表',
+                id: 'testReload2',
+                toolbar: '#toolbarDemo2' //开启头部工具栏，并为其绑定左侧模板
+                    ,
+                headers: {
+                    Authorization: window.header.Ae,
+                    UserId: window.header.Ud,
+                    AppFlag: window.header.Fg
+                },
+                method: 'post',
+                page: true, //开启分页
+                limit: 10,
+                cols: [
+                    [{
+                        type: 'checkbox',
+                        fixed: 'left'
+                    }, {
+                        title: '序号',
+                        fixed: 'left',
+                        templet: '#xuHao',
+                    }, {
+                        field: 'z_Chemistry',
+                        title: '化学',
+                        fixed: 'left',
+                        templet: function(res) {
+                            if (res.z_Chemistry == null || res.z_Chemistry.Name == null) {
+                                return "无"
+                            } else {
+                                return res.z_Chemistry.Name;
+                            }
+                        }
+                    }, {
+                        field: 'ChemistryNumber',
+                        title: '领取数量',
+                    }, {
+                        field: 'userDetails',
+                        title: '领料人',
+                        templet: function(res) {
+                            if (res.userDetails == null || res.userDetails.RealName == null) {
+                                return "无"
+                            } else {
+                                return res.userDetails.RealName;
+                            }
+                        }
+                    }, {
+                        field: 'entrepot',
+                        title: '仓库名称',
+                        templet: function(res) {
+                            if (res.entrepot == null || res.entrepot.EntrepotName == null) {
+                                return "无"
+                            } else {
+                                return res.entrepot.EntrepotName;
+                            }
+                        }
+                    }, {
+                        field: 'GetTime',
+                        title: '退库日期',
+                        templet: function(res) {
+                            return showTime(res.GetTime);
+                        }
+                    }, {
+                        fixed: 'right',
+                        title: '操作',
+                        width: 240,
+                        toolbar: '#barDemo2',
+                    }]
+                ],
+                request: {
+                    pageName: 'PageIndex' // 页码的参数名称，默认：page
+                        ,
+                    limitName: 'PageSize' //每页数据量的参数名，默认：limit
+                },
+                parseData: (res) => { //将原始数据解析成 table 组件所规定的数据
+
+                    return {
+                        "code": 0, //解析接口状态
+                        "msg": "成功", //解析提示文本
+                        "count": res.Count, //总数
+                        data: res //解析数据列表
+                    }
+                }
+            });
+
+            //寻找数据
+            $('.layui-btn').on('click', function() {
+                var chemicalName = $("#chemicalName").val();
+                //执行重载
+                table.reload('testReload2', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    },
+                    where: {
+                        Name: chemicalName
+                    }
+                }, 'data');
+            });
+
+            //监听行工具事件
+            table.on('tool(test2)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+                var data = obj.data //获得当前行数据
+                layEvent = obj.event; //获得 lay-event 对应的值
+                if (layEvent === 'over2') {
+                    layer.confirm('真的退库么', function(index) {
+                        //向服务端发送删除指令
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "ChemistryMonad/BackChiemistry",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                Id: data.Id,
+                            }),
+                            success: function(res) {
+                                table.reload('testReload2')
+                                layer.close(index)
+                            },
+                            error: function(res) {
+                                layer.msg(res);
+                            }
+                        })
+                    });
+
+                }
+            });
+            //分页
+            laypage.render({
+                elem: 'pageDemo' //分页容器的id
+                    ,
+                count: 100 //总页数
+                    ,
+                skin: '#1E9FFF' //自定义选中色值
+                    ,
+                jump: function(obj, first) {
+                    if (!first) {
+                        layer.msg('第' + obj.curr + '页', {
+                            offset: 'b'
+                        });
+                    }
+                }
+            });
+        });
+    }
+
+
+
+    function officeArr() {
+        layui.use(['laypage', 'layer', 'table', 'element', 'jquery', 'form'], function() {
+            var laypage = layui.laypage //分页
+                ,
+                layer = layui.layer //弹层
+                ,
+                table = layui.table //表格
+                ,
+                element = layui.element //元素操作
+                ,
+                form = layui.form;
+
+            table.render({
+                elem: '#test3',
+                height: 515, //OfficeMonad/GetRejectOfficeMonads
+                url: window.url + 'OfficeMonad/GetRejectOfficeMonads' //数据接口
+                    ,
+                title: '仓库的退库表',
+                id: 'testReload3',
+                toolbar: '#toolbarDemo3' //开启头部工具栏，并为其绑定左侧模板
+                    ,
+                headers: {
+                    Authorization: window.header.Ae,
+                    UserId: window.header.Ud,
+                    AppFlag: window.header.Fg
+                },
+                method: 'post',
+                page: true, //开启分页
+                limit: 10,
+                cols: [
+                    [{
+                        type: 'checkbox',
+                        fixed: 'left'
+                    }, {
+                        title: '序号',
+                        fixed: 'left',
+                        templet: '#xuHao',
+                    }, {
+                        field: 'z_Office',
+                        title: '办公用品',
+                        fixed: 'left',
+                        templet: function(res) {
+                            return res.z_Office.Name
+                        }
+                    }, {
+                        field: 'Z_Office.Z_OfficeType.Name',
+                        title: '办公用品名称',
+                        fixed: 'left',
+                        templet: function(res) {
+                            return res.z_Office.Z_OfficeType.Name
+                        }
+                    }, {
+                        field: 'RawNumber',
+                        title: '领取数量',
+                        template: function(res) {
+                            console.log(res);
+                            return res.z_Office.Number
+                        }
+                    }, {
+                        field: 'userDetails',
+                        title: '领料人',
+                        templet: function(res) {
+                            return res.userDetails.RealName;
+                        }
+                    }, {
+                        field: 'entrepotid',
+                        title: '仓库名称',
+                        templet: function(res) {
+                            return res.entrepot.EntrepotName;
+                        }
+                    }, {
+                        field: 'GetRawTime',
+                        title: '退库日期',
+                        templet: function(res) {
+                            return showTime(res.GetRawTime);
+                        }
+                    }, {
+                        fixed: 'right',
+                        title: '操作',
+                        width: 240,
+                        toolbar: '#barDemo3',
+                    }]
+                ],
+                request: {
+                    pageName: 'PageIndex' // 页码的参数名称，默认：page
+                        ,
+                    limitName: 'PageSize' //每页数据量的参数名，默认：limit
+                },
+                parseData: (res) => { //将原始数据解析成 table 组件所规定的数据
+                    return {
+                        "code": 0, //解析接口状态
+                        "msg": "成功", //解析提示文本
+                        "count": res.Count, //总数
+                        data: res //解析数据列表
+                    }
+                }
+            });
+
+            //寻找数据
+            $('.layui-btn').on('click', function() {
+                var officeName = $("#officeName").val();
+                //执行重载
+                table.reload('testReload3', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    },
+                    where: {
+                        Name: officeName
+                    }
+                }, 'data');
+            });
+
+            //监听行工具事件
+            table.on('tool(test3)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+                var data = obj.data //获得当前行数据
+                layEvent = obj.event; //获得 lay-event 对应的值
+                if (layEvent === 'over3') {
+                    layer.confirm('真的退库么', function(index) {
+                        //向服务端发送删除指令
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "OfficeMonad/BackOfficeMonad",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                Id: data.Id,
+                            }),
+                            success: function(res) {
+                                console.log(res);
+                                table.reload('testReload')
+                                layer.close(index)
+                            },
+                            error: function(res) {
+                                console.log(res);
+                                layer.msg(res);
+                            }
+                        })
+                    });
+
+                }
+            });
+            //分页
+            laypage.render({
+                elem: 'pageDemo' //分页容器的id
+                    ,
+                count: 100 //总页数
+                    ,
+                skin: '#1E9FFF' //自定义选中色值
+                    ,
+                jump: function(obj, first) {
+                    if (!first) {
+                        layer.msg('第' + obj.curr + '页', {
+                            offset: 'b'
+                        });
+                    }
+                }
+            });
+        });
+    }
+</script>
+
+</html>

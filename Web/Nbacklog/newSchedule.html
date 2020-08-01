@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <script src="../JS/funtion.js"></script>
+    <script src="../UrlModel/url.js"></script>
+    <script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+    <script src="../Layui/layui-v2.5.6/layui/layui.all.js"></script>
+    <link rel="stylesheet" href="../Layui/layui-v2.5.6/layui/css/layui.css">
+    <link>
+    <title>代办事项</title>
+    <style>
+        .container-fluid {
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid ">
+
+        <!-- 表 -->
+        <table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
+        <!--序号列-->
+        <script type="text/html" id="xuHao">
+            {{d.LAY_TABLE_INDEX+1}}
+        </script>
+    </div>
+</body>
+
+</html>
+<script>
+    //表格数据的查询
+    layui.use(['laypage', 'layer', 'table', 'element', 'jquery', 'form'], function() {
+        var laypage = layui.laypage //分页
+            ,
+            layer = layui.layer //弹层
+            ,
+            table = layui.table //表格
+            ,
+            form = layui.form,
+            element = layui.element //元素操作
+            ,
+            jquery = layui.jquery
+            //方法级渲染
+        table.render({
+            elem: '#LAY_table_user',
+            id: "testReload",
+            url: window.url + 'Approval/GetContentFlow' //数据接口
+                ,
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            // method: 'get',
+            title: '代办事项表',
+            page: true, //开启分页
+            toolbar: '#toolbarDemo' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+                ,
+            page: true,
+            height: 515,
+            limit: 10,
+            cols: [
+                [{
+                        checkbox: true,
+                        fixed: true
+                    }, {
+                        title: '序号',
+                        fixed: 'left',
+                        templet: '#xuHao'
+                    }, {
+                        field: 'Project',
+                        title: '项目名称',
+                        templet: function(data) {
+                            return data.Project.Name
+                        }
+                    }, {
+                        field: 'RawMaterial.Name',
+                        title: '原材料名称',
+                        templet: function(data) {
+                            return data.RawMaterial.Name
+                        }
+                    }, {
+                        field: 'ApplyNumber',
+                        title: '数量',
+                    }, {
+                        field: 'Project',
+                        title: '审批过人',
+                        templet: function(res) {
+                            return res.Project.Name
+                        }
+                    }, {
+                        field: 'ApprovalDesc',
+                        title: '备注',
+                    }, {
+                        field: 'CreateDate',
+                        title: '创建日期',
+                        templet: function(data) {
+                            return showTime(data.CreateDate);
+                        }
+                    }
+
+                ]
+            ],
+            parseData: (res) => { //将原始数据解析成 table 组件所规定的数据
+                console.log(res);
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": "成功", //解析提示文本
+                    "count": res.Count, //总数
+                    data: res.data //解析数据列表
+                }
+            },
+            request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+                    ,
+                limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+        });
+    });
+</script>

@@ -423,20 +423,7 @@ namespace XiAnOuDeERP.Controllers.InEntrepot
 
                 db.Chmistry_Users.Add(chmistry_User);
                 var resuls =await db.ChemistryMonad.SingleOrDefaultAsync(p => p.Id == chemistry_UserIn.ChemistryId);
-                //foreach (var item in resuls)
-                //{
-                //    RawId = item.RawId;
-                //    ApplyNumber = item.ApplyNumber;
-                //}
-                //var resul = new Purchase { Id = content_Users.Purchase_Id };
-                //db.Entry(resul).State = System.Data.Entity.EntityState.Unchanged;
-
-
-
-
-                //var res = new Z_Raw { Id = (long)RawId };
-                //db.Entry(res).State = System.Data.Entity.EntityState.Unchanged;
-                //res.Number = res.Number - ApplyNumber;
+        
 
                 resuls.is_or = 5;
           

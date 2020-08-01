@@ -1,0 +1,514 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="../JS/jquery-1.8.3.min.js"></script>
+    <script src="../JS/jquery-2.1.0.min.js"></script>
+    <script src="../JS/jquery.js"></script>
+    <script src="../JS/jquery.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../My97DatePicker/My97DatePicker/WdatePicker.js"></script>
+    <script src="../My97DatePicker/My97DatePicker/calendar.js"></script>
+    <title>采购部门采购申请</title>
+    <style>
+         .text {
+            width: 200px;
+            display: inline;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div id="herder" class="container-fluid ">
+        <div id="nav">
+            <ul class="nav nav-pills">
+                <li role="presentation"><a href="#" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" onclick="Dspclick()">待主管审批</a></li>
+                <li role="presentation"><a href="#" data-toggle="modal" data-target="#exampleModa2" data-whatever="@mdo" onclick="Dcgclick()">待采购</a></li>
+                <li role="presentation"><a href="#" data-toggle="modal" data-target="#exampleModa5" data-whatever="@mdo">我的采购订单</a></li>
+                <li role="presentation"><a href="#" data-toggle="modal" data-target="#exampleModa3" data-whatever="@mdo">提交采购申请</a></li>
+            </ul>
+            <!--待主管审批-->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="exampleModalLabel">待主管审批</h4>
+                        </div>
+                        <div class="modal-body" style="text-align: center" id="Dsp">
+                            <div id="Dsppage"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">提交采购申请</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal fade" id="exampleModa2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabe2">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="exampleModalLabe2">待采购</h4>
+                        </div>
+                        <div class="modal-body" style="text-align: center" id="Dcg">
+                            <div id="Dcgpage"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal fade" id="exampleModa3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabe3">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="exampleModalLabe3">提交采购申请</h4>
+                        </div>
+                        <div class="modal-body" style="text-align: center" id="">
+                            <div>
+                                <lable>申请单号</lable>
+                                <input type="text" id="sqdh" name="name" placeholder="请输入申请单号" class="text" onkeyup="onlyNumber(this)" onfocusout=""/>
+                            </div>
+                            <div>
+                                <label>审批数量</label>
+                                <label id="spslzs"></label>
+                            </div>
+                            <div>
+                                <lable>单价</lable>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <input type="text" name="name" id="price" placeholder="请输入单价" class="text"  onfocusout="getzj()" onkeyup="onlyNumber(this)"/>
+                            </div> 
+                            <div id="cj">
+                              
+                            </div>
+                            <div>
+                                <label>总价:</label>
+                                <label id="zj"></label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">提交申请</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal fade" id="exampleModa4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabe4">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="exampleModalLabe4">审批</h4>
+                        </div>
+                        <div class="modal-body" style="text-align: center" id="Dcg">
+                            <div>
+                                <label>准购数量</label>
+                                <input type="text" name="name" placeholder="请输入准购数量" id="Ssl"/>
+                            </div>
+                            <div>
+                                <label>审核备注</label>
+                                <input type="text" name="name" placeholder="请输入备注"  id="Sbz"/>
+                            </div>
+                            <div>
+                                <input type="hidden" name="name" value=""  id="Sid"/>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"  onclick="Cgsh()">通过审核</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+           <div class="modal fade" id="exampleModa5" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabe5">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="exampleModalLabe5">我的采购订单</h4>
+                        </div>
+                        <div class="modal-body" style="text-align: center" >
+                            <div id="WCJ">
+                               <div id="WCJpage"></div>
+                            </div >
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"  onclick="Cgsh()">通过审核</button>
+                        </div>
+                    </div>
+
+                </div>
+        </div>
+                    </div>
+                    <div id="main">
+                        <select id="type">
+                            <option value="0">总经理未审核</option>
+                            <option value="1">已审核</option>
+                        </select>
+                       <div id="zShtable">
+                           <div id="zShpage"></div>
+                       </div>
+                    </div>
+                    <div id="footer"></div>
+                </div>   
+</body>
+</html>
+<script>
+    window.onload = function () {
+        Zsh();
+    }
+      //价格数量文本框限制
+    function onlyNumber(obj) {
+
+        //得到第一个字符是否为负号    
+        var t = obj.value.charAt(0);
+        //先把非数字的都替换掉，除了数字和.和-号    
+        obj.value = obj.value.replace(/[^\d\.\-]/g, '');
+        //前两位不能是0加数字      
+        obj.value = obj.value.replace(/^0\d[0-9]*/g, '');
+        //必须保证第一个为数字而不是.       
+        obj.value = obj.value.replace(/^\./g, '');
+        //保证只有出现一个.而没有多个.       
+        obj.value = obj.value.replace(/\.{2,}/g, '.');
+        //保证.只出现一次，而不能出现两次以上       
+        obj.value = obj.value.replace('.', '$#$').replace(/\./g, '').replace('$#$', '.');
+        //如果第一位是负号，则允许添加    
+        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');
+        if (t == '-') {
+            return;
+        }
+
+    }
+    //查看待采购部门审核和通过审核
+    function Dspclick(page) {
+         if (page == null)
+        {
+            page = 1;
+        }
+        var ApprovalType = 1;
+        $.ajax({
+            type: "POST",
+            url: "http://192.168.3.26:9100/api/Purchase/GetPurchaseList",
+            headers: { Authorization: "Bearer ${Base.token}" },
+            data: {
+                ApprovalType:ApprovalType,
+            },
+            success: function (res) {
+               
+                var data = res;
+                var tableStr = "<table class='table table-hover'>";
+                tableStr = tableStr + "<thead><tr><th>申购单id</th><th>物品名称</th><th>申请数量</th><th>单位</th><th>申请部门</th><th>申请人</th><th>申请时间</th><th>申请人备注</th><th>审核</th></tr></thead><tbody>";
+
+                var len = data[0].Count;
+
+                for (var i = 0; i < data.length; i++) {
+                    tableStr = tableStr + "<tr><td>" + data[i].PurchaseId + "</td><td>" + data[i].RawMaterial.Name + "</td><td>" + data[i].ApplyNumber + "</td><td>" + data[i].Company + "</td><td>" + data[i].Department.Name + "</td><td>" + data[i].Applicant.RealName + "</td><td>" + data[i].ApplyTime + "</td><td>" + data[i].ApplicantRemarks + "</td><td><input type='button' data-toggle='modal' data-target='#exampleModa4' data-whatever='@mdo'  onclick='id(" + i + ")' value='审核通过'><input  type='hidden' value='" + data[0].PurchaseId + "'  id='Stext" + i + "'</td></tr>";
+                   
+
+                }
+
+                tableStr = tableStr + "</tbody></table>";
+
+                //将动态生成的table添加的事先隐藏的div中.
+
+                $("#Dsp").html(tableStr);
+
+                var index = len / 10;
+                index = Math.round(index);
+
+                var str = "<p>";
+               
+                for (var i = 1; i < index+1; i++) {
+                    str += "  <button type='button' onclick='Dspclick(" + i + ")'>"+i+"</button>";
+                }
+                str += "</p>";
+                $("#Dsppage").html(str);
+            }
+        })
+    }
+    function id(a) {
+        var id = $("#Stext" + a + "").val();
+        document.getElementById("Sid").value = id;
+    }
+    //审核
+    function Cgsh() {
+
+        var id = $("#Sid").value;
+        var Ssl = $("#Ssl").val();//采购部门主管
+         var Sbz = $("#Sbz").val();
+        var ccy = "审核人";
+        var sbz = $("#sbz").val();
+        $.ajax({
+            type: "POST",
+            url: "http://192.168.3.26:9100/api/Purchase/Update",
+            headers: { Authorization: "Bearer ${Base.token}" },
+            data: {
+                PurchaseId:id,//采购审核人及备注
+            },
+            success: function (res) {
+                alert(res);
+            }
+        })
+    }
+    //查看已审批待采购订单
+     function Dcgclick(page) {
+         if (page == null)
+        {
+            page = 1;
+        }
+        var ApprovalType = 1;//+++++采购部门审核需修改
+        $.ajax({
+            type: "POST",
+            url: "http://192.168.3.26:9100/api/Purchase/GetPurchaseList",
+            headers: { Authorization: "Bearer ${Base.token}"},
+            data: {
+                ApprovalType:ApprovalType,
+            },
+            success: function (res) {
+                var data = res;
+                var tableStr = "<table class='table table-hover'>";
+                tableStr = tableStr + "<thead><tr><th>申购单id</th><th>物品名称</th><th>批准数量</th><th>单位</th><th>申请时间</th><th>申请人备注</th><th>采购审核</th><th>审核备注</th><th>审核时间</th><th>我要采购</th></tr></thead><tbody>";
+
+                var len = data[0].Count;
+
+                for (var i = 0; i < data.length; i++) {
+                    tableStr = tableStr + "<tr><td>" + data[i].PurchaseId + "</td><td>" + data[i].RawMaterial.Name + "</td><td>" + data[i].QuasiPurchaseNumber + "</td><td>" + data[i].Company + "</td><td>" + data[i].ApplyTime + "</td>td>" + data[i].ApplicantRemarks + "</td><td>" + data[i].ApplyTime + "</td>td>" + data[i].ApplicantRemarks + "</td><td><input type='button' value='我要采购' onclick='Cgzy("+i+")'/><input  type='hidden'  value='" + data[i].PurchaseId + "' id='text" + i + "'/></td></tr>";
+                   
+
+                }
+
+                tableStr = tableStr + "</tbody></table>";
+
+                //将动态生成的table添加的事先隐藏的div中.
+
+                $("#Dcg").html(tableStr);
+
+                var index = len / 10;
+                index = Math.round(index);
+
+                var str = "<p>";
+               
+                for (var i = 1; i < index+1; i++) {
+                    str += "  <button type='button' onclick='Dcgclick(" + i + ")'>"+i+"</button>";
+                }
+                str += "</p>";
+                $("#Dcgpage").html(str);
+            }
+        })
+    }
+    //采购订单归属于那个采购员负责
+    function Cgzy(a) {
+        var id = $("#text" + a + "").val();
+        var ccy = "采购员名称";
+        $.ajax({
+            type: "POST",
+            url: "http://192.168.3.26:9100/api/Purchase/Update",
+            headers: { Authorization: "Bearer ${Base.token}" },
+            data: {
+                PurchaseId:id,PurchasingSpecialistId:ccy
+            },
+            success: function (res) {
+                alert(res);
+            }
+        })
+
+    }
+    //采购订单总经理审核
+    function Zsh(page) {
+        if (page == null) {
+            page = 1;
+        }
+            var cgy = "采购员";
+        var type = document.getElementById("type").value;
+        if (type == 1) {
+            $.ajax({
+                type: "POST",
+                url: "http://192.168.3.26:9100/api/Purchase/GetPurchaseList",
+                headers: { Authorization: "Bearer ${Base.token}" },
+                data: {
+                    //采购员id查询名下采购订单
+                    PageIndex: page,
+                    PageSize: 10
+                },
+                success: function (res) {
+                    var data = res;
+                    var tableStr = "<table class='table table-hover'>";
+                    tableStr = tableStr + "<thead><tr><th>申购单id</th><th>物品名称</th><th>批准数量</th><th>单位</th><th></th><th>单价</th><th>总价</th><th>厂家</th><th>总经理审核</th></tr></thead><tbody>";
+
+                    var len = data[0].Count;
+
+                    for (var i = 0; i < data.length; i++) {
+                        tableStr = tableStr + "<tr><td>" + data[i].PurchaseId + "</td><td>" + data[i].RawMaterial.Name + "</td><td>" + data[i].QuasiPurchaseNumber + "</td><td>" + data[i].Company + "</td><td>" + data[i].Price + "</td><td>" + data[i].Amount + "</td>td>" + data[i].Supplier.Name + "</td><td><input type='button' value='通过' onclick='Cgzy(" + i + ")'/><input  type='hidden'  value='" + data[i].PurchaseId + "' id='text" + i + "'/></td></tr>";
+                    }
+
+                    tableStr = tableStr + "</tbody></table>";
+
+                    //将动态生成的table添加的事先隐藏的div中.
+
+                    $("#zShtable").html(tableStr);
+
+                    var index = len / 10;
+                    index = Math.round(index);
+
+                    var str = "<p>";
+
+                    for (var i = 1; i < index + 1; i++) {
+                        str += "  <button type='button' onclick='Zsh(" + i + ")'>" + i + "</button>";
+                    }
+                    str += "</p>";
+                    $("#zShpage").html(str);
+                }
+            })
+        }
+        else {
+              $.ajax({
+                type: "POST",
+                  url: "http://192.168.3.26:9100/api/Purchase/GetPurchaseList",
+                  headers: { Authorization: "Bearer ${Base.token}" },
+                data: {
+                    //采购员id查询名下采购订单
+                    PageIndex: page,
+                    PageSize: 10
+                },
+                success: function (res) {
+                    var data = res;
+                    var tableStr = "<table class='table table-hover'>";
+                    tableStr = tableStr + "<thead><tr><th>申购单id</th><th>物品名称</th><th>批准数量</th><th>单位</th><th></th><th>单价</th><th>总价</th><th>厂家</th><th>总经理审核</th></tr></thead><tbody>";
+                    var len = data[0].Count;
+                    for (var i = 0; i < data.length; i++) {
+                        tableStr = tableStr + "<tr><td>" + data[i].PurchaseId + "</td><td>" + data[i].RawMaterial.Name + "</td><td>" + data[i].QuasiPurchaseNumber + "</td><td>" + data[i].Company + "</td><td>" + data[i].Price + "</td><td>" + data[i].Amount + "</td>td>" + data[i].Supplier.Name + "</td><td><input type='button' value='通过' onclick='Cgzy(" + i + ")'/><input  type='hidden'  value='" + data[i].PurchaseId + "' id='text" + i + "'/></td></tr>";
+
+                    }
+
+                    tableStr = tableStr + "</tbody></table>";
+
+                    //将动态生成的table添加的事先隐藏的div中.
+
+                    $("#zShtable").html(tableStr);
+
+                    var index = len / 10;
+                    index = Math.round(index);
+
+                    var str = "<p>";
+
+                    for (var i = 1; i < index + 1; i++) {
+                        str += "  <button type='button' onclick='Zsh(" + i + ")'>" + i + "</button>";
+                    }
+                    str += "</p>";
+                    $("#zShpage").html(str);
+                }
+            })
+        }
+    }
+    //获取厂家
+    function cjlist() {
+        $.ajax({
+            type: "POST",
+            url: "http://192.168.3.26:9100/api/Purchase/GetSupplierList",
+            headers: { Authorization: "Bearer ${Base.token}" },
+            data: { Name:"",PageSize:0,PageIndex:0 },
+            success: function (res) {
+                 var data = bmlist[0].Count;
+                var str = "  <label>部门</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select class='text' id='cjselect'>";
+                for (var i = 0; i < data; i++) {
+                    str = str + '<option value="' + data[i].SupplierId + '">' + data[i].Name + '</option>';
+
+                }
+                str = str + "</select>";
+                $("#cj").html(str);
+            }
+        })
+    }
+      function getzj() {
+        var Cprice = document.getElementById("price").value;
+        var Csl = document.getElementById("sl").value;
+        if (Cprice != "" || csl != "") {
+            var zj = Csl * Cprice;
+            document.getElementById("zj").innerText = zj.toFixed(2);
+        }
+    }
+    //获取准购数量
+    function getspsl() {
+        var id = document.getElementById("sqdh").value;
+        $.ajax({
+            type:"POST",
+            url: "http://192.168.3.26:9100/api/Purchase/GetPurchaseList",
+            headers: { Authorization: "Bearer ${Base.token}" },
+            data: {
+                PurchaseId: id
+            },
+            success: function (res) {
+                document.getElementById("spslzs").innerText = res[0].QuasiPurchaseNumber;
+            }
+        })
+    }
+    function Wcj() {
+        var userrealname = "";
+        $.ajax({
+            type: "POST",
+            url: "http://192.168.3.26:9100/api/Purchase/GetSupplierList",
+            headers: { Authorization: "Bearer ${Base.token}" },
+            data: {
+                //采购员
+            },
+            success: function (res) {
+                   if (page == null)
+        {
+            page = 1;
+        }
+        var ApprovalType = 1;
+        $.ajax({
+            type: "POST",
+            url: "http://192.168.3.26:9100/api/Purchase/GetPurchaseList",
+            headers: { Authorization: "Bearer ${Base.token}" },
+            data: {
+                ApprovalType: ApprovalType, PageIndex: page,
+                PageSize: 10
+            },
+            success: function (res) {
+               
+                var data = res;
+                var tableStr = "<table class='table table-hover'>";
+                tableStr = tableStr + "<thead><tr><th>申购单id</th><th>物品名称</th><th>申请数量</th><th>单位</th><th>申请部门</th><th>申请人</th><th>申请时间</th><th>申请人备注</th></tr></thead><tbody>";
+
+                var len = data[0].Count;
+
+                for (var i = 0; i < data.length; i++) {
+                    tableStr = tableStr + "<tr><td>" + data[i].PurchaseId + "</td><td>" + data[i].RawMaterial.Name + "</td><td>" + data[i].ApplyNumber + "</td><td>" + data[i].Company + "</td><td>" + data[i].Department.Name + "</td><td>" + data[i].Applicant.RealName + "</td><td>" + data[i].ApplyTime + "</td><td>" + data[i].ApplicantRemarks + "</td></tr>";
+                   
+
+                }
+
+                tableStr = tableStr + "</tbody></table>";
+
+                //将动态生成的table添加的事先隐藏的div中.
+
+                $("#WCJ").html(tableStr);
+
+                var index = len / 10;
+                index = Math.round(index);
+
+                var str = "<p>";
+               
+                for (var i = 1; i < index+1; i++) {
+                    str += "  <button type='button' onclick='Wcj(" + i + ")'>"+i+"</button>";
+                }
+                str += "</p>";
+                $("#WCJpage").html(str);
+            }
+        })
+            }
+
+        })
+    }
+</script>

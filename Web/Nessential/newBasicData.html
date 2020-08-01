@@ -1,0 +1,2522 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../layui/layui.all.js"></script>
+    <script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../JS/funtion.js"></script>
+    <script src="../UrlModel/url.js"></script>
+    <title>基础数据</title>
+    <style>
+        .mapHead {
+            margin: 20px;
+        }
+        
+        .layui-table-page select {
+            height: 20px;
+        }
+        
+        .luJin {
+            position: relative;
+            top: -30px;
+            right: -110px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mapWrap">
+        <div class="mapHead">
+            <div class="layui-tab layui-tab-brief" lay-filter="demo">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">入库类型</li>
+                    <li>基础数据添加</li>
+                    <li>资产类型</li>
+                    <li>项目状态</li>
+                    <li>单位列表</li>
+                    <li>销售分类</li>
+                    <li>出库分类</li>
+                    <li><a href="../Flow/Flow.html" class="layui-btn" target="_blank">审批流程</a></li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item">
+                        <table class="layui-hide" id="test1" lay-filter="test1"></table>
+                    </div>
+                    <div class="layui-tab-item">
+                        <table class="layui-hide" id="test2" lay-filter="test2"></table>
+                    </div>
+                    <div class="layui-tab-item">
+                        <table class="layui-hide" id="test3" lay-filter="test3"></table>
+                    </div>
+                    <div class="layui-tab-item">
+                        <table class="layui-hide" id="test4" lay-filter="test4"></table>
+                    </div>
+                    <div class="layui-tab-item">
+                        <table class="layui-hide" id="test5" lay-filter="test5"></table>
+                    </div>
+                    <div class="layui-tab-item">
+                        <table class="layui-hide" id="test6" lay-filter="test6"></table>
+                    </div>
+                    <div class="layui-tab-item">
+                        <table class="layui-hide" id="test7" lay-filter="test7"></table>
+                    </div>
+                </div>
+            </div>
+            <!--添加库数据-->
+            <div class="site-text" style="margin: 5%; display: none;" id="box1" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book1" lay-filter="t1">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">入库类型</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="stockType"><br>
+                        </div>
+                        <label class="layui-form-label">入库的备注</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="stockDase"><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--添加基础数据-->
+            <div class="site-text" style="margin: 5%; display: none" id="box2" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book2" lay-filter="t2">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">入库类型</label>
+                        <div class="layui-input-block">
+                            <select name="badw" id="dataKuType" lay-verify="required" style="width: 180px; height: 30px;"></select>
+                            <br>
+                        </div>
+                        <label class="layui-form-label">中文名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="dataBaseName"><br>
+                        </div>
+                        <label class="layui-form-label">英文名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="dataBaseEnglist"><br>
+                        </div>
+                        <label class="layui-form-label">简称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="dataAbbreviation"><br>
+                        </div>
+                        <label class="layui-form-label">别称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="dataBaseAnother"><br>
+                        </div>
+                        <label class="layui-form-label">CAS号</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="dataBaseCAS"><br>
+                        </div>
+                        <label class="layui-form-label">分子量</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="dataBaseElement"><br>
+                        </div>
+                        <label class="layui-form-label">分子式</label>
+                        <div class="layui-input-block">
+                            <button type="button" class="layui-btn layui-btn-normal ss" id="test9" style="margin-right:215px">选择文件</button>
+                            <span id="wenJian1" class="luJin"></span>
+                            <input type="hidden" id="dataBaseFenZiShi" />
+                            <br>
+                        </div>
+                        <label class="layui-form-label">结构式</label>
+                        <div class="layui-input-block">
+                            <button type="button" class="layui-btn layui-btn-normal " id="test8" style="margin-right:215px">选择文件</button>
+                            <span id="wenJian2" class="luJin"></span>
+                            <input type="hidden" id="dataBaseStructure" /><br>
+                        </div>
+                        <label class="layui-form-label">外观状态</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="dataBaseFacade"><br>
+                        </div>
+                        <label class="layui-form-label">部门</label>
+                        <div class="layui-input-block">
+                            <select id="dataBaseDepartment" lay-verify="required" style="width: 180px; height: 30px;border:1px solid #333"></select>
+                        </div>
+                        <label class="layui-form-label">类别</label>
+                        <div class="layui-input-block">
+                            <select id="typeselect">
+                                <option value="0">物料信息</option>
+                                <option value="1">原材料信息</option>
+                                <option value="2">产成品信息</option>
+                                <option value="3">半成品信息</option>
+                                <option value="4">试剂溶剂</option>
+                                <option value="5">气体信息</option>
+                                <option value="6">设备耗材</option>
+                                <option value="7">办公耗材用品</option>
+                            </select>
+                        </div>
+                        <div class="layui-input-block" style=" text-align: right; margin: 20px 0;">
+                            <button type="button" class="layui-btn" id="shuJuFn" onclick="shuJu()">确定</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
+            <!--添加资产类型-->
+            <div class="site-text" style="margin: 5%; display: none" id="box3" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book3" lay-filter="t3">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">资产类型</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="assetsType" /><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--添加项目状态-->
+            <div class="site-text" style="margin: 5%; display: none" id="box4" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book4" lay-filter="t4">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">状态名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="projectState" /><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--添加库单位-->
+            <div class="site-text" style="margin: 5%; display: none" id="box5" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book5" lay-filter="t5">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">单位的名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="companyName" /><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--添加销售分类-->
+            <div class="site-text" style="margin: 5%; display: none" id="box12" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book12" lay-filter="t12">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">销售分类</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="sellName" /><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--添加出库分类-->
+            <div class="site-text" style="margin: 5%; display: none" id="box14" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book14" lay-filter="t14">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">出库分类</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="stockName" /><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--修改库数据-->
+            <div class="site-text" style="margin: 5%; display: none;" id="box6" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book6" lay-filter="t6">
+                    <div class="layui-form-item">
+                        <input type="hidden" id="kuId">
+                        <label class="layui-form-label">入库类型</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input stockType"><br>
+                        </div>
+                        <label class="layui-form-label">入库的备注</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input stockDase"><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--修改基础数据-->
+            <div class="site-text" style="margin: 5%; display: none;" id="box7" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book7" lay-filter="t7">
+                    <div class="layui-form-item">
+                        <input type="hidden" id="juChuId">
+                        <label class="layui-form-label">入库类型</label>
+                        <div class="layui-input-block">
+                            <select class="dataKuTypes" lay-verify="required" style="width: 180px; height: 30px;"></select>
+                            <br>
+                        </div>
+                        <label class="layui-form-label">中文名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input dataBaseName"><br>
+                        </div>
+                        <label class="layui-form-label">英文名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input dataBaseEnglist"><br>
+                        </div>
+                        <label class="layui-form-label">简称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input dataAbbreviation"><br>
+                        </div>
+                        <label class="layui-form-label">别称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input dataBaseAnother"><br>
+                        </div>
+                        <label class="layui-form-label">CAS号</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input dataBaseCAS"><br>
+                        </div>
+                        <label class="layui-form-label">分子量</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input dataBaseElement"><br>
+                        </div>
+                        <label class="layui-form-label">分子式</label>
+                        <div class="layui-input-block">
+                            <button type="button" class="layui-btn layui-btn-normal " id="test10" style="margin-right:215px">选择文件</button>
+                            <span id="wenJian3" class="luJin"></span>
+                            <input type="hidden" class="dataBaseFenZiShi" />
+                            <br>
+                        </div>
+                        <label class="layui-form-label">结构式</label>
+                        <div class="layui-input-block">
+                            <button type="button" class="layui-btn layui-btn-normal " id="test11" style="margin-right:215px">选择文件</button>
+                            <span id="wenJian4" class="luJin"></span>
+                            <input type="hidden" class="dataBaseStructure" /><br>
+                        </div>
+                        <label class="layui-form-label">外观状态</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input dataBaseFacade"><br>
+                        </div>
+                        <label class="layui-form-label">部门</label>
+                        <div class="layui-input-block">
+                            <select class="dataBaseDepartment" lay-verify="required" style="width: 180px; height: 30px;border:1px solid #333"></select>
+                        </div>
+                        <label class="layui-form-label">类别</label>
+                        <div class="layui-input-block">
+                            <select class="typeselect">
+                                <option value="0">物料信息</option>
+                                <option value="1">原材料信息</option>
+                                <option value="2">产成品信息</option>
+                                <option value="3">半成品信息</option>
+                                <option value="4">试剂溶剂</option>
+                                <option value="5">气体信息</option>
+                                <option value="6">设备耗材</option>
+                                <option value="7">办公耗材用品</option>
+                            </select>
+                        </div>
+                        <div class="layui-input-block" style=" text-align: right; margin: 20px 0;">
+                            <button type="button" class="layui-btn shuJuFn" onclick="GaiShuJu()">确定</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--修改资产状态数据-->
+            <div class="site-text" style="margin: 5%; display: none;" id="box8" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book8" lay-filter="t8">
+                    <div class="layui-form-item">
+                        <input type="hidden" id="assetsId">
+                        <label class="layui-form-label">资产类型</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input assetsType"><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--修改项目状态数据-->
+            <div class="site-text" style="margin: 5%; display: none;" id="box9" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book9" lay-filter="t9">
+                    <div class="layui-form-item">
+                        <input type="hidden" id="projectId">
+                        <label class="layui-form-label">状态名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input projectState" /><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--修改单位数据-->
+            <div class="site-text" style="margin: 5%; display: none;" id="box10" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book10" lay-filter="t10">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">单位的名称</label>
+                        <input type="hidden" id="companyId">
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input companyName"><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--修改销售分类-->
+            <div class="site-text" style="margin: 5%; display: none;" id="box13" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book13" lay-filter="t13">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">销售分类</label>
+                        <input type="hidden" id="sellId">
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input sellName"><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--修改出库分类-->
+            <div class="site-text" style="margin: 5%; display: none;" id="box15" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book15" lay-filter="t15">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">出库分类</label>
+                        <input type="hidden" id="stockId">
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input stockName"><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--弹出基础数据-->
+            <div class="site-text" style="margin: 5%; display: none;" id="box11" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="box11" lay-filter="t11">
+                    <div class="layui-form-item">
+                        <input type="hidden" id="juChuId">
+                        <label class="layui-form-label">入库类型</label>
+                        <div class="layui-input-block">
+                            <select class="dataKuTypes" lay-verify="required" style="width: 180px; height: 30px;" disabled="disabled"></select>
+                            <br>
+                        </div>
+                        <label class="layui-form-label">中文名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input dataBaseName" onfocus="this.blur()"><br>
+                        </div>
+                        <label class="layui-form-label">英文名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input dataBaseEnglist" onfocus="this.blur()"><br>
+                        </div>
+                        <label class="layui-form-label">简称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input dataAbbreviation" onfocus="this.blur()"><br>
+                        </div>
+                        <label class="layui-form-label">别称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input dataBaseAnother" onfocus="this.blur()"><br>
+                        </div>
+                        <label class="layui-form-label">CAS号</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input dataBaseCAS" onfocus="this.blur()"><br>
+                        </div>
+                        <label class="layui-form-label">分子量</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input dataBaseElement" onfocus="this.blur()"><br>
+                        </div>
+                        <label class="layui-form-label">外观状态</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input dataBaseFacade" onfocus="this.blur()"><br>
+                        </div>
+                        <label class="layui-form-label">部门</label>
+                        <div class="layui-input-block">
+                            <select class="dataBaseDepartment" lay-verify="required" style="width: 180px; height: 30px;border:1px solid #333" disabled="disabled"></select>
+                        </div>
+                        <label class="layui-form-label">类别</label>
+                        <div class="layui-input-block">
+                            <select class="typeselect" disabled="disabled">
+                                <option value="0">物料信息</option>
+                                <option value="1">原材料信息</option>
+                                <option value="2">产成品信息</option>
+                                <option value="3">半成品信息</option>
+                                <option value="4">试剂溶剂</option>
+                                <option value="5">气体信息</option>
+                                <option value="6">设备耗材</option>
+                                <option value="7">办公耗材用品</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--弹入库数据-->
+            <div class="site-text" style="margin: 5%; display: none;" id="box16" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book16" lay-filter="t16">
+                    <div class="layui-form-item">
+                        <input type="hidden" id="kuId1">
+                        <label class="layui-form-label">入库类型</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input stockType" onfocus="this.blur()"><br>
+                        </div>
+                        <label class="layui-form-label">入库的备注</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input stockDase" onfocus="this.blur()"><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--弹资产状态数据-->
+            <div class="site-text" style="margin: 5%; display: none;" id="box17" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book17" lay-filter="t17">
+                    <div class="layui-form-item">
+                        <input type="hidden" id="assetsId1">
+                        <label class="layui-form-label">资产类型</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input assetsType" onfocus="this.blur()"><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--弹出项目状态数据-->
+            <div class="site-text" style="margin: 5%; display: none;" id="box18" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book18" lay-filter="t18">
+                    <div class="layui-form-item">
+                        <input type="hidden" id="projectId1">
+                        <label class="layui-form-label">状态名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input projectState" onfocus="this.blur()" /><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--弹出单位数据-->
+            <div class="site-text" style="margin: 5%; display: none;" id="box19" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book19" lay-filter="t19">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">单位的名称</label>
+                        <input type="hidden" id="companyId1">
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input companyName" onfocus="this.blur()"><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--弹出销售数据-->
+            <div class="site-text" style="margin: 5%; display: none;" id="box20" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book20" lay-filter="t20">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">销售分类</label>
+                        <input type="hidden" id="sellId1">
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input sellName" onfocus="this.blur()"><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--弹出出库分类-->
+            <div class="site-text" style="margin: 5%; display: none;" id="box21" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book21" lay-filter="t21">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">出库分类</label>
+                        <input type="hidden" id="stockId1">
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input stockName" onfocus="this.blur()"><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--添加表头-->
+            <script type="text/html" id="toolbarDemo1">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-sm" lay-event="add1">添加</button>
+                </div>
+            </script>
+            <script type="text/html" id="toolbarDemo2">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-sm" lay-event="add2">添加</button>
+                </div>
+            </script>
+            <script type="text/html" id="toolbarDemo3">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-sm" lay-event="add3">添加</button>
+                </div>
+            </script>
+            <script type="text/html" id="toolbarDemo4">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-sm" lay-event="add4">添加</button>
+                </div>
+            </script>
+            <script type="text/html" id="toolbarDemo5">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-sm" lay-event="add5">添加</button>
+                </div>
+            </script>
+            <script type="text/html" id="toolbarDemo6">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-sm" lay-event="add6">添加</button>
+                </div>
+            </script>
+            <script type="text/html" id="toolbarDemo7">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-sm" lay-event="add7">添加</button>
+                </div>
+            </script>
+            <!--表格操作-->
+            <script type="text/html" id="barDemo">
+                <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+            </script>
+            <!--序号列-->
+            <script type="text/html" id="xuHao">
+                {{d.LAY_TABLE_INDEX+1}}
+            </script>
+            <!--信息-->
+            <script type="text/html" id="buttonTpl">
+                {{# if(d.RawMaterialType == 0){ }}
+                <button class="layui-btn layui-btn-warm layui-btn-xs">物料信息</button> {{# } else if(d.RawMaterialType == 1) { }}
+                <button class="layui-btn layui-btn-normal layui-btn-xs">原材料信息</button> {{# } else if(d.RawMaterialType == 2) { }}
+                <button class="layui-btn layui-btn-danger layui-btn-xs">产成品信息</button> {{# } else if(d.RawMaterialType == 3) { }}
+                <button class="layui-btn layui-btn-xs">半成品信息</button> {{# } else if(d.RawMaterialType == 4) { }}
+                <button class="layui-btn layui-btn-warm layui-btn-xs">试剂溶剂信息</button> {{# } else if(d.RawMaterialType == 5) { }}
+                <button class="layui-btn layui-btn-normal layui-btn-xs">气体信息</button> {{# } else if(d.RawMaterialType == 6) { }}
+                <button class="layui-btn layui-btn-danger layui-btn-xs">设备耗材</button> {{# } else if(d.RawMaterialType == 7) { }}
+                <button class="layui-btn  layui-btn-xs">办公耗材用品</button> {{# } }}
+            </script>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    //时间
+    function showTime(tempDate) {
+        var d = new Date(tempDate);
+        var year = d.getFullYear();
+        var month = d.getMonth();
+        month++;
+        var day = d.getDate();
+        var hours = d.getHours();
+
+        var minutes = d.getMinutes();
+        var seconds = d.getSeconds();
+        month = month < 10 ? "0" + month : month;
+        day = day < 10 ? "0" + day : day;
+        hours = hours < 10 ? "0" + hours : hours;
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+
+        var time = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+        return time;
+    }
+    window.onload = function() {
+            warehousingType("#dataKuType");
+            DepartmentList("#dataBaseDepartment")
+            warehousingType(".dataKuTypes");
+            DepartmentList(".dataBaseDepartment");
+        }
+        //入库类型列表
+    function warehousingType(b) {
+        $.ajax({
+            type: 'POST',
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            url: window.url + 'RawMaterial/WarehousingType', //后台数据地址
+            data: {
+                PageIndex: 0,
+                PageSize: 0
+            },
+            success: function(data) {
+                console.log(data);
+                $.each(data, function(index, item) { //循环后台返回的json数据
+                    //new Option方法是新建一个option，第一个参数是需要显示的值，第二个参数是option的value值,然后append到下拉框中。
+
+                    $(b).append(new Option(item.Name, item.WarehousingId));
+                })
+                layui.form.render("select");
+            }
+        })
+    }
+    //部门的列表
+    function DepartmentList(b) {
+        $.ajax({
+            type: 'POST',
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            url: window.url + 'Department/GetDepartmentList', //后台数据地址
+            data: {
+                PageIndex: 0,
+                PageSize: 0
+            },
+            success: function(data) {
+                console.log(data);
+                $.each(data, function(index, item) { //循环后台返回的json数据
+                    //new Option方法是新建一个option，第一个参数是需要显示的值，第二个参数是option的value值,然后append到下拉框中。
+                    $(b).append(new Option(item.Name, item.DepartmentId));
+                })
+                layui.form.render("select");
+            }
+        })
+    }
+
+    //设置图片的放大效果
+    function hoverOpenImg() {
+        var img_show = null; //tips提示
+        $('td img').hover(function() {
+            var img = "<img class='img_msg'src='" + $(this).attr('src') + "' style='width:170px;height:200px'/>";
+            img_show = layer.tips(img, this, {
+                tips: [2, 'rgba(41,41,41,.5)'],
+                area: ['200px']
+            });
+        }, function() {
+            layer.close(img_show);
+        });
+        $('td img').attr('style', 'max-width:50px');
+    }
+
+
+    //入库类型的表
+    layui.use(['laypage', 'layer', 'table', 'element', 'jquery'], function() {
+        var laypage = layui.laypage //分页
+            ,
+            layer = layui.layer //弹层
+            ,
+            table = layui.table //表格
+            ,
+            element = layui.element //元素操作
+            ,
+            jquery = layui.jquery;
+
+        table.render({
+            elem: '#test1',
+            height: 515,
+            url: window.url + 'RawMaterial/WarehousingType' //数据接口
+                ,
+            title: '入库类型',
+            id: 'testFund1',
+            toolbar: '#toolbarDemo1' //开启头部工具栏，并为其绑定左侧模板
+                ,
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            method: 'post',
+            page: true, //开启分页
+            limit: 10,
+            cols: [
+                [{
+                    type: 'checkbox',
+                    fixed: 'left'
+                }, {
+                    title: '序号',
+                    width: 100,
+                    fixed: 'left',
+                    templet: '#xuHao',
+
+                }, {
+                    field: 'Name',
+                    title: '库的类型名称',
+                    width: 150,
+                    fixed: 'left',
+                    unresize: true,
+                }, {
+                    field: 'Desc',
+                    title: '库的类型备注',
+                    width: 150,
+                }, {
+                    field: 'CreateDate',
+                    title: '发布日期',
+                    templet: function(res) {
+                        return showTime(res.CreateDate);
+                    }
+                }, {
+                    fixed: 'right',
+                    title: '操作',
+                    toolbar: '#barDemo',
+                    width: 200,
+
+                }]
+            ],
+            request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+                    ,
+                limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+            parseData: (res) => { //将原始数据解析成 table 组件所规定的数据
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": "成功", //解析提示文本
+                    "count": res[0].Count, //总数
+                    data: res //解析数据列表
+                }
+            }
+        });
+        //头工具栏事件
+        table.on('toolbar(test1)', function(obj) {
+            if (obj.event == "add1") {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '220px'],
+                    title: ['添加库的类型', 'font-size:18px'],
+                    btn: ['确定', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box1'),
+                    yes: function(index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "RawMaterial/AddWarehousingType",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                Name: $("#stockType").val(),
+                                Desc: $('#stockDase').val(),
+                            }),
+                            success: function(res) {
+                                table.reload('testFund1')
+                                $("#box1").css("display", "none");
+                                layer.close(index)
+                            },
+                            error: function(res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function(layero) {
+                        $("#box1").css("display", "none");
+                    },
+                    cancel: function() {
+                        $("#box1").css("display", "none");
+                    }
+                });
+                return false;
+            }
+        });
+        //监听行工具事件
+        table.on('tool(test1)', function(obj) {
+            var data = obj.data;
+            layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'del') {
+                var wareArr = [];
+                wareArr.push(data.WarehousingId);
+                console.log(data.WarehousingId)
+                layer.confirm('真的删除行么', function(index) {
+                    //向服务端发送删除指令
+                    $.ajax({
+                        type: "POST",
+                        url: window.url + "RawMaterial/DeleteWarehousingTypeList",
+                        headers: {
+                            Authorization: window.header.Ae,
+                            UserId: window.header.Ud,
+                            AppFlag: window.header.Fg
+                        },
+                        contentType: "application/json",
+                        data: JSON.stringify(wareArr),
+                        success: function(res) {
+                            table.reload('testFund1')
+                            layer.close(index)
+                        },
+                        error: function(res) {
+                            layer.msg(res);
+                        }
+                    })
+                });
+            } else if (layEvent === 'edit') {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '220px'],
+                    title: ['修改入库类型信息', 'font-size:18px'],
+                    btn: ['确定修改', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box6'),
+                    success: function(layero, index) {
+                        $("#kuId").val(data.WarehousingId)
+                        $(".stockType").val(data.Name);
+                        $(".stockDase").val(data.Desc);
+                    },
+                    yes: function(index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "RawMaterial/UpdateWarehousingType",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                WarehousingId: $("#kuId").val(),
+                                Name: $(".stockType").val(),
+                                Desc: $(".stockDase").val()
+                            }),
+                            success: function(res) {
+                                table.reload('testFund1')
+                                $("#box6").css("display", "none");
+                                layer.close(index)
+                            },
+                            error: function(res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function(layero) {
+                        $("#box6").css("display", "none");
+                    },
+                    cancel: function() {
+                        $("#box6").css("display", "none");
+                    }
+                });
+                return false;
+            }
+        });
+        //监听行的双击事件数据详情
+        table.on('rowDouble(test1)', function(obj) {
+                var data = obj.data;
+                console.log(data);
+                layer.open({
+                    type: 1,
+                    area: ['400px', '220px'],
+                    title: ['入库类型信息', 'font-size:18px'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box16'),
+                    success: function(layero, index) {
+                        $("#kuId1").val(data.WarehousingId)
+                        $(".stockType").val(data.Name);
+                        $(".stockDase").val(data.Desc);
+                        layui.form.render();
+                    },
+                    cancel: function() {
+                        $("#box16").css("display", "none");
+                    }
+                });
+            })
+            //分页
+        laypage.render({
+            elem: 'pageDemo' //分页容器的id
+                ,
+            count: 100 //总页数
+                ,
+            skin: '#1E9FFF' //自定义选中色值
+                //,skip: true //开启跳页
+                ,
+            jump: function(obj, first) {
+                if (!first) {
+                    layer.msg('第' + obj.curr + '页', {
+                        offset: 'b'
+                    });
+                }
+            }
+        });
+    });
+
+    //基础数据的表
+    layui.use(['laypage', 'layer', 'table', 'element', 'jquery', 'upload'], function() {
+        var laypage = layui.laypage //分页
+            ,
+            layer = layui.layer //弹层
+            ,
+            table = layui.table //表格
+            ,
+            element = layui.element //元素操作
+            ,
+            jquery = layui.jquery,
+            upload = layui.upload
+
+        table.render({
+            elem: '#test2',
+            height: 515,
+            url: window.url + 'RawMaterial/GetList' //数据接口
+                ,
+            title: '基础数据',
+            id: 'testFund2',
+            toolbar: '#toolbarDemo2' //开启头部工具栏，并为其绑定左侧模板
+                ,
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            method: 'post',
+            page: true, //开启分页
+            limit: 10,
+            //每页默认显示的数量
+            done: function(res, curr, count) {
+                hoverOpenImg(); //显示大图
+
+            },
+            cols: [
+                [{
+                    type: 'checkbox',
+                    fixed: 'left'
+                }, {
+                    title: '序号',
+                    fixed: 'left',
+                    templet: '#xuHao',
+
+                }, {
+                    field: ' WarehousingType.Name ',
+                    title: '入库名称',
+                    fixed: 'left',
+                    templet: function(res) {
+                        return res.WarehousingType.Name;
+                    }
+                }, {
+                    field: 'Name',
+                    title: '中文名称',
+                    fixed: 'left',
+                    unresize: true,
+                }, {
+                    field: 'EnglishName',
+                    title: '英文名称',
+
+                }, {
+
+                    field: 'BeCommonlyCalled1',
+                    title: '别称',
+                }, {
+                    field: 'Abbreviation',
+                    title: '简称 ',
+
+                }, {
+                    field: 'CASNumber',
+                    title: 'CAS号',
+
+                }, {
+                    field: 'MolecularWeight',
+                    title: '分子量',
+                }, {
+                    field: 'MolecularFormula',
+                    title: '分子式',
+                    templet: function(res) {
+                        if (res.MolecularFormula != '') {
+                            if (res.MolecularFormula.lastIndexOf("jpg") != -1 || res.MolecularFormula.lastIndexOf("png") != -1) {
+                                return "<div> <a href='" + res.MolecularFormula + "' target='_blank'> <img src='" + res.MolecularFormula + "' id='image'></a></div>"
+                            } else {
+                                return "<div><a href='" + res.MolecularFormula + " 'target='_blank'> <img src='../../img/2.jpg' id='image' > </a></div>"
+                            }
+                        } else {
+                            return "<img src='../../img/2.jpg' id='image'>"
+                        }
+                    }
+                }, {
+                    field: 'StructuralFormula',
+                    title: '结构式',
+                    templet: function(res) {
+                        if (res.StructuralFormula != '') {
+                            if (res.StructuralFormula.lastIndexOf("jpg") != -1 || res.StructuralFormula.lastIndexOf("png") != -1) {
+                                return "<div><a href='" + res.StructuralFormula + "' target='_blank'><img src='" + res.StructuralFormula + "' id='image'></a></div>"
+                            }
+
+                            return "<div><a href='" + res.StructuralFormula + "' target='_blank'> <img src='../../img/2.jpg' id='image'> </a></div>"
+
+
+                        } else {
+                            return "<img src='../../img/2.jpg' id='image'>"
+                        }
+                    }
+                }, {
+                    field: 'AppearanceState',
+                    title: '外观状态',
+                }, {
+                    field: 'Department.Name',
+                    title: '部门名称',
+                    templet: function(res) {
+
+                        if (res.Department == null) {
+                            return "部门"
+                        }
+                        return res.Department.Name
+                    }
+                }, {
+                    field: 'RawMaterialType',
+                    title: '信息',
+                    templet: '#buttonTpl',
+                    minWidth: 150,
+                    align: 'center'
+                }, {
+                    field: 'CreateDate',
+                    title: '发布日期',
+                    templet: function(res) {
+                        return showTime(res.CreateDate);
+                    }
+                }, {
+                    fixed: 'right',
+                    title: '操作',
+                    width: 120,
+                    toolbar: '#barDemo',
+                }]
+            ],
+            request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+                    ,
+                limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+            parseData: (res) => { //将原始数据解析成 table 组件所规定的数据
+                console.log("11111", res);
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": "成功", //解析提示文本
+                    "count": res[0].Count, //总数
+                    data: res //解析数据列表
+                }
+            }
+        });
+        //头工具栏事件
+        table.on('toolbar(test2)', function(obj) {
+            if (obj.event == "add2") {
+                layer.open({
+                    type: 1,
+                    area: ['460px', '700px'],
+                    title: ['添加数据', 'font-size:18px'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box2'),
+                    cancel: function() {
+                        $("#box2").css("display", "none");
+                    },
+                });
+                return false;
+            }
+        });
+        //监听行工具事件
+        table.on('tool(test2)', function(obj) {
+            var data = obj.data;
+            layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'del') {
+                var jiChu = [];
+                jiChu.push(data.RawMaterialId);
+                console.log(data.RawMaterialId)
+                layer.confirm('真的删除行么', function(index) {
+                    //向服务端发送删除指令
+                    $.ajax({
+                        type: "POST",
+                        url: window.url + "RawMaterial/DeleteRawMaterialList",
+                        headers: {
+                            Authorization: window.header.Ae,
+                            UserId: window.header.Ud,
+                            AppFlag: window.header.Fg
+                        },
+                        contentType: "application/json",
+                        data: JSON.stringify(jiChu),
+                        success: function(res) {
+                            table.reload('testFund2')
+                            layer.close(index)
+                        },
+                        error: function(res) {
+                            layer.msg(res);
+                        }
+                    })
+                });
+            } else if (layEvent === 'edit') {
+                layer.open({
+                    type: 1,
+                    area: ['420px', '700px'],
+                    title: ['信息', 'font-size:18px'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box7'),
+                    success: function(layero, index) {
+                        $("#juChuId").val(data.RawMaterialId),
+                            $(".dataKuTypes").val(data.WarehousingTypeId),
+                            $('.dataBaseName').val(data.Name),
+                            $('.dataBaseEnglist').val(data.EnglishName),
+                            $(".dataAbbreviation").val(data.Abbreviation),
+                            $('.dataBaseAnother').val(data.BeCommonlyCalled1),
+                            $('.dataBaseCAS').val(data.CASNumber),
+                            $('.dataBaseElement').val(data.MolecularWeight),
+                            $('.dataBaseFenZiShi').val(data.MolecularFormula),
+                            $('.dataBaseStructure').val(data.StructuralFormula),
+                            $('.dataBaseFacade').val(data.AppearanceState),
+                            $('.dataBaseDepartment').val(data.DepartmentId),
+                            $('.dataBaseNameProject').val(data.ProjectId),
+                            $('.typeselect').val(data.RawMaterialType)
+                        layui.form.render();
+                        element.init();
+                    },
+                    cancel: function() {
+                        $("#box7").css("display", "none");
+                    },
+                });
+                return false;
+            }
+        });
+
+        //监听行的双击事件数据详情
+        table.on('rowDouble(test2)', function(obj) {
+                var data = obj.data;
+                layer.open({
+                    type: 1,
+                    area: ['420px', '700px'],
+                    title: ['详情', 'font-size:18px'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box11'),
+                    success: function(layero, index) {
+                        $("#juChuId").val(data.RawMaterialId),
+                            $(".dataKuTypes").val(data.WarehousingTypeId),
+                            $('.dataBaseName').val(data.Name),
+                            $('.dataBaseEnglist').val(data.EnglishName),
+                            $(".dataAbbreviation").val(data.Abbreviation),
+                            $('.dataBaseAnother').val(data.BeCommonlyCalled1),
+                            $('.dataBaseCAS').val(data.CASNumber),
+                            $('.dataBaseElement').val(data.MolecularWeight),
+                            $('.dataBaseFacade').val(data.AppearanceState),
+                            $('.dataBaseDepartment').val(data.DepartmentId),
+                            $('.dataBaseNameProject').val(data.ProjectId),
+                            $('.typeselect').val(data.RawMaterialType)
+                        layui.form.render();
+
+                    },
+                    cancel: function() {
+                        $("#box11").css("display", "none");
+                    }
+                });
+            })
+            //分页
+        laypage.render({
+            elem: 'pageDemo' //分页容器的id
+                ,
+            count: 100 //总页数
+                ,
+            skin: '#1E9FFF' //自定义选中色值
+                //,skip: true //开启跳页
+                ,
+            jump: function(obj, first) {
+                if (!first) {
+                    layer.msg('第' + obj.curr + '页', {
+                        offset: 'b'
+                    });
+                }
+            }
+        });
+        //上传文件
+        upload.render({
+            elem: '#test8',
+            url: window.url + 'FileUp/FileUp',
+            auto: true //不会自动调用上传接口
+                ,
+            method: "post",
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            accept: 'file',
+            done: function(res, index, upload) { //上传成功的回调
+                $("#dataBaseStructure").val(res.Url)
+
+            },
+            choose: function(obj) { //图片或者文件的回调
+                //将每次回调选择的文件追加到文件的回调
+                var files = obj.pushFile();
+                //预读本地文件，如果是多个文件，则会遍历。（不支持IE8/9）
+                obj.preview(function(index, file, result) {
+                    $("#wenJian2").text(file.name)
+                });
+            }
+        })
+        upload.render({
+            elem: '#test9',
+            url: window.url + 'FileUp/FileUp',
+            auto: true //不会自动调用上传接口
+                ,
+            method: "post",
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            accept: 'file',
+            done: function(res, index, upload) { //上传成功的回调
+                $("#dataBaseFenZiShi").val(res.Url)
+
+            },
+            choose: function(obj) { //图片或者文件的回调
+                //将每次回调选择的文件追加到文件的回调
+                var files = obj.pushFile();
+                console.log(files);
+                //预读本地文件，如果是多个文件，则会遍历。（不支持IE8/9）
+                obj.preview(function(index, file, result) {
+                    $("#wenJian1").text(file.name)
+                });
+            }
+        })
+        upload.render({
+            elem: '#test10',
+            url: window.url + 'FileUp/FileUp',
+            auto: true //不会自动调用上传接口
+                ,
+            method: "post",
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            accept: 'file',
+            done: function(res, index, upload) { //上传成功的回调
+                $(".dataBaseFenZiShi").val(res.Url)
+
+            },
+            choose: function(obj) { //图片或者文件的回调
+                //将每次回调选择的文件追加到文件的回调
+                var files = obj.pushFile();
+                console.log(files);
+                //预读本地文件，如果是多个文件，则会遍历。（不支持IE8/9）
+                obj.preview(function(index, file, result) {
+                    $("#wenJian3").text(file.name)
+                });
+            }
+        })
+        upload.render({
+            elem: '#test11',
+            url: window.url + 'FileUp/FileUp',
+            auto: true //不会自动调用上传接口
+                ,
+            method: "post",
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            accept: 'file',
+            done: function(res, index, upload) { //上传成功的回调
+                $(".dataBaseFenZiShi").val(res.Url)
+
+            },
+            choose: function(obj) { //图片或者文件的回调
+                //将每次回调选择的文件追加到文件的回调
+                var files = obj.pushFile();
+                console.log(files);
+                //预读本地文件，如果是多个文件，则会遍历。（不支持IE8/9）
+                obj.preview(function(index, file, result) {
+                    $("#wenJian4").text(file.name)
+                });
+            }
+        })
+    })
+
+    function shuJu() {
+        $.ajax({
+            type: "POST",
+            url: window.url + "RawMaterial/Add",
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            contentType: "application/json",
+            data: JSON.stringify({
+                WarehousingTypeId: $("#dataKuType").val(),
+                Name: $('#dataBaseName').val(),
+                EnglishName: $('#dataBaseEnglist').val(),
+                Abbreviation: $("#dataAbbreviation").val(),
+                BeCommonlyCalled1: $('#dataBaseAnother').val(),
+                CASNumber: $('#dataBaseCAS').val(),
+                MolecularWeight: $('#dataBaseElement').val(),
+                MolecularFormula: $('#dataBaseFenZiShi').val(),
+                StructuralFormula: $('#dataBaseStructure').val(),
+                AppearanceState: $('#dataBaseFacade').val(),
+                DepartmentId: $('#dataBaseDepartment').val(),
+                ProjectId: $('#dataBaseNameProject').val(),
+                RawMaterialType: $('#typeselect').val(),
+            }),
+            success: function(res) {
+                uptable(res)
+            },
+            error: function(res) {
+                layer.msg(res);
+            }
+
+        });
+
+    }
+
+    function GaiShuJu() {
+        $.ajax({
+            type: "POST",
+            url: window.url + "RawMaterial/Update",
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            contentType: "application/json",
+            data: JSON.stringify({
+                RawMaterialId: $("#juChuId").val(),
+                WarehousingTypeId: $(".dataKuTypes").val(),
+                Name: $('.dataBaseName').val(),
+                EnglishName: $('.dataBaseEnglist').val(),
+                Abbreviation: $(".dataAbbreviation").val(),
+                BeCommonlyCalled1: $('.dataBaseAnother').val(),
+                CASNumber: $('.dataBaseCAS').val(),
+                MolecularWeight: $('.dataBaseElement').val(),
+                MolecularFormula: $('.dataBaseFenZiShi').val(),
+                StructuralFormula: $('.dataBaseStructure').val(),
+                AppearanceState: $('.dataBaseFacade').val(),
+                DepartmentId: $('.dataBaseDepartment').val(),
+                ProjectId: $('.dataBaseNameProject').val(),
+                RawMaterialType: $('.typeselect').val()
+            }),
+            success: function(res) {
+                uptable(res)
+            },
+            error: function(res) {
+                layer.msg(res);
+            }
+
+        })
+    }
+
+
+
+
+    //资产类型的表
+    layui.use(['laypage', 'layer', 'table', 'element', 'jquery'], function() {
+        var laypage = layui.laypage //分页
+            ,
+            layer = layui.layer //弹层
+            ,
+            table = layui.table //表格
+            ,
+            element = layui.element //元素操作
+            ,
+            jquery = layui.jquery;
+
+        table.render({
+            elem: '#test3',
+            height: 515,
+            url: window.url + 'Assetss/GetAssetsTypeList' //数据接口
+                ,
+            title: '资产类型表',
+            id: 'testFund3',
+            toolbar: '#toolbarDemo3' //开启头部工具栏，并为其绑定左侧模板
+                ,
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            method: 'post',
+            page: true, //开启分页
+            limit: 10,
+            cols: [
+                [{
+                    type: 'checkbox',
+                    fixed: 'left'
+                }, {
+                    title: '序号',
+                    fixed: 'left',
+                    templet: '#xuHao',
+                }, {
+                    field: 'AssetsTypeName',
+                    title: '资产类型名称',
+                    fixed: 'left',
+                }, {
+                    fixed: 'right',
+                    title: '操作',
+                    toolbar: '#barDemo',
+                }]
+            ],
+            request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+                    ,
+                limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+            parseData: (res) => { //将原始数据解析成 table 组件所规定的数据
+                console.log(res)
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": "成功", //解析提示文本
+                    "count": 20 //res[0].Count, //总数
+                        ,
+                    data: res //解析数据列表
+                }
+            }
+        });
+        //头工具栏事件
+        table.on('toolbar(test3)', function(obj) {
+            if (obj.event == "add3") {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '500px'],
+                    title: ['添加资产信息', 'font-size:18px'],
+                    btn: ['确定', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box3'),
+                    yes: function(index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "Assetss/AddAssetsType",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                AssetsTypeName: $("#assetsType").val(),
+                            }),
+                            success: function(res) {
+                                table.reload('testFund3')
+                                $("#box3").css("display", "none");
+                                layer.close(index)
+                            },
+                            error: function(res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function(layero) {
+                        $("#box3").css("display", "none");
+                    },
+                    cancel: function() {
+                        $("#box3").css("display", "none");
+                    }
+                });
+                return false;
+            }
+        });
+
+        //监听行工具事件
+        table.on('tool(test3)', function(obj) {
+            var data = obj.data;
+            layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'del') {
+                var assetsArr = [];
+                assetsArr.push(data.AssetsTypeId);
+                layer.confirm('真的删除行么', function(index) {
+                    //向服务端发送删除指令
+                    $.ajax({
+                        type: "POST",
+                        url: window.url + "Assetss/DeleteAssetsTypeList",
+                        headers: {
+                            Authorization: window.header.Ae,
+                            UserId: window.header.Ud,
+                            AppFlag: window.header.Fg
+                        },
+                        contentType: "application/json",
+                        data: JSON.stringify(assetsArr),
+                        success: function(res) {
+                            table.reload('testFund3')
+                            layer.close(index)
+                        },
+                        error: function(res) {
+                            layer.msg(res);
+                        }
+                    })
+                });
+            } else if (layEvent === 'edit') {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '220px'],
+                    title: ['修改资产类型', 'font-size:18px'],
+                    btn: ['确定修改', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box8'),
+                    success: function(layero, index) {
+                        $("#assetsId").val(data.AssetsTypeId);
+                        $(".assetsType").val(data.AssetsTypeName);
+                    },
+                    yes: function(index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "Assetss/UpdateAssetsType",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                AssetsTypeId: $("#assetsId").val(),
+                                AssetsTypeName: $(".assetsType").val(),
+                            }),
+                            success: function(res) {
+                                table.reload('testFund3')
+                                $("#box8").css("display", "none");
+                                layer.close(index)
+                            },
+                            error: function(res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function(layero) {
+                        $("#box8").css("display", "none");
+                    },
+                    cancel: function() {
+                        $("#box8").css("display", "none");
+                    }
+                });
+                return false;
+            }
+        });
+        //监听行的双击事件数据详情
+        table.on('rowDouble(test3)', function(obj) {
+                var data = obj.data;
+                console.log(data);
+                layer.open({
+                    type: 1,
+                    area: ['400px', '200px'],
+                    title: ['资产状态信息', 'font-size:18px'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box17'),
+                    success: function(layero, index) {
+                        $("#assetsId1").val(data.AssetsTypeId);
+                        $(".assetsType").val(data.AssetsTypeName);
+                        layui.form.render();
+
+                    },
+                    cancel: function() {
+                        $("#box17").css("display", "none");
+                    }
+                });
+            })
+            //分页
+        laypage.render({
+            elem: 'pageDemo' //分页容器的id
+                ,
+            count: 100 //总页数
+                ,
+            skin: '#1E9FFF' //自定义选中色值
+                //,skip: true //开启跳页
+                ,
+            jump: function(obj, first) {
+                if (!first) {
+                    layer.msg('第' + obj.curr + '页', {
+                        offset: 'b'
+                    });
+                }
+            }
+        });
+    });
+
+
+    //项目的状态
+    layui.use(['laypage', 'layer', 'table', 'element', 'jquery'], function() {
+        var laypage = layui.laypage //分页
+            ,
+            layer = layui.layer //弹层
+            ,
+            table = layui.table //表格
+            ,
+            element = layui.element //元素操作
+            ,
+            jquery = layui.jquery;
+        table.render({
+            elem: '#test4',
+            height: 515,
+            url: window.url + 'Project/GetProjectStateList' //数据接口
+                ,
+            title: '项目状态表',
+            id: 'testFund4',
+            toolbar: '#toolbarDemo4' //开启头部工具栏，并为其绑定左侧模板
+                ,
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            method: 'post',
+            page: true, //开启分页
+            limit: 10,
+            cols: [
+                [{
+                    type: 'checkbox',
+                    fixed: 'left'
+                }, {
+                    title: '序号',
+                    fixed: 'left',
+                    templet: '#xuHao',
+                }, {
+                    field: 'ProjectStateName',
+                    title: '项目状态',
+                }, {
+                    fixed: 'right',
+                    title: '操作',
+                    toolbar: '#barDemo',
+                    width: 200,
+
+                }]
+            ],
+            request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+                    ,
+                limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+            parseData: (res) => { //将原始数据解析成 table 组件所规定的数据
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": "成功", //解析提示文本
+                    "count": res[0].Count, //总数
+                    data: res //解析数据列表
+                }
+            }
+        });
+
+        //头工具栏事件
+        table.on('toolbar(test4)', function(obj) {
+            if (obj.event == "add4") {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '220px'],
+                    title: ['添加项目状态', 'font-size:18px'],
+                    btn: ['确定', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box4'),
+                    yes: function(index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "Project/AddProjeState",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                ProjectStateName: $("#projectState").val(),
+                            }),
+                            success: function(res) {
+                                table.reload('testFund4');
+                                $("#box4").css("display", "none");
+                                layer.close(index)
+                            },
+                            error: function(res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function(layero) {
+                        $("#box4").css("display", "none");
+                    },
+                    cancel: function() {
+                        $("#box4").css("display", "none");
+                    }
+                });
+                return false;
+            }
+        });
+
+        //监听行工具事件
+        table.on('tool(test4)', function(obj) {
+            var data = obj.data;
+            layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'del') {
+                var projectArr = [];
+                projectArr.push(data.ProjectStateId);
+                layer.confirm('真的删除行么', function(index) {
+                    //向服务端发送删除指令
+                    $.ajax({
+                        type: "POST",
+                        url: window.url + "Project/DeleteProjectStateList",
+                        headers: {
+                            Authorization: window.header.Ae,
+                            UserId: window.header.Ud,
+                            AppFlag: window.header.Fg
+                        },
+                        contentType: "application/json",
+                        data: JSON.stringify(projectArr),
+                        success: function(res) {
+                            table.reload('testFund4');
+                            layer.close(index)
+                        },
+                        error: function(res) {
+                            layer.msg(res);
+                        }
+                    })
+                });
+            } else if (layEvent === 'edit') {
+                var index = layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '220px'],
+                    title: ['修改项目状态信息', 'font-size:18px'],
+                    btn: ['确定修改', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box9'),
+                    success: function(layero, index) {
+                        $("#projectId").val(data.ProjectStateId),
+                            $(".projectState").val(data.ProjectStateName)
+                    },
+                    yes: function(index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "Project/UpdateProjeState",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                ProjectStateId: $("#projectId").val(),
+                                ProjectStateName: $(".projectState").val(),
+                            }),
+                            success: function(res) {
+                                table.reload('testFund4')
+                                $("#box9").css("display", "none");
+                                layer.close(index)
+
+                            },
+                            error: function(res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+
+                    btn2: function(layero) {
+                        $("#box9").css("display", "none");
+                    },
+                    cancel: function() {
+                        $("#box9").css("display", "none");
+                    }
+                });
+                return false;
+            }
+        });
+        //监听行的双击事件数据详情
+        table.on('rowDouble(test4)', function(obj) {
+                var data = obj.data;
+                console.log(data);
+                layer.open({
+                    type: 1,
+                    area: ['400px', '200px'],
+                    title: ['项目状态信息', 'font-size:18px'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box18'),
+                    success: function(layero, index) {
+                        $("#projectId1").val(data.ProjectStateId),
+                            $(".projectState").val(data.ProjectStateName)
+                        layui.form.render();
+                    },
+                    cancel: function() {
+                        $("#box18").css("display", "none");
+                    }
+                });
+            })
+            //分页
+        laypage.render({
+            elem: 'pageDemo' //分页容器的id
+                ,
+            count: 100 //总页数
+                ,
+            skin: '#1E9FFF' //自定义选中色值
+                //,skip: true //开启跳页
+                ,
+            jump: function(obj, first) {
+                if (!first) {
+                    layer.msg('第' + obj.curr + '页', {
+                        offset: 'b'
+                    });
+                }
+            }
+        });
+    });
+
+
+    //单位的表
+    layui.use(['laypage', 'layer', 'table', 'element', 'jquery'], function() {
+        var laypage = layui.laypage //分页
+            ,
+            layer = layui.layer //弹层
+            ,
+            table = layui.table //表格
+            ,
+            element = layui.element //元素操作
+            ,
+            jquery = layui.jquery;
+        table.render({
+            elem: '#test5',
+            height: 515,
+            url: window.url + 'RawMaterial/GetCompanyList' //数据接口
+                ,
+            title: '单位表',
+            id: 'testFund5',
+            toolbar: '#toolbarDemo5' //开启头部工具栏，并为其绑定左侧模板
+                ,
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            method: 'post',
+            page: true, //开启分页
+            limit: 10,
+            cols: [
+                [{
+                    type: 'checkbox',
+                    fixed: 'left'
+                }, {
+                    title: '序号',
+                    fixed: 'left',
+                    templet: '#xuHao',
+                }, {
+                    field: 'Name',
+                    title: '单位名称',
+                }, {
+                    fixed: 'right',
+                    title: '操作',
+                    toolbar: '#barDemo',
+
+                }]
+            ],
+            request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+                    ,
+                limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+            parseData: (res) => { //将原始数据解析成 table 组件所规定的数据
+                console.log(res)
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": "成功", //解析提示文本
+                    "count": res[0].Count, //总数
+                    data: res //解析数据列表
+                }
+            }
+        });
+        //头工具栏事件
+        table.on('toolbar(test5)', function(obj) {
+            console.log(obj)
+            if (obj.event == "add5") {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '500px'],
+                    title: ['添加单位', 'font-size:18px'],
+                    btn: ['确定', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box5'),
+                    yes: function(index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "RawMaterial/AddCompany",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                Name: $("#companyName").val(),
+                            }),
+                            success: function(res) {
+                                table.reload('testFund5');
+                                $("#box5").css("display", "none");
+                                layer.close(index)
+                            },
+                            error: function(res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function(layero) {
+                        $("#box5").css("display", "none");
+                    },
+                    cancel: function() {
+                        $("#box5").css("display", "none");
+                    }
+                });
+                return false;
+            }
+        });
+
+        //监听行工具事件
+        table.on('tool(test5)', function(obj) {
+            var data = obj.data;
+            layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'del') {
+                var companyArr = [];
+                companyArr.push(data.CompanyId);
+                console.log(data.AssetsId)
+                layer.confirm('真的删除行么', function(index) {
+                    //向服务端发送删除指令
+                    $.ajax({
+                        type: "POST",
+                        url: window.url + "RawMaterial/DeleteCompanyList",
+                        headers: {
+                            Authorization: window.header.Ae,
+                            UserId: window.header.Ud,
+                            AppFlag: window.header.Fg
+                        },
+                        contentType: "application/json",
+                        data: JSON.stringify(companyArr),
+                        success: function(res) {
+                            table.reload('testFund5');
+                            layer.close(index)
+                        },
+                        error: function(res) {
+                            layer.msg(res);
+                        }
+                    })
+                });
+            } else if (layEvent === 'edit') {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '200px'],
+                    title: ['修改单位', 'font-size:18px'],
+                    btn: ['确定修改', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box10'),
+                    success: function(layero, index) {
+                        $("#companyId").val(data.CompanyId);
+                        $(".companyName").val(data.Name);
+                    },
+                    yes: function(index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "RawMaterial/UpdateCompany",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                CompanyId: $("#companyId").val(),
+                                Name: $(".companyName").val(),
+                            }),
+                            success: function(res) {
+                                table.reload('testFund5')
+                                $("#box10").css("display", "none");
+                                layer.close(index)
+                            },
+                            error: function(res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function(layero) {
+                        $("#box10").css("display", "none");
+                    },
+                    cancel: function() {
+                        $("#box10").css("display", "none");
+                    }
+                });
+                return false;
+            }
+        });
+        //监听行的双击事件数据详情
+        table.on('rowDouble(test5)', function(obj) {
+                var data = obj.data;
+                console.log(data);
+                layer.open({
+                    type: 1,
+                    area: ['400px', '200px'],
+                    title: ['详情', 'font-size:18px'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box19'),
+                    success: function(layero, index) {
+                        $("#companyId1").val(data.CompanyId);
+                        $(".companyName").val(data.Name);
+                        layui.form.render();
+                    },
+                    cancel: function() {
+                        $("#box19").css("display", "none");
+                    }
+                });
+            })
+            //分页
+        laypage.render({
+            elem: 'pageDemo' //分页容器的id
+                ,
+            count: 100 //总页数
+                ,
+            skin: '#1E9FFF' //自定义选中色值
+                //,skip: true //开启跳页
+                ,
+            jump: function(obj, first) {
+                if (!first) {
+                    layer.msg('第' + obj.curr + '页', {
+                        offset: 'b'
+                    });
+                }
+            }
+        });
+    });
+
+
+    //销售分类
+    layui.use(['laypage', 'layer', 'table', 'element', 'jquery'], function() {
+        var laypage = layui.laypage //分页
+            ,
+            layer = layui.layer //弹层
+            ,
+            table = layui.table //表格
+            ,
+            element = layui.element //元素操作
+            ,
+            jquery = layui.jquery;
+        table.render({
+            elem: '#test6',
+            height: 515,
+            url: window.url + 'Sale/GetSaleTypeList' //数据接口
+                ,
+            title: '销售分类表',
+            id: 'testFund6',
+            toolbar: '#toolbarDemo6' //开启头部工具栏，并为其绑定左侧模板
+                ,
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            method: 'post',
+            page: true, //开启分页
+            limit: 10,
+            cols: [
+                [{
+                    type: 'checkbox',
+                    fixed: 'left'
+                }, {
+                    title: '序号',
+                    fixed: 'left',
+                    templet: '#xuHao',
+                }, {
+                    field: 'SaleTypeName',
+                    title: '销售分类',
+                }, {
+                    fixed: 'right',
+                    title: '操作',
+                    toolbar: '#barDemo',
+
+                }]
+            ],
+            request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+                    ,
+                limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+            parseData: (res) => { //将原始数据解析成 table 组件所规定的数据
+                console.log(res)
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": "成功", //解析提示文本
+                    "count": res[0].Count, //总数
+                    data: res //解析数据列表
+                }
+            }
+        });
+        //头工具栏事件
+        table.on('toolbar(test6)', function(obj) {
+            if (obj.event == "add6") {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '220px'],
+                    title: ['添加销售分类', 'font-size:18px'],
+                    btn: ['确定', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box12'),
+                    yes: function(index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "Sale/AddSaleType",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                SaleTypeName: $("#sellName").val(),
+                            }),
+                            success: function(res) {
+                                table.reload('testFund6');
+                                $("#box12").css("display", "none");
+                                layer.close(index)
+                            },
+                            error: function(res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function(layero) {
+                        $("#box12").css("display", "none");
+                    },
+                    cancel: function() {
+                        $("#box12").css("display", "none");
+                    }
+                });
+                return false;
+            }
+        });
+
+        //监听行工具事件
+        table.on('tool(test6)', function(obj) {
+            var data = obj.data;
+            layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'del') {
+                var saleArr1 = [];
+                saleArr1.push(data.SaleTypeId);
+                console.log(data.SaleTypeId)
+                layer.confirm('真的删除行么', function(index) {
+                    //向服务端发送删除指令
+                    $.ajax({
+                        type: "POST",
+                        url: window.url + "Sale/DeleteSaleTypeList",
+                        headers: {
+                            Authorization: window.header.Ae,
+                            UserId: window.header.Ud,
+                            AppFlag: window.header.Fg
+                        },
+                        contentType: "application/json",
+                        data: JSON.stringify(saleArr1),
+                        success: function(res) {
+                            table.reload('testFund6');
+                            layer.close(index)
+                        },
+                        error: function(res) {
+                            layer.msg(res);
+                        }
+                    })
+                });
+            } else if (layEvent === 'edit') {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '500px'],
+                    title: ['修改销售分类', 'font-size:18px'],
+                    btn: ['确定修改', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box13'),
+                    success: function(layero, index) {
+                        $("#sellId").val(data.SaleTypeId);
+                        $(".sellName").val(data.SaleTypeName);
+
+                    },
+                    yes: function(index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "Sale/UpdateAssetsType",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                SaleTypeId: $("#sellId").val(),
+                                SaleTypeName: $(".sellName").val(),
+                            }),
+                            success: function(res) {
+                                table.reload('testFund6');
+                                $("#box13").css("display", "none");
+                                layer.close(index)
+                            },
+                            error: function(res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function(layero) {
+                        $("#box13").css("display", "none");
+                    },
+                    cancel: function() {
+                        $("#box13").css("display", "none");
+                    }
+                });
+                return false;
+            }
+        });
+        //监听行的双击事件数据详情
+        table.on('rowDouble(test6)', function(obj) {
+                var data = obj.data;
+                console.log(data);
+                layer.open({
+                    type: 1,
+                    area: ['400px', '200px'],
+                    title: ['销售分类信息', 'font-size:18px'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box20'),
+                    success: function(layero, index) {
+                        $("#sellId1").val(data.SaleTypeId);
+                        $(".sellName").val(data.SaleTypeName);
+                        layui.form.render();
+                    },
+                    cancel: function() {
+                        $("#box20").css("display", "none");
+                    }
+                });
+            })
+            //分页
+        laypage.render({
+            elem: 'pageDemo' //分页容器的id
+                ,
+            count: 100 //总页数
+                ,
+            skin: '#1E9FFF' //自定义选中色值
+                //,skip: true //开启跳页
+                ,
+            jump: function(obj, first) {
+                if (!first) {
+                    layer.msg('第' + obj.curr + '页', {
+                        offset: 'b'
+                    });
+                }
+            }
+        });
+    });
+
+
+    //出库分类
+    layui.use(['laypage', 'layer', 'table', 'element', 'jquery'], function() {
+        var laypage = layui.laypage //分页
+            ,
+            layer = layui.layer //弹层
+            ,
+            table = layui.table //表格
+            ,
+            element = layui.element //元素操作
+            ,
+            jquery = layui.jquery;
+        table.render({
+            elem: '#test7',
+            height: 515,
+            url: window.url + 'Stock/GetSaleTypeList' //数据接口
+                ,
+            title: '出库分类表',
+            id: 'testFund7',
+            toolbar: '#toolbarDemo7' //开启头部工具栏，并为其绑定左侧模板
+                ,
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            method: 'post',
+            page: true, //开启分页
+            limit: 10,
+            cols: [
+                [{
+                    type: 'checkbox',
+                    fixed: 'left'
+                }, {
+                    title: '序号',
+                    fixed: 'left',
+                    templet: '#xuHao',
+                }, {
+                    field: 'OutOfStockName',
+                    title: '出库分类',
+                }, {
+                    fixed: 'right',
+                    title: '操作',
+                    toolbar: '#barDemo',
+
+                }]
+            ],
+            request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+                    ,
+                limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+            parseData: (res) => { //将原始数据解析成 table 组件所规定的数据
+                console.log(res)
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": "成功", //解析提示文本
+                    "count": res[0].Count, //总数
+                    data: res //解析数据列表
+                }
+            }
+        });
+        //头工具栏事件
+        table.on('toolbar(test7)', function(obj) {
+            console.log(obj)
+            if (obj.event == "add7") {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '220px'],
+                    title: ['添加出库分类', 'font-size:18px'],
+                    btn: ['确定', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box14'),
+                    yes: function(index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "Stock/AddOutOfStockType",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                OutOfStockName: $("#stockName").val(),
+                            }),
+                            success: function(res) {
+                                table.reload('testFund7');
+                                $("#box14").css("display", "none");
+                                layer.close(index)
+                            },
+                            error: function(res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function(layero) {
+                        $("#box14").css("display", "none");
+                    },
+                    cancel: function() {
+                        $("#box14").css("display", "none");
+                    }
+                });
+                return false;
+            }
+        });
+
+        //监听行工具事件
+        table.on('tool(test7)', function(obj) {
+            var data = obj.data;
+            layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'del') {
+                var StockArr = [];
+                StockArr.push(data.OutOfStockId);
+                console.log(data.OutOfStockId)
+                layer.confirm('真的删除行么', function(index) {
+                    //向服务端发送删除指令
+                    $.ajax({
+                        type: "POST",
+                        url: window.url + "Stock/DeleteSaleTypeList",
+                        headers: {
+                            Authorization: window.header.Ae,
+                            UserId: window.header.Ud,
+                            AppFlag: window.header.Fg
+                        },
+                        contentType: "application/json",
+                        data: JSON.stringify(StockArr),
+                        success: function(res) {
+                            table.reload('testFund7');
+                            layer.close(index)
+                        },
+                        error: function(res) {
+                            layer.msg(res);
+                        }
+                    })
+                });
+            } else if (layEvent === 'edit') {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '220px'],
+                    title: ['修改出库分类', 'font-size:18px'],
+                    btn: ['确定修改', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box15'),
+                    success: function(layero, index) {
+                        $("#stockId").val(data.OutOfStockId),
+                            $(".stockName").val(data.OutOfStockName)
+
+                    },
+                    yes: function(index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "Stock/UpdateAssetsType",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                OutOfStockId: $("#stockId").val(),
+                                OutOfStockName: $(".stockName").val()
+                            }),
+                            success: function(res) {
+                                table.reload('testFund7');
+                                $("#box15").css("display", "none");
+                                layer.close(index)
+                            },
+                            error: function(res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function(layero) {
+                        $("#box15").css("display", "none");
+                    },
+                    cancel: function() {
+                        $("#box15").css("display", "none");
+                    }
+                });
+                return false;
+            }
+        });
+        //监听行的双击事件数据详情
+        table.on('rowDouble(test7)', function(obj) {
+                var data = obj.data;
+                console.log(data);
+                layer.open({
+                    type: 1,
+                    area: ['400px', '200px'],
+                    title: ['出库分类信息', 'font-size:18px'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box21'),
+                    success: function(layero, index) {
+                        $("#stockId1").val(data.OutOfStockId),
+                            $(".stockName").val(data.OutOfStockName)
+                        layui.form.render();
+                    },
+                    cancel: function() {
+                        $("#box21").css("display", "none");
+                    }
+                });
+            })
+            //分页
+        laypage.render({
+            elem: 'pageDemo' //分页容器的id
+                ,
+            count: 100 //总页数
+                ,
+            skin: '#1E9FFF' //自定义选中色值
+                //,skip: true //开启跳页
+                ,
+            jump: function(obj, first) {
+                if (!first) {
+                    layer.msg('第' + obj.curr + '页', {
+                        offset: 'b'
+                    });
+                }
+            }
+        });
+    });
+</script>

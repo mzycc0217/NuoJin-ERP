@@ -1,0 +1,881 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../layui/layui.all.js"></script>
+    <script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../JS/funtion.js"></script>
+    <script src="../UrlModel/url.js"></script>
+    <title>成品信息</title>
+    <style>
+        .mapHead {
+            margin: 20px;
+        }
+        
+        .luJin {
+            position: relative;
+            top: -30px;
+            right: -110px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mapWrap">
+        <div class="mapHead">
+            <div class="demoTable">
+                搜索原材料：
+                <div class="layui-inline">
+                    <input class="layui-input" name="name" id="keyName" autocomplete="off" />
+                </div>
+                <button class="layui-btn" data-type="reload">搜索</button>
+            </div>
+            <!--添加基础数据-->
+            <div class="site-text" style="margin: 5%; display: none" id="box2" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book2" lay-filter="t2">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">出售类型</label>
+                        <div class="layui-input-block">
+                            <select id="finType" lay-verify="required">
+                               <option value="0">半成品</option>
+                               <option value="1">成品</option>
+                           </select>
+                        </div>
+                        <label class="layui-form-label">中文名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="dataBaseName"><br>
+                        </div>
+                        <label class="layui-form-label">获取编码</label>
+                        <div class="layui-input-block" style="display: flex;">
+                            <input class="layui-input" id="Encoding" onfocus="this.blur()" /><br>
+                            <button id="MaBtn">编码</button>
+                        </div>
+
+                        <label class="layui-form-label">原材料类型</label>
+                        <div class="layui-input-block">
+                            <select name="badw" id="Z_RowTypeid" lay-verify="required" style="width: 180px; height: 30px;">
+</select>
+                            <br>
+                        </div>
+                        <label class="layui-form-label">英文名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="dataBaseEnglist"><br>
+                        </div>
+                        <label class="layui-form-label">简称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="dataAbbreviation"><br>
+                        </div>
+                        <label class="layui-form-label">别称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="dataBaseAnother"><br>
+                        </div>
+                        <label class="layui-form-label">CAS号</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="dataBaseCAS"><br>
+                        </div>
+                        <label class="layui-form-label">分子量</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="dataBaseElement"><br>
+                        </div>
+                        <!-- <label class="layui-form-label">分子式</label>
+                        <div class="layui-input-block">
+                            <button type="button" class="layui-btn layui-btn-normal ss" id="test9" style="margin-right:215px">选择文件</button>
+                            <span id="wenJian1" class="luJin"></span>
+                            <input type="hidden" id="dataBaseFenZiShi" />
+                            <br>
+                        </div> -->
+                        <label class="layui-form-label">结构式</label>
+                        <div class="layui-input-block">
+                            <button type="button" class="layui-btn layui-btn-normal " id="test8" style="margin-right:215px">选择文件</button>
+                            <span id="wenJian2" class="luJin"></span>
+                            <input type="hidden" id="dataBaseStructure" /><br>
+                        </div>
+                        <label class="layui-form-label">密度</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="density"><br>
+                        </div>
+                        <label class="layui-form-label">危害声明</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="Statement"><br>
+                        </div>
+                        <label class="layui-form-label">警示声明</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="Caution"><br>
+                        </div>
+                        <label class="layui-form-label">外观状态</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="dataBaseFacade"><br>
+                        </div>
+                        <label class="layui-form-label">分子式</label>
+                        <div class="layui-input-block">
+                            <textarea name="desc" placeholder="请输入内容" class="layui-textarea" id="dataBaseFenZiShi"></textarea>
+                        </div>
+                        <label class="layui-form-label">原料备注</label>
+                        <div class="layui-input-block">
+                            <textarea name="desc" placeholder="请输入内容" class="layui-textarea" id="Desc"></textarea>
+                        </div>
+                        <div class="layui-input-block" style=" text-align: right; margin: 20px 0;">
+                            <button type="button" class="layui-btn" id="shuJuFn" onclick="shuJu()">确定</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--修改基础数据-->
+            <div class="site-text" style="margin: 5%; display: none;" id="box7" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book7" lay-filter="t7">
+                    <div class="layui-form-item">
+                        <input type="hidden" id="id1">
+                        <label class="layui-form-label">出售类型</label>
+                        <div class="layui-input-block">
+                            <select class="finType" lay-verify="required">
+                               <option value="0">半成品</option>
+                               <option value="1">成品</option>
+                           </select>
+                        </div>
+                        <label class="layui-form-label">中文名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input dataBaseName"><br>
+                        </div>
+                        <label class="layui-form-label">获取编码</label>
+                        <div class="layui-input-block" style="display: flex;">
+                            <input class="layui-input Encoding" onfocus="this.blur()" /><br>
+                            <button id="MaBtn2">编码</button>
+                        </div>
+                        <label class="layui-form-label">原材料类型</label>
+                        <div class="layui-input-block">
+                            <select lay-verify="required" id="rowId" style="width: 180px; height: 30px;">
+</select>
+                            <br>
+                        </div>
+                        <label class="layui-form-label">英文名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input dataBaseEnglist"><br>
+                        </div>
+                        <label class="layui-form-label">简称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input dataAbbreviation"><br>
+                        </div>
+                        <label class="layui-form-label">别称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input dataBaseAnother"><br>
+                        </div>
+                        <label class="layui-form-label">CAS号</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input dataBaseCAS"><br>
+                        </div>
+                        <label class="layui-form-label">分子量</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input dataBaseElement"><br>
+                        </div>
+                        <!-- <label class="layui-form-label">分子式</label>
+                        <div class="layui-input-block">
+                            <button type="button" class="layui-btn layui-btn-normal" id="test10" style="margin-right:215px">选择文件</button>
+                            <span id="wenJian3" class="luJin"></span>
+                            <input type="hidden" id="dataBaseFenZiShi1" />
+                            <br>
+                        </div> -->
+                        <label class="layui-form-label">结构式</label>
+                        <div class="layui-input-block">
+                            <button type="button" class="layui-btn layui-btn-normal " id="test11" style="margin-right:215px">选择文件</button>
+                            <span id="wenJian4" class="luJin"></span>
+                            <input type="hidden" id="dataBaseStructure1" /><br>
+                        </div>
+                        <label class="layui-form-label">密度</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input Density"><br>
+                        </div>
+                        <label class="layui-form-label">危害声明</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input Statement"><br>
+                        </div>
+                        <label class="layui-form-label">警示声明</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input Caution"><br>
+                        </div>
+                        <label class="layui-form-label">外观状态</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input dataBaseFacade"><br>
+                        </div>
+                        <label class="layui-form-label">分子式</label>
+                        <div class="layui-input-block">
+                            <textarea name="desc" placeholder="请输入内容" class="layui-textarea dataBaseFenZiShi1"></textarea>
+                        </div>
+                        <label class="layui-form-label">原料备注</label>
+                        <div class="layui-input-block">
+                            <textarea name="desc" placeholder="请输入内容" class="layui-textarea Desc"></textarea>
+                        </div>
+                        <div class="layui-input-block" style=" text-align: right; margin: 20px 0;">
+                            <button type="button" class="layui-btn" onclick="GaiShuJu()">确定</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--弹出基础数据-->
+            <div class="site-text" style="margin: 5%; display: none;" id="box11" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="box11" lay-filter="t11">
+                    <div class="layui-form-item">
+                        <input type="hidden" id="id">
+                        <label class="layui-form-label">中文名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input dataBaseName" onfocus="this.blur()"><br>
+                        </div>
+                        <label class="layui-form-label">获取编码</label>
+                        <div class="layui-input-block" style="display: flex;">
+                            <input class="layui-input Encoding" onfocus="this.blur()" /><br>
+                        </div>
+                        <label class="layui-form-label">原材料类型</label>
+                        <div class="layui-input-block">
+                            <select lay-verify="required" id="rowId" style="width: 180px; height: 30px;" disabled="disabled">
+</select>
+                            <br>
+                        </div>
+                        <label class="layui-form-label">英文名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input dataBaseEnglist" onfocus="this.blur()"><br>
+                        </div>
+                        <label class="layui-form-label">简称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input dataAbbreviation" onfocus="this.blur()"><br>
+                        </div>
+                        <label class="layui-form-label">别称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input dataBaseAnother" onfocus="this.blur()"><br>
+                        </div>
+                        <label class="layui-form-label">CAS号</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input dataBaseCAS" onfocus="this.blur()"><br>
+                        </div>
+                        <label class="layui-form-label">分子量</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input dataBaseElement" onfocus="this.blur()"><br>
+                        </div>
+                        <label class="layui-form-label">密度</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input Density" onfocus="this.blur()"><br>
+                        </div>
+                        <label class="layui-form-label">危害声明</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input Statement" onfocus="this.blur()"><br>
+                        </div>
+                        <label class="layui-form-label">警示声明</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input Caution" onfocus="this.blur()"><br>
+                        </div>
+                        <label class="layui-form-label">外观状态</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input dataBaseFacade" onfocus="this.blur()"><br>
+                        </div>
+                        <label class="layui-form-label">分子式</label>
+                        <div class="layui-input-block">
+                            <textarea name="desc" placeholder="请输入内容" class="layui-textarea dataBaseFenZiShi1" readonly="readonly"></textarea>
+                        </div>
+                        <label class="layui-form-label">原料备注</label>
+                        <div class="layui-input-block">
+                            <textarea name="desc" placeholder="请输入内容" class="layui-textarea Desc" readonly="readonly"></textarea>
+                        </div>
+                        <div class="layui-input-block" style=" text-align: right; margin: 20px 0;">
+                            <button type="button" class="layui-btn" onclick="GaiShuJu()">确定</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <script type="text/html" id="toolbarDemo2">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-sm" lay-event="add2">添加</button>
+                </div>
+            </script>
+            <table class="layui-hide" id="test2" lay-filter="test2"></table>
+            <!--表格操作-->
+            <script type="text/html" id="barDemo">
+                <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+            </script>
+            <!--序号列-->
+            <script type="text/html" id="xuHao">
+                {{d.LAY_TABLE_INDEX+1}}
+            </script>
+            <!--信息-->
+            <script type="text/html" id="buttonTpl">
+                {{# if(d.RawMaterialType == 1){ }}
+                <button class="layui-btn layui-btn-warm layui-btn-xs">原材料信息</button> {{# } }}
+            </script>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+    window.onload = function() {
+        warehousingType("#Z_RowTypeid");
+        BianMa("#MaBtn", "#Encoding")
+        BianMa("#MaBtn2", ".Encoding");
+            anomation();
+        
+    }
+    warehousingType("#rowId");
+    //原材料类型列表
+    function warehousingType(b) {
+        $.ajax({
+            type: 'POST',
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            url: window.url + 'FinshedProductType/GetRowType', //后台数据地址
+            data: {
+                PageIndex: -1, //页码,
+                PageSize: -1 //页容量
+            },
+            success: function(data) {
+                console.log('%c 🍛 data.data: ', 'font-size:20px;background-color: #E41A6A;color:#fff;', data.data);
+
+                $.each(data.data, function(index, item) { //循环后台返回的json数据
+                    //new Option方法是新建一个option，第一个参数是需要显示的值，第二个参数是option的value值,然后append到下拉框中。
+                    $(b).append(new Option(item.Name, item.Id));
+                })
+                layui.form.render('select');
+            }
+        })
+    }
+
+    function BianMa(x, y) {
+        $(x).click(function() {
+            $.ajax({
+                type: 'POST',
+                headers: {
+                    Authorization: window.header.Ae,
+                    UserId: window.header.Ud,
+                    AppFlag: window.header.Fg
+                },
+                url: window.url + 'Raw/GetCode', //后台数据地址
+                success: function(data) {
+                    console.log('%c 🍱 data: ', 'font-size:20px;background-color: #7F2B82;color:#fff;', data);
+                    $(y).val(data.data)
+                }
+            })
+        })
+    }
+
+    //设置图片的放大效果
+    function hoverOpenImg() {
+        var img_show = null; //tips提示
+        $('td img').hover(function() {
+            var img = "<img class='img_msg'src='" + $(this).attr('src') + "' style='width:400px;height:400px'/>";
+            img_show = layer.tips(img, this, {
+                tips: [2, 'rgba(41,41,41,.5)'],
+                area: ['430px']
+            });
+        }, function() {
+            layer.close(img_show);
+        });
+        $('td img').attr('style', 'max-width:50px');
+    }
+    //基础数据的表
+    layui.use(['laypage', 'layer', 'table', 'element', 'jquery', 'upload'], function() {
+        var laypage = layui.laypage //分页
+            ,
+            layer = layui.layer //弹层
+            ,
+            table = layui.table //表格
+            ,
+            element = layui.element //元素操作
+            ,
+            jquery = layui.jquery,
+            upload = layui.upload
+
+        table.render({
+            elem: '#test2',
+            height: 515,
+            url: window.url + 'FnishedProduct/GetFnishedProduct' //数据接口
+                ,
+            title: '基础数据',
+            id: 'testFund2',
+            toolbar: '#toolbarDemo2' //开启头部工具栏，并为其绑定左侧模板
+                ,
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            method: 'post',
+            page: true, //开启分页
+            limit: 10,
+            //每页默认显示的数量
+            done: function(res, curr, count) {
+                hoverOpenImg(); //显示大图
+            },
+            cols: [
+                [{
+                        type: 'checkbox',
+                        fixed: 'left'
+                    }, {
+                        title: '序号',
+                        fixed: 'left',
+                        templet: '#xuHao',
+
+                    }, {
+                        field: 'Name',
+                        title: '中文名称',
+                        fixed: 'left',
+                    }, {
+                        field: 'Encoding',
+                        title: '编码号',
+                        fixed: 'left',
+                    }, {
+                        field: 'Desc',
+                        title: '物料备注',
+                        fixed: 'left',
+                    }, {
+                        field: 'Z_RowTypeid',
+                        title: '原材料类型',
+                        fixed: 'left',
+                        templet: function(res) {
+                            return res.Z_RowType.Name;
+                        }
+                    }, {
+                        field: 'EnglishName',
+                        title: '英文名称',
+                    }, {
+
+                        field: 'BeCommonlyCalled1',
+                        title: '别称',
+                    }, {
+                        field: 'Abbreviation',
+                        title: '简称 ',
+
+                    }, {
+                        field: 'CASNumber',
+                        title: 'CAS号',
+
+                    }, {
+                        field: 'MolecularWeight',
+                        title: '分子量',
+                    }, {
+                        field: 'MolecularFormula',
+                        title: '分子式',
+                    }
+                    //  {
+                    //                     field: 'MolecularFormula',
+                    //                     title: '分子式',
+                    //                     templet: function(res) {
+                    //                         if (res.MolecularFormula != null) {
+                    //                             if (res.MolecularFormula.lastIndexOf("jpg") != -1 || res.MolecularFormula.lastIndexOf("png") != -1) {
+                    //                                 console.log('%c 🍍 window.url + res.MolecularFormula: ', 'font-size:20px;background-color: #2EAFB0;color:#fff;', window.urlImg + res.MolecularFormula);
+                    //                                 return "<div> <a href='" + window.urlImg + res.MolecularFormula + "' target='_blank'> <img src='" + window.urlImg + res.MolecularFormula + "' id='image'></a></div>"
+
+                    //                             } else {
+                    //                                 return "<div><a href='" + window.urlImg + res.MolecularFormula + " 'target='_blank'> <img src='../img/2.jpg' id='image' > </a></div>"
+                    //                             }
+                    //                         } else {
+                    //                             return "<img src='../img/2.jpg' id='image'>"
+                    //                         }
+                    //                     }
+
+                    //                 }
+                    , {
+                        field: 'StructuralFormula',
+                        title: '结构式',
+                        templet: function(res) {
+
+                            if (res.StructuralFormula != null) {
+                                if (res.StructuralFormula.lastIndexOf("jpg") != -1 || res.StructuralFormula.lastIndexOf("png") != -1) {
+                                    return "<div><a href='" + window.urlImg + res.StructuralFormula + "' target='_blank'><img src='" + window.urlImg + res.StructuralFormula + "' id='image'></a></div>"
+                                }
+                                return "<div><a href='" + window.urlImg + res.StructuralFormula + "' target='_blank'> <img src='../img/2.jpg' id='image'> </a></div>"
+
+                            } else {
+                                return "<img src='../img/2.jpg' id='image'>"
+                            }
+                        }
+
+                    }, {
+                        field: 'Density',
+                        title: '密度',
+                    }, {
+                        field: 'Statement',
+                        title: '危害声明',
+                    }, {
+                        field: 'Caution',
+                        title: '警示声明',
+                    }, {
+                        field: 'AppearanceState',
+                        title: '外观状态',
+                    }, {
+                        fixed: 'right',
+                        title: '操作',
+                        width: 130,
+                        toolbar: '#barDemo',
+                    }
+                ]
+            ],
+            request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+                    ,
+                limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+            parseData: (res) => { //将原始数据解析成 table 组件所规定的数据
+                console.log('%c 🥘 res: ', 'font-size:20px;background-color: #33A5FF;color:#fff;', res);
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": "成功", //解析提示文本
+                    "count": res.Count, //总数
+                    data: res.data //解析数据列表
+                }
+            }
+        });
+        //寻找数据
+        $('.layui-btn').on('click', function() {
+            var keyName = $("#keyName").val();
+            //执行重载
+            table.reload('testFund2', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                },
+                where: {
+                    Name: keyName
+                }
+            }, 'data');
+        });
+        //头工具栏事件
+        table.on('toolbar(test2)', function(obj) {
+            if (obj.event == "add2") {
+                layer.open({
+                    type: 1,
+                    area: ['460px', '700px'],
+                    title: ['添加数据', 'font-size:18px'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box2'),
+                    cancel: function() {
+                        $("#box2").css("display", "none");
+                    },
+                });
+                return false;
+            }
+        });
+        //监听行工具事件
+        table.on('tool(test2)', function(obj) {
+            var data = obj.data;
+            layEvent = obj.event; //获得 lay-event 对应的值
+            console.log('%c 🍻 data.MolecularFormula,data.StructuralFormula: ', 'font-size:20px;background-color: #B03734;color:#fff;', data.MolecularFormula, data.StructuralFormula);
+            if (layEvent === 'del') {
+                var jiChu = [];
+                jiChu.push(data.Id);
+                layer.confirm('真的删除行么', function(index) {
+                    //向服务端发送删除指令
+                    $.ajax({
+                        type: "POST",
+                        url: window.url + "FnishedProduct/RemoveFnishedProduct",
+                        headers: {
+                            Authorization: window.header.Ae,
+                            UserId: window.header.Ud,
+                            AppFlag: window.header.Fg
+                        },
+                        contentType: "application/json",
+                        data: JSON.stringify({
+                            del_Id: jiChu,
+                        }),
+                        success: function(res) {
+                            table.reload('testFund2')
+                            layer.close(index)
+                        },
+                        error: function(res) {
+                            layer.msg(res);
+                        }
+                    })
+                });
+            } else if (layEvent === 'edit') {
+                layer.open({
+                    type: 1,
+                    area: ['420px', '700px'],
+                    title: ['信息', 'font-size:18px'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box7'),
+                    success: function(layero, index) {
+                        $("#id1").val(data.Id),
+                            $('.dataBaseName').val(data.Name),
+                            $('.Encoding').val(data.Encoding),
+                            $(".Desc").val(data.Desc),
+                            $("#rowId").val(data.Z_RowTypeid),
+                            $('.dataBaseEnglist').val(data.EnglishName),
+                            // 简称
+                            $(".dataAbbreviation").val(data.Abbreviation),
+                            //俗称 
+                            $('.dataBaseAnother').val(data.BeCommonlyCalled1),
+                            $('.dataBaseCAS').val(data.CASNumber),
+                            $('.dataBaseElement').val(data.MolecularWeight),
+                            $('.dataBaseFenZiShi1').val(data.MolecularFormula),
+                            $('#dataBaseStructure1').val(data.StructuralFormula),
+                            $(".Density").val(data.Density),
+                            $(".Statement").val(data.Statement),
+                            $(".Caution").val(data.Caution),
+                            $('.dataBaseFacade').val(data.AppearanceState),
+                            layui.form.render();
+                        element.init();
+                    },
+                    cancel: function() {
+                        $("#box7").css("display", "none");
+                    },
+                });
+                return false;
+            }
+        });
+
+        //监听行的双击事件数据详情
+        table.on('rowDouble(test2)', function(obj) {
+                var data = obj.data;
+                layer.open({
+                    type: 1,
+                    area: ['420px', '700px'],
+                    title: ['详情', 'font-size:18px'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box11'),
+                    success: function(layero, index) {
+                        $("#id").val(data.Id),
+                            $('.dataBaseName').val(data.Name),
+                            $('.Encoding').val(data.Encoding),
+                            $(".Desc").val(data.Desc),
+                            $("#rowId").val(data.Z_RowTypeid),
+                            $('.dataBaseEnglist').val(data.EnglishName),
+                            // 简称
+                            $(".dataAbbreviation").val(data.Abbreviation),
+                            //俗称 
+                            $('.dataBaseAnother').val(data.BeCommonlyCalled1),
+                            $('.dataBaseCAS').val(data.CASNumber),
+                            $('.dataBaseElement').val(data.MolecularWeight),
+                            $(".Density").val(data.Density),
+                            $(".Statement").val(data.Statement),
+                            $(".Caution").val(data.Caution),
+                            $('.dataBaseFenZiShi1').val(data.MolecularFormula),
+                            $('.dataBaseFacade').val(data.AppearanceState),
+                            layui.form.render();
+                    },
+                    cancel: function() {
+                        $("#box11").css("display", "none");
+                    }
+                });
+            })
+            //分页
+        laypage.render({
+            elem: 'pageDemo' //分页容器的id
+                ,
+            count: 100 //总页数
+                ,
+            skin: '#1E9FFF' //自定义选中色值
+                //,skip: true //开启跳页
+                ,
+            jump: function(obj, first) {
+                if (!first) {
+                    layer.msg('第' + obj.curr + '页', {
+                        offset: 'b'
+                    });
+                }
+            }
+        });
+        //上传文件
+        //结构式是2；分子式是1
+        upload.render({
+            elem: '#test8',
+            url: window.url + 'FileUp/ConstructionFileUp',
+            auto: true //不会自动调用上传接口
+                ,
+            method: "post",
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg,
+                sign: 2,
+            },
+            accept: 'file',
+            done: function(res, index, upload) { //上传成功的回调
+                $("#dataBaseStructure").val(res.Url)
+            },
+            choose: function(obj) { //图片或者文件的回调
+                //将每次回调选择的文件追加到文件的回调
+                var files = obj.pushFile();
+                //预读本地文件，如果是多个文件，则会遍历。（不支持IE8/9）
+                obj.preview(function(index, file, result) {
+                    $("#wenJian2").text(file.name)
+                });
+            }
+        });
+        // 分子式
+        upload.render({
+            elem: '#test9',
+            url: window.url + 'FileUp/ConstructionFileUp',
+            auto: true //不会自动调用上传接口
+                ,
+            method: "post",
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg,
+                sign: 1,
+            },
+            accept: 'file',
+            done: function(res, index, upload) { //上传成功的回调
+                $("#dataBaseFenZiShi").val(res.Url)
+
+            },
+            choose: function(obj) { //图片或者文件的回调
+                //将每次回调选择的文件追加到文件的回调
+                var files = obj.pushFile();
+                console.log(files);
+                //预读本地文件，如果是多个文件，则会遍历。（不支持IE8/9）
+                obj.preview(function(index, file, result) {
+                    $("#wenJian1").text(file.name)
+                });
+            }
+        });
+        // 分子式
+        upload.render({
+                elem: '#test10',
+                url: window.url + 'FileUp/ConstructionFileUp',
+                auto: true //不会自动调用上传接口
+                    ,
+                method: "post",
+                headers: {
+                    Authorization: window.header.Ae,
+                    UserId: window.header.Ud,
+                    AppFlag: window.header.Fg,
+                    sign: 1,
+                },
+                accept: 'file',
+                done: function(res, index, upload) { //上传成功的回调
+                    $(".dataBaseFenZiShi1").val(res.Url)
+
+                },
+                choose: function(obj) { //图片或者文件的回调
+                    //将每次回调选择的文件追加到文件的回调
+                    var files = obj.pushFile();
+                    console.log(files);
+                    //预读本地文件，如果是多个文件，则会遍历。（不支持IE8/9）
+                    obj.preview(function(index, file, result) {
+                        $("#wenJian3").text(file.name)
+                    });
+                }
+            })
+            // 结构式
+        upload.render({
+            elem: '#test11',
+            url: window.url + 'FileUp/ConstructionFileUp',
+            auto: true //不会自动调用上传接口
+                ,
+            method: "post",
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg,
+                sign: 1,
+            },
+            accept: 'file',
+            done: function(res, index, upload) { //上传成功的回调
+                $("#dataBaseStructure1").val(res.Url)
+
+            },
+            choose: function(obj) { //图片或者文件的回调
+                //将每次回调选择的文件追加到文件的回调
+                var files = obj.pushFile();
+                console.log(files);
+                //预读本地文件，如果是多个文件，则会遍历。（不支持IE8/9）
+                obj.preview(function(index, file, result) {
+                    $("#wenJian4").text(file.name)
+                });
+            }
+        })
+    })
+
+    function shuJu() {
+        $.ajax({
+            type: "POST",
+            url: window.url + "FnishedProduct/AddFnishedProduct",
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            contentType: "application/json",
+            data: JSON.stringify({
+                Z_FinshedProductTypeid: $("#finType").val(),
+                Name: $('#dataBaseName').val(),
+                Encoding: $('#Encoding').val(),
+                EntryPersonId: window.localStorage.getItem("UserId"),
+                Desc: $("#Desc").val(),
+                Z_RowTypeid: $("#Z_RowTypeid").val(),
+                EnglishName: $('#dataBaseEnglist').val(),
+                // 简称
+                Abbreviation: $("#dataAbbreviation").val(),
+                //俗称 
+                BeCommonlyCalled1: $('#dataBaseAnother').val(),
+                CASNumber: $('#dataBaseCAS').val(),
+                MolecularWeight: $('#dataBaseElement').val(),
+                MolecularFormula: $('#dataBaseFenZiShi').val(),
+                StructuralFormula: $('#dataBaseStructure').val(),
+                Density: $("#density").val(),
+                Statement: $("#Statement").val(),
+                Caution: $("#Caution").val(),
+                AppearanceState: $('#dataBaseFacade').val(),
+            }),
+            success: function(res) {
+                uptable(res)
+            },
+            error: function(res) {
+                layer.msg(res);
+            }
+
+        });
+
+    }
+
+    function GaiShuJu() {
+        $("#rowId").val()
+        console.log('%c 🍤  $(#rowId).val(): ', 'font-size:20px;background-color: #FFDD4D;color:#fff;', $("#rowId").val());
+        $.ajax({
+            type: "POST",
+            url: window.url + "FnishedProduct/EditFnishedProduct",
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            contentType: "application/json",
+            data: JSON.stringify({
+                Id: $("#id1").val(),
+                Name: $('.dataBaseName').val(),
+                Encoding: $('.Encoding').val(),
+                Desc: $(".Desc").val(),
+                Z_RowTypeid: $("#rowId").val(),
+                EntryPersonId: window.localStorage.getItem("UserId"),
+                EnglishName: $('.dataBaseEnglist').val(),
+                // 简称
+                Abbreviation: $(".dataAbbreviation").val(),
+                //俗称 
+                BeCommonlyCalled1: $('.dataBaseAnother').val(),
+                CASNumber: $('.dataBaseCAS').val(),
+                MolecularWeight: $('.dataBaseElement').val(),
+                MolecularFormula: $('.dataBaseFenZiShi1').val(),
+                StructuralFormula: $('#dataBaseStructure1').val(),
+                Density: $(".Density").val(),
+                Statement: $(".Statement").val(),
+                Caution: $(".Caution").val(),
+                AppearanceState: $('.dataBaseFacade').val(),
+            }),
+            success: function(res) {
+                uptable(res)
+            },
+            error: function(res) {
+                layer.msg(res);
+            }
+
+        })
+    }
+</script>

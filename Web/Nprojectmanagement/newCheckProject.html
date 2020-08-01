@@ -1,0 +1,422 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../layui/layui.all.js"></script>
+    <script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../JS/funtion.js"></script>
+    <script src="../UrlModel/url.js"></script>
+    <title>添加项目</title>
+    <style>
+
+
+        .mapHead {
+            margin: 20px;
+        }
+
+        .layui-table-page select {
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="mapWrap">
+        <div class="mapHead">
+            <div class="demoTable">
+                搜索项目：
+                <div class="layui-inline">
+                    <input class="layui-input" name="name" id="keyName" autocomplete="off" />
+                </div>
+                <button class="layui-btn" data-type="reload">搜索</button>
+            </div>
+            <!--添加数据-->
+            <div class="site-text" style="margin: 5%; display: none" id="box1" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book1" lay-filter="t1">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">项目名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="projectName" /><br>
+                        </div>
+                        <label class="layui-form-label">项目编号</label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" id="projectNumber" /><br>
+                        </div>
+                        <label class="layui-form-label">备注</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="projectDesc"><br>
+                        </div>
+                        <label class="layui-form-label">项目状态</label>
+                        <div class="layui-input-block">
+                            <select class="layui-input" id="projectState"></select><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--修改-->
+            <div class="site-text" style="margin: 5%; display: none" id="box3" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book3" lay-filter="t3">
+                    <div class="layui-form-item">
+                        <input type="hidden" id="projectId1">
+                        <label class="layui-form-label">项目名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input projectName" /><br>
+                        </div>
+                        <label class="layui-form-label">项目编号</label>
+                        <div class="layui-input-block">
+                            <input class="layui-input projectNumber" /><br>
+                        </div>
+                        <label class="layui-form-label">备注</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input projectDesc" /><br>
+                        </div>
+                        <label class="layui-form-label">项目状态</label>
+                        <div class="layui-input-block">
+                            <select class="layui-input projectState"></select><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--详情-->
+            <div class="site-text" style="margin: 5%; display: none" id="box2" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book2" lay-filter="t2">
+                    <div class="layui-form-item">
+                        <input type="hidden" id="projectId">
+                        <label class="layui-form-label">项目名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input projectName" onfocus="this.blur()" /><br>
+                        </div>
+                        <label class="layui-form-label">项目编号</label>
+                        <div class="layui-input-block">
+                            <input class="layui-input projectNumber" onfocus="this.blur()" /><br>
+                        </div>
+                        <label class="layui-form-label">备注</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input projectDesc" onfocus="this.blur()" /><br>
+                        </div>
+                        <label class="layui-form-label">项目状态</label>
+                        <div class="layui-input-block">
+                            <select class="layui-input projectState" disabled="disabled"></select><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--项目表格-->
+            <table class="layui-hide" id="test" lay-filter="test"></table>
+            <script type="text/html" id="toolbarDemo">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+                </div>
+            </script>
+            <script type="text/html" id="barDemo">
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+            </script>
+            <!--序号列-->
+            <script type="text/html" id="xuHao">
+                {{d.LAY_TABLE_INDEX+1}}
+            </script>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    //加载列表
+    window.onload = function () {
+        projectStateList("#projectState");
+        projectStateList(".projectState");
+            anomation();
+    };
+    //项目状态
+    function projectStateList(b) {
+        $.ajax({
+            type: 'POST',
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            url: window.url + 'Project/GetProjectStateList',   //后台数据地址
+            data: {
+                PageIndex: 0, PageSize: 0
+            },
+            success: function (data) {
+                $.each(data, function (index, item) {   //循环后台返回的json数据
+                    //new Option方法是新建一个option，第一个参数是需要显示的值，第二个参数是option的value值,然后append到下拉框中。
+                    $(b).append(new Option(item.ProjectStateName, item.ProjectStateId));
+                })
+                layui.form.render("select");
+            }
+        })
+    }
+
+
+
+
+    //项目的表
+    layui.use(['laypage', 'layer', 'table', 'element', 'jquery', 'form'], function () {
+        var laypage = layui.laypage //分页
+            , layer = layui.layer //弹层
+            , table = layui.table //表格
+            , element = layui.element //元素操作
+            , form = layui.form;
+
+        table.render({
+            elem: '#test'
+            , height: 515
+            , url: window.url + 'Project/GetList'//数据接口
+            , title: '项目表'
+            , id: 'testReload'
+            , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+            , headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            method: 'post',
+            page: true,//开启分页
+            limit: 10
+            , cols: [
+                [{
+                    type: 'checkbox',
+                    fixed: 'left'
+                }, {
+                    title: '序号',
+                    fixed: 'left',
+                    templet: '#xuHao',
+                }, {
+                    field: 'Name',
+                    title: '项目',
+                    fixed: 'left',
+                }, {
+                    field: 'Number',
+                    title: '项目编号',
+                }, {
+                    field: 'Desc',
+                    title: '备注',
+                }, {
+                    field: 'ProjectState.Name',
+                    title: '项目状态',
+                    minWidth: 80,
+                    align: 'center',
+                    templet: function (res) {
+                        return "<button class='layui-btn layui-btn-normal layui-btn-xs'>" + res.ProjectState.Name + "</button>";
+                    },
+                    style: 'color:green'
+                }, {
+                    field: 'CreateDate',
+                    title: '发布日期',
+                    templet: function (res) {
+                        return showTime(res.CreateDate);
+                    }
+                }, {
+                    fixed: 'right',
+                    title: '操作',
+                    toolbar: '#barDemo',
+                }]
+            ],
+            request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+                ,
+                limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+            parseData: (res) => { //将原始数据解析成 table 组件所规定的数据
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": "成功", //解析提示文本
+                    "count": res[0].Count, //总数
+                    data: res //解析数据列表
+                }
+            }
+        });
+
+        //寻找数据
+        $('.layui-btn').on('click', function () {
+            var keyName = $("#keyName").val();
+            //执行重载
+            table.reload('testReload', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                , where: {
+                    ProjectName: keyName
+                }
+            }, 'data');
+        });
+
+        //头工具栏事件
+        table.on('toolbar(test)', function (obj) {
+            if (obj.event == "add") {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '500px'],
+                    title: ['添加项目', 'font-size:18px'],
+                    btn: ['确定', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box1'),
+                    yes: function (index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "Project/Add",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                Name: $("#projectName").val(),
+                                Number: $('#projectNumber').val(),
+                                Desc: $('#projectDesc').val(),
+                                ProjectStateId: $('#projectState').val(),
+                            }), success: function (res) {
+                                table.reload('testReload')
+                                $("#box1").css("display", "none");
+                                layer.close(index)
+                            },
+                            error: function (res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function (layero) {
+                        $("#box1").css("display", "none");
+                    },
+                    cancel: function () {
+                        $("#box1").css("display", "none");
+                    }
+                });
+                return false;
+            }
+        });
+        //监听行的双击事件数据详情
+        table.on('rowDouble(test)', function (obj) {
+            var data = obj.data;
+            layer.open({
+                type: 1,
+                area: ['420px', '300px'],
+                title: ['详情', 'font-size:18px'],
+                shadeClose: true,
+                shade: 0,
+                manmin: true,
+                content: $('#box2'),
+                success: function (layero, index) {
+                    $("#projectId").val(data.ProjectId),
+                        $(".projectName").val(data.Name),
+                        $('.projectNumber').val(data.Number),
+                        $('.projectDesc').val(data.Desc),
+                        $('.projectState').val(data.ProjectStateId)
+                    layui.form.render();
+
+                }, cancel: function () {
+                    $("#box2").css("display", "none");
+                }
+            });
+        });
+        //监听行工具事件
+        table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+            console.log(data.ProjectId)
+            layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'del') {
+                var s = [];
+                s.push(data.ProjectId);
+                console.log(data.ProjectId)
+                layer.confirm('真的删除该项目么', function (index) {
+                    //向服务端发送删除指令
+                    $.ajax({
+                        type: "POST",
+                        url: window.url + "Project/DeleteList",
+                        headers: {
+                            Authorization: window.header.Ae,
+                            UserId: window.header.Ud,
+                            AppFlag: window.header.Fg
+                        },
+                        contentType: "application/json",
+                        data: JSON.stringify(s),
+                        success: function (res) {
+                            table.reload('testReload')
+                            layer.close(index)
+                        },
+                        error: function (res) {
+                            layer.msg(res);
+                        }
+                    })
+                });
+
+            } else if (layEvent === 'edit') {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '500px'],
+                    title: ['修改项目', 'font-size:18px'],
+                    btn: ['确定修改', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box3'),
+                    success: function (layero, index) {
+                        $("#projectId1").val(data.ProjectId),
+                            $(".projectName").val(data.Name),
+                            $('.projectNumber').val(data.Number),
+                            $('.projectDesc').val(data.Desc),
+                            $('.projectState').val(data.ProjectStateId)
+                        layui.form.render();
+                    }, yes: function (index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "Project/Update",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                ProjectId: $("#projectId1").val(),
+                                Name: $(".projectName").val(),
+                                Number: $('.projectNumber').val(),
+                                Desc: $('.projectDesc').val(),
+                                ProjectStateId: $('.projectState').val()
+                            }), success: function (res) {
+                                table.reload('testReload')
+                                $("#box3").css("display", "none");
+                                layer.close(index)
+                            },
+                            error: function (res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function (layero) {
+                        $("#box3").css("display", "none");
+                    },
+                    cancel: function () {
+                        $("#box3").css("display", "none");
+                    }
+                });
+                return false;
+            }
+        });
+
+        //分页
+        laypage.render({
+            elem: 'pageDemo' //分页容器的id
+            , count: 100 //总页数
+            , skin: '#1E9FFF' //自定义选中色值
+            , jump: function (obj, first) {
+                if (!first) {
+                    layer.msg('第' + obj.curr + '页', { offset: 'b' });
+                }
+            }
+        });
+    });
+
+</script>

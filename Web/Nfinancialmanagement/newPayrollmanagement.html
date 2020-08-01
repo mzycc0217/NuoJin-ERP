@@ -1,0 +1,383 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <script src="../JS/jquery-1.8.3.min.js"></script>
+    <script src="../JS/jquery-2.1.0.min.js"></script>
+    <script src="../JS/jquery.js"></script>
+    <script src="../JS/jquery.min.js"></script>
+    <script src="../JS/funtion.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../My97DatePicker/My97DatePicker/WdatePicker.js"></script>
+    <script src="../My97DatePicker/My97DatePicker/calendar.js"></script>
+    <title>工资条管理</title>
+    <style>
+        .table tr th {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .texts {
+            width: 300px;
+            display: inline;
+            height: 35px;
+        }
+        .text {
+            display: inline;
+        }
+
+        .btns {
+            height: 32px;
+            width: 80px;
+        }
+
+        .table tr td input {
+            height: 40px;
+            width:57px;
+        }
+        .table tr td label {
+            height: 40px;
+            width: 18px;
+        }
+        .table tr th {
+            width: 60px;
+            white-space:nowrap
+        }
+        #mian {
+            white-space: nowrap
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid" style="margin-top:10px" >
+        <div id="nav">
+            <!-- Large modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#money" style="width:100px">工资条</button>
+            <div class="modal fade bs-example-modal-lg" id="money" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content" style="width:1000px">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="exampleModalLabe5">添加工资条</h4>
+                        </div>
+                        <div class="modal-body" style="text-align: center">
+                            <table class="table table-bordered" style="text-align:center;vertical-align:middle;">
+                                <tr>
+                                    <th>姓名</th>
+                                    <th width="50px">开始时间</th>
+                                    <th width="50px">截至时间</th>
+                                    <th>基本工资</th>
+                                    <th>岗位工资</th>
+                                    <th>绩效工资</th>
+                                    <th>保密工资</th>
+                                    <th>工龄工资</th>
+                                    <th>学历工资</th>
+                                    <th>交通补贴</th>
+                                    <th>奖金实发</th>
+                                    <th>加班费(夜)</th>
+                                </tr>
+                                <tr>
+                                    <td><label data-toggle="modal" id="relaname" data-target="#personnel" data-whatever="@mdo" onclick="sname()">请选择</label><input type="hidden" id="Huserid" value="" /></td>
+                                    <td><input type="text" onclick="WdatePicker({isShowWeek:true})" style="width:72px;border:none" id="startime" /></td>
+                                    <td><input type="text" onclick="WdatePicker({isShowWeek:true})" style="width:72px;border:none" id="endtime" /></td>
+                                    <td><input type="text" style="border:none" id="BasePay" onkeyup="onlyNumber(this)" /></td>
+                                    <td><input type="text" style="border:none" id="PostSalary" onkeyup="onlyNumber(this)" /></td>
+                                    <td><input type="text" style="border:none" id="MeritPay" onkeyup="onlyNumber(this)" /></td>
+                                    <td><input type="text" style="border:none" id="ConfidentialSalary" onkeyup="onlyNumber(this)" /></td>
+                                    <td><input type="text" style="border:none" id="SeniorityPay" onkeyup="onlyNumber(this)" /></td>
+                                    <td><input type="text" style="border:none" id="EducationSalary" onkeyup="onlyNumber(this)" /></td>
+                                    <td><input type="text" style="border:none" id="TrafficAndMealSupplement" onkeyup="onlyNumber(this)" /></td>
+                                    <td><input type="text" style="border:none" id="BonusPaidIn" onkeyup="onlyNumber(this)" /></td>
+                                    <td><input type="text" style="border:none" id="OvertimeExpenses" onkeyup="onlyNumber(this)" /></td>
+                                </tr>
+                                <tr>
+                                    <th>全勤奖</th>
+                                    <th>应付工资</th>
+                                    <th>养老保险</th>
+                                    <th>医疗保险</th>
+                                    <th>大额保险</th>
+                                    <th>失业保险</th>
+                                    <th>税前工资</th>
+                                    <th>本期应扣个税</th>
+                                    <th>实付工资</th>
+                                    <th>备注</th>
+                                </tr>
+                                <tr>
+                                    <td><input type="text" style="border:none" id="TotalManagementSystem" onkeyup="onlyNumber(this)" /></td>
+                                    <td><input type="text" style="border:none" id="WagesPayable" onkeyup="onlyNumber(this)" /></td><!--应付工资-->
+                                    <td><input type="text" style="border:none" id="EndowmentInsurance" onkeyup="onlyNumber(this)" /></td>
+                                    <td><input type="text" style="border:none" id="MedicalInsurance" onkeyup="onlyNumber(this)" /></td>
+                                    <td><input type="text" style="border:none" id="LargeInsurance" onkeyup="onlyNumber(this)" /></td>
+                                    <td><input type="text" style="border:none" id="UnemploymentInsurance" onkeyup="onlyNumber(this)" /></td>
+                                    <td><input type="text" style="border:none" id="GrossPay" onkeyup="onlyNumber(this)" /></td><!--税前工资-->
+                                    <td><input type="text" style="border:none" id="TaxDeductible" onkeyup="onlyNumber(this)" /></td>
+                                    <td><input type="text" style="border:none" id="PaidWages" onkeyup="onlyNumber(this)" /></td>    <!--实付工资-->
+                                    <td><input type="text" style="border:none" id="Desc" /></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="addsalary()">确认发布</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade bs-example-modal-lg" tabindex="-1" id="personnel" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content" style="width:1000px;">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="exampleModalLabe5">姓名</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div id="DepartmentDIV" class="text"></div>
+                            <input type="text" id="Sname" value="" class="texts" />
+                            <input type="button" value="搜索" class="btn btn-default btns" onclick="sname()" />
+                            <div style="float:right">
+                                <label style="font-size:16px">已选人员：</label>
+                                <label id="username" style="font-size:16px"></label>
+                                <input type="hidden" name="name" id="Xuserid" value="" />
+                            </div>
+                            <div id="usertable">
+                            </div>
+                            <div id="usertablepage"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="mian" style="margin-top:20px">
+            <div style="display:inline">开始时间<input type="text" onclick="WdatePicker({isShowWeek:true})" id="sstarttime" value="" />结束时间<input type="text" onclick="WdatePicker({isShowWeek:true})" id="sendstime" value="" /></div>
+            <div id="sDepartmentdiv" style="display:inline"></div>
+            <div style="display:inline">姓名<input type="text" id="selectusername" value="" /><input type="button"  class="btn btn-default" value="搜索" style="margin-left:5px;height:30px" onclick="salarytable()"/></div>
+            <div id="salarytable"></div>
+            <div id="salarypage"></div>
+
+        </div>
+        <div id="footer"></div>
+    </div>
+</body>
+</html>
+<script>
+    window.onload = function () {
+        Department();
+        sDepartment();
+        salarytable();
+    }
+    //价格文本框限制
+    function onlyNumber(obj) {
+        //得到第一个字符是否为负号    
+        var t = obj.value.charAt(0);
+        //先把非数字的都替换掉，除了数字和.和-号    
+        obj.value = obj.value.replace(/[^\d\.\-]/g, '');
+        //前两位不能是0加数字      
+        obj.value = obj.value.replace(/^0\d[0-9]*/g, '');
+        //必须保证第一个为数字而不是.       
+        obj.value = obj.value.replace(/^\./g, '');
+        //保证只有出现一个.而没有多个.       
+        obj.value = obj.value.replace(/\.{2,}/g, '.');
+        //保证.只出现一次，而不能出现两次以上       
+        obj.value = obj.value.replace('.', '$#$').replace(/\./g, '').replace('$#$', '.');
+        //如果第一位是负号，则允许添加    
+        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');
+        if (t == '-') {
+            return;
+        }
+
+    }
+    //列表
+    function Department() {
+        $.ajax({
+            type: "POST",
+            url: "http://318jp82710.eicp.vip/api/Department/GetDepartmentList",
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem("token"),
+                UserId: window.localStorage.getItem("UserId"),
+                AppFlag: window.localStorage.getItem("AppFlag")
+            },
+            data: {
+                PageIndex: 0, PageSize: 0
+            },
+            success: function (res) {
+                var data = res;
+                var Str = "<select class='texts' id='bumen'>";
+                var len = data[0].Count;
+                for (var i = 0; i < len; i++) {
+                    Str = Str + "<option value='" + data[i].DepartmentId + "'>" + data[i].Name + "</option>"
+                }
+                Str = Str + "</select>";
+                $("#DepartmentDIV").html(Str);
+            }
+        })
+    }
+    //部门
+    function sDepartment() {
+        $.ajax({
+            type: "POST",
+            url: "http://318jp82710.eicp.vip/api/Department/GetDepartmentList",
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem("token"),
+                UserId: window.localStorage.getItem("UserId"),
+                AppFlag: window.localStorage.getItem("AppFlag")
+            },
+            data: {
+                PageIndex: 0, PageSize: 0
+            },
+            success: function (res) {
+                var data = res;
+                var Str = "部门<select class=''  id='sDepartment' style='width:140px;height:27px'>";
+                var len = data[0].Count;
+                for (var i = 0; i < len; i++) {
+                    Str = Str + "<option value='" + data[i].DepartmentId + "'>" + data[i].Name + "</option>"
+                }
+                Str = Str + "</select>";
+                $("#sDepartmentdiv").html(Str);
+            }
+        })
+    }
+    //添加姓名
+    function sname(page) {
+        if (page = null) {
+            page = 1;
+        }
+        var name = document.getElementById("Sname").value;
+        var Department = $("#bumen").val();
+
+        $.ajax({
+            type: "POST",
+            url: "http://318jp82710.eicp.vip/api/User/GetUserList",
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem("token"),
+                UserId: window.localStorage.getItem("UserId"),
+                AppFlag: window.localStorage.getItem("AppFlag")
+            },
+            data: {
+                DepartmentId: Department, RealName: name
+            }, success: function (res) {
+                if (res == "") {
+                    alert("暂无人员");
+                }
+                var data = res;
+                var len = data[0].Count;
+                var StrTable = "<table class='table table-hover' style='text-align:center'><thead><tr><th>真实姓名</th><th>职位</th><th>在职状态</th><th>性别</th><th>出生日期</th><th>操作</th></tr></thead><tbody>";
+                for (var i = 0; i < res.length; i++) {
+                    StrTable = StrTable + "<tr><td id='" + i + "'>" + data[i].RealName + "</td><td>" + data[i].UserTypeStr + "</td><td>" + data[i].PositionTypeStr + "</td><td>" + data[i].SexTypeStr + "</td><td>" + data[i].DateOfBirth + "</td><td><input type='button' value='选他' onclick='useridclick(" + i + ")'/></td><td><input type='hidden' id='userid" + i + "' value='" + data[i].UserId + "'/></td></tr>"
+                }
+                StrTable = StrTable + "</tbody></table>";
+                $("#usertable").html(StrTable);
+                var index = len / 10;
+                index = Math.round(index);
+
+                var str = "<p>";
+
+                for (var i = 1; i < index + 1; i++) {
+                    str += "  <button type='button' onclick='sname(" + i + ")'>" + i + "</button>";
+                }
+                str += "</p>";
+                $("#usertablepage").html(str);
+            }
+        })
+    }
+    function useridclick(i) {
+        var userid = document.getElementById("userid" + i + "").value;
+        var username = $("#" + i + "").text();
+
+        document.getElementById("username").innerText = username;
+
+        document.getElementById("Xuserid").value = userid;
+        document.getElementById("relaname").innerText = username;
+
+        document.getElementById("Huserid").value = userid;
+    }
+    //确认发布
+    function addsalary() {
+        var userid = document.getElementById("Huserid").value;
+        var startime = document.getElementById("startime").value;
+        var endtime = document.getElementById("endtime").value;
+        var BasePay = document.getElementById("BasePay").value;
+        var PostSalary = document.getElementById("PostSalary").value;
+        var MeritPay = document.getElementById("MeritPay").value;
+        var ConfidentialSalary = document.getElementById("ConfidentialSalary").value;
+        var SeniorityPay = document.getElementById("SeniorityPay").value;
+        var EducationSalary = document.getElementById("EducationSalary").value;
+        var TrafficAndMealSupplement = document.getElementById("TrafficAndMealSupplement").value;
+        var BonusPaidIn = document.getElementById("BonusPaidIn").value;
+        var OvertimeExpenses = document.getElementById("OvertimeExpenses").value;
+        var TotalManagementSystem = document.getElementById("TotalManagementSystem").value;
+        var WagesPayable = document.getElementById("WagesPayable").value
+        var EndowmentInsurance = document.getElementById("EndowmentInsurance").value;
+        var MedicalInsurance = document.getElementById("MedicalInsurance").value;
+        var LargeInsurance = document.getElementById("LargeInsurance").value;
+        var UnemploymentInsurance = document.getElementById("UnemploymentInsurance").value;
+        var GrossPay = document.getElementById("GrossPay").value;
+        var TaxDeductible = document.getElementById("TaxDeductible").value;
+        var PaidWages = document.getElementById("PaidWages").value;//实付工资
+        $.ajax({
+            type: "POST",
+            url: "http://318jp82710.eicp.vip/api/Wage/Add",
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem("token"),
+                UserId: window.localStorage.getItem("UserId"),
+                AppFlag: window.localStorage.getItem("AppFlag")
+            },
+            data: {
+                UserId: userid, StartTime: startime, EndTime: endtime, BasePay: BasePay, PostSalary: PostSalary, MeritPay: MeritPay, ConfidentialSalary: ConfidentialSalary, SeniorityPay: SeniorityPay, EducationSalary: EducationSalary
+                , TrafficAndMealSupplement: TrafficAndMealSupplement, BonusPaidIn: BonusPaidIn, OvertimeExpenses: OvertimeExpenses, TotalManagementSystem: TotalManagementSystem, WagesPayable: WagesPayable, EndowmentInsurance: EndowmentInsurance,
+                MedicalInsurance: MedicalInsurance, LargeInsurance: LargeInsurance, UnemploymentInsurance: UnemploymentInsurance, GrossPay: GrossPay, TaxDeductible: TaxDeductible, PaidWages: PaidWages
+            }, success: function (res) {
+                 uptable(res);
+            }
+        })
+        
+    }
+    function salarytable() {
+        var startime = document.getElementById("sstarttime").value;
+        var endstime = document.getElementById("sendstime").value;
+        var name = document.getElementById("selectusername").value;
+        $.ajax({
+            type: "POST",
+            url: "http://318jp82710.eicp.vip/api/Wage/GetList",
+            headers: {
+                Authorization: "Bearer " + window.localStorage.getItem("token"),
+                UserId: window.localStorage.getItem("UserId"),
+                AppFlag: window.localStorage.getItem("AppFlag")
+            },
+            data: {
+                UserName: name, PageIndex: 1, PageSize: 10, StartTime: startime, EndTime: endstime
+            },
+            success: function (res) {
+                if (res == "") {
+                    alert("暂无信息");
+                }
+                var data = res;
+                var len = data[0].Count;
+                var StrTable = "<table class='table table-bordered' style='text - align: center; vertical - align: middle;'><tr><th>姓名</th> <th>开始时间</th><th>截至时间</th><th>基本工资</th> <th>岗位工资</th> <th>绩效工资</th><th>保密工资</th> <th>工龄工资</th> <th>学历工资</th><th>交通补贴</th><th>奖金实发</th><th>加班费(夜)</th><th>全勤奖</th><th>应付工资</th><th>养老保险</th><th>医疗保险</th><th>大额保险</th><th>失业保险</th><th>税前工资</th><th>本期应扣个税</th><th>实付工资</th><th>签字</th><th>备注</th><th>其他工资总和</th></tr >";
+                for (var i = 0; i < res.length; i++) {
+                    StrTable = StrTable + " <tr><td>" + data[i].User.RealName + "</td ><td>" + data[i].StartTime + "</td ><td>" + data[i].EndTime + "</td ><td>" + data[i].BasePay + "</td ><td>" + data[i].PostSalary + "</td ><td>" + data[i].MeritPay + "</td ><td>" + data[i].ConfidentialSalary + "</td ><td>" + data[i].SeniorityPay + "</td ><td>" + data[i].EducationSalary + "</td> <td>" + data[i].TrafficAndMealSupplement + "</td> <td>" + data[i].BonusPaidIn + "</td><td>" + data[i].OvertimeExpenses + "</td> <td>" + data[i].TotalManagementSystem + "</td><td>" + data[i].WagesPayable + "</td><td>" + data[i].EndowmentInsurance + "</td><td>" + data[i].MedicalInsurance + "</td> <td>" + data[i].LargeInsurance + "</td> <td>" + data[i].UnemploymentInsurance + "</td><td>" + data[i].GrossPay + "</td><td>" + data[i].TaxDeductible + "</td><td>" + data[i].PaidWages + "</td><td>" + data[i].Sign + "</td><td>" + data[i].Desc + "</td><td>" + data[i].OtherSum  +"</td></tr >"
+                }
+                StrTable = StrTable + "</table>";
+                $("#salarytable").html(StrTable);
+                var index = len / 10;
+                index = Math.round(index);
+                var str = "<p>";
+                for (var i = 1; i < index + 1; i++) {
+                    str += "  <button type='button' onclick='salarytable(" + i + ")'>" + i + "</button>";
+                }
+                str += "</p>";
+                $("#salarypage").html(str);
+            }
+
+        })
+    }
+</script>

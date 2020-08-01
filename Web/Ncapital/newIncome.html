@@ -1,0 +1,333 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../layui/layui.all.js"></script>
+    <script src="../JS/jquery-3.4.1/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../JS/funtion.js"></script>
+    <script src="../UrlModel/url.js"></script>
+    <title>收入资金</title>
+    <style>
+
+
+        .mapHead {
+            margin: 20px;
+        }
+
+        .layui-table-page select {
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="mapWrap">
+        <div class="mapHead">
+            <div class="demoTable">
+                搜索部门：
+                <div class="layui-inline">
+                    <input class="layui-input" name="id" id="demoReload" autocomplete="off">
+                </div>
+                <button class="layui-btn" data-type="reload">搜索</button>
+            </div>
+            <!--添加数据-->
+            <div class="site-text" style="margin: 5%; display: none" id="box1" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book" lay-filter="t">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">部门</label>
+                        <div class="layui-input-block">
+                            <select class="layui-input" id="capitalName" lay-filter="aa"></select>
+                        </div><br>
+                        <label class="layui-form-label">销售</label>
+                        <div class="layui-input-block">
+                            <select class="layui-input" id="capitalPurchase"></select>
+
+                        </div>
+                        <label class="layui-form-label">金额</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="capitalTotal"><br>
+                        </div>
+                        <label class="layui-form-label">备注描述</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" id="capitalDase"><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--修改数据
+            <div class="site-text" style="margin: 5%; display: none" id="box2" target="test123">
+                <form class="layui-form layui-form-pane" onsubmit="return false" id="book1" lay-filter="t2">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">资产支出ID</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input fundId"><br>
+                        </div><br>
+                        <label class="layui-form-label">部门</label>
+                        <div class="layui-input-block">
+                            <select class="layui-input capitalName"></select>
+                        </div><br>
+                              <label class="layui-form-label">采购单</label>
+                        <div class="layui-input-block">
+                            <select class="layui-input capitalPurchase"></select>
+                        </div>
+                        <label class="layui-form-label">金额</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input capitalTotal"><br>
+                        </div>
+                        <label class="layui-form-label">备注描述</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input capitalDase"><br>
+                        </div>
+                    </div>
+                </form>
+            </div>-->
+            <!--资金表格-->
+            <table class="layui-hide" id="test" lay-filter="test"></table>
+            <script type="text/html" id="toolbarDemo">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+                </div>
+            </script>
+            <script type="text/html" id="barDemo">
+                <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+            </script>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+   //加载列表
+    window.onload = function () {
+        departmentList("#capitalName");
+       purchase("#capitalPurchase");
+    };
+    //部门的列表
+    function departmentList(b) {
+        $.ajax({
+            type: 'POST',
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            url: window.url + 'Department/GetDepartmentList',   //后台数据地址
+            data: {
+                PageIndex: 0, PageSize: 0
+            },
+            success: function (data) {
+                console.log("55",data);
+
+                $.each(data, function (index, item) {   //循环后台返回的json数据
+                    //new Option方法是新建一个option，第一个参数是需要显示的值，第二个参数是option的value值,然后append到下拉框中。
+                    console.log("ss",item)
+
+                    $(b).append(new Option(item.Name, item.DepartmentId ));
+                })
+                layui.form.render("select");
+            }
+        })
+    }
+    //销售的列表
+    function purchase(b) {
+        $.ajax({
+            type: 'POST',
+            headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            url: window.url + 'Sale/GetSaleList',   //后台数据地址
+            data: {
+                PageIndex: 0, PageSize: 0
+            },
+            success: function (data) {
+                console.log(data);
+                $.each(data, function (index, item) {   //循环后台返回的json数据
+                    //new Option方法是新建一个option，第一个参数是需要显示的值，第二个参数是option的value值,然后append到下拉框中。
+                    $(b).append(new Option(item.RawMaterialName, item.PurchaseId));
+                })
+                layui.form.render("select");
+            }
+        })
+    }
+
+
+
+   //添加资产的表
+    layui.use(['laypage', 'layer', 'table', 'element', 'jquery','form'], function () {
+        var laypage = layui.laypage //分页
+            , layer = layui.layer //弹层
+            , table = layui.table //表格
+            , element = layui.element //元素操作
+            , jquery = layui.jquery
+            , form = layui.form;
+
+        //监听Tab切换
+        element.on('tab(demo)', function (data) {
+            layer.tips('切换了 ' + data.index + '：' + this.innerHTML, this, {
+                tips: 1
+            });
+        });
+
+        table.render({
+            elem: '#test'
+            , height: 515
+            , url: window.url + 'Assetss/GetAssetIncomeList'//数据接口
+            , title: '收入资金表',
+            id:'testFund'
+            , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+            , headers: {
+                Authorization: window.header.Ae,
+                UserId: window.header.Ud,
+                AppFlag: window.header.Fg
+            },
+            method: 'post',
+            page: true,//开启分页
+            limit: 10
+            , cols: [
+                [{
+                    type: 'checkbox',
+                    fixed: 'left'
+                }, {
+                    field: 'AssetIncomeId',
+                    title: '资产收入Id',
+                    width: 200,
+                    fixed: 'left',
+                    unresize: true,
+
+                },
+                {
+                    field: 'Department.Name',
+                    title: '部门',
+                    width: 200,
+                    fixed: 'left',
+                    unresize: true,
+                    templet: function (res) {
+                        return res.Department.Name
+                    }
+                },{
+                    field: 'Amount',
+                    title: '金额',
+                    width: 150,
+
+                    }, {
+                        field: 'Desc',
+                        title: '备注',
+                        width: 250
+                    }, {
+                        field: 'CreateDate',
+                        title: '发布日期',
+                        templet: function (res) {
+                            return showTime(res.CreateDate);
+                        }
+                    },{
+                        field: 'User.RealName',
+                        title: '收入人',
+                        width: 150,
+                        templet: function (res) {
+                            return res.User.RealName
+                        }
+                    }]
+            ],
+             request: {
+                pageName: 'PageIndex' // 页码的参数名称，默认：page
+                ,
+                limitName: 'PageSize' //每页数据量的参数名，默认：limit
+            },
+            parseData: (res) => { //将原始数据解析成 table 组件所规定的数据
+                console.log('111',res)
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": "成功", //解析提示文本
+                    "count": res[0].Count, //总数
+                    data: res //解析数据列表
+                }
+            }
+        });
+        form.on('select(aa)', function (data) {
+            purchase("#capitalPurchase")
+        })
+
+
+        //寻找数据
+        $('.layui-btn').click(function () {
+            var demoReload = $("#demoReload").val();
+            //执行重载
+            table.reload('testFund', {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+                , where: {
+                    AssetsType: demoReload
+                }
+            }, 'data');
+      });
+        //头工具栏事件
+        table.on('toolbar(test)', function (obj) {
+            console.log(obj)
+            if (obj.event == "add") {
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-molv',
+                    area: ['400px', '500px'],
+                    title: ['添加收入资产', 'font-size:18px'],
+                    btn: ['确定修改', '关闭'],
+                    shadeClose: true,
+                    shade: 0,
+                    manmin: true,
+                    content: $('#box1'),
+                 yes: function (index, layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: window.url + "Assetss/AddAssetIncome",
+                            headers: {
+                                Authorization: window.header.Ae,
+                                UserId: window.header.Ud,
+                                AppFlag: window.header.Fg
+                            },
+                            contentType: "application/json",
+                            data: JSON.stringify({
+                                DepartmentId: $("#capitalName").val(),
+                                SaleId: $('#capitalPurchase').val(),
+                                Amount: $('#capitalTotal').val(),
+                                Desc: $('#capitalDase').val(),
+                            }), success: function (res) {
+                                console.log(res);
+                                //uptable(res);
+                            },
+                            error: function (res) {
+                                layer.msg(res);
+                            }
+
+                        })
+                    },
+                    btn2: function (layero) {
+                        $("#box1").css("display", "none");
+                    },
+                    cancel: function () {
+                        $("#box1").css("display", "none");
+                    }
+                });
+                return false;
+            }
+        });
+
+
+        //分页
+        laypage.render({
+            elem: 'pageDemo' //分页容器的id
+            , count: 100 //总页数
+            , skin: '#1E9FFF' //自定义选中色值
+            //,skip: true //开启跳页
+            , jump: function (obj, first) {
+                if (!first) {
+                    layer.msg('第' + obj.curr + '页', { offset: 'b' });
+                }
+            }
+        });
+    });
+   
+</script>
